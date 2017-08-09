@@ -1,11 +1,15 @@
 /*eslint-env node */
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = () => {
 	const env = process.env.NODE_ENV || 'production';
+	const extractToCss = new ExtractTextPlugin({
+		filename: './sorcerer.min.css'
+	});
 
 	let webpackConfig = {
 		entry: './scripts/main.js',
@@ -26,9 +30,49 @@ module.exports = () => {
 						cacheDirectory: env === 'development' ? true : false
 					}
 				}],
+			}, {
+				test: /\.scss$/,
+				use: extractToCss.extract({
+					use: (() => {
+						if (env === 'development') {
+							return [{
+								loader: 'css-loader',
+								options: {
+									minimize: false,
+									sourceMap: false,
+								},
+							}, {
+								loader: 'sass-loader',
+								options: {
+									sourceMap: false,
+								},
+							}];
+						} else {
+							return [{
+								loader: 'css-loader',
+								options: {
+									importLoaders: 2,
+									minimize: true,
+									sourceMap: true,
+								},
+							}, {
+								loader: 'postcss-loader',
+								options: {
+									sourceMap: true,
+								},
+							}, {
+								loader: 'sass-loader',
+								options: {
+									sourceMap: true,
+								},
+							}];
+						}
+					})()
+				})
 			}],
 		},
 		plugins: [
+			extractToCss,
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(env)
 			}),

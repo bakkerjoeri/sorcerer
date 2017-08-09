@@ -4,9 +4,10 @@ module.exports = {
 	"env": {
 		"browser": true,
 		"es6": true,
+		"amd": true
 	},
 	"rules": {
-		"quotes": ["warn", "double"],
+		"quotes": ["warn", "single"],
 		"no-var": "warn",
 		"prefer-template": "warn",
 		"eqeqeq": "error"
