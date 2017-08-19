@@ -6,7 +6,12 @@ export default class Sprite {
 	}
 
 	draw(context, x, y) {
-		this.image.onload = () => {
+		if (!this.hasLoaded) {
+			this.image.onload = () => {
+				this.hasLoaded = true;
+				this.draw(context, x, y);
+			}
+		} else {
 			context.drawImage(
 				this.image,
 				0, 0,
@@ -14,6 +19,6 @@ export default class Sprite {
 				x, y,
 				this.width, this.height,
 			);
-		};
+		}
 	}
 }

@@ -1,10 +1,28 @@
 export default class Entity {
 	constructor(options = {}) {
-		this.sprite = options.sprite;
-		this.position = options.position;
+		this.setSprite(options.sprite);
+		this.setPosition(options.position);
+		this.context = options.context;
 	}
 
-	draw(context) {
-		this.sprite.draw(context, this.position.x, this.position.y);
+	setSprite(sprite) {
+		this.sprite = sprite;
+	}
+
+	getPosition() {
+		return this.position;
+	}
+
+	setPosition(position) {
+		this.position = position;
+	}
+
+	changePosition(change) {
+		let currentPosition = this.getPosition();
+
+		this.setPosition({
+			x: currentPosition.x + change.x,
+			y: currentPosition.y + change.y,
+		});
 	}
 }
