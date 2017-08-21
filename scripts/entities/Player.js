@@ -16,18 +16,22 @@ export default class Player extends Entity {
 
 	onKeyDown(event) {
 		if (event.key === 'ArrowUp') {
+			event.preventDefault();
 			this.moveUp();
 		}
 
 		if (event.key === 'ArrowRight') {
+			event.preventDefault();
 			this.moveRight();
 		}
 
 		if (event.key === 'ArrowDown') {
+			event.preventDefault();
 			this.moveDown();
 		}
 
 		if (event.key === 'ArrowLeft') {
+			event.preventDefault();
 			this.moveLeft();
 		}
 	}
