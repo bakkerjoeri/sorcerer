@@ -1,7 +1,7 @@
 export default class Room {
 	constructor(options) {
 		this.setOrigin(options.origin);
-		this.setBoundaries(options.boundaries);
+		this.setSize(options.size);
 		this.setBackgroundColor(options.backgroundColor);
 
 		this.entities = new Set();
@@ -23,12 +23,12 @@ export default class Room {
 		return this.origin;
 	}
 
-	setBoundaries(boundaries) {
-		this.boundaries = boundaries;
+	setSize(size) {
+		this.size = size;
 	}
 
-	getBoundaries() {
-		return this.boundaries;
+	getSize() {
+		return this.size;
 	}
 
 	setBackgroundColor(backgroundColor) {

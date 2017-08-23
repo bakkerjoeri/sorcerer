@@ -4,12 +4,15 @@ export default class Game {
 		canvas.height = height;
 		this.context = canvas.getContext('2d');
 
-		this.rooms = new Set();
 		this.startStepping();
 	}
 
-	addRoom(room) {
-		this.rooms.add(room);
+	setRoom(room) {
+		this.room = room;
+	}
+
+	getRoom() {
+		return this.room;
 	}
 
 	startStepping() {
@@ -17,19 +20,22 @@ export default class Game {
 	}
 
 	step(time) {
-		this.rooms.forEach((room) => {
-			// destroy room
-			this.context.clearRect(room.origin.x, room.origin.y, room.boundaries.width, room.boundaries.height);
+		if (this.room) {
+			// remove room drawings
+			this.context.clearRect(this.room.origin.x, this.room.origin.y, this.room.size.width, this.room.size.height);
 
 			// draw background
-			this.context.fillStyle = room.backgroundColor;
-			this.context.fillRect(room.origin.x, room.origin.y, room.boundaries.width, room.boundaries.height);
+			this.context.fillStyle = this.room.backgroundColor;
+			this.context.fillRect(this.room.origin.x, this.room.origin.y, this.room.size.width, this.room.size.height);
 
-			// draw all entities
-			room.entities.forEach((entity) => {
+			// step and draw entities
+			this.room.entities.forEach((entity) => {
+				entity.step(time);
+				entity.sprite.step(time);
+
 				entity.sprite.draw(this.context, entity.position.x, entity.position.y);
 			});
-		});
+		}
 
 		window.requestAnimationFrame(this.step.bind(this));
 	}
