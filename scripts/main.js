@@ -3,18 +3,17 @@ require('../style/main.scss');
 import Game from './core/Game';
 import Room from './core/Room';
 import Player from './entities/Player';
-import Sprite from './core/Sprite';
 
 let canvas = document.querySelector('.canvas__sorcerer');
 let game = new Game(canvas, 1200, 720);
 
 let room = new Room({
 	origin: {x: 0, y: 0},
-	boundaries: {width: canvas.width, height: canvas.height},
+	size: {width: canvas.width, height: canvas.height},
 	backgroundColor: '#000'
 });
 
-game.addRoom(room);
+game.setRoom(room);
 
 let player = new Player({
 	position: {x: 16, y: 16}

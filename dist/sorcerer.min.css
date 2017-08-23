@@ -1,0 +1,18 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+h1 {
+  margin-bottom: .75em;
+  text-align: center; }
+
+.app {
+  max-width: 1220px;
+  padding: 10px;
+  margin: 0 auto; }
+
+.canvas__sorcerer {
+  image-rendering: -moz-crips-edges;
+  image-rendering: -webkit-crips-edges;
+  image-rendering: pixelated; }
