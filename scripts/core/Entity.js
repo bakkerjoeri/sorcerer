@@ -8,6 +8,14 @@ export default class Entity {
 			this.setPosition(options.position);
 		}
 
+		if (options.hasOwnProperty('solid')) {
+			this.setSolidity(options.solid);
+		}
+
+		if (options.hasOwnProperty('boundaries')) {
+			this.setBoundaries(options.boundaries);
+		}
+
 		this.context = options.context;
 	}
 
@@ -19,12 +27,28 @@ export default class Entity {
 		this.sprite = sprite;
 	}
 
+	setPosition(position) {
+		this.position = position;
+	}
+
 	getPosition() {
 		return this.position;
 	}
 
-	setPosition(position) {
-		this.position = position;
+	setSolidity(isSolid) {
+		this.solid = solid;
+	}
+
+	isSolid() {
+		return this.solid;
+	}
+
+	setBoundaries(boundaries) {
+		this.boundaries = boundaries;
+	}
+
+	getBoundaries() {
+		return this.boundaries;
 	}
 
 	changePosition(change) {

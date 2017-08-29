@@ -61,7 +61,7 @@ export default class Sprite {
 		return this.frames[this.currentFrameIndex];
 	}
 
-	draw(context, x, y) {
+	draw(context, position) {
 		let currentFrame = this.getCurrentFrame();
 
 		if (currentFrame) {
@@ -69,7 +69,7 @@ export default class Sprite {
 				currentFrame.getImage(),
 				currentFrame.getOrigin().x, currentFrame.getOrigin().y,
 				currentFrame.getSize().width, currentFrame.getSize().height,
-				x, y,
+				position.x, position.y,
 				this.size.width, this.size.height,
 			);
 		}
@@ -124,8 +124,21 @@ function calculateNewFrameIndexWithChange(currentFrameIndex, change, amountOfFra
 }
 
 function calculateMaximumSizeFromFrames(frames) {
+	let biggestWidth = 0;
+	let biggestHeight = 0;
+
+	frames.forEach((frame) => {
+		if (frame.size.width > biggestWidth) {
+			biggestWidth = frame.size.width;
+		}
+
+		if (frame.size.height > biggestHeight) {
+			biggestHeight = frame.size.height;
+		}
+	});
+
 	return {
-		width: 16,
-		height: 16,
+		width: biggestWidth,
+		height: biggestHeight,
 	}
 }

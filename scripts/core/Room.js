@@ -1,26 +1,17 @@
 export default class Room {
-	constructor(options) {
-		this.setOrigin(options.origin);
-		this.setSize(options.size);
-		this.setBackgroundColor(options.backgroundColor);
+	constructor(size) {
+		this.setSize(size);
 
 		this.entities = new Set();
 	}
 
 	addEntity(entity) {
 		this.entities.add(entity);
+		entity.room = this;
 	}
 
 	getEntities() {
 		return this.entities;
-	}
-
-	setOrigin(origin) {
-		this.origin = origin;
-	}
-
-	getOrigin() {
-		return this.origin;
 	}
 
 	setSize(size) {
@@ -37,5 +28,15 @@ export default class Room {
 
 	getBackgroundColor() {
 		return this.backgroundColor;
+	}
+
+	drawBackground(context) {
+		context.fillStyle = this.backgroundColor;
+		context.fillRect(
+			0,
+			0,
+			this.size.width,
+			this.size.height
+		);
 	}
 }
