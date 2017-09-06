@@ -8,8 +8,8 @@ import Slime from './entities/Slime';
 import Wall from './entities/Wall';
 
 const canvas = document.querySelector('.canvas__sorcerer');
-const room = new Room({width: 2000, height: 1000});
-const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 1200, height: 780});
+const room = new Room({width: 1000, height: 500});
+const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 156});
 
 room.setBackgroundColor('#000');
 

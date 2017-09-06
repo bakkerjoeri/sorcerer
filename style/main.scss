@@ -10,7 +10,7 @@ h1 {
 }
 
 .app {
-    max-width: 1220px;
+    max-width: 1000px;
     padding: 10px;
     margin: 0 auto;
 }
@@ -19,4 +19,6 @@ h1 {
     image-rendering: -moz-crips-edges;
     image-rendering: -webkit-crips-edges;
     image-rendering: pixelated;
+
+    width: 980px;
 }
