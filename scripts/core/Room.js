@@ -39,4 +39,20 @@ export default class Room {
 			this.size.height
 		);
 	}
+
+	hasSolidEntityInBoundaries(boundaries) {
+		return this.findSolidEntitiesInBoundaries(boundaries).length > 0;
+	}
+
+	findSolidEntitiesInBoundaries(boundaries) {
+		let entities = [];
+
+		this.entities.forEach((entity) => {
+			if (entity.solid && entity.isWithinBoundaries(boundaries)) {
+				entities.push(entity);
+			}
+		});
+
+		return entities;
+	}
 }

@@ -2,7 +2,7 @@ import Entity from './../core/Entity';
 import SpriteAtlas from './../core/SpriteAtlas';
 import PubSub from './../core/PubSub';
 
-export default class Player extends Entity {
+export default class Slime extends Entity {
 	constructor(options) {
 		super(options);
 
@@ -15,6 +15,9 @@ export default class Player extends Entity {
 
 		slimeSprite.setFramesPerSecond(2);
 		this.setSprite(slimeSprite);
+		this.setBoundaries({width: 16, height: 16});
+
+		this.setSolidity(true);
 
 		PubSub.subscribe('turnTaken', this.takeTurn.bind(this));
 	}
@@ -40,30 +43,59 @@ export default class Player extends Entity {
 	}
 
 	moveUp() {
-		this.changePosition({
-			x: 0,
-			y: -16
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x,
+			y: this.position.y - 16
+		})) {
+			this.changePosition({
+				x: 0,
+				y: -16
+			});
+		}
 	}
 
 	moveRight() {
-		this.changePosition({
-			x: 16,
-			y: 0
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x + 16,
+			y: this.position.y
+		})) {
+			this.changePosition({
+				x: 16,
+				y: 0
+			});
+		}
 	}
 
 	moveDown() {
-		this.changePosition({
-			x: 0,
-			y: 16
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x,
+			y: this.position.y + 16
+		})) {
+			this.changePosition({
+				x: 0,
+				y: 16
+			});
+		}
 	}
 
 	moveLeft() {
-		this.changePosition({
-			x: -16,
-			y: 0
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x - 16,
+			y: this.position.y
+		})) {
+			this.changePosition({
+				x: -16,
+				y: 0
+			});
+		}
+	}
+
+	canMoveToPosition(position) {
+		return !(this.room.hasSolidEntityInBoundaries({
+			x: position.x,
+			y: position.y,
+			width: this.sprite.size.width,
+			height: this.sprite.size.height,
+		}));
 	}
 }

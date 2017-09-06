@@ -1,0 +1,16 @@
+{
+	"file": "assets/images/wall-sheet.png",
+	"frames": [
+		{
+			"name": "wall_0",
+			"origin": {
+				"x": 0,
+				"y": 0
+			},
+			"size": {
+				"width": 16,
+				"height": 16
+			}
+		}
+	]
+}

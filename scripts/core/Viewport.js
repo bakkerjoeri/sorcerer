@@ -7,6 +7,27 @@ export default class Viewport {
 		this.startUpdating();
 	}
 
+	showRoom(room) {
+		this.room = room;
+	}
+
+	useCanvas(canvas) {
+		this.canvas = canvas;
+		this.context = canvas.getContext('2d');
+
+		if (this.size) {
+			changeCanvasToSize(canvas, this.size);
+		}
+	}
+
+	setSize(size) {
+		this.size = size;
+
+		if (this.canvas) {
+			changeCanvasToSize(this.canvas, size);
+		}
+	}
+
 	startUpdating() {
 		window.requestAnimationFrame(this.update.bind(this));
 	}
@@ -38,27 +59,6 @@ export default class Viewport {
 				y: entity.position.y
 			}, this));
 		});
-	}
-
-	showRoom(room) {
-		this.room = room;
-	}
-
-	useCanvas(canvas) {
-		this.canvas = canvas;
-		this.context = canvas.getContext('2d');
-
-		if (this.size) {
-			changeCanvasToSize(canvas, this.size);
-		}
-	}
-
-	setSize(size) {
-		this.size = size;
-
-		if (this.canvas) {
-			changeCanvasToSize(this.canvas, size);
-		}
 	}
 
 	clearDrawing(context) {

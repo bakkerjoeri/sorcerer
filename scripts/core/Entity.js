@@ -35,7 +35,7 @@ export default class Entity {
 		return this.position;
 	}
 
-	setSolidity(isSolid) {
+	setSolidity(solid) {
 		this.solid = solid;
 	}
 
@@ -58,5 +58,14 @@ export default class Entity {
 			x: currentPosition.x + change.x,
 			y: currentPosition.y + change.y,
 		});
+	}
+
+	isWithinBoundaries(boundaries) {
+		return (
+			this.position.y < boundaries.y + boundaries.height
+			&& this.position.x + this.boundaries.width > boundaries.x
+			&& this.position.y + this.boundaries.height > boundaries.y
+			&& this.position.x < boundaries.x + boundaries.width
+		);
 	}
 }

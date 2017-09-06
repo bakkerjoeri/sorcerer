@@ -26,6 +26,9 @@ export default class Player extends Entity {
 
 		playerSprite.setFramesPerSecond(10);
 		this.setSprite(playerSprite);
+		this.setBoundaries({width: 16, height: 16});
+
+		this.setSolidity(true);
 
 		window.addEventListener('keydown', this.onKeyDown.bind(this));
 	}
@@ -53,38 +56,67 @@ export default class Player extends Entity {
 	}
 
 	moveUp() {
-		this.changePosition({
-			x: 0,
-			y: -16
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x,
+			y: this.position.y - 16
+		})) {
+			this.changePosition({
+				x: 0,
+				y: -16
+			});
 
-		PubSub.publish('turnTaken', {direction: 'up'});
+			PubSub.publish('turnTaken', {direction: 'up'});
+		}
 	}
 
 	moveRight() {
-		this.changePosition({
-			x: 16,
-			y: 0
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x + 16,
+			y: this.position.y
+		})) {
+			this.changePosition({
+				x: 16,
+				y: 0
+			});
 
-		PubSub.publish('turnTaken', {direction: 'right'});
+			PubSub.publish('turnTaken', {direction: 'right'});
+		}
 	}
 
 	moveDown() {
-		this.changePosition({
-			x: 0,
-			y: 16
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x,
+			y: this.position.y + 16
+		})) {
+			this.changePosition({
+				x: 0,
+				y: 16
+			});
 
-		PubSub.publish('turnTaken', {direction: 'down'});
+			PubSub.publish('turnTaken', {direction: 'down'});
+		}
 	}
 
 	moveLeft() {
-		this.changePosition({
-			x: -16,
-			y: 0
-		});
+		if (this.canMoveToPosition({
+			x: this.position.x - 16,
+			y: this.position.y
+		})) {
+			this.changePosition({
+				x: -16,
+				y: 0
+			});
 
-		PubSub.publish('turnTaken', {direction: 'left'});
+			PubSub.publish('turnTaken', {direction: 'left'});
+		}
+	}
+
+	canMoveToPosition(position) {
+		return !(this.room.hasSolidEntityInBoundaries({
+			x: position.x,
+			y: position.y,
+			width: this.sprite.size.width,
+			height: this.sprite.size.height,
+		}));
 	}
 }
