@@ -9,7 +9,7 @@ import Wall from './entities/Wall';
 
 const canvas = document.querySelector('.canvas__sorcerer');
 const room = new Room({width: 1000, height: 500});
-const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 156});
+const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 160});
 
 room.setBackgroundColor('#000');
 

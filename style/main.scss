@@ -16,9 +16,9 @@ h1 {
 }
 
 .canvas__sorcerer {
+    width: 960px;
+
     image-rendering: -moz-crips-edges;
     image-rendering: -webkit-crips-edges;
     image-rendering: pixelated;
-
-    width: 980px;
 }
