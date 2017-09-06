@@ -1,0 +1,27 @@
+{
+	"file": "assets/images/slime-sheet.png",
+	"frames": [
+		{
+			"name": "slime_idle_0",
+			"origin": {
+				"x": 0,
+				"y": 0
+			},
+			"size": {
+				"width": 16,
+				"height": 16
+			}
+		},
+		{
+			"name": "slime_idle_1",
+			"origin": {
+				"x": 16,
+				"y": 0
+			},
+			"size": {
+				"width": 16,
+				"height": 16
+			}
+		}
+	]
+}
