@@ -1,8 +1,8 @@
-import Entity from './../core/Entity';
+import Actor from './Actor';
 import SpriteAtlas from './../core/SpriteAtlas';
 import PubSub from './../core/PubSub';
 
-export default class Player extends Entity {
+export default class Player extends Actor {
 	constructor(options) {
 		super(options);
 
@@ -34,89 +34,29 @@ export default class Player extends Entity {
 	}
 
 	onKeyDown(event) {
+		let moved = false;
 		if (event.key === 'ArrowUp') {
 			event.preventDefault();
-			this.moveUp();
+			moved = this.moveUp();
 		}
 
 		if (event.key === 'ArrowRight') {
 			event.preventDefault();
-			this.moveRight();
+			moved = this.moveRight();
 		}
 
 		if (event.key === 'ArrowDown') {
 			event.preventDefault();
-			this.moveDown();
+			moved = this.moveDown();
 		}
 
 		if (event.key === 'ArrowLeft') {
 			event.preventDefault();
-			this.moveLeft();
+			moved = this.moveLeft();
 		}
-	}
 
-	moveUp() {
-		if (this.canMoveToPosition({
-			x: this.position.x,
-			y: this.position.y - 16
-		})) {
-			this.changePosition({
-				x: 0,
-				y: -16
-			});
-
-			PubSub.publish('turnTaken', {direction: 'up'});
+		if (moved) {
+			PubSub.publish('playerTurnTaken');
 		}
-	}
-
-	moveRight() {
-		if (this.canMoveToPosition({
-			x: this.position.x + 16,
-			y: this.position.y
-		})) {
-			this.changePosition({
-				x: 16,
-				y: 0
-			});
-
-			PubSub.publish('turnTaken', {direction: 'right'});
-		}
-	}
-
-	moveDown() {
-		if (this.canMoveToPosition({
-			x: this.position.x,
-			y: this.position.y + 16
-		})) {
-			this.changePosition({
-				x: 0,
-				y: 16
-			});
-
-			PubSub.publish('turnTaken', {direction: 'down'});
-		}
-	}
-
-	moveLeft() {
-		if (this.canMoveToPosition({
-			x: this.position.x - 16,
-			y: this.position.y
-		})) {
-			this.changePosition({
-				x: -16,
-				y: 0
-			});
-
-			PubSub.publish('turnTaken', {direction: 'left'});
-		}
-	}
-
-	canMoveToPosition(position) {
-		return !(this.room.hasSolidEntityInBoundaries({
-			x: position.x,
-			y: position.y,
-			width: this.sprite.size.width,
-			height: this.sprite.size.height,
-		}));
 	}
 }
