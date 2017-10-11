@@ -42,7 +42,10 @@ export default class Viewport {
 	step(time) {
 		this.room.entities.forEach((entity) => {
 			entity.step(time);
-			entity.sprite.step(time);
+
+			if (entity.sprite) {
+				entity.sprite.step(time);
+			}
 		});
 	}
 
@@ -54,10 +57,17 @@ export default class Viewport {
 		this.room.drawBackground(this.context);
 
 		this.room.entities.forEach((entity) => {
-			entity.sprite.draw(this.context, calculatePositionInViewportFromPositionInRoom({
-				x: entity.position.x,
-				y: entity.position.y
-			}, this));
+			if (
+				entity.hasOwnProperty('sprite')
+				&& entity.hasOwnProperty('position')
+				&& entity.position.hasOwnProperty('x')
+				&& entity.position.hasOwnProperty('y')
+			) {
+				entity.sprite.draw(this.context, calculatePositionInViewportFromPositionInRoom({
+					x: entity.position.x + entity.origin.x,
+					y: entity.position.y + entity.origin.y
+				}, this));
+			}
 		});
 	}
 

@@ -26,6 +26,12 @@ export default class Sprite {
 			this.setFramesPerSecond(1);
 		}
 
+		if (options.hasOwnProperty('looping') ) {
+			this.looping = options.looping;
+		} else {
+			this.looping = true;
+		}
+
 		this.timeOfPreviousFrame = 0;
 	}
 
@@ -78,7 +84,7 @@ export default class Sprite {
 	step(time) {
 		let framesPerSecond = this.getFramesPerSecond();
 
-		if (framesPerSecond !== 0) {
+		if (framesPerSecond !== 0 && !(!this.looping && this.currentFrameIndex === (this.frames.length - 1))) {
 			let timeSincePreviousFrame = time - this.timeOfPreviousFrame;
 
 			let frameChange = timeSincePreviousFrame / (1000 / framesPerSecond);
@@ -93,34 +99,50 @@ export default class Sprite {
 
 			if (frameChange !== 0) {
 				this.timeOfPreviousFrame = time;
-				this.setCurrentFrameIndex(calculateNewFrameIndexWithChange(this.currentFrameIndex, frameChange, this.frames.length));
+				this.setCurrentFrameIndex(calculateNewFrameIndexWithChange(this.currentFrameIndex, frameChange, this.frames.length, this.looping));
 			}
 		}
 	}
 
 	nextFrame() {
-		this.currentFrameIndex = calculateNewFrameIndexWithChange(this.currentFrameIndex, 1, this.frames.length);
+		this.currentFrameIndex = calculateNewFrameIndexWithChange(this.currentFrameIndex, 1, this.frames.length, this.looping);
 	}
 
 	previousFrame() {
-		this.currentFrameIndex = calculateNewFrameIndexWithChange(this.currentFrameIndex, -1, this.frames.length);
+		this.currentFrameIndex = calculateNewFrameIndexWithChange(this.currentFrameIndex, -1, this.frames.length, this.looping);
 	}
 }
 
-function calculateNewFrameIndexWithChange(currentFrameIndex, change, amountOfFrames) {
+function calculateNewFrameIndexWithChange(currentFrameIndex, change, amountOfFrames, looping = true) {
 	change = Math.round(change);
 
 	if (change === 0) {
 		return currentFrameIndex;
 	}
 
-	let newFrameIndex = (currentFrameIndex + change) % amountOfFrames
+	if (looping) {
+		let newFrameIndex = (currentFrameIndex + change) % amountOfFrames
 
-	if (newFrameIndex < 0) {
-		return newFrameIndex + amountOfFrames;
+		if (newFrameIndex < 0) {
+			return newFrameIndex + amountOfFrames;
+		}
+
+		return newFrameIndex;
 	}
 
-	return newFrameIndex;
+	if (!looping) {
+		let newFrameIndex = currentFrameIndex + change;
+
+		if (newFrameIndex > (amountOfFrames - 1)) {
+			return (amountOfFrames - 1);
+		}
+
+		if (newFrameIndex < 0) {
+			return 0;
+		}
+
+		return newFrameIndex;
+	}
 }
 
 function calculateMaximumSizeFromFrames(frames) {

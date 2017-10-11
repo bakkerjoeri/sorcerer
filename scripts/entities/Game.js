@@ -34,7 +34,6 @@ export default class Game {
 	}
 
 	performTurns() {
-		console.log("Time for turns!");
 		this.nonPlayers.forEach((nonPlayer) => {
 			nonPlayer.takeTurn();
 		});

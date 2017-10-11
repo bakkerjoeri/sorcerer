@@ -12,11 +12,15 @@ export default class Entity {
 			this.setSolidity(options.solid);
 		}
 
-		if (options.hasOwnProperty('boundaries')) {
-			this.setBoundaries(options.boundaries);
+		if (options.hasOwnProperty('size')) {
+			this.setSize(options.size);
 		}
 
-		this.context = options.context;
+		if (options.hasOwnProperty('origin')) {
+			this.setOrigin(options.origin);
+		} else {
+			this.setOrigin({x: 0, y: 0});
+		}
 	}
 
 	step(time) {
@@ -43,12 +47,20 @@ export default class Entity {
 		return this.solid;
 	}
 
-	setBoundaries(boundaries) {
-		this.boundaries = boundaries;
+	setSize(size) {
+		this.size = size;
 	}
 
-	getBoundaries() {
-		return this.boundaries;
+	getSize() {
+		return this.size;
+	}
+
+	setOrigin(origin) {
+		this.origin = origin;
+	}
+
+	getOrigin() {
+		return this.origin;
 	}
 
 	changePosition(change) {
@@ -63,8 +75,8 @@ export default class Entity {
 	isWithinBoundaries(boundaries) {
 		return (
 			this.position.y < boundaries.y + boundaries.height
-			&& this.position.x + this.boundaries.width > boundaries.x
-			&& this.position.y + this.boundaries.height > boundaries.y
+			&& this.position.x + this.size.width > boundaries.x
+			&& this.position.y + this.size.height > boundaries.y
 			&& this.position.x < boundaries.x + boundaries.width
 		);
 	}

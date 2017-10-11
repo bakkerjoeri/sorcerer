@@ -44,11 +44,11 @@ export default class Room {
 		return this.findSolidEntitiesInBoundaries(boundaries).length > 0;
 	}
 
-	findSolidEntitiesInBoundaries(boundaries) {
+	findSolidEntitiesInBoundaries(boundaries, exclude = []) {
 		let entities = [];
 
 		this.entities.forEach((entity) => {
-			if (entity.solid && entity.isWithinBoundaries(boundaries)) {
+			if (entity.solid && entity.isWithinBoundaries(boundaries) && !exclude.includes(entity)) {
 				entities.push(entity);
 			}
 		});
