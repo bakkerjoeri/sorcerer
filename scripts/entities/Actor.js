@@ -116,12 +116,20 @@ export default class Actor extends Entity {
 	}
 
 	canBeAttacked() {
-		return true;
+		return !this.dead;
 	}
 
 	die() {
 		this.dead = true;
-		this.solid = false;
-		delete this.sprite;
+		this.sprite = getDeadSprite();
 	}
+
+function getDeadSprite() {
+	let spriteAtlasDefinition = '{ "file": "assets/images/grave-sheet.png", "frames": [ { "name": "grave_0", "origin": { "x": 0, "y": 0 }, "size": { "width": 16, "height": 16 } } ] }';
+	let spriteAtlas = new SpriteAtlas(JSON.parse(spriteAtlasDefinition));
+	let graveSprite = spriteAtlas.createSpriteWithFrames([
+		'grave_0',
+	]);
+
+	return graveSprite;
 }
