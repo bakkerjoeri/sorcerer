@@ -28,30 +28,42 @@ const player = new Player(Knight, {
 game.setPlayer(player);
 viewport.followEntity(player);
 
-game.addNonPlayer(new NonPlayer(Slime, {
-	position: {x: 144, y: 64}
-}));
+for(let x = 0; x < room.size.width/16; x += 1) {
+	for(let y = 0; y < room.size.height/16; y += 1) {
+		let position = {x: x * 16, y: y * 16};
+		if (!room.hasSolidEntityInBoundaries({
+			x: position.x,
+			y: position.y,
+			width: 16,
+			height: 16,
+		})) {
+			if (onChance(80)) {
+				game.addNonPlayer(new NonPlayer(Slime, {
+					position: position,
+				}));
 
-game.addNonPlayer(new NonPlayer(Slime, {
-	position: {x: 96, y: 80}
-}));
+				continue;
+			}
 
-game.addNonPlayer(new NonPlayer(Slime, {
-	position: {x: 48, y: 48}
-}));
+			if (onChance(30)) {
+				game.addObject(new Wall({
+					position: position,
+				}));
 
-game.addObject(new Wall({
-	position: {x: 48, y: 32}
-}));
+				continue;
+			}
 
-game.addObject(new Wall({
-	position: {x: 64, y: 32}
-}));
+			if (onChance(70)) {
+				game.addObject(new Tree({
+					position: position,
+				}));
 
-game.addObject(new Wall({
-	position: {x: 64, y: 48}
-}));
+				continue;
+			}
+		}
+	}
+}
 
-game.addObject(new Tree({
-	position: {x: 128, y: 64}
-}));
+function onChance(denominator) {
+	return Math.round(Math.random() * denominator) === 1;
+}
