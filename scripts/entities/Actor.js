@@ -1,4 +1,5 @@
 import Entity from './../core/Entity';
+import SpriteAtlas from './../core/SpriteAtlas';
 
 const STATS_DEFAULT = {
 	strength: 1,
@@ -30,7 +31,10 @@ export default class Actor extends Entity {
 			console.log(`${this.type} attacks ${target.type}`);
 
 			this.attackTarget(target);
+			return true;
 		}
+
+		return false;
 	}
 
 	attackTarget(target) {
@@ -58,33 +62,49 @@ export default class Actor extends Entity {
 	changeHealth(health) {
 		if (health > this.stats.maxHealth) {
 			this.health = this.stats.maxHealth;
-		} else if (health < 0) {
+
+			console.log(`${this.type} health is now at maximum at ${this.health}`);
+		} else if (health <= 0) {
 			this.health = 0;
 			this.die();
+
+			console.log(`${this.type} health is now ${this.health}`);
+			console.log(`${this.type} is dead`)
 		} else {
 			this.health = health;
-		}
 
-		console.log(`${this.type} health now ${this.health}`);
+			console.log(`${this.type} health is now ${this.health}`);
+		}
 	}
 
 	moveTo(position) {
-		let entitiesAtPosition = this.room.findSolidEntitiesInBoundaries({
-			x: position.x,
-			y: position.y,
-			width: this.sprite.size.width,
-			height: this.sprite.size.height,
-		}, [this]);
+		if (this.isInBoundsOfRoomAtPosition(this.room, position)) {
+			let entitiesAtPosition = this.room.findSolidEntitiesInBoundaries({
+				x: position.x,
+				y: position.y,
+				width: this.sprite.size.width,
+				height: this.sprite.size.height,
+			}, [this]);
 
-		if (entitiesAtPosition.length === 0) {
-			this.setPosition(position);
-		} else if (entitiesAtPosition.length > 0) {
-			entitiesAtPosition.forEach((entity) => {
-				return this.bumpInto(entity);
-			});
+			if (entitiesAtPosition.length === 0) {
+				this.setPosition(position);
+				return true;
+			} else if (entitiesAtPosition.length > 0) {
+				let actionTaken = false;
+
+				entitiesAtPosition.forEach((entity) => {
+					let bumpIntoResult = this.bumpInto(entity);
+
+					if (bumpIntoResult) {
+						actionTaken = true;
+					}
+				});
+
+				return actionTaken;
+			}
 		}
 
-		return true;
+		return false;
 	}
 
 	moveUp() {
@@ -123,6 +143,14 @@ export default class Actor extends Entity {
 		this.dead = true;
 		this.sprite = getDeadSprite();
 	}
+
+	isInBoundsOfRoomAtPosition(room, position) {
+		return position.x >= 0
+			&& position.y >= 0
+			&& position.x + this.size.width <= room.size.width
+			&& position.y + this.size.height <= room.size.height;
+	}
+}
 
 function getDeadSprite() {
 	let spriteAtlasDefinition = '{ "file": "assets/images/grave-sheet.png", "frames": [ { "name": "grave_0", "origin": { "x": 0, "y": 0 }, "size": { "width": 16, "height": 16 } } ] }';
