@@ -14,17 +14,19 @@ import {Slime} from './creatureTypes/Slime';
 
 const canvas = document.querySelector('.canvas__sorcerer');
 
-const room = new Room({width: 1000, height: 500});
+const room = new Room({width: 272, height: 208});
 room.setBackgroundColor('#000');
 
-const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 160});
+const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 176});
 viewport.showRoom(room);
 
 const game = new Game(room);
-
-game.setPlayer(new Player(Knight, {
+const player = new Player(Knight, {
 	position: {x: 16, y: 16}
-}));
+});
+
+game.setPlayer(player);
+viewport.followEntity(player);
 
 game.addNonPlayer(new NonPlayer(Slime, {
 	position: {x: 144, y: 64}
