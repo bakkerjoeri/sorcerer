@@ -14,42 +14,56 @@ import {Slime} from './creatureTypes/Slime';
 
 const canvas = document.querySelector('.canvas__sorcerer');
 
-const room = new Room({width: 1000, height: 500});
+const room = new Room({width: 272, height: 208});
 room.setBackgroundColor('#000');
 
-const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 160});
+const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 176});
 viewport.showRoom(room);
 
 const game = new Game(room);
-
-game.setPlayer(new Player(Knight, {
+const player = new Player(Knight, {
 	position: {x: 16, y: 16}
-}));
+});
 
-game.addNonPlayer(new NonPlayer(Slime, {
-	position: {x: 144, y: 64}
-}));
+game.setPlayer(player);
+viewport.followEntity(player);
 
-game.addNonPlayer(new NonPlayer(Slime, {
-	position: {x: 96, y: 80}
-}));
+for(let x = 0; x < room.size.width/16; x += 1) {
+	for(let y = 0; y < room.size.height/16; y += 1) {
+		let position = {x: x * 16, y: y * 16};
+		if (!room.hasSolidEntityInBoundaries({
+			x: position.x,
+			y: position.y,
+			width: 16,
+			height: 16,
+		})) {
+			if (onChance(80)) {
+				game.addNonPlayer(new NonPlayer(Slime, {
+					position: position,
+				}));
 
-game.addNonPlayer(new NonPlayer(Slime, {
-	position: {x: 48, y: 48}
-}));
+				continue;
+			}
 
-game.addObject(new Wall({
-	position: {x: 48, y: 32}
-}));
+			if (onChance(30)) {
+				game.addObject(new Wall({
+					position: position,
+				}));
 
-game.addObject(new Wall({
-	position: {x: 64, y: 32}
-}));
+				continue;
+			}
 
-game.addObject(new Wall({
-	position: {x: 64, y: 48}
-}));
+			if (onChance(70)) {
+				game.addObject(new Tree({
+					position: position,
+				}));
 
-game.addObject(new Tree({
-	position: {x: 128, y: 64}
-}));
+				continue;
+			}
+		}
+	}
+}
+
+function onChance(denominator) {
+	return Math.round(Math.random() * denominator) === 1;
+}

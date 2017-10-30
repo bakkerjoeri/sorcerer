@@ -20,6 +20,10 @@ export default class Viewport {
 		}
 	}
 
+	followEntity(entity) {
+		this.entityToFollow = entity;
+	}
+
 	setSize(size) {
 		this.size = size;
 
@@ -33,6 +37,32 @@ export default class Viewport {
 	}
 
 	update(time) {
+		// update position to follow entity
+		if (this.entityToFollow) {
+			let newViewportPosition = {
+				x: this.entityToFollow.position.x - (this.size.width / 2) + (this.entityToFollow.size.width / 2),
+				y: this.entityToFollow.position.y - (this.size.height / 2) + (this.entityToFollow.size.height / 2),
+			};
+
+			if (newViewportPosition.x < 0) {
+				newViewportPosition.x = 0;
+			}
+
+			if (newViewportPosition.y < 0) {
+				newViewportPosition.y = 0;
+			}
+
+			if (newViewportPosition.x > (this.room.size.width - this.size.width)) {
+				newViewportPosition.x = this.room.size.width - this.size.width;
+			}
+
+			if (newViewportPosition.y > (this.room.size.height - this.size.height)) {
+				newViewportPosition.y = this.room.size.height - this.size.height;
+			}
+
+			this.position = newViewportPosition;
+		}
+
 		this.step(time);
 		this.draw(time);
 
@@ -53,8 +83,11 @@ export default class Viewport {
 		// remove viewport drawings
 		this.clearDrawing(this.context);
 
-		// draw background
-		this.room.drawBackground(this.context);
+		// draw room
+		this.room.drawBackground(this.context, {
+			x: -this.position.x,
+			y: -this.position.y,
+		});
 
 		this.room.entities.forEach((entity) => {
 			if (
@@ -69,6 +102,20 @@ export default class Viewport {
 				}, this));
 			}
 		});
+	}
+
+	drawMiddle(context) {
+		context.strokeStyle = '#bad455';
+
+		context.beginPath();
+		context.moveTo(0, 0);
+		context.lineTo(this.size.width, this.size.height);
+		context.stroke();
+
+		context.beginPath();
+		context.moveTo(this.size.width, 0);
+		context.lineTo(0, this.size.height);
+		context.stroke();
 	}
 
 	clearDrawing(context) {

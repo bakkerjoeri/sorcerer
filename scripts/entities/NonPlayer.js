@@ -6,8 +6,8 @@ export default class NonPlayer extends Actor {
 	}
 
 	takeTurn() {
-		if (!this.dead && false) {
-			let decision = Math.round(Math.random() * 3);
+		if (!this.dead) {
+			let decision = Math.round(Math.random() * 8);
 
 			if (decision === 0) {
 				this.moveUp();

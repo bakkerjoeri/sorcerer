@@ -30,13 +30,21 @@ export default class Room {
 		return this.backgroundColor;
 	}
 
-	drawBackground(context) {
+	drawBackground(context, offset) {
 		context.fillStyle = this.backgroundColor;
 		context.fillRect(
-			0,
-			0,
+			offset.x,
+			offset.y,
 			this.size.width,
-			this.size.height
+			this.size.height,
+		);
+
+		context.strokeStyle = '#bad455';
+		context.strokeRect(
+			offset.x,
+			offset.y,
+			this.size.width,
+			this.size.height,
 		);
 	}
 

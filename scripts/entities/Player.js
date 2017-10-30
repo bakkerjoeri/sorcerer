@@ -9,29 +9,32 @@ export default class Player extends Actor {
 	}
 
 	onKeyDown(event) {
-		let moved = false;
-		if (event.key === 'ArrowUp') {
-			event.preventDefault();
-			moved = this.moveUp();
-		}
+		if (!this.dead) {
+			let actionTaken = false;
 
-		if (event.key === 'ArrowRight') {
-			event.preventDefault();
-			moved = this.moveRight();
-		}
+			if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				actionTaken = this.moveUp();
+			}
 
-		if (event.key === 'ArrowDown') {
-			event.preventDefault();
-			moved = this.moveDown();
-		}
+			if (event.key === 'ArrowRight') {
+				event.preventDefault();
+				actionTaken = this.moveRight();
+			}
 
-		if (event.key === 'ArrowLeft') {
-			event.preventDefault();
-			moved = this.moveLeft();
-		}
+			if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				actionTaken = this.moveDown();
+			}
 
-		if (moved) {
-			PubSub.publish('playerTurnTaken');
+			if (event.key === 'ArrowLeft') {
+				event.preventDefault();
+				actionTaken = this.moveLeft();
+			}
+
+			if (actionTaken) {
+				PubSub.publish('playerTurnTaken');
+			}
 		}
 	}
 }

@@ -12,6 +12,7 @@ export default class Game {
 	}
 
 	tick() {
+		console.log('tick...');
 		this.performTurns();
 	}
 
