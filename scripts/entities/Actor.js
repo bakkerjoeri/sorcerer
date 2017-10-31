@@ -1,5 +1,6 @@
 import Entity from './../core/Entity';
 import SpriteAtlas from './../core/SpriteAtlas';
+import Log from './../modules/Log';
 
 const STATS_DEFAULT = {
 	strength: 1,
@@ -28,7 +29,7 @@ export default class Actor extends Entity {
 
 	bumpInto(target) {
 		if (target.canBeAttacked()) {
-			console.log(`${this.type} attacks ${target.type}`);
+			Log.showMessage(`<em>${this.type}</em> attacks <em>${target.type}</em>`);
 
 			this.attackTarget(target);
 			return true;
@@ -135,7 +136,13 @@ export default class Actor extends Entity {
 
 	die() {
 		this.dead = true;
+		this.size = {
+			width: 16,
+			height: 16,
+		}
 		this.sprite = getDeadSprite();
+
+		Log.showMessage(`<em>${this.type}</em> is dead`);
 	}
 
 	isInBoundsOfRoomAtPosition(room, position) {
