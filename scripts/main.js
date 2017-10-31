@@ -3,7 +3,7 @@ require('../style/main.scss');
 import Room from './core/Room';
 import Viewport from './core/Viewport';
 
-import Game from './entities/Game';
+import Game from './modules/Game';
 import Player from './entities/Player';
 import NonPlayer from './entities/NonPlayer';
 import Wall from './entities/Wall';

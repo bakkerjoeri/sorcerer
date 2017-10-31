@@ -46,8 +46,7 @@ export default class Actor extends Entity {
 	}
 
 	applyDamage(damage) {
-		console.log(`${this.type} takes ${damage} damage`);
-
+		Log.showMessage(`<em>${this.type}</em> takes ${damage} damage`);
 		this.reduceHealth(damage);
 	}
 
@@ -62,18 +61,13 @@ export default class Actor extends Entity {
 	changeHealth(health) {
 		if (health > this.stats.maxHealth) {
 			this.health = this.stats.maxHealth;
-
-			console.log(`${this.type} health is now at maximum at ${this.health}`);
+			Log.showMessage(`<em>${this.type}</em> health max at ${this.health}`);
 		} else if (health <= 0) {
 			this.health = 0;
 			this.die();
-
-			console.log(`${this.type} health is now ${this.health}`);
-			console.log(`${this.type} is dead`)
 		} else {
 			this.health = health;
-
-			console.log(`${this.type} health is now ${this.health}`);
+			Log.showMessage(`<em>${this.type}</em> health is ${this.health}/${this.stats.maxHealth}`);
 		}
 	}
 
