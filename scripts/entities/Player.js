@@ -5,7 +5,7 @@ import Log from './../modules/Log';
 export default class Player extends Actor {
 	constructor(type, options) {
 		super(type, options);
-
+		Log.showMessage(`<em>${this.type}</em> awakens...`);
 		window.addEventListener('keydown', this.onKeyDown.bind(this));
 	}
 
