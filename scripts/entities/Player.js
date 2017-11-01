@@ -19,7 +19,7 @@ export default class Player extends Actor {
 				actionTaken = true;
 			}
 
-			if (event.key === 'ArrowUp' || event.key === '2') {
+			if (event.key === 'ArrowUp' || event.key === '8') {
 				event.preventDefault();
 				actionTaken = this.moveUp();
 			}
@@ -29,7 +29,7 @@ export default class Player extends Actor {
 				actionTaken = this.moveRight();
 			}
 
-			if (event.key === 'ArrowDown' || event.key === '8') {
+			if (event.key === 'ArrowDown' || event.key === '2') {
 				event.preventDefault();
 				actionTaken = this.moveDown();
 			}
