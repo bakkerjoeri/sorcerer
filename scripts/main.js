@@ -4,6 +4,7 @@ import Room from './core/Room';
 import Viewport from './core/Viewport';
 
 import Game from './modules/Game';
+import Map from './modules/Map';
 
 import Player from './entities/Player';
 import NonPlayer from './entities/NonPlayer';
@@ -23,72 +24,72 @@ room.setBackgroundColor('#000');
 const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 176});
 viewport.showRoom(room);
 
-const game = new Game(room);
-const player = new Player(GreenKnight, {
-	position: {x: 16, y: 16}
-});
+const map = new Map({
+	width: 34,
+	height: 26
+}, room);
 
+const game = new Game();
+game.setCurrentMap(map);
+
+const player = new Player(GreenKnight);
+
+map.addActor(player, {x: 1, y: 1});
 game.setPlayer(player);
 viewport.followEntity(player);
 
 for(let x = 0; x < room.size.width/16; x += 1) {
 	for(let y = 0; y < room.size.height/16; y += 1) {
-		let position = {x: x * 16, y: y * 16};
+		let position = {x: x, y: y};
+		let screenPosition = {x: x * 16, y: y * 16};
+
 		if (!room.hasSolidEntityInBoundaries({
-			x: position.x,
-			y: position.y,
+			x: screenPosition.x,
+			y: screenPosition.y,
 			width: 32,
 			height: 32,
 		})) {
 			if (onChance(240)) {
-				game.addNonPlayer(new NonPlayer(KingSlime, {
-					position: position,
-				}));
+				map.addActor(new NonPlayer(KingSlime), position);
 
 				continue;
 			}
 		}
 
 		if (!room.hasSolidEntityInBoundaries({
-			x: position.x,
-			y: position.y,
+			x: screenPosition.x,
+			y: screenPosition.y,
 			width: 16,
 			height: 16,
 		})) {
 			if (onChance(80)) {
-				game.addNonPlayer(new NonPlayer(Slime, {
-					position: position,
-				}));
+				map.addActor(new NonPlayer(Slime), position);
 
 				continue;
 			}
 
 			if (onChance(160)) {
-				game.addNonPlayer(new NonPlayer(Knight, {
-					position: position,
-				}));
+				map.addActor(new NonPlayer(Knight), position);
 
 				continue;
 			}
 
 			if (onChance(30)) {
-				game.addObject(new Wall({
-					position: position,
-				}));
+				map.addStructure(new Wall(), position);
 
 				continue;
 			}
 
 			if (onChance(70)) {
-				game.addObject(new Tree({
-					position: position,
-				}));
+				map.addStructure(new Tree(), position);
 
 				continue;
 			}
 		}
 	}
 }
+
+console.log(map);
 
 function onChance(denominator) {
 	return Math.round(Math.random() * denominator) === 1;

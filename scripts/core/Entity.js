@@ -4,8 +4,8 @@ export default class Entity {
 			this.setSprite(options.sprite);
 		}
 
-		if (options.hasOwnProperty('position')) {
-			this.setPosition(options.position);
+		if (options.hasOwnProperty('roomPosition')) {
+			this.setRoomPosition(options.roomPosition);
 		}
 
 		if (options.hasOwnProperty('solid')) {
@@ -31,11 +31,11 @@ export default class Entity {
 		this.sprite = sprite;
 	}
 
-	setPosition(position) {
-		this.position = position;
+	setRoomPosition(roomPosition) {
+		this.roomPosition = roomPosition;
 	}
 
-	getPosition() {
+	getRoomPosition() {
 		return this.position;
 	}
 
@@ -63,21 +63,21 @@ export default class Entity {
 		return this.origin;
 	}
 
-	changePosition(change) {
-		let currentPosition = this.getPosition();
+	changeRoomPosition(change) {
+		let currentRoomPosition = this.getRoomPosition();
 
-		this.setPosition({
-			x: currentPosition.x + change.x,
-			y: currentPosition.y + change.y,
+		this.setRoomPosition({
+			x: currentRoomPosition.x + change.x,
+			y: currentRoomPosition.y + change.y,
 		});
 	}
 
 	isWithinBoundaries(boundaries) {
 		return (
-			this.position.y < boundaries.y + boundaries.height
-			&& this.position.x + this.size.width > boundaries.x
-			&& this.position.y + this.size.height > boundaries.y
-			&& this.position.x < boundaries.x + boundaries.width
+			this.roomPosition.y < boundaries.y + boundaries.height
+			&& this.roomPosition.x + this.size.width > boundaries.x
+			&& this.roomPosition.y + this.size.height > boundaries.y
+			&& this.roomPosition.x < boundaries.x + boundaries.width
 		);
 	}
 }

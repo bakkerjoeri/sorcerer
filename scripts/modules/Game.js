@@ -2,41 +2,29 @@ import PubSub from './../core/PubSub';
 import Log from './../modules/Log';
 
 export default class Game {
-	constructor(room) {
-		this.room = room;
-
+	constructor() {
 		this.player;
-		this.nonPlayers = new Set();
-		this.objects = new Set();
 
 		PubSub.subscribe('playerTurnTaken', this.tick.bind(this));
 	}
 
 	tick() {
-		this.performTurns();
+		this.performNonPlayerTurns();
+	}
+
+	setCurrentMap(map) {
+		this.map = map;
 	}
 
 	setPlayer(playerEntity) {
 		this.player = playerEntity;
-
-		this.room.addEntity(playerEntity);
 	}
 
-	addNonPlayer(nonPlayerEntity) {
-		this.nonPlayers.add(nonPlayerEntity);
-
-		this.room.addEntity(nonPlayerEntity);
-	}
-
-	addObject(objectEntity) {
-		this.objects.add(objectEntity);
-
-		this.room.addEntity(objectEntity);
-	}
-
-	performTurns() {
-		this.nonPlayers.forEach((nonPlayer) => {
-			nonPlayer.takeTurn();
+	performNonPlayerTurns() {
+		this.map.actors.forEach((actor) => {
+			if (actor !== this.player) {
+				actor.takeTurn();
+			}
 		});
 	}
 }

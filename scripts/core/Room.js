@@ -7,7 +7,6 @@ export default class Room {
 
 	addEntity(entity) {
 		this.entities.add(entity);
-		entity.room = this;
 	}
 
 	getEntities() {

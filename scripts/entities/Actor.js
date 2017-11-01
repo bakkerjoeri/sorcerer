@@ -72,17 +72,17 @@ export default class Actor extends Entity {
 		}
 	}
 
-	moveTo(position) {
-		if (this.isInBoundsOfRoomAtPosition(this.room, position)) {
-			let entitiesAtPosition = this.room.findSolidEntitiesInBoundaries({
-				x: position.x,
-				y: position.y,
+	moveTo(mapPosition) {
+		if (this.map.hasTileAtPosition(mapPosition)) {
+			let entitiesAtPosition = this.map.room.findSolidEntitiesInBoundaries({
+				x: mapPosition.x * 16,
+				y: mapPosition.y * 16,
 				width: this.sprite.size.width,
 				height: this.sprite.size.height,
 			}, [this]);
 
 			if (entitiesAtPosition.length === 0) {
-				this.setPosition(position);
+				this.updateMapPosition(mapPosition);
 				return true;
 			} else if (entitiesAtPosition.length > 0) {
 				let actionTaken = false;
@@ -104,29 +104,29 @@ export default class Actor extends Entity {
 
 	moveUp() {
 		return this.moveTo({
-			x: this.position.x,
-			y: this.position.y - 16
+			x: this.mapPosition.x,
+			y: this.mapPosition.y - 1
 		});
 	}
 
 	moveRight() {
 		return this.moveTo({
-			x: this.position.x + 16,
-			y: this.position.y
+			x: this.mapPosition.x + 1,
+			y: this.mapPosition.y
 		});
 	}
 
 	moveDown() {
 		return this.moveTo({
-			x: this.position.x,
-			y: this.position.y + 16
+			x: this.mapPosition.x,
+			y: this.mapPosition.y + 1
 		});
 	}
 
 	moveLeft() {
 		return this.moveTo({
-			x: this.position.x - 16,
-			y: this.position.y
+			x: this.mapPosition.x - 1,
+			y: this.mapPosition.y,
 		});
 	}
 
@@ -145,11 +145,16 @@ export default class Actor extends Entity {
 		Log.showMessage(`<em>${this.type}</em> is dead`);
 	}
 
-	isInBoundsOfRoomAtPosition(room, position) {
-		return position.x >= 0
-			&& position.y >= 0
-			&& position.x + this.size.width <= room.size.width
-			&& position.y + this.size.height <= room.size.height;
+	updateMapPosition(position) {
+		this.mapPosition = position;
+		this.updateRoomPositionWithMapPosition(this.mapPosition);
+	}
+
+	updateRoomPositionWithMapPosition(mapPosition) {
+		this.roomPosition = {
+			x: mapPosition.x * 16,
+			y: mapPosition.y * 16,
+		};
 	}
 }
 
