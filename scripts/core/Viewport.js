@@ -40,8 +40,8 @@ export default class Viewport {
 		// update position to follow entity
 		if (this.entityToFollow) {
 			let newViewportPosition = {
-				x: this.entityToFollow.roomPosition.x - (this.size.width / 2) + (this.entityToFollow.size.width / 2),
-				y: this.entityToFollow.roomPosition.y - (this.size.height / 2) + (this.entityToFollow.size.height / 2),
+				x: this.entityToFollow.position.x - (this.size.width / 2) + (this.entityToFollow.size.width / 2),
+				y: this.entityToFollow.position.y - (this.size.height / 2) + (this.entityToFollow.size.height / 2),
 			};
 
 			if (newViewportPosition.x < 0) {
@@ -92,13 +92,13 @@ export default class Viewport {
 		this.room.entities.forEach((entity) => {
 			if (
 				entity.hasOwnProperty('sprite')
-				&& entity.hasOwnProperty('roomPosition')
-				&& entity.roomPosition.hasOwnProperty('x')
-				&& entity.roomPosition.hasOwnProperty('y')
+				&& entity.hasOwnProperty('position')
+				&& entity.position.hasOwnProperty('x')
+				&& entity.position.hasOwnProperty('y')
 			) {
-				entity.sprite.draw(this.context, calculatePositionInViewportFromRoomPosition({
-					x: entity.roomPosition.x + entity.origin.x,
-					y: entity.roomPosition.y + entity.origin.y
+				entity.sprite.draw(this.context, calculatePositionInViewportFromPosition({
+					x: entity.position.x + entity.origin.x,
+					y: entity.position.y + entity.origin.y
 				}, this));
 			}
 		});
@@ -133,9 +133,9 @@ function changeCanvasToSize(canvas, size) {
 	canvas.height = size.height;
 }
 
-function calculatePositionInViewportFromRoomPosition(roomPosition, viewport) {
+function calculatePositionInViewportFromPosition(position, viewport) {
 	return {
-		x: roomPosition.x - viewport.position.x,
-		y: roomPosition.y - viewport.position.y
+		x: position.x - viewport.position.x,
+		y: position.y - viewport.position.y
 	}
 }

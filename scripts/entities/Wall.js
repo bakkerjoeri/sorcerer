@@ -22,13 +22,9 @@ export default class Wall extends Entity {
 		return false;
 	}
 
-	updateMapPosition(position) {
-		this.mapPosition = position;
-		this.updateRoomPositionWithMapPosition(this.mapPosition);
-	}
-
-	updateRoomPositionWithMapPosition(mapPosition) {
-		this.roomPosition = {
+	updateMapPosition(mapPosition) {
+		this.mapPosition = mapPosition;
+		this.position = {
 			x: mapPosition.x * 16,
 			y: mapPosition.y * 16,
 		};

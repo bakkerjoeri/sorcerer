@@ -38,58 +38,48 @@ map.addActor(player, {x: 1, y: 1});
 game.setPlayer(player);
 viewport.followEntity(player);
 
-for(let x = 0; x < room.size.width/16; x += 1) {
-	for(let y = 0; y < room.size.height/16; y += 1) {
-		let position = {x: x, y: y};
-		let screenPosition = {x: x * 16, y: y * 16};
+// console.log(map.tiles);
+map.forEachTile((tile) => {
+	if (!tile.hasSolidEntities()) {
+		if (onChance(80)) {
+			map.addActor(new NonPlayer(Slime), tile.position);
 
-		if (!room.hasSolidEntityInBoundaries({
-			x: screenPosition.x,
-			y: screenPosition.y,
-			width: 32,
-			height: 32,
-		})) {
-			if (onChance(240)) {
-				map.addActor(new NonPlayer(KingSlime), position);
-
-				continue;
-			}
+			return;
 		}
 
-		if (!room.hasSolidEntityInBoundaries({
-			x: screenPosition.x,
-			y: screenPosition.y,
-			width: 16,
-			height: 16,
-		})) {
-			if (onChance(80)) {
-				map.addActor(new NonPlayer(Slime), position);
+		if (onChance(160)) {
+			map.addActor(new NonPlayer(Knight), tile.position);
 
-				continue;
-			}
-
-			if (onChance(160)) {
-				map.addActor(new NonPlayer(Knight), position);
-
-				continue;
-			}
-
-			if (onChance(30)) {
-				map.addStructure(new Wall(), position);
-
-				continue;
-			}
-
-			if (onChance(70)) {
-				map.addStructure(new Tree(), position);
-
-				continue;
-			}
+			return;
 		}
+
+		if (onChance(30)) {
+			map.addStructure(new Wall(), tile.position);
+
+			return;
+		}
+
+		if (onChance(70)) {
+			map.addStructure(new Tree(), tile.position);
+
+			return;
+		}
+
+		// if (!room.hasSolidEntityInBoundaries({
+		// 	x: screenPosition.x,
+		// 	y: screenPosition.y,
+		// 	width: 32,
+		// 	height: 32,
+		// })) {
+		// 	if (onChance(240)) {
+		// 		map.addActor(new NonPlayer(KingSlime), position);
+		//
+		// 		continue;
+		// 	}
+		// }
+		//
 	}
-}
-
-console.log(map);
+});
 
 function onChance(denominator) {
 	return Math.round(Math.random() * denominator) === 1;

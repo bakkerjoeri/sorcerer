@@ -2,6 +2,7 @@ import Tile from './../modules/Tile';
 
 export default class Map {
 	constructor(size, room) {
+		this.size = size;
 		this.room = room;
 		this.tiles = createTilesetWithSize(size)
 		this.actors = new Set();
@@ -9,16 +10,20 @@ export default class Map {
 	}
 
 	addActor(actor, position) {
+		actor.map = this;
 		this.actors.add(actor);
 		this.findTileAtPosition(position).addActor(actor);
-		actor.map = this;
+
+		actor.updateMapPosition(position);
 		this.room.addEntity(actor);
 	}
 
 	addStructure(structure, position) {
+		structure.map = this;
 		this.structures.add(structure);
 		this.findTileAtPosition(position).addStructure(structure);
-		structure.map = this;
+
+		structure.updateMapPosition(position);
 		this.room.addEntity(structure);
 	}
 
@@ -26,11 +31,27 @@ export default class Map {
 		return this.tiles[position.x][position.y];
 	}
 
+	forEachTile(callback) {
+		this.tiles.forEach((tileRow) => {
+			tileRow.forEach(callback);
+		});
+	}
+
 	hasTileAtPosition(position) {
 		return Boolean(
 			this.tiles[position.x]
 			&& this.tiles[position.x][position.y]
 		);
+	}
+
+	moveActorFromPositionToPosition(actor, oldPosition, newPosition) {
+		if (this.hasTileAtPosition(oldPosition)) {
+			this.findTileAtPosition(oldPosition).removeActor(actor);
+		}
+
+		if (this.hasTileAtPosition(newPosition)) {
+			this.findTileAtPosition(newPosition).addActor(actor);
+		}
 	}
 }
 

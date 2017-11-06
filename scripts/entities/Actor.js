@@ -73,30 +73,33 @@ export default class Actor extends Entity {
 	}
 
 	moveTo(mapPosition) {
-		if (this.map.hasTileAtPosition(mapPosition)) {
-			let entitiesAtPosition = this.map.room.findSolidEntitiesInBoundaries({
-				x: mapPosition.x * 16,
-				y: mapPosition.y * 16,
-				width: this.sprite.size.width,
-				height: this.sprite.size.height,
-			}, [this]);
+		if (!this.map.hasTileAtPosition(mapPosition)) {
+			return false;
+		}
 
-			if (entitiesAtPosition.length === 0) {
-				this.updateMapPosition(mapPosition);
-				return true;
-			} else if (entitiesAtPosition.length > 0) {
-				let actionTaken = false;
+		let tileAtPosition = this.map.findTileAtPosition(mapPosition);
 
-				entitiesAtPosition.forEach((entity) => {
-					let bumpIntoResult = this.bumpInto(entity);
+		if (tileAtPosition.getSolidEntities().length === 0) {
+			this.map.moveActorFromPositionToPosition(this, this.mapPosition, mapPosition);
+			this.updateMapPosition(mapPosition);
 
-					if (bumpIntoResult) {
-						actionTaken = true;
-					}
-				});
+			return true;
+		}
 
-				return actionTaken;
-			}
+		let solidActorsOnTile = tileAtPosition.getSolidActors();
+
+		if (solidActorsOnTile.length > 0) {
+			let actionTaken = false;
+
+			solidActorsOnTile.forEach((solidActor) => {
+				let bumpIntoResult = this.bumpInto(solidActor);
+
+				if (bumpIntoResult) {
+					actionTaken = true;
+				}
+			});
+
+			return actionTaken;
 		}
 
 		return false;
@@ -145,13 +148,9 @@ export default class Actor extends Entity {
 		Log.showMessage(`<em>${this.type}</em> is dead`);
 	}
 
-	updateMapPosition(position) {
-		this.mapPosition = position;
-		this.updateRoomPositionWithMapPosition(this.mapPosition);
-	}
-
-	updateRoomPositionWithMapPosition(mapPosition) {
-		this.roomPosition = {
+	updateMapPosition(mapPosition) {
+		this.mapPosition = mapPosition;
+		this.position = {
 			x: mapPosition.x * 16,
 			y: mapPosition.y * 16,
 		};
