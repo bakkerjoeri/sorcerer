@@ -12,8 +12,8 @@ export default class Tree extends Entity {
 		]);
 
 		this.setSprite(wallSprite);
-		this.setSize({width: 16, height: 16});
-		this.setOrigin({x: 0, y: -16});
+		this.setSize({width: 1, height: 1});
+		this.sprite.setOrigin({x: 0, y: -16});
 
 		this.setSolidity(true);
 		this.type = 'wall';

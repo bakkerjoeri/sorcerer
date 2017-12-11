@@ -12,7 +12,7 @@ export default class Wall extends Entity {
 		]);
 
 		this.setSprite(wallSprite);
-		this.setSize({width: 16, height: 16});
+		this.setSize({width: 1, height: 1});
 
 		this.setSolidity(true);
 		this.type = 'wall';

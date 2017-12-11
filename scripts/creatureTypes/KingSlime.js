@@ -8,8 +8,8 @@ export const KingSlime = {
 	},
 	sprite: getSprite(),
 	size: {
-		width: 32,
-		height: 32,
+		width: 2,
+		height: 2,
 	},
 	solid: true,
 };

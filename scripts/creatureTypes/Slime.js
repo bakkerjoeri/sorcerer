@@ -8,8 +8,8 @@ export const Slime = {
 	},
 	sprite: getSprite(),
 	size: {
-		width: 16,
-		height: 16,
+		width: 1,
+		height: 1,
 	},
 	solid: true,
 };
