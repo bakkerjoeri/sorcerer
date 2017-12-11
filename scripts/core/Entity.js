@@ -15,12 +15,6 @@ export default class Entity {
 		if (options.hasOwnProperty('size')) {
 			this.setSize(options.size);
 		}
-
-		if (options.hasOwnProperty('origin')) {
-			this.setOrigin(options.origin);
-		} else {
-			this.setOrigin({x: 0, y: 0});
-		}
 	}
 
 	step(time) {
@@ -53,14 +47,6 @@ export default class Entity {
 
 	getSize() {
 		return this.size;
-	}
-
-	setOrigin(origin) {
-		this.origin = origin;
-	}
-
-	getOrigin() {
-		return this.origin;
 	}
 
 	changePosition(change) {
