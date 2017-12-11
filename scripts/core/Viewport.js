@@ -97,8 +97,8 @@ export default class Viewport {
 				&& entity.position.hasOwnProperty('y')
 			) {
 				entity.sprite.draw(this.context, calculatePositionInViewportFromPosition({
-					x: entity.position.x + entity.origin.x,
-					y: entity.position.y + entity.origin.y
+					x: entity.position.x + entity.sprite.origin.x,
+					y: entity.position.y + entity.sprite.origin.y
 				}, this));
 			}
 		});

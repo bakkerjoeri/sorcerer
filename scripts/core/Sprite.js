@@ -11,7 +11,9 @@ export default class Sprite {
 		}
 
 		if (options.hasOwnProperty('origin')) {
-			this.origin = options.origin;
+			this.setOrigin(options.origin);
+		} else {
+			this.setOrigin({x: 0, y: 0});
 		}
 
 		if (options.hasOwnProperty('frameIndex')) {
@@ -110,6 +112,14 @@ export default class Sprite {
 
 	previousFrame() {
 		this.currentFrameIndex = calculateNewFrameIndexWithChange(this.currentFrameIndex, -1, this.frames.length, this.looping);
+	}
+
+	setOrigin(origin) {
+		this.origin = origin;
+	}
+
+	getOrigin() {
+		return this.origin;
 	}
 }
 
