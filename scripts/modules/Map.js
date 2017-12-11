@@ -12,7 +12,10 @@ export default class Map {
 	addActor(actor, position) {
 		actor.map = this;
 		this.actors.add(actor);
-		this.findTileAtPosition(position).addActor(actor);
+
+		this.forEachTileInBoundaries(position, actor.size, (tile) => {
+			tile.addActor(actor);
+		});
 
 		actor.updateMapPosition(position);
 		this.room.addEntity(actor);
@@ -21,7 +24,10 @@ export default class Map {
 	addStructure(structure, position) {
 		structure.map = this;
 		this.structures.add(structure);
-		this.findTileAtPosition(position).addStructure(structure);
+
+		this.forEachTileInBoundaries(position, structure.size, (tile) => {
+			tile.addStructure(structure);
+		});
 
 		structure.updateMapPosition(position);
 		this.room.addEntity(structure);
@@ -37,6 +43,18 @@ export default class Map {
 		});
 	}
 
+	forEachTileInBoundaries(position, size, callback) {
+		for (let x = position.x; x < position.x + size.width; x = x + 1) {
+			for (let y = position.y; y < position.y + size.height; y = y + 1) {
+				let tilePosition = {x: x, y: y};
+
+				if (this.hasTileAtPosition(tilePosition)) {
+					callback(this.findTileAtPosition(tilePosition));
+				}
+			}
+		}
+	}
+
 	hasTileAtPosition(position) {
 		return Boolean(
 			this.tiles[position.x]
@@ -45,13 +63,48 @@ export default class Map {
 	}
 
 	moveActorFromPositionToPosition(actor, oldPosition, newPosition) {
-		if (this.hasTileAtPosition(oldPosition)) {
-			this.findTileAtPosition(oldPosition).removeActor(actor);
-		}
+		this.forEachTileInBoundaries(oldPosition, actor.size, (tile) => {
+			tile.removeActor(actor);
+		});
 
-		if (this.hasTileAtPosition(newPosition)) {
-			this.findTileAtPosition(newPosition).addActor(actor);
-		}
+		this.forEachTileInBoundaries(newPosition, actor.size, (tile) => {
+			tile.addActor(actor);
+		});
+	}
+
+	getSolidEntitiesInBoundaries(position, size, exclude = []) {
+		let solidEntities = [];
+
+		this.forEachTileInBoundaries(position, size, (tile) => {
+			solidEntities = solidEntities.concat(tile.getSolidEntities(exclude));
+		});
+
+		return solidEntities;
+	}
+
+	hasSolidEntitiesInBoundaries(position, size, exclude = []) {
+		return this.getSolidEntitiesInBoundaries(position, size, exclude).length > 0;
+	}
+
+	getSolidActorsInBoundaries(position, size, exclude = []) {
+		let solidActors = [];
+
+		this.forEachTileInBoundaries(position, size, (tile) => {
+			solidActors = solidActors.concat(tile.getSolidActors(exclude));
+		});
+
+		return solidActors;
+	}
+
+	hasSolidActorsInBoundaries(position, size, exclude = []) {
+		return this.getSolidActorsInBoundaries(position, size, exclude).length > 0;
+	}
+
+	areBoundariesWithinMapBoundaries(position, size) {
+		return position.x >= 0
+			&& position.y >= 0
+			&& position.x + size.width <= this.size.width
+			&& position.y + size.height <=  this.size.height;
 	}
 }
 

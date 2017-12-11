@@ -26,7 +26,7 @@ viewport.showRoom(room);
 
 const map = new Map({
 	width: 34,
-	height: 26
+	height: 26,
 }, room);
 
 const game = new Game();
@@ -34,50 +34,45 @@ game.setCurrentMap(map);
 
 const player = new Player(GreenKnight);
 
-map.addActor(player, {x: 1, y: 1});
+map.addActor(player, {x: 17, y: 13});
 game.setPlayer(player);
 viewport.followEntity(player);
 
-// console.log(map.tiles);
 map.forEachTile((tile) => {
 	if (!tile.hasSolidEntities()) {
-		if (onChance(80)) {
+		if (onChance(160)) {
 			map.addActor(new NonPlayer(Slime), tile.position);
 
 			return;
 		}
 
-		if (onChance(160)) {
+		if (onChance(240)) {
 			map.addActor(new NonPlayer(Knight), tile.position);
 
 			return;
 		}
 
-		if (onChance(30)) {
+		if (onChance(40)) {
 			map.addStructure(new Wall(), tile.position);
 
 			return;
 		}
 
-		if (onChance(70)) {
+		if (onChance(80)) {
 			map.addStructure(new Tree(), tile.position);
 
 			return;
 		}
+	}
+	if (
+		!map.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
+		&& map.areBoundariesWithinMapBoundaries(tile.position, KingSlime.size)
+	) {
+		if (onChance(320)) {
+			map.addActor(new NonPlayer(KingSlime), tile.position);
 
-		// if (!room.hasSolidEntityInBoundaries({
-		// 	x: screenPosition.x,
-		// 	y: screenPosition.y,
-		// 	width: 32,
-		// 	height: 32,
-		// })) {
-		// 	if (onChance(240)) {
-		// 		map.addActor(new NonPlayer(KingSlime), position);
-		//
-		// 		continue;
-		// 	}
-		// }
-		//
+			return;
+		}
 	}
 });
 

@@ -72,26 +72,27 @@ export default class Actor extends Entity {
 		}
 	}
 
-	moveTo(mapPosition) {
-		if (!this.map.hasTileAtPosition(mapPosition)) {
+	moveTo(newMapPosition) {
+		if (!this.map.hasTileAtPosition(newMapPosition)) {
 			return false;
 		}
 
-		let tileAtPosition = this.map.findTileAtPosition(mapPosition);
-
-		if (tileAtPosition.getSolidEntities().length === 0) {
-			this.map.moveActorFromPositionToPosition(this, this.mapPosition, mapPosition);
-			this.updateMapPosition(mapPosition);
+		if (
+			!this.map.hasSolidEntitiesInBoundaries(newMapPosition, this.size, [this])
+			&& this.map.areBoundariesWithinMapBoundaries(newMapPosition, this.size)
+		) {
+			this.map.moveActorFromPositionToPosition(this, this.mapPosition, newMapPosition);
+			this.updateMapPosition(newMapPosition);
 
 			return true;
 		}
 
-		let solidActorsOnTile = tileAtPosition.getSolidActors();
+		let solidActorsOnNewPosition = this.map.getSolidActorsInBoundaries(newMapPosition, this.size, [this]);
 
-		if (solidActorsOnTile.length > 0) {
+		if (solidActorsOnNewPosition.length > 0) {
 			let actionTaken = false;
 
-			solidActorsOnTile.forEach((solidActor) => {
+			solidActorsOnNewPosition.forEach((solidActor) => {
 				let bumpIntoResult = this.bumpInto(solidActor);
 
 				if (bumpIntoResult) {
@@ -140,8 +141,8 @@ export default class Actor extends Entity {
 	die() {
 		this.dead = true;
 		this.size = {
-			width: 16,
-			height: 16,
+			width: 1,
+			height: 1,
 		}
 		this.sprite = getDeadSprite();
 

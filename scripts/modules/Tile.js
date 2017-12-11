@@ -37,27 +37,27 @@ export default class Tile {
 		return this.actors;
 	}
 
-	getSolidEntities() {
+	getSolidEntities(exclude = []) {
 		let entities = this.getEntities();
 
 		return entities.filter((entity) => {
-			return entity.solid === true;
+			return entity.solid === true && !exclude.includes(entity);
 		});
 	}
 
-	getSolidActors() {
+	getSolidActors(exclude = []) {
 		let actors = this.getActors();
 
 		return actors.filter((actor) => {
-			return actor.solid === true;
+			return actor.solid === true && !exclude.includes(actor);
 		});
 	}
 
-	hasSolidEntities() {
+	hasSolidEntities(exclude = []) {
 		return this.getSolidEntities().length > 0;
 	}
 
-	hasSolidActors() {
+	hasSolidActors(exclude = []) {
 		return this.getSolidActors().length > 0;
 	}
 }
