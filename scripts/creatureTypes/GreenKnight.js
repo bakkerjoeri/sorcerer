@@ -12,6 +12,10 @@ export const GreenKnight = {
 		height: 1,
 	},
 	solid: true,
+	deathrattle: function () {
+		this.solid = true;
+		this.sprite = getDeadSprite();
+	},
 };
 
 function getSprite() {
@@ -37,4 +41,14 @@ function getSprite() {
 	knightSprite.setFramesPerSecond(10);
 
 	return knightSprite
+}
+
+function getDeadSprite() {
+	let spriteAtlasDefinition = '{ "file": "assets/images/grave-sheet.png", "frames": [ { "name": "grave_0", "origin": { "x": 0, "y": 0 }, "size": { "width": 16, "height": 16 } } ] }';
+	let spriteAtlas = new SpriteAtlas(JSON.parse(spriteAtlasDefinition));
+	let graveSprite = spriteAtlas.createSpriteWithFrames([
+		'grave_0',
+	]);
+
+	return graveSprite;
 }

@@ -19,24 +19,34 @@ import {KingSlime} from './creatureTypes/KingSlime';
 
 const canvas = document.querySelector('.canvas__sorcerer');
 
-const room = new Room({width: 544, height: 416});
+const MAP_SIZE_WIDTH = 36;
+const MAP_SIZE_HEIGHT = 24;
+const TILE_SIZE = 16;
+
+const room = new Room({
+	width: MAP_SIZE_WIDTH * TILE_SIZE,
+	height: MAP_SIZE_HEIGHT * TILE_SIZE,
+});
+
 room.setBackgroundColor('#000');
 
 const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 176});
 viewport.showRoom(room);
 
 const map = new Map({
-	width: 5,
-	height: 5,
+	width: MAP_SIZE_WIDTH,
+	height: MAP_SIZE_HEIGHT,
 }, room);
 
 const game = new Game();
 game.setCurrentMap(map);
 
-const player = new NonPlayer(GreenKnight);
+const player = new Player(GreenKnight);
 
-map.addActor(player, {x: 1, y: 1});
-map.addActor(new NonPlayer(KingSlime), {x: 1, y: 2});
+map.addActor(player, {
+	x: MAP_SIZE_WIDTH / 2,
+	y: MAP_SIZE_HEIGHT / 2
+});
 
 game.setPlayer(player);
 viewport.followEntity(player);
@@ -46,17 +56,17 @@ game.start();
 function fillMap(map) {
 	map.forEachTile((tile) => {
 		if (!tile.hasSolidEntities()) {
-			// if (onChance(40)) {
-			// 	map.addActor(new NonPlayer(Slime), tile.position);
-            //
-			// 	return;
-			// }
-            //
-			// if (onChance(240)) {
-			// 	map.addActor(new NonPlayer(Knight), tile.position);
-            //
-			// 	return;
-			// }
+			if (onChance(40)) {
+				map.addActor(new NonPlayer(Slime), tile.position);
+
+				return;
+			}
+
+			if (onChance(240)) {
+				map.addActor(new NonPlayer(Knight), tile.position);
+
+				return;
+			}
 
 			if (onChance(40)) {
 				map.addStructure(new Wall(), tile.position);
@@ -71,16 +81,16 @@ function fillMap(map) {
 			}
 		}
 
-		// if (
-		// 	!map.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
-		// 	&& map.areBoundariesWithinMapBoundaries(tile.position, KingSlime.size)
-		// ) {
-		// 	if (onChance(240)) {
-		// 		map.addActor(new NonPlayer(KingSlime), tile.position);
-        //
-		// 		return;
-		// 	}
-		// }
+		if (
+			!map.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
+			&& map.areBoundariesWithinMapBoundaries(tile.position, KingSlime.size)
+		) {
+			if (onChance(240)) {
+				map.addActor(new NonPlayer(KingSlime), tile.position);
+
+				return;
+			}
+		}
 	});
 }
 
