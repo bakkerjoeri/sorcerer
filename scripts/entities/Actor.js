@@ -1,5 +1,4 @@
 import Entity from './../core/Entity';
-import SpriteAtlas from './../core/SpriteAtlas';
 import Log from './../modules/Log';
 
 const STATS_DEFAULT = {
