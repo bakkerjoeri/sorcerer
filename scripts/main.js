@@ -9,13 +9,14 @@ import Map from './modules/Map';
 
 import Player from './entities/Player';
 import NonPlayer from './entities/NonPlayer';
-import Wall from './entities/Wall';
-import Tree from './entities/Tree';
+import Structure from './entities/Structure';
 
 import {Knight} from './creatureTypes/Knight';
 import {GreenKnight} from './creatureTypes/GreenKnight';
 import {Slime} from './creatureTypes/Slime';
 import {KingSlime} from './creatureTypes/KingSlime';
+import {Tree} from './structureTypes/Tree';
+import {Wall} from './structureTypes/Wall';
 
 const canvas = document.querySelector('.canvas__sorcerer');
 
@@ -69,13 +70,13 @@ function fillMap(map) {
 			}
 
 			if (onChance(40)) {
-				map.addStructure(new Wall(), tile.position);
+				map.addStructure(new Structure(Tree), tile.position);
 
 				return;
 			}
 
 			if (onChance(80)) {
-				map.addStructure(new Tree(), tile.position);
+				map.addStructure(new Structure(Wall), tile.position);
 
 				return;
 			}
