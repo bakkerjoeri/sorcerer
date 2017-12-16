@@ -38,7 +38,7 @@ export default class Viewport {
 
 	update(time) {
 		// update position to follow entity
-		if (this.entityToFollow) {
+		if (this.entityToFollow && this.entityToFollow.sprite) {
 			let newViewportPosition = {
 				x: this.entityToFollow.position.x - (this.size.width / 2) + (this.entityToFollow.sprite.size.width / 2),
 				y: this.entityToFollow.position.y - (this.size.height / 2) + (this.entityToFollow.sprite.size.height / 2),
