@@ -21,12 +21,18 @@ export default class Actor extends Entity {
 		this.setSprite(creatureDefinition.sprite);
 		this.setSize(creatureDefinition.size);
 		this.setSolidity(creatureDefinition.solid);
+		this.setDeathrattle(creatureDefinition.deathrattle);
 	}
 
 	applyStats(stats) {
 		this.stats = Object.assign({}, STATS_DEFAULT, stats);
 	}
 
+	setDeathrattle(deathrattle) {
+		if (typeof deathrattle === 'function') {
+			this.deathrattle = deathrattle.bind(this);
+		}
+	}
 
 	takeTurn() {
 		return new Promise((resolve) => {
@@ -147,11 +153,16 @@ export default class Actor extends Entity {
 
 	die() {
 		this.dead = true;
+		this.solid = false;
 		this.size = {
 			width: 1,
 			height: 1,
 		}
 		this.sprite = getDeadSprite();
+
+		if (typeof this.deathrattle === 'function') {
+			this.deathrattle(this.map);
+		}
 
 		Log.showMessage(`<em>${this.type}</em> is dead`);
 	}

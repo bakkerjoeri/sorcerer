@@ -1,4 +1,6 @@
 import SpriteAtlas from './../core/SpriteAtlas';
+import NonPlayer from './../entities/NonPlayer';
+import {Slime} from './Slime';
 
 export const KingSlime = {
 	type: 'king slime',
@@ -12,6 +14,12 @@ export const KingSlime = {
 		height: 2,
 	},
 	solid: true,
+	deathrattle: function(map) {
+		map.addActor(new NonPlayer(Slime), this.mapPosition);
+		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y});
+		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x, y: this.mapPosition.y + 1});
+		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y + 1});
+	}
 };
 
 function getSprite() {
