@@ -1,7 +1,10 @@
 {
 	"presets": [
-		["@babel/preset-env", {
-			"useBuilddtIns": "entry",
-		}]
+		[
+			"@babel/preset-env",
+			{
+				"useBuilddtIns": "usage"
+			}
+		]
 	]
 }

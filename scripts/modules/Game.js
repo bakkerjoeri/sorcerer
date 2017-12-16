@@ -1,5 +1,6 @@
 import PubSub from './../core/PubSub';
 import Log from './../modules/Log';
+import clone from 'lodash/clone';
 
 export default class Game {
 	start() {
@@ -15,9 +16,15 @@ export default class Game {
 		this.player = playerEntity;
 	}
 
-	takeTurns() {
-		Promise.all(this.map.actors.map((actor) => {
-			return actor.takeTurn();
-		})).then(this.takeTurns.bind(this));
+	async takeTurns() {
+		for(let actor of this.getTurnOrder()) {
+			await actor.takeTurn();
+		}
+
+		this.takeTurns();
+	}
+
+	getTurnOrder() {
+		return clone(this.map.actors);
 	}
 }

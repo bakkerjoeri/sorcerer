@@ -1,5 +1,5 @@
 require('../style/main.scss');
-require('@babel/polyfill');
+import '@babel/polyfill';
 
 import Room from './core/Room';
 import Viewport from './core/Viewport';
@@ -33,7 +33,7 @@ const map = new Map({
 const game = new Game();
 game.setCurrentMap(map);
 
-const player = new Player(GreenKnight);
+const player = new NonPlayer(GreenKnight);
 
 map.addActor(player, {x: 1, y: 1});
 map.addActor(new NonPlayer(KingSlime), {x: 1, y: 2});

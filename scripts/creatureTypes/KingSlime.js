@@ -19,7 +19,7 @@ export const KingSlime = {
 		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y});
 		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x, y: this.mapPosition.y + 1});
 		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y + 1});
-	}
+	},
 };
 
 function getSprite() {
