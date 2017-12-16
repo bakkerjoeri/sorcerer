@@ -2,11 +2,11 @@ export default class Room {
 	constructor(size) {
 		this.setSize(size);
 
-		this.entities = new Set();
+		this.entities = [];
 	}
 
 	addEntity(entity) {
-		this.entities.add(entity);
+		this.entities.push(entity);
 	}
 
 	getEntities() {

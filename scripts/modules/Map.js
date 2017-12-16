@@ -5,13 +5,13 @@ export default class Map {
 		this.size = size;
 		this.room = room;
 		this.tiles = createTilesetWithSize(size)
-		this.actors = new Set();
-		this.structures = new Set();
+		this.actors = [];
+		this.structures = [];
 	}
 
 	addActor(actor, position) {
 		actor.map = this;
-		this.actors.add(actor);
+		this.actors.push(actor);
 
 		this.forEachTileInBoundaries(position, actor.size, (tile) => {
 			tile.addActor(actor);
@@ -23,7 +23,7 @@ export default class Map {
 
 	addStructure(structure, position) {
 		structure.map = this;
-		this.structures.add(structure);
+		this.structures.push(structure);
 
 		this.forEachTileInBoundaries(position, structure.size, (tile) => {
 			tile.addStructure(structure);

@@ -6,10 +6,17 @@ export default class Player extends Actor {
 	constructor(type, options) {
 		super(type, options);
 		Log.showMessage(`<em>${this.type}</em> awakens...`);
-		window.addEventListener('keydown', this.onKeyDown.bind(this));
 	}
 
-	onKeyDown(event) {
+	takeTurn() {
+		return new Promise((resolve) => {
+			this.keyDownEvent = this.addEventListener('keydown', (event) => {
+				this.handleKeyPressed(event, resolve);
+			});
+		});
+	}
+
+	handleKeyPressed(event, callback) {
 		if (!this.dead) {
 			let actionTaken = false;
 
@@ -40,7 +47,8 @@ export default class Player extends Actor {
 			}
 
 			if (actionTaken) {
-				PubSub.publish('playerTurnTaken');
+				this.removeEventListener(this.keyDownEvent);
+				callback();
 			}
 		}
 	}

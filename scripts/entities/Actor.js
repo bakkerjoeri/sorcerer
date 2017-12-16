@@ -27,6 +27,13 @@ export default class Actor extends Entity {
 		this.stats = Object.assign({}, STATS_DEFAULT, stats);
 	}
 
+
+	takeTurn() {
+		return new Promise((resolve) => {
+			resolve();
+		});
+	}
+
 	bumpInto(target) {
 		if (target.canBeAttacked()) {
 			Log.showMessage(`<em>${this.type}</em> attacks <em>${target.type}</em>`);

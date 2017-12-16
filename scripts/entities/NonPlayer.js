@@ -6,24 +6,28 @@ export default class NonPlayer extends Actor {
 	}
 
 	takeTurn() {
-		if (!this.dead) {
-			let decision = Math.round(Math.random() * 8);
+		return new Promise((resolve) => {
+			if (!this.dead) {
+				let decision = Math.round(Math.random() * 8);
 
-			if (decision === 0) {
-				this.moveUp();
+				if (decision === 0) {
+					this.moveUp();
+				}
+
+				if (decision === 1) {
+					this.moveRight();
+				}
+
+				if (decision === 2) {
+					this.moveDown();
+				}
+
+				if (decision === 3) {
+					this.moveLeft();
+				}
 			}
 
-			if (decision === 1) {
-				this.moveRight();
-			}
-
-			if (decision === 2) {
-				this.moveDown();
-			}
-
-			if (decision === 3) {
-				this.moveLeft();
-			}
-		}
+			resolve();
+		});
 	}
 }

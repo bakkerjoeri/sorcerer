@@ -2,14 +2,9 @@ import PubSub from './../core/PubSub';
 import Log from './../modules/Log';
 
 export default class Game {
-	constructor() {
-		this.player;
-
-		PubSub.subscribe('playerTurnTaken', this.tick.bind(this));
-	}
-
-	tick() {
-		this.performNonPlayerTurns();
+	start() {
+		this.turnOrder = [];
+		this.takeTurns();
 	}
 
 	setCurrentMap(map) {
@@ -20,11 +15,9 @@ export default class Game {
 		this.player = playerEntity;
 	}
 
-	performNonPlayerTurns() {
-		this.map.actors.forEach((actor) => {
-			if (actor !== this.player) {
-				actor.takeTurn();
-			}
-		});
+	takeTurns() {
+		Promise.all(this.map.actors.map((actor) => {
+			return actor.takeTurn();
+		})).then(this.takeTurns.bind(this));
 	}
 }
