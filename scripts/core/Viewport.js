@@ -90,17 +90,7 @@ export default class Viewport {
 		});
 
 		this.room.entities.forEach((entity) => {
-			if (
-				entity.hasOwnProperty('sprite')
-				&& entity.hasOwnProperty('position')
-				&& entity.position.hasOwnProperty('x')
-				&& entity.position.hasOwnProperty('y')
-			) {
-				entity.sprite.draw(this.context, calculatePositionInViewportFromPosition({
-					x: entity.position.x + entity.sprite.origin.x,
-					y: entity.position.y + entity.sprite.origin.y
-				}, this));
-			}
+			entity.draw(time, this.context, this);
 		});
 	}
 
@@ -131,11 +121,4 @@ export default class Viewport {
 function changeCanvasToSize(canvas, size) {
 	canvas.width = size.width;
 	canvas.height = size.height;
-}
-
-function calculatePositionInViewportFromPosition(position, viewport) {
-	return {
-		x: position.x - viewport.position.x,
-		y: position.y - viewport.position.y
-	}
 }

@@ -8,6 +8,12 @@ export default class Entity {
 			this.setPosition(options.position);
 		}
 
+		if (options.hasOwnProperty('positioning')) {
+			this.setPositioning(options.positioning);
+		} else {
+			this.setPositioning('absolute');
+		}
+
 		if (options.hasOwnProperty('solid')) {
 			this.setSolidity(options.solid);
 		}
@@ -23,12 +29,41 @@ export default class Entity {
 
 	}
 
+	draw(time, context, viewport) {
+		if (
+			this.hasOwnProperty('sprite')
+			&& this.hasOwnProperty('position')
+			&& this.position.hasOwnProperty('x')
+			&& this.position.hasOwnProperty('y')
+		) {
+			let spriteDrawPosition;
+
+			if (this.positioning = 'absolute') {
+				spriteDrawPosition = {
+					x: this.position.x + this.sprite.origin.x - viewport.position.x,
+					y: this.position.y + this.sprite.origin.y - viewport.position.y,
+				};
+			} else {
+				spriteDrawPosition = {
+					x: this.position.x + this.sprite.origin.x,
+					y: this.position.y + this.sprite.origin.y,
+				}
+			}
+
+			this.sprite.draw(context, spriteDrawPosition);
+		}
+	}
+
 	setSprite(sprite) {
 		this.sprite = sprite;
 	}
 
 	setPosition(position) {
 		this.position = position;
+	}
+
+	setPositioning(positioning) {
+		this.positioning = positioning;
 	}
 
 	getPosition() {
