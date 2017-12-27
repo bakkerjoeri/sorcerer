@@ -18,7 +18,7 @@ export default class Actor extends Entity {
 		this.type = creatureDefinition.type;
 		this.applyStats(creatureDefinition.stats);
 		this.setSprite(creatureDefinition.sprite);
-		this.setSize(creatureDefinition.size);
+		this.setMapSize(creatureDefinition.size);
 		this.setSolidity(creatureDefinition.solid);
 		this.setDeathrattle(creatureDefinition.deathrattle);
 	}
@@ -90,8 +90,8 @@ export default class Actor extends Entity {
 		}
 
 		if (
-			!this.map.hasSolidEntitiesInBoundaries(newMapPosition, this.size, [this])
-			&& this.map.areBoundariesWithinMapBoundaries(newMapPosition, this.size)
+			!this.map.hasSolidEntitiesInBoundaries(newMapPosition, this.mapSize, [this])
+			&& this.map.areBoundariesWithinMapBoundaries(newMapPosition, this.mapSize)
 		) {
 			this.map.moveActorFromPositionToPosition(this, this.mapPosition, newMapPosition);
 			this.updateMapPosition(newMapPosition);
@@ -99,7 +99,7 @@ export default class Actor extends Entity {
 			return true;
 		}
 
-		let solidActorsOnNewPosition = this.map.getSolidActorsInBoundaries(newMapPosition, this.size, [this]);
+		let solidActorsOnNewPosition = this.map.getSolidActorsInBoundaries(newMapPosition, this.mapSize, [this]);
 
 		if (solidActorsOnNewPosition.length > 0) {
 			let actionTaken = false;
@@ -167,6 +167,15 @@ export default class Actor extends Entity {
 		this.position = {
 			x: mapPosition.x * 16,
 			y: mapPosition.y * 16,
+		};
+	}
+
+	setMapSize(mapSize) {
+		console.log(this, mapSize);
+		this.mapSize = mapSize;
+		this.size = {
+			width: mapSize.width * 16,
+			height: mapSize.height * 16,
 		};
 	}
 }

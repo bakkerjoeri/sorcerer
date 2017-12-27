@@ -1,17 +1,17 @@
 import Entity from './../core/Entity';
 
 export default class Structure extends Entity {
-	constructor(structureDefinitionm, options) {
+	constructor(structureDefinition, options) {
 		super(options);
-		this.applyStructureDefinition(structureDefinitionm);
+		this.applyStructureDefinition(structureDefinition);
 	}
 
-	applyStructureDefinition(structureDefinitionm) {
-		this.type = structureDefinitionm.type;
-		this.setSprite(structureDefinitionm.sprite);
-		this.setSize(structureDefinitionm.size);
-		this.setSolidity(structureDefinitionm.solid);
-		this.setCanBeAttacked(structureDefinitionm.canBeAttacked);
+	applyStructureDefinition(structureDefinition) {
+		this.type = structureDefinition.type;
+		this.setSprite(structureDefinition.sprite);
+		this.setMapSize(structureDefinition.size);
+		this.setSolidity(structureDefinition.solid);
+		this.setCanBeAttacked(structureDefinition.canBeAttacked);
 	}
 
 	setCanBeAttacked(canBeAttacked = false) {
@@ -23,6 +23,14 @@ export default class Structure extends Entity {
 		this.position = {
 			x: mapPosition.x * 16,
 			y: mapPosition.y * 16,
+		};
+	}
+
+	setMapSize(mapSize) {
+		this.mapSize = mapSize;
+		this.size = {
+			width: mapSize.width * 16,
+			height: mapSize.height * 16,
 		};
 	}
 }

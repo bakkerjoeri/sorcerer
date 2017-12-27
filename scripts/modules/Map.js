@@ -13,7 +13,7 @@ export default class Map {
 		actor.map = this;
 		this.actors.push(actor);
 
-		this.forEachTileInBoundaries(position, actor.size, (tile) => {
+		this.forEachTileInBoundaries(position, actor.mapSize, (tile) => {
 			tile.addActor(actor);
 		});
 
@@ -25,7 +25,7 @@ export default class Map {
 		structure.map = this;
 		this.structures.push(structure);
 
-		this.forEachTileInBoundaries(position, structure.size, (tile) => {
+		this.forEachTileInBoundaries(position, structure.mapSize, (tile) => {
 			tile.addStructure(structure);
 		});
 
@@ -63,11 +63,11 @@ export default class Map {
 	}
 
 	moveActorFromPositionToPosition(actor, oldPosition, newPosition) {
-		this.forEachTileInBoundaries(oldPosition, actor.size, (tile) => {
+		this.forEachTileInBoundaries(oldPosition, actor.mapSize, (tile) => {
 			tile.removeActor(actor);
 		});
 
-		this.forEachTileInBoundaries(newPosition, actor.size, (tile) => {
+		this.forEachTileInBoundaries(newPosition, actor.mapSize, (tile) => {
 			tile.addActor(actor);
 		});
 	}
