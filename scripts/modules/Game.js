@@ -4,7 +4,6 @@ import clone from 'lodash/clone';
 
 export default class Game {
 	start() {
-		this.turnOrder = [];
 		this.takeTurns();
 	}
 
