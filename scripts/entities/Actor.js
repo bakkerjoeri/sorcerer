@@ -171,7 +171,6 @@ export default class Actor extends Entity {
 	}
 
 	setMapSize(mapSize) {
-		console.log(this, mapSize);
 		this.mapSize = mapSize;
 		this.size = {
 			width: mapSize.width * 16,
