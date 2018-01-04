@@ -5,6 +5,10 @@ export default class Dialog extends Entity {
 		super(options);
 	}
 
+	displayMessage(message) {
+		this.message = message;
+	}
+
 	draw(time, context, viewport) {
 		context.fillStyle = '#e4e4e4';
 		context.fillRect(
@@ -21,5 +25,11 @@ export default class Dialog extends Entity {
 			this.size.width,
 			this.size.height,
 		);
+
+		if (this.message) {
+			context.font = '9pt monospace';
+			context.fillStyle = 'yellow';
+			context.fillText(this.message, this.position.x, this.position.y);
+		}
 	}
 }
