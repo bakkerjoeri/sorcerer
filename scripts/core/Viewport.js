@@ -89,8 +89,10 @@ export default class Viewport {
 			y: -this.position.y,
 		});
 
-		this.room.entities.forEach((entity) => {
-			entity.draw(time, this.context, this);
+		this.room.entities.filter((entity) => {
+			return entity.visible;
+		}).forEach((visibleEntity) => {
+			visibleEntity.draw(time, this.context, this);
 		});
 	}
 

@@ -22,6 +22,12 @@ export default class Entity {
 			this.setSize(options.size);
 		}
 
+		if (options.hasOwnProperty('visible')) {
+			this.setVisible(options.visible);
+		} else {
+			this.setVisible(true);
+		}
+
 		this.events = new Map();
 	}
 
@@ -74,8 +80,24 @@ export default class Entity {
 		this.solid = solid;
 	}
 
+	setVisible(visible) {
+		this.visible = visible;
+	}
+
+	show() {
+		this.setVisible(true);
+	}
+
+	hide() {
+		this.setVisible(false);
+	}
+
 	isSolid() {
 		return this.solid;
+	}
+
+	isVisible() {
+		return this.visible;
 	}
 
 	setSize(size) {
