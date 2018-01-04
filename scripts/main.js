@@ -7,6 +7,7 @@ import Viewport from './core/Viewport';
 import Game from './modules/Game';
 import Map from './modules/Map';
 
+import Dialog from './entities/Dialog';
 import Player from './entities/Player';
 import NonPlayer from './entities/NonPlayer';
 import Structure from './entities/Structure';
@@ -52,6 +53,36 @@ map.addActor(player, {
 game.setPlayer(player);
 viewport.followEntity(player);
 fillMap(map);
+
+let dialog = new Dialog({
+	position: {
+		x: 20,
+		y: 20,
+	},
+	size: {
+		width: 40,
+		height: 10,
+	},
+	positioning: 'relative',
+	visible: false,
+});
+room.addEntity(dialog);
+
+window.addEventListener('keydown', (event) => {
+	if (event.key === 'm') {
+		event.preventDefault();
+
+		console.log("Hey!");
+
+		if (dialog.isVisible()) {
+			dialog.hide();
+		} else {
+			dialog.show();
+			dialog.displayMessage("???????????????????????!");
+		}
+	}
+});
+
 game.start();
 
 function fillMap(map) {
