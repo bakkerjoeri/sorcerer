@@ -61,6 +61,38 @@ const game = new Game({
 });
 game.start();
 
+console.log(game);
+
+// Add some dialog
+let dialog = new Dialog({
+	position: {
+		x: 20,
+		y: 20,
+	},
+	size: {
+		width: 40,
+		height: 10,
+	},
+	positioning: 'relative',
+	visible: false,
+});
+room.addEntity(dialog);
+
+window.addEventListener('keydown', (event) => {
+	if (event.key === 'm') {
+		event.preventDefault();
+
+		console.log("Hey!");
+
+		if (dialog.isVisible()) {
+			dialog.hide();
+		} else {
+			dialog.show();
+			dialog.displayMessage("???????????????????????!");
+		}
+	}
+});
+
 function fillMap(map) {
 	map.forEachTile((tile) => {
 		if (!tile.hasSolidEntities()) {
