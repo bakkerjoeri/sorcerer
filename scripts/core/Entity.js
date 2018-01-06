@@ -32,10 +32,14 @@ export default class Entity {
 	}
 
 	step(time) {
-
+		if (this.sprite) {
+			this.sprite.step(time);
+		}
 	}
 
-	draw(time, context, viewport) {
+	draw(time, canvas, viewport) {
+		let context = canvas.getContext('2d');
+
 		if (
 			this.hasOwnProperty('sprite')
 			&& this.hasOwnProperty('position')
@@ -46,8 +50,8 @@ export default class Entity {
 
 			if (this.positioning = 'absolute') {
 				spriteDrawPosition = {
-					x: this.position.x + this.sprite.origin.x - viewport.position.x,
-					y: this.position.y + this.sprite.origin.y - viewport.position.y,
+					x: this.position.x + this.sprite.origin.x - viewport.position.x, // should be viewport relative
+					y: this.position.y + this.sprite.origin.y - viewport.position.y, // should be viewport relative
 				};
 			} else {
 				spriteDrawPosition = {
@@ -56,7 +60,7 @@ export default class Entity {
 				}
 			}
 
-			this.sprite.draw(context, spriteDrawPosition);
+			this.sprite.draw(time, canvas, spriteDrawPosition);
 		}
 	}
 

@@ -1,23 +1,11 @@
 export default class Viewport {
-	constructor(canvas, position, size) {
-		this.useCanvas(canvas);
+	constructor(position, size) {
 		this.position = position;
 		this.setSize(size);
-
-		this.startUpdating();
 	}
 
-	showRoom(room) {
+	setRoom(room) {
 		this.room = room;
-	}
-
-	useCanvas(canvas) {
-		this.canvas = canvas;
-		this.context = canvas.getContext('2d');
-
-		if (this.size) {
-			changeCanvasToSize(canvas, this.size);
-		}
 	}
 
 	followEntity(entity) {
@@ -26,17 +14,9 @@ export default class Viewport {
 
 	setSize(size) {
 		this.size = size;
-
-		if (this.canvas) {
-			changeCanvasToSize(this.canvas, size);
-		}
 	}
 
-	startUpdating() {
-		window.requestAnimationFrame(this.update.bind(this));
-	}
-
-	update(time) {
+	step(time) {
 		// update position to follow entity
 		if (this.entityToFollow && this.entityToFollow.sprite) {
 			let newViewportPosition = {
@@ -52,6 +32,7 @@ export default class Viewport {
 				newViewportPosition.y = 0;
 			}
 
+			// TODO: Remove dependency on `room`.
 			if (newViewportPosition.x > (this.room.size.width - this.size.width)) {
 				newViewportPosition.x = this.room.size.width - this.size.width;
 			}
@@ -62,38 +43,6 @@ export default class Viewport {
 
 			this.position = newViewportPosition;
 		}
-
-		this.step(time);
-		this.draw(time);
-
-		window.requestAnimationFrame(this.update.bind(this));
-	}
-
-	step(time) {
-		this.room.entities.forEach((entity) => {
-			entity.step(time);
-
-			if (entity.sprite) {
-				entity.sprite.step(time);
-			}
-		});
-	}
-
-	draw(time) {
-		// remove viewport drawings
-		this.clearDrawing(this.context);
-
-		// draw room
-		this.room.drawBackground(this.context, {
-			x: -this.position.x,
-			y: -this.position.y,
-		});
-
-		this.room.entities.filter((entity) => {
-			return entity.visible;
-		}).forEach((visibleEntity) => {
-			visibleEntity.draw(time, this.context, this);
-		});
 	}
 
 	drawMiddle(context) {
@@ -118,9 +67,4 @@ export default class Viewport {
 			this.size.height
 		);
 	}
-}
-
-function changeCanvasToSize(canvas, size) {
-	canvas.width = size.width;
-	canvas.height = size.height;
 }

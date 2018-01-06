@@ -25,64 +25,40 @@ const MAP_SIZE_WIDTH = 36;
 const MAP_SIZE_HEIGHT = 24;
 const TILE_SIZE = 16;
 
+// Create room
 const room = new Room({
 	width: MAP_SIZE_WIDTH * TILE_SIZE,
 	height: MAP_SIZE_HEIGHT * TILE_SIZE,
 });
-
 room.setBackgroundColor('#000');
+room.useCanvas(canvas);
 
-const viewport = new Viewport(canvas, {x: 0, y: 0}, {width: 240, height: 176});
-viewport.showRoom(room);
-
-const map = new Map({
+// Create world map
+const worldMap = new Map({
 	width: MAP_SIZE_WIDTH,
 	height: MAP_SIZE_HEIGHT,
 }, room);
 
-const game = new Game();
-game.setCurrentMap(map);
-
+// Create the player
 const player = new Player(GreenKnight);
 
-map.addActor(player, {
+// Fill world map with all entities.
+worldMap.addActor(player, {
 	x: MAP_SIZE_WIDTH / 2,
 	y: MAP_SIZE_HEIGHT / 2
 });
+fillMap(worldMap);
 
-game.setPlayer(player);
+// Create a Viewport
+const viewport = new Viewport({x: 0, y: 0}, {width: 240, height: 176});
 viewport.followEntity(player);
-fillMap(map);
+room.useViewport(viewport);
 
-let dialog = new Dialog({
-	position: {
-		x: 20,
-		y: 20,
-	},
-	size: {
-		width: 40,
-		height: 10,
-	},
-	positioning: 'relative',
-	visible: false,
+// Assemble the game!
+const game = new Game({
+	room: room,
+	level: worldMap,
 });
-room.addEntity(dialog);
-
-window.addEventListener('keydown', (event) => {
-	if (event.key === 'm') {
-		event.preventDefault();
-
-		console.log("Hey!");
-
-		if (dialog.isVisible()) {
-			dialog.hide();
-		} else {
-			dialog.show();
-			dialog.displayMessage("???????????????????????!");
-		}
-	}
-});
-
 game.start();
 
 function fillMap(map) {

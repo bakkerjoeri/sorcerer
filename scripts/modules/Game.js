@@ -3,27 +3,37 @@ import Log from './../modules/Log';
 import clone from 'lodash/clone';
 
 export default class Game {
+	constructor(options = {}) {
+		this.room = options.room;
+		this.level = options.level;
+	}
+
 	start() {
-		this.takeTurns();
-	}
-
-	setCurrentMap(map) {
-		this.map = map;
-	}
-
-	setPlayer(playerEntity) {
-		this.player = playerEntity;
-	}
-
-	async takeTurns() {
-		for(let actor of this.getTurnOrder()) {
-			await actor.takeTurn();
+		if (!this.level) {
+			throw new Error('Cannot start without a level.');
 		}
 
-		this.takeTurns();
+		window.requestAnimationFrame(this.loop.bind(this));
+		takeTurns(this.level.actors);
 	}
 
-	getTurnOrder() {
-		return clone(this.map.actors);
+	loop(time) {
+		if (!this.room) {
+			throw new Error('Cannot start updating without a room.');
+		}
+
+		this.room.step(time);
+		this.room.draw(time);
+
+		window.requestAnimationFrame(this.loop.bind(this));
 	}
+}
+
+async function takeTurns(actors) {
+	for(let actor of clone(actors)) {
+		await actor.takeTurn();
+	}
+
+	// TODO: Prevent maximum call stack overflow if there is no interrupting turn.
+	takeTurns(actors);
 }

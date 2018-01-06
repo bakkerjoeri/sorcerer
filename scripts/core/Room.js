@@ -5,6 +5,52 @@ export default class Room {
 		this.entities = [];
 	}
 
+	step(time) {
+		// update the viewport
+		this.viewport.step(time);
+
+		// update each entity
+		this.entities.forEach((entity) => {
+			entity.step(time);
+		});
+	}
+
+	draw(time) {
+		// clear the current viewport
+		this.viewport.clearDrawing(this.context);
+
+		// draw room background
+		this.drawBackground(this.context, {
+			x: -this.viewport.position.x,
+			y: -this.viewport.position.y,
+		});
+
+		// draw all visible sprites
+		this.entities.filter((entity) => {
+			return entity.visible;
+		}).forEach((visibleEntity) => {
+			visibleEntity.draw(time, this.canvas, this.viewport);
+		});
+	}
+
+	useViewport(viewport) {
+		this.viewport = viewport;
+		viewport.setRoom(this);
+
+		if (this.canvas) {
+			fitCanvasToViewport(this.canvas, viewport);
+		}
+	}
+
+	useCanvas(canvas) {
+		this.canvas = canvas;
+		this.context = canvas.getContext('2d');
+
+		if (this.viewport) {
+			fitCanvasToViewport(canvas, this.viewport);
+		}
+	}
+
 	addEntity(entity) {
 		this.entities.push(entity);
 	}
@@ -46,4 +92,9 @@ export default class Room {
 			this.size.height,
 		);
 	}
+}
+
+function fitCanvasToViewport(canvas, viewport) {
+	canvas.width = viewport.size.width;
+	canvas.height = viewport.size.height;
 }
