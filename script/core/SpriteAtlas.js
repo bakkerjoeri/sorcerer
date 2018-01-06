@@ -1,5 +1,5 @@
-import Sprite from './Sprite';
-import SpriteFrame from './SpriteFrame';
+import Sprite from 'core/Sprite';
+import SpriteFrame from 'core/SpriteFrame';
 
 export default class SpriteAtlas {
 	constructor(definition) {

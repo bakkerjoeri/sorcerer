@@ -1,4 +1,4 @@
-import SpriteFrame from './SpriteFrame';
+import SpriteFrame from 'core/SpriteFrame';
 
 export default class Sprite {
 	constructor(frames, options = {}) {

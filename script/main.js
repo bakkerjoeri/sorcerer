@@ -1,10 +1,10 @@
 require('../style/main.scss');
 import '@babel/polyfill';
 
+import Game from 'core/Game';
 import Room from 'core/Room';
 import Viewport from 'core/Viewport';
 
-import Game from 'module/Game';
 import Map from 'module/Map';
 
 import Dialog from 'entity/Dialog';
