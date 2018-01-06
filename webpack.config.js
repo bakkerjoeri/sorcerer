@@ -12,11 +12,17 @@ module.exports = () => {
 	});
 
 	let webpackConfig = {
-		entry: './scripts/main.js',
+		entry: path.resolve(__dirname, 'script/main.js'),
 		output: {
 			path: path.resolve('./dist'),
 			publicPath: '/',
 			filename: 'sorcerer.min.js',
+		},
+		resolve: {
+			modules: [
+				path.resolve(__dirname, 'script'),
+				'node_modules',
+			]
 		},
 		module: {
 			rules: [{

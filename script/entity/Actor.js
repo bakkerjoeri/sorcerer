@@ -1,5 +1,5 @@
 import Entity from './../core/Entity';
-import Log from './../modules/Log';
+import Log from './../module/Log';
 
 const STATS_DEFAULT = {
 	strength: 1,

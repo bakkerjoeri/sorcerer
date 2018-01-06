@@ -1,4 +1,4 @@
-import SpriteAtlas from './../core/SpriteAtlas';
+import SpriteAtlas from 'core/SpriteAtlas';
 
 export const Slime = {
 	type: 'slime',

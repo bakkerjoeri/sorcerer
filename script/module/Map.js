@@ -1,4 +1,4 @@
-import Tile from './../modules/Tile';
+import Tile from './../module/Tile';
 
 export default class Map {
 	constructor(size, room) {

@@ -1,5 +1,5 @@
 import PubSub from './../core/PubSub';
-import Log from './../modules/Log';
+import Log from './../module/Log';
 import clone from 'lodash/clone';
 
 export default class Game {

@@ -1,23 +1,23 @@
 require('../style/main.scss');
 import '@babel/polyfill';
 
-import Room from './core/Room';
-import Viewport from './core/Viewport';
+import Room from 'core/Room';
+import Viewport from 'core/Viewport';
 
-import Game from './modules/Game';
-import Map from './modules/Map';
+import Game from 'module/Game';
+import Map from 'module/Map';
 
-import Dialog from './entities/Dialog';
-import Player from './entities/Player';
-import NonPlayer from './entities/NonPlayer';
-import Structure from './entities/Structure';
+import Dialog from 'entity/Dialog';
+import Player from 'entity/Player';
+import NonPlayer from 'entity/NonPlayer';
+import Structure from 'entity/Structure';
 
-import {Knight} from './creatureTypes/Knight';
-import {GreenKnight} from './creatureTypes/GreenKnight';
-import {Slime} from './creatureTypes/Slime';
-import {KingSlime} from './creatureTypes/KingSlime';
-import {Tree} from './structureTypes/Tree';
-import {Wall} from './structureTypes/Wall';
+import {Knight} from 'resource/creature/Knight';
+import {GreenKnight} from 'resource/creature/GreenKnight';
+import {Slime} from 'resource/creature/Slime';
+import {KingSlime} from 'resource/creature/KingSlime';
+import {Tree} from 'resource/structure/Tree';
+import {Wall} from 'resource/structure/Wall';
 
 const canvas = document.querySelector('.canvas__sorcerer');
 
@@ -60,8 +60,6 @@ const game = new Game({
 	level: worldMap,
 });
 game.start();
-
-console.log(game);
 
 // Add some dialog
 let dialog = new Dialog({
