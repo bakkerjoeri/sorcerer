@@ -9,11 +9,13 @@ export default class Dialog extends Entity {
 		this.message = message;
 	}
 
-	draw(time, context, viewport) {
+	draw(time, canvas, viewport) {
+		let context = canvas.getContext('2d');
+
 		context.fillStyle = '#e4e4e4';
 		context.fillRect(
 			this.position.x,
-			this.position.y,
+			canvas.height - this.size.height - 10,
 			this.size.width,
 			this.size.height,
 		);
@@ -21,7 +23,7 @@ export default class Dialog extends Entity {
 		context.strokeStyle = '#bad455';
 		context.strokeRect(
 			this.position.x,
-			this.position.y,
+			canvas.height - this.size.height - 10,
 			this.size.width,
 			this.size.height,
 		);
@@ -29,7 +31,11 @@ export default class Dialog extends Entity {
 		if (this.message) {
 			context.font = '9pt monospace';
 			context.fillStyle = 'yellow';
-			context.fillText(this.message, this.position.x, this.position.y);
+			context.fillText(
+				this.message,
+				this.position.x,
+				canvas.height - this.size.height - 10,
+			);
 		}
 	}
 }
