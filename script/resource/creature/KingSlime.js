@@ -1,3 +1,4 @@
+import AssetManager from 'core/AssetManager';
 import SpriteAtlas from 'core/SpriteAtlas';
 import NonPlayer from 'entity/NonPlayer';
 import {Slime} from 'resource/creature/Slime';
@@ -8,7 +9,7 @@ export const KingSlime = {
 		maxHealth: 28,
 		strength: 2,
 	},
-	sprite: getSprite(),
+	sprite: AssetManager.getAsset('kingSlimeIdle', 'SPRITE'),
 	size: {
 		width: 2,
 		height: 2,
@@ -21,16 +22,3 @@ export const KingSlime = {
 		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y + 1});
 	},
 };
-
-function getSprite() {
-	let spriteAtlasDefinition = '{ "file": "assets/images/king-slime-sheet.png", "frames": [ { "name": "slime_idle_0", "origin": { "x": 0, "y": 0 }, "size": { "width": 32, "height": 32 } }, { "name": "slime_idle_1", "origin": { "x": 32, "y": 0 }, "size": { "width": 32, "height": 32 } } ] }';
-	let spriteAtlas = new SpriteAtlas(JSON.parse(spriteAtlasDefinition));
-	let slimeSprite = spriteAtlas.createSpriteWithFrames([
-		'slime_idle_0',
-		'slime_idle_1',
-	]);
-
-	slimeSprite.setFramesPerSecond(1);
-
-	return slimeSprite;
-}
