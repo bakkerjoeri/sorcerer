@@ -8,6 +8,12 @@ export default class Entity {
 			this.setPosition(options.position);
 		}
 
+		if (options.hasOwnProperty('positioning')) {
+			this.setPositioning(options.positioning);
+		} else {
+			this.setPositioning('absolute');
+		}
+
 		if (options.hasOwnProperty('solid')) {
 			this.setSolidity(options.solid);
 		}
@@ -16,11 +22,46 @@ export default class Entity {
 			this.setSize(options.size);
 		}
 
+		if (options.hasOwnProperty('visible')) {
+			this.setVisible(options.visible);
+		} else {
+			this.setVisible(true);
+		}
+
 		this.events = new Map();
 	}
 
 	step(time) {
+		if (this.sprite) {
+			this.sprite.step(time);
+		}
+	}
 
+	draw(time, canvas, viewport) {
+		let context = canvas.getContext('2d');
+
+		if (
+			this.hasOwnProperty('sprite')
+			&& this.hasOwnProperty('position')
+			&& this.position.hasOwnProperty('x')
+			&& this.position.hasOwnProperty('y')
+		) {
+			let spriteDrawPosition;
+
+			if (this.positioning = 'absolute') {
+				spriteDrawPosition = {
+					x: this.position.x + this.sprite.origin.x - viewport.position.x, // should be viewport relative
+					y: this.position.y + this.sprite.origin.y - viewport.position.y, // should be viewport relative
+				};
+			} else {
+				spriteDrawPosition = {
+					x: this.position.x + this.sprite.origin.x,
+					y: this.position.y + this.sprite.origin.y,
+				}
+			}
+
+			this.sprite.draw(time, canvas, spriteDrawPosition);
+		}
 	}
 
 	setSprite(sprite) {
@@ -31,6 +72,10 @@ export default class Entity {
 		this.position = position;
 	}
 
+	setPositioning(positioning) {
+		this.positioning = positioning;
+	}
+
 	getPosition() {
 		return this.position;
 	}
@@ -39,8 +84,24 @@ export default class Entity {
 		this.solid = solid;
 	}
 
+	setVisible(visible) {
+		this.visible = visible;
+	}
+
+	show() {
+		this.setVisible(true);
+	}
+
+	hide() {
+		this.setVisible(false);
+	}
+
 	isSolid() {
 		return this.solid;
+	}
+
+	isVisible() {
+		return this.visible;
 	}
 
 	setSize(size) {

@@ -1,6 +1,6 @@
-import SpriteAtlas from './../core/SpriteAtlas';
-import NonPlayer from './../entities/NonPlayer';
-import {Slime} from './Slime';
+import SpriteAtlas from 'core/SpriteAtlas';
+import NonPlayer from 'entity/NonPlayer';
+import {Slime} from 'resource/creature/Slime';
 
 export const KingSlime = {
 	type: 'king slime',

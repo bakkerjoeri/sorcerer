@@ -1,5 +1,5 @@
 import Entity from './../core/Entity';
-import Log from './../modules/Log';
+import Log from './../module/Log';
 
 const STATS_DEFAULT = {
 	strength: 1,
@@ -171,7 +171,6 @@ export default class Actor extends Entity {
 	}
 
 	setMapSize(mapSize) {
-		console.log(this, mapSize);
 		this.mapSize = mapSize;
 		this.size = {
 			width: mapSize.width * 16,

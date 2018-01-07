@@ -1,4 +1,4 @@
-import SpriteFrame from './../core/SpriteFrame';
+import SpriteFrame from 'core/SpriteFrame';
 
 export default class Sprite {
 	constructor(frames, options = {}) {
@@ -69,20 +69,6 @@ export default class Sprite {
 		return this.frames[this.currentFrameIndex];
 	}
 
-	draw(context, position) {
-		let currentFrame = this.getCurrentFrame();
-
-		if (currentFrame) {
-			context.drawImage(
-				currentFrame.getImage(),
-				currentFrame.getOrigin().x, currentFrame.getOrigin().y,
-				currentFrame.getSize().width, currentFrame.getSize().height,
-				position.x, position.y,
-				this.size.width, this.size.height,
-			);
-		}
-	}
-
 	step(time) {
 		let framesPerSecond = this.getFramesPerSecond();
 
@@ -103,6 +89,21 @@ export default class Sprite {
 				this.timeOfPreviousFrame = time;
 				this.setCurrentFrameIndex(calculateNewFrameIndexWithChange(this.currentFrameIndex, frameChange, this.frames.length, this.looping));
 			}
+		}
+	}
+
+	draw(time, canvas, position) {
+		let context = canvas.getContext('2d');
+		let currentFrame = this.getCurrentFrame();
+
+		if (currentFrame) {
+			context.drawImage(
+				currentFrame.getImage(),
+				currentFrame.getOrigin().x, currentFrame.getOrigin().y,
+				currentFrame.getSize().width, currentFrame.getSize().height,
+				position.x, position.y,
+				this.size.width, this.size.height,
+			);
 		}
 	}
 

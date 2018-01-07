@@ -1,6 +1,6 @@
-import SpriteAtlas from './../core/SpriteAtlas';
-import Structure from './../entities/Structure';
-import {Grave} from './../structureTypes/Grave';
+import SpriteAtlas from 'core/SpriteAtlas';
+import Structure from 'entity/Structure';
+import {Grave} from 'resource/structure/Grave';
 
 export const GreenKnight = {
 	type: 'green knight',
