@@ -18,6 +18,7 @@ import {Slime} from 'resource/creature/Slime';
 import {KingSlime} from 'resource/creature/KingSlime';
 import {Tree} from 'resource/structure/Tree';
 import {Wall} from 'resource/structure/Wall';
+import {Grave} from 'resource/structure/Grave';
 
 const CANVAS_SIZE_WIDTH = 240;
 const CANVAS_SIZE_HEIGHT = 176;
@@ -46,16 +47,22 @@ const worldMap = new Map({
 
 // Create the player
 const player = new Player(GreenKnight);
+const enemy = new NonPlayer(Slime);
 
 // Fill world map with all entities.
 worldMap.addActor(player, {
-	x: MAP_SIZE_WIDTH / 2,
+	x: 10,
 	y: MAP_SIZE_HEIGHT / 2,
 });
 fillMap(worldMap);
 
 // Create a Viewport
-const playerViewport = new Viewport({width: 240, height: 176});
+const playerViewport = new Viewport({width: 240, height: 176}, {
+	origin: {
+		x: 0,
+		y: 0,
+	},
+});
 playerViewport.followEntity(player);
 room.addViewport(playerViewport);
 
@@ -65,36 +72,6 @@ const game = new Game({
 	level: worldMap,
 });
 game.start();
-
-// Add some dialog
-let dialog = new Dialog({
-	position: {
-		x: 20,
-		y: 20,
-	},
-	size: {
-		width: 40,
-		height: 10,
-	},
-	positioning: 'relative',
-	visible: false,
-});
-room.addEntity(dialog);
-
-window.addEventListener('keydown', (event) => {
-	if (event.key === 'm') {
-		event.preventDefault();
-
-		console.log("Hey!");
-
-		if (dialog.isVisible()) {
-			dialog.hide();
-		} else {
-			dialog.show();
-			dialog.displayMessage("???????????????????????!");
-		}
-	}
-});
 
 function fillMap(map) {
 	map.forEachTile((tile) => {
@@ -113,6 +90,12 @@ function fillMap(map) {
 
 			if (onChance(40)) {
 				map.addStructure(new Structure(Tree), tile.position);
+
+				return;
+			}
+
+			if (onChance(200)) {
+				map.addStructure(new Structure(Grave), tile.position);
 
 				return;
 			}

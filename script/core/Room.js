@@ -23,10 +23,9 @@ export default class Room {
 	draw(time) {
 		// draw each viewport
 		this.viewports.filter((viewport) => {
-			console.log(viewport);
 			return viewport.isActive();
 		}).forEach((activeViewport) => {
-			activeViewport.draw(time, this, this.canvas);
+			activeViewport.draw(time, this.canvas);
 		});
 	}
 
@@ -69,16 +68,16 @@ export default class Room {
 		context.fillRect(
 			offset.x,
 			offset.y,
-			this.size.width,
-			this.size.height,
+			size.width,
+			size.height,
 		);
 
 		context.strokeStyle = '#bad455';
 		context.strokeRect(
 			offset.x,
 			offset.y,
-			this.size.width,
-			this.size.height,
+			size.width,
+			size.height,
 		);
 	}
 }

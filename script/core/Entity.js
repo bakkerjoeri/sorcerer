@@ -50,8 +50,8 @@ export default class Entity {
 
 			if (this.positioning = 'absolute') {
 				spriteDrawPosition = {
-					x: this.position.x + this.sprite.origin.x - viewport.position.x, // should be viewport relative
-					y: this.position.y + this.sprite.origin.y - viewport.position.y, // should be viewport relative
+					x: this.position.x + this.sprite.origin.x - (viewport.position.x - viewport.origin.x), // should be viewport relative
+					y: this.position.y + this.sprite.origin.y - (viewport.position.y - viewport.origin.y), // should be viewport relative
 				};
 			} else {
 				spriteDrawPosition = {

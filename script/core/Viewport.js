@@ -11,10 +11,10 @@ export default class Viewport {
 			};
 		}
 
-		if (options.canvasPosition) {
-			this.canvasPosition = options.canvasPosition;
+		if (options.origin) {
+			this.origin = options.origin;
 		} else {
-			this.canvasPosition = {
+			this.origin = {
 				x: 0,
 				y: 0,
 			};
@@ -80,19 +80,20 @@ export default class Viewport {
 		}
 	}
 
-	draw(time, room, canvas) {
+	draw(time, canvas) {
+		console.log("Drawing", this);
 		let context = canvas.getContext('2d');
 
 		// Clear viewport
 		this.clearDrawing(canvas.getContext('2d'));
 
 		// draw room background
-		room.drawBackground(context, {
-			x: -this.position.x,
-			y: -this.position.y,
+		this.room.drawBackground(context, {
+			x: this.origin.x,
+			y: this.origin.y,
 		}, {
-			width: this.width,
-			height: this.height,
+			width: this.size.width,
+			height: this.size.height,
 		});
 
 		this.drawMiddle(context);
@@ -109,20 +110,20 @@ export default class Viewport {
 		context.strokeStyle = '#bad455';
 
 		context.beginPath();
-		context.moveTo(0, 0);
-		context.lineTo(this.size.width, this.size.height);
+		context.moveTo(this.origin.x, this.origin.y);
+		context.lineTo(this.origin.x + this.size.width, this.origin.y + this.size.height);
 		context.stroke();
 
 		context.beginPath();
-		context.moveTo(this.size.width, 0);
-		context.lineTo(0, this.size.height);
+		context.moveTo(this.origin.x + this.size.width, this.origin.y);
+		context.lineTo(this.origin.x, this.origin.y + this.size.height);
 		context.stroke();
 	}
 
 	clearDrawing(context) {
 		context.clearRect(
-			0,
-			0,
+			this.origin.x,
+			this.origin.y,
 			this.size.width,
 			this.size.height
 		);
