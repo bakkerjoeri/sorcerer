@@ -19,11 +19,16 @@ import {KingSlime} from 'resource/creature/KingSlime';
 import {Tree} from 'resource/structure/Tree';
 import {Wall} from 'resource/structure/Wall';
 
-const canvas = document.querySelector('.canvas__sorcerer');
-
+const CANVAS_SIZE_WIDTH = 240;
+const CANVAS_SIZE_HEIGHT = 176;
 const MAP_SIZE_WIDTH = 36;
 const MAP_SIZE_HEIGHT = 24;
 const TILE_SIZE = 16;
+
+// create canvas
+const canvas = document.querySelector('.canvas__sorcerer');
+canvas.width = CANVAS_SIZE_WIDTH;
+canvas.height = CANVAS_SIZE_HEIGHT;
 
 // Create room
 const room = new Room({
@@ -45,14 +50,14 @@ const player = new Player(GreenKnight);
 // Fill world map with all entities.
 worldMap.addActor(player, {
 	x: MAP_SIZE_WIDTH / 2,
-	y: MAP_SIZE_HEIGHT / 2
+	y: MAP_SIZE_HEIGHT / 2,
 });
 fillMap(worldMap);
 
 // Create a Viewport
-const viewport = new Viewport({x: 0, y: 0}, {width: 240, height: 176});
-viewport.followEntity(player);
-room.useViewport(viewport);
+const playerViewport = new Viewport({width: 240, height: 176});
+playerViewport.followEntity(player);
+room.addViewport(playerViewport);
 
 // Assemble the game!
 const game = new Game({
