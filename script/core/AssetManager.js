@@ -13,6 +13,10 @@ export default class AssetManager {
 			if (name === 'kingSlimeIdle' && type === SPRITE) {
 				assets.set(name, getSpriteKingSlimeIdle());
 			}
+
+			if (name === 'grid' && type === SPRITE) {
+				assets.set(name, getSpriteGrid());
+			}
 		}
 
 		return assets.get(name);
@@ -55,4 +59,14 @@ function getSpriteKingSlimeIdle() {
 	slimeSprite.setFramesPerSecond(1);
 
 	return slimeSprite;
+}
+
+function getSpriteGrid() {
+	let spriteAtlasDefinition = '{ "file": "assets/images/grid.png", "frames": [ { "name": "grid_0", "origin": { "x": 0, "y": 0 }, "size": { "width": 1158, "height": 1694 } } ] }';
+	let spriteAtlas = new SpriteAtlas(JSON.parse(spriteAtlasDefinition));
+	let gridSprite = spriteAtlas.createSpriteWithFrames([
+		'grid_0',
+	]);
+
+	return gridSprite;
 }
