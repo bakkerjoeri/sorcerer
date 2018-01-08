@@ -47,11 +47,10 @@ const worldMap = new Map({
 
 // Create the player
 const player = new Player(GreenKnight);
-const enemy = new NonPlayer(Slime);
 
 // Fill world map with all entities.
 worldMap.addActor(player, {
-	x: 10,
+	x: MAP_SIZE_WIDTH / 2,
 	y: MAP_SIZE_HEIGHT / 2,
 });
 fillMap(worldMap);
