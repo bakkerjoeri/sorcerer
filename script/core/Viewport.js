@@ -1,7 +1,42 @@
 export default class Viewport {
-	constructor(position, size) {
-		this.position = position;
+	constructor(size, options = {}) {
 		this.setSize(size);
+
+		if (options.position) {
+			this.position = options.position;
+		} else {
+			this.position = {
+				x: 0,
+				y: 0,
+			};
+		}
+
+		if (options.canvasPosition) {
+			this.canvasPosition = options.canvasPosition;
+		} else {
+			this.canvasPosition = {
+				x: 0,
+				y: 0,
+			};
+		}
+
+		if (options.active === false) {
+			this.deactivate();
+		} else {
+			this.activate();
+		}
+	}
+
+	activate() {
+		this.active = true;
+	}
+
+	deactivate() {
+		this.active = false;
+	}
+
+	isActive() {
+		return this.active;
 	}
 
 	setRoom(room) {
@@ -43,6 +78,31 @@ export default class Viewport {
 
 			this.position = newViewportPosition;
 		}
+	}
+
+	draw(time, room, canvas) {
+		let context = canvas.getContext('2d');
+
+		// Clear viewport
+		this.clearDrawing(canvas.getContext('2d'));
+
+		// draw room background
+		room.drawBackground(context, {
+			x: -this.position.x,
+			y: -this.position.y,
+		}, {
+			width: this.width,
+			height: this.height,
+		});
+
+		this.drawMiddle(context);
+
+		// draw all entities
+		this.room.entities.filter((entity) => {
+			return entity.visible
+		}).forEach((visibleEntity) => {
+			visibleEntity.draw(time, canvas, this);
+		});
 	}
 
 	drawMiddle(context) {

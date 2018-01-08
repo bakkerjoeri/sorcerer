@@ -2,12 +2,17 @@ export default class Room {
 	constructor(size) {
 		this.setSize(size);
 
+		this.viewports = [];
 		this.entities = [];
 	}
 
 	step(time) {
-		// update the viewport
-		this.viewport.step(time);
+		// update the viewports
+		this.viewports.filter((viewport) => {
+			return viewport.isActive();
+		}).forEach((activeViewport) => {
+			activeViewport.step(time);;
+		});
 
 		// update each entity
 		this.entities.forEach((entity) => {
@@ -16,39 +21,23 @@ export default class Room {
 	}
 
 	draw(time) {
-		// clear the current viewport
-		this.viewport.clearDrawing(this.context);
-
-		// draw room background
-		this.drawBackground(this.context, {
-			x: -this.viewport.position.x,
-			y: -this.viewport.position.y,
-		});
-
-		// draw all visible sprites
-		this.entities.filter((entity) => {
-			return entity.visible;
-		}).forEach((visibleEntity) => {
-			visibleEntity.draw(time, this.canvas, this.viewport);
+		// draw each viewport
+		this.viewports.filter((viewport) => {
+			console.log(viewport);
+			return viewport.isActive();
+		}).forEach((activeViewport) => {
+			activeViewport.draw(time, this, this.canvas);
 		});
 	}
 
-	useViewport(viewport) {
-		this.viewport = viewport;
+	addViewport(viewport) {
+		this.viewports.push(viewport);
 		viewport.setRoom(this);
-
-		if (this.canvas) {
-			fitCanvasToViewport(this.canvas, viewport);
-		}
 	}
 
 	useCanvas(canvas) {
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
-
-		if (this.viewport) {
-			fitCanvasToViewport(canvas, this.viewport);
-		}
 	}
 
 	addEntity(entity) {
@@ -75,7 +64,7 @@ export default class Room {
 		return this.backgroundColor;
 	}
 
-	drawBackground(context, offset) {
+	drawBackground(context, offset, size) {
 		context.fillStyle = this.backgroundColor;
 		context.fillRect(
 			offset.x,
@@ -92,9 +81,4 @@ export default class Room {
 			this.size.height,
 		);
 	}
-}
-
-function fitCanvasToViewport(canvas, viewport) {
-	canvas.width = viewport.size.width;
-	canvas.height = viewport.size.height;
 }
