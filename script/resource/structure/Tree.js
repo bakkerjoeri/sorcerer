@@ -1,7 +1,7 @@
 import SpriteAtlas from 'core/SpriteAtlas';
 
 export const Tree = {
-	type: 'grave',
+	type: 'tree',
 	sprite: getSprite(),
 	size: {
 		width: 1,

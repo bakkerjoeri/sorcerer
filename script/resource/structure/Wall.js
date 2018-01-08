@@ -1,7 +1,7 @@
 import SpriteAtlas from 'core/SpriteAtlas';
 
 export const Wall = {
-	type: 'grave',
+	type: 'wall',
 	sprite: getSprite(),
 	size: {
 		width: 1,
