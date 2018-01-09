@@ -81,7 +81,6 @@ export default class Viewport {
 	}
 
 	draw(time, canvas) {
-		console.log("Drawing", this);
 		let context = canvas.getContext('2d');
 
 		// Clear viewport
@@ -95,8 +94,6 @@ export default class Viewport {
 			width: this.size.width,
 			height: this.size.height,
 		});
-
-		this.drawMiddle(context);
 
 		// draw all entities
 		this.room.entities.filter((entity) => {
