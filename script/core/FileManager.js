@@ -3,22 +3,29 @@ export default class FileManager {
 		if (type === 'json') {
 			return loadJSON(url);
 		}
+
+		throw new Error(`Unable to load files of type "${type}"`)
 	}
 }
 
 function loadJSON(url) {
+	return loadXhr(url, (data) => {
+		if (typeof data === 'string') {
+			return JSON.parse(data)
+		}
+
+		return data;
+	});
+}
+
+function loadXhr(url, dataParse = (data) => {return data}) {
 	let request = new XMLHttpRequest();
 	request.open('GET', url, true);
-	request.responseType = 'json';
 	request.send();
 
 	return new Promise((resolve = () => {}, reject = () => {}, always = () => {}) => {
 		request.onload = () => {
-			let data = request.response;
-
-			if (typeof data === 'string') {
-				data = JSON.parse(data);
-			}
+			let data = dataParse(request.response);
 
 			resolve(data);
 			always(request);
@@ -34,12 +41,4 @@ function loadJSON(url) {
 			always(request);
 		};
 	});
-}
-
-function createRequest(method, url) {
-	let request = new XMLHttpRequest();
-
-	request.open(method, url);
-
-	return request;
 }
