@@ -3,6 +3,7 @@ import SpriteFrame from 'core/SpriteFrame';
 
 export default class SpriteAtlas {
 	constructor(definition) {
+		this.origin = definition.origin || {x: 0, y: 0};
 		this.frames = createFramesFromDefinition(definition);
 	}
 
@@ -17,7 +18,9 @@ export default class SpriteAtlas {
 			return this.getFrame(frameName);
 		})
 
-		return new Sprite(frames);
+		return new Sprite(frames, {
+			origin: this.origin
+		});
 	}
 }
 

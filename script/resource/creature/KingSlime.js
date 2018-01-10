@@ -1,5 +1,3 @@
-import AssetManager from 'core/AssetManager';
-import SpriteAtlas from 'core/SpriteAtlas';
 import NonPlayer from 'entity/NonPlayer';
 import {Slime} from 'resource/creature/Slime';
 
@@ -9,7 +7,7 @@ export const KingSlime = {
 		maxHealth: 28,
 		strength: 2,
 	},
-	sprite: AssetManager.getAsset('kingSlimeIdle', 'SPRITE'),
+	spriteName: 'kingslime',
 	size: {
 		width: 2,
 		height: 2,

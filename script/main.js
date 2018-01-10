@@ -4,6 +4,7 @@ import '@babel/polyfill';
 import Game from 'core/Game';
 import Room from 'core/Room';
 import Viewport from 'core/Viewport';
+import AssetManager from 'core/AssetManager';
 
 import Map from 'module/Map';
 
@@ -26,51 +27,54 @@ const MAP_SIZE_WIDTH = 36;
 const MAP_SIZE_HEIGHT = 24;
 const TILE_SIZE = 16;
 
-// create canvas
-const canvas = document.querySelector('.canvas__sorcerer');
-canvas.width = CANVAS_SIZE_WIDTH;
-canvas.height = CANVAS_SIZE_HEIGHT;
+// Load game!
+AssetManager.loadSpriteIndex('assets/sprites.json').then(() => {
+	// create canvas
+	const canvas = document.querySelector('.canvas__sorcerer');
+	canvas.width = CANVAS_SIZE_WIDTH;
+	canvas.height = CANVAS_SIZE_HEIGHT;
 
-// Create room
-const room = new Room({
-	width: MAP_SIZE_WIDTH * TILE_SIZE,
-	height: MAP_SIZE_HEIGHT * TILE_SIZE,
+	// Create room
+	const room = new Room({
+		width: MAP_SIZE_WIDTH * TILE_SIZE,
+		height: MAP_SIZE_HEIGHT * TILE_SIZE,
+	});
+	room.setBackgroundColor('#000');
+	room.useCanvas(canvas);
+
+	// Create world map
+	const worldMap = new Map({
+		width: MAP_SIZE_WIDTH,
+		height: MAP_SIZE_HEIGHT,
+	}, room);
+
+	// Create the player
+	const player = new Player(GreenKnight);
+
+	// Fill world map with all entities.
+	worldMap.addActor(player, {
+		x: MAP_SIZE_WIDTH / 2,
+		y: MAP_SIZE_HEIGHT / 2,
+	});
+	fillMap(worldMap);
+
+	// Create a Viewport
+	const playerViewport = new Viewport({width: 240, height: 176}, {
+		origin: {
+			x: 0,
+			y: 0,
+		},
+	});
+	playerViewport.followEntity(player);
+	room.addViewport(playerViewport);
+
+	// Assemble the game!
+	const game = new Game({
+		room: room,
+		level: worldMap,
+	});
+	game.start();
 });
-room.setBackgroundColor('#000');
-room.useCanvas(canvas);
-
-// Create world map
-const worldMap = new Map({
-	width: MAP_SIZE_WIDTH,
-	height: MAP_SIZE_HEIGHT,
-}, room);
-
-// Create the player
-const player = new Player(GreenKnight);
-
-// Fill world map with all entities.
-worldMap.addActor(player, {
-	x: MAP_SIZE_WIDTH / 2,
-	y: MAP_SIZE_HEIGHT / 2,
-});
-fillMap(worldMap);
-
-// Create a Viewport
-const playerViewport = new Viewport({width: 240, height: 176}, {
-	origin: {
-		x: 0,
-		y: 0,
-	},
-});
-playerViewport.followEntity(player);
-room.addViewport(playerViewport);
-
-// Assemble the game!
-const game = new Game({
-	room: room,
-	level: worldMap,
-});
-game.start();
 
 function fillMap(map) {
 	map.forEachTile((tile) => {

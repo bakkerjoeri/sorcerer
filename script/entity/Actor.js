@@ -17,7 +17,7 @@ export default class Actor extends Entity {
 	applyCreatureDefinition(creatureDefinition) {
 		this.type = creatureDefinition.type;
 		this.applyStats(creatureDefinition.stats);
-		this.setSprite(creatureDefinition.sprite);
+		this.useSpriteWithName(creatureDefinition.spriteName);
 		this.setMapSize(creatureDefinition.size);
 		this.setSolidity(creatureDefinition.solid);
 		this.setDeathrattle(creatureDefinition.deathrattle);

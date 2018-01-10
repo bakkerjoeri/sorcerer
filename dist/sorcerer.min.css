@@ -1,2 +1,61 @@
-*{padding:0;margin:0;-webkit-box-sizing:border-box;box-sizing:border-box}h1{margin-bottom:.75em;text-align:center}.app{max-width:1200px;padding:10px;margin:0 auto}.game{display:-webkit-box;display:-ms-flexbox;display:flex}.canvas__sorcerer{-webkit-box-flex:0;-ms-flex:0 0 auto;flex:0 0 auto;width:960px;height:704px;-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated}.log{position:relative;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;height:704px;width:240px;overflow:hidden;list-style:none;background-color:#000;border-left:1px dashed #fff}.log::before{content:'';width:100%;height:100%;position:absolute;left:0;top:0;background:linear-gradient(#000,transparent 120px)}.log__item{line-height:1.45;padding:0 25px;color:gray;font-family:monospace}.log__item em{font-style:normal;color:#fff}.log__item:last-child{background-color:#600}.log__item::before{content:'$';display:inline-block;width:15px;margin-left:-15px}
-/*# sourceMappingURL=sorcerer.min.css.map*/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+h1 {
+  margin-bottom: .75em;
+  text-align: center; }
+
+.app {
+  max-width: 1200px;
+  padding: 10px;
+  margin: 0 auto; }
+
+.game {
+  display: flex; }
+
+.canvas__sorcerer {
+  flex: 0 0 auto;
+  width: 960px;
+  height: 704px;
+  background-color: blue;
+  image-rendering: -moz-crips-edges;
+  image-rendering: -webkit-crips-edges;
+  image-rendering: pixelated; }
+
+.log {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 704px;
+  width: 240px;
+  overflow: hidden;
+  list-style: none;
+  background-color: #000;
+  border-left: 1px dashed #fff; }
+  .log::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(#000, transparent 120px); }
+
+.log__item {
+  line-height: 1.45;
+  padding: 0 25px;
+  color: gray;
+  font-family: monospace; }
+  .log__item em {
+    font-style: normal;
+    color: #fff; }
+  .log__item:last-child {
+    background-color: #660000; }
+  .log__item::before {
+    content: '$';
+    display: inline-block;
+    width: 15px;
+    margin-left: -15px; }

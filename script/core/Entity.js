@@ -1,7 +1,9 @@
+import AssetManager from 'core/AssetManager';
+
 export default class Entity {
 	constructor(options = {}) {
-		if (options.hasOwnProperty('sprite')) {
-			this.setSprite(options.sprite);
+		if (options.hasOwnProperty('spriteName')) {
+			this.setSprite(options.spriteName);
 		}
 
 		if (options.hasOwnProperty('position')) {
@@ -62,6 +64,10 @@ export default class Entity {
 
 			this.sprite.draw(time, canvas, spriteDrawPosition);
 		}
+	}
+
+	useSpriteWithName(spriteName) {
+		this.setSprite(AssetManager.getAsset(spriteName, 'SPRITE'));
 	}
 
 	setSprite(sprite) {

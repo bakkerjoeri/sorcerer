@@ -8,7 +8,7 @@ export default class Structure extends Entity {
 
 	applyStructureDefinition(structureDefinition) {
 		this.type = structureDefinition.type;
-		this.setSprite(structureDefinition.sprite);
+		this.useSpriteWithName(structureDefinition.spriteName);
 		this.setMapSize(structureDefinition.size);
 		this.setSolidity(structureDefinition.solid);
 		this.setCanBeAttacked(structureDefinition.canBeAttacked);

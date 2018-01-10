@@ -1,4 +1,3 @@
-import AssetManager from 'core/AssetManager';
 import Structure from 'entity/Structure';
 import {Grave} from 'resource/structure/Grave';
 
@@ -8,7 +7,7 @@ export const GreenKnight = {
 		maxHealth: 10,
 		strength: 3,
 	},
-	sprite: AssetManager.getAsset('greenKnightIdle', 'SPRITE'),
+	spriteName: 'greenknight',
 	size: {
 		width: 1,
 		height: 1,
