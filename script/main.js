@@ -4,7 +4,7 @@ import '@babel/polyfill';
 import Game from 'core/Game';
 import Room from 'core/Room';
 import Viewport from 'core/Viewport';
-import AssetManager from 'core/AssetManager';
+import SpriteManager from 'core/SpriteManager';
 
 import Map from 'module/Map';
 
@@ -28,7 +28,9 @@ const MAP_SIZE_HEIGHT = 24;
 const TILE_SIZE = 16;
 
 // Load game!
-AssetManager.loadSpriteIndex('assets/sprites.json').then(() => {
+(async function () {
+	await SpriteManager.loadSpriteIndex('assets/sprites.json');
+
 	// create canvas
 	const canvas = document.querySelector('.canvas__sorcerer');
 	canvas.width = CANVAS_SIZE_WIDTH;
@@ -74,7 +76,7 @@ AssetManager.loadSpriteIndex('assets/sprites.json').then(() => {
 		level: worldMap,
 	});
 	game.start();
-});
+}());
 
 function fillMap(map) {
 	map.forEachTile((tile) => {

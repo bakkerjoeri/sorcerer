@@ -6,12 +6,12 @@ const SPRITE = 'SPRITE';
 const assets = new Map();
 let spriteIndex;
 
-export default class AssetManager {
+export default class SpriteManager {
 	static async loadSpriteIndex(url) {
-		spriteIndex = await FileManager.loadFile(url, 'json')
+		spriteIndex = this.spriteIndex = await FileManager.loadFile(url, 'json');
 	}
 
-	static getAsset(name, type) {
+	static get(name, type) {
 		if (!assets.has(name)) {
 			if (type === SPRITE) {
 				assets.set(name, getSprite(name));

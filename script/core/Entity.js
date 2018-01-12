@@ -1,4 +1,4 @@
-import AssetManager from 'core/AssetManager';
+import SpriteManager from 'core/SpriteManager';
 
 export default class Entity {
 	constructor(options = {}) {
@@ -67,7 +67,7 @@ export default class Entity {
 	}
 
 	useSpriteWithName(spriteName) {
-		this.setSprite(AssetManager.getAsset(spriteName, 'SPRITE'));
+		this.setSprite(SpriteManager.get(spriteName, 'SPRITE'));
 	}
 
 	setSprite(sprite) {
