@@ -9,9 +9,8 @@ const STATS_DEFAULT = {
 export default class Actor extends Entity {
 	constructor (creatureDefinition, options) {
 		super(options);
-		this.applyCreatureDefinition(creatureDefinition);
 
-		this.health = this.stats.maxHealth;
+		this.applyCreatureDefinition(creatureDefinition);
 	}
 
 	applyCreatureDefinition(creatureDefinition) {
@@ -25,6 +24,10 @@ export default class Actor extends Entity {
 
 	applyStats(stats) {
 		this.stats = Object.assign({}, STATS_DEFAULT, stats);
+
+		if (this.health === undefined || this.health > this.stats.maxHealth) {
+			this.health = this.stats.maxHealth;
+		}
 	}
 
 	setDeathrattle(deathrattle) {
