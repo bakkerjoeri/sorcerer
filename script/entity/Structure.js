@@ -3,6 +3,7 @@ import Entity from './../core/Entity';
 export default class Structure extends Entity {
 	constructor(structureDefinition, options) {
 		super(options);
+
 		this.applyStructureDefinition(structureDefinition);
 	}
 
