@@ -1,34 +1,31 @@
 import SpriteManager from 'core/SpriteManager';
 
+const DEFAULT_OPTIONS = {
+	spriteName: '',
+	position: {
+		x: 0,
+		y: 0,
+	},
+	positioning: 'absolute',
+	size: {
+		width: 0,
+		height: 0,
+	},
+	solid: true,
+	visible: true,
+
+};
+
 export default class Entity {
 	constructor(options = {}) {
-		if (options.hasOwnProperty('spriteName')) {
-			this.setSprite(options.spriteName);
-		}
+		options = Object.assign({}, DEFAULT_OPTIONS, options);
 
-		if (options.hasOwnProperty('position')) {
-			this.setPosition(options.position);
-		}
-
-		if (options.hasOwnProperty('positioning')) {
-			this.setPositioning(options.positioning);
-		} else {
-			this.setPositioning('absolute');
-		}
-
-		if (options.hasOwnProperty('solid')) {
-			this.setSolidity(options.solid);
-		}
-
-		if (options.hasOwnProperty('size')) {
-			this.setSize(options.size);
-		}
-
-		if (options.hasOwnProperty('visible')) {
-			this.setVisible(options.visible);
-		} else {
-			this.setVisible(true);
-		}
+		this.setSprite(options.spriteName);
+		this.setPosition(options.position);
+		this.setPositioning(options.positioning);
+		this.setSize(options.size);
+		this.setSolidity(options.solid);
+		this.setVisibility(options.visible);
 
 		this.events = new Map();
 	}
@@ -67,7 +64,9 @@ export default class Entity {
 	}
 
 	useSpriteWithName(spriteName) {
-		this.setSprite(SpriteManager.get(spriteName, 'SPRITE'));
+		if (spriteName.length > 0) {
+			this.setSprite(SpriteManager.get(spriteName, 'SPRITE'));
+		}
 	}
 
 	setSprite(sprite) {
@@ -90,16 +89,16 @@ export default class Entity {
 		this.solid = solid;
 	}
 
-	setVisible(visible) {
+	setVisibility(visible) {
 		this.visible = visible;
 	}
 
 	show() {
-		this.setVisible(true);
+		this.setVisibility(true);
 	}
 
 	hide() {
-		this.setVisible(false);
+		this.setVisibility(false);
 	}
 
 	isSolid() {

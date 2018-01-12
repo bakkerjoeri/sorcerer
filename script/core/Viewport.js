@@ -1,29 +1,27 @@
+const DEFAULT_OPTIONS = {
+	position: {
+		x: 0,
+		y: 0,
+	},
+	origin: {
+		x: 0,
+		y: 0,
+	},
+	active: true,
+};
+
 export default class Viewport {
 	constructor(size, options = {}) {
 		this.setSize(size);
 
-		if (options.position) {
-			this.position = options.position;
-		} else {
-			this.position = {
-				x: 0,
-				y: 0,
-			};
-		}
+		options = Object.assign({}, DEFAULT_OPTIONS, options);
+		this.position = options.position;
+		this.origin = options.origin;
 
-		if (options.origin) {
-			this.origin = options.origin;
-		} else {
-			this.origin = {
-				x: 0,
-				y: 0,
-			};
-		}
-
-		if (options.active === false) {
-			this.deactivate();
-		} else {
+		if (options.active) {
 			this.activate();
+		} else {
+			this.deactivate();
 		}
 	}
 
@@ -51,7 +49,7 @@ export default class Viewport {
 		this.size = size;
 	}
 
-	step(time) {
+	step() {
 		// update position to follow entity
 		if (this.entityToFollow && this.entityToFollow.sprite && this.entityToFollow.sprite.size) {
 			let newViewportPosition = {

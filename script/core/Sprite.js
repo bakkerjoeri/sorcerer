@@ -1,8 +1,20 @@
 import SpriteFrame from 'core/SpriteFrame';
 
+const DEFAULT_OPTIONS = {
+	origin: {
+		x: 0,
+		y: 0,
+	},
+	frameIndex: 0,
+	framesPerSecond: 1,
+	looping: true,
+};
+
 export default class Sprite {
 	constructor(frames, options = {}) {
 		this.setFrames(frames);
+
+		options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 		if (options.hasOwnProperty('size')) {
 			this.size = options.size;
@@ -10,29 +22,10 @@ export default class Sprite {
 			this.size = calculateMaximumSizeFromFrames(this.getFrames());
 		}
 
-		if (options.hasOwnProperty('origin')) {
-			this.setOrigin(options.origin);
-		} else {
-			this.setOrigin({x: 0, y: 0});
-		}
-
-		if (options.hasOwnProperty('frameIndex')) {
-			this.setCurrentFrameIndex(options.frameIndex);
-		} else {
-			this.setCurrentFrameIndex(0);
-		}
-
-		if (options.hasOwnProperty('framesPerSecond')) {
-			this.setFramesPerSecond(options.framesPerSecond);
-		} else {
-			this.setFramesPerSecond(1);
-		}
-
-		if (options.hasOwnProperty('looping') ) {
-			this.looping = options.looping;
-		} else {
-			this.looping = true;
-		}
+		this.setOrigin(options.origin);
+		this.setCurrentFrameIndex(options.frameIndex);
+		this.setFramesPerSecond(options.framesPerSecond);
+		this.looping = options.looping;
 
 		this.timeOfPreviousFrame = 0;
 	}
@@ -102,7 +95,7 @@ export default class Sprite {
 				currentFrame.getOrigin().x, currentFrame.getOrigin().y,
 				currentFrame.getSize().width, currentFrame.getSize().height,
 				position.x, position.y,
-				this.size.width, this.size.height,
+				this.size.width, this.size.height
 			);
 		}
 	}
