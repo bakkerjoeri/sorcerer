@@ -4,11 +4,11 @@ import FileManager from 'core/FileManager';
 const SPRITE = 'SPRITE';
 
 const assets = new Map();
-let spriteIndex;
+let library;
 
 export default class SpriteManager {
-	static async loadSpriteIndex(url) {
-		spriteIndex = this.spriteIndex = await FileManager.loadFile(url, 'json');
+	static async loadLibrary(libraryUrl) {
+		library = this.library = await FileManager.loadFile(libraryUrl, 'json');
 	}
 
 	static get(name, type) {
@@ -23,7 +23,7 @@ export default class SpriteManager {
 }
 
 function getSprite(name) {
-	let spriteDefinition = spriteIndex.find((sprite) => {
+	let spriteDefinition = library.find((sprite) => {
 		return sprite.name === name;
 	});
 

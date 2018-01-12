@@ -29,7 +29,7 @@ const TILE_SIZE = 16;
 
 // Load game!
 (async function () {
-	await SpriteManager.loadSpriteIndex('assets/sprites.json');
+	await SpriteManager.loadLibrary('assets/sprites.json');
 
 	// create canvas
 	const canvas = document.querySelector('.canvas__sorcerer');
