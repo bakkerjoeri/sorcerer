@@ -9,36 +9,12 @@ export default class FileManager {
 }
 
 function loadJSON(url) {
-	return loadXhr(url, (data) => {
-		if (typeof data === 'string') {
-			return JSON.parse(data)
-		}
-
-		return data;
-	});
-}
-
-function loadXhr(url, dataParse = (data) => {return data}) {
-	let request = new XMLHttpRequest();
-	request.open('GET', url, true);
-	request.send();
-
-	return new Promise((resolve = () => {}, reject = () => {}, always = () => {}) => {
-		request.onload = () => {
-			let data = dataParse(request.response);
-
-			resolve(data);
-			always(request);
-		};
-
-		request.onerror = () => {
-			reject(request);
-			always(request);
-		};
-
-		request.onabort = () => {
-			reject(request);
-			always(request);
-		};
+	return fetch(url, {
+		method: 'GET',
+		headers: new Headers({
+			'Content-Type': 'application/json'
+		}),
+	}).then((response) => {
+		return response.json();
 	});
 }
