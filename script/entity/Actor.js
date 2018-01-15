@@ -7,7 +7,7 @@ const STATS_DEFAULT = {
 }
 
 export default class Actor extends Entity {
-	constructor (creatureDefinition, options) {
+	constructor(creatureDefinition, options) {
 		super(options);
 
 		this.applyCreatureDefinition(creatureDefinition);
