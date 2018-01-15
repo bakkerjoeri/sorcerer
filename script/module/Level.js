@@ -1,6 +1,6 @@
 import Tile from './../module/Tile';
 
-export default class Map {
+export default class Level {
 	constructor(size, room) {
 		this.size = size;
 		this.room = room;
@@ -10,26 +10,26 @@ export default class Map {
 	}
 
 	addActor(actor, position) {
-		actor.map = this;
+		actor.level = this;
 		this.actors.push(actor);
 
-		this.forEachTileInBoundaries(position, actor.mapSize, (tile) => {
+		this.forEachTileInBoundaries(position, actor.sizeInLevel, (tile) => {
 			tile.addActor(actor);
 		});
 
-		actor.updateMapPosition(position);
+		actor.setPositionInLevel(position);
 		this.room.addEntity(actor);
 	}
 
 	addStructure(structure, position) {
-		structure.map = this;
+		structure.level = this;
 		this.structures.push(structure);
 
-		this.forEachTileInBoundaries(position, structure.mapSize, (tile) => {
+		this.forEachTileInBoundaries(position, structure.sizeInLevel, (tile) => {
 			tile.addStructure(structure);
 		});
 
-		structure.updateMapPosition(position);
+		structure.setPositionInLevel(position);
 		this.room.addEntity(structure);
 	}
 
@@ -63,11 +63,11 @@ export default class Map {
 	}
 
 	moveActorFromPositionToPosition(actor, oldPosition, newPosition) {
-		this.forEachTileInBoundaries(oldPosition, actor.mapSize, (tile) => {
+		this.forEachTileInBoundaries(oldPosition, actor.sizeInLevel, (tile) => {
 			tile.removeActor(actor);
 		});
 
-		this.forEachTileInBoundaries(newPosition, actor.mapSize, (tile) => {
+		this.forEachTileInBoundaries(newPosition, actor.sizeInLevel, (tile) => {
 			tile.addActor(actor);
 		});
 	}
@@ -100,7 +100,7 @@ export default class Map {
 		return this.getSolidActorsInBoundaries(position, size, exclude).length > 0;
 	}
 
-	areBoundariesWithinMapBoundaries(position, size) {
+	areBoundariesWithinLevelBoundaries(position, size) {
 		return position.x >= 0
 			&& position.y >= 0
 			&& position.x + size.width <= this.size.width

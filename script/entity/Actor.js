@@ -17,7 +17,7 @@ export default class Actor extends Entity {
 		this.type = creatureDefinition.type;
 		this.applyStats(creatureDefinition.stats);
 		this.useSpriteWithName(creatureDefinition.spriteName);
-		this.setMapSize(creatureDefinition.size);
+		this.setSizeInLevel(creatureDefinition.size);
 		this.setSolidity(creatureDefinition.solid);
 		this.setDeathrattle(creatureDefinition.deathrattle);
 	}
@@ -87,22 +87,22 @@ export default class Actor extends Entity {
 		}
 	}
 
-	moveTo(newMapPosition) {
-		if (!this.map.hasTileAtPosition(newMapPosition)) {
+	moveTo(newLevelPosition) {
+		if (!this.level.hasTileAtPosition(newLevelPosition)) {
 			return false;
 		}
 
 		if (
-			!this.map.hasSolidEntitiesInBoundaries(newMapPosition, this.mapSize, [this])
-			&& this.map.areBoundariesWithinMapBoundaries(newMapPosition, this.mapSize)
+			!this.level.hasSolidEntitiesInBoundaries(newLevelPosition, this.sizeInLevel, [this])
+			&& this.level.areBoundariesWithinLevelBoundaries(newLevelPosition, this.sizeInLevel)
 		) {
-			this.map.moveActorFromPositionToPosition(this, this.mapPosition, newMapPosition);
-			this.updateMapPosition(newMapPosition);
+			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
+			this.setPositionInLevel(newLevelPosition);
 
 			return true;
 		}
 
-		let solidActorsOnNewPosition = this.map.getSolidActorsInBoundaries(newMapPosition, this.mapSize, [this]);
+		let solidActorsOnNewPosition = this.level.getSolidActorsInBoundaries(newLevelPosition, this.sizeInLevel, [this]);
 
 		if (solidActorsOnNewPosition.length > 0) {
 			let actionTaken = false;
@@ -123,29 +123,29 @@ export default class Actor extends Entity {
 
 	moveUp() {
 		return this.moveTo({
-			x: this.mapPosition.x,
-			y: this.mapPosition.y - 1
+			x: this.positionInLevel.x,
+			y: this.positionInLevel.y - 1
 		});
 	}
 
 	moveRight() {
 		return this.moveTo({
-			x: this.mapPosition.x + 1,
-			y: this.mapPosition.y
+			x: this.positionInLevel.x + 1,
+			y: this.positionInLevel.y
 		});
 	}
 
 	moveDown() {
 		return this.moveTo({
-			x: this.mapPosition.x,
-			y: this.mapPosition.y + 1
+			x: this.positionInLevel.x,
+			y: this.positionInLevel.y + 1
 		});
 	}
 
 	moveLeft() {
 		return this.moveTo({
-			x: this.mapPosition.x - 1,
-			y: this.mapPosition.y,
+			x: this.positionInLevel.x - 1,
+			y: this.positionInLevel.y,
 		});
 	}
 
@@ -159,25 +159,25 @@ export default class Actor extends Entity {
 		delete this.sprite;
 
 		if (typeof this.deathrattle === 'function') {
-			this.deathrattle(this.map);
+			this.deathrattle(this.level);
 		}
 
 		Log.showMessage(`<em>${this.type}</em> is dead`);
 	}
 
-	updateMapPosition(mapPosition) {
-		this.mapPosition = mapPosition;
+	setPositionInLevel(positionInLevel) {
+		this.positionInLevel = positionInLevel;
 		this.position = {
-			x: mapPosition.x * 16,
-			y: mapPosition.y * 16,
+			x: positionInLevel.x * 16,
+			y: positionInLevel.y * 16,
 		};
 	}
 
-	setMapSize(mapSize) {
-		this.mapSize = mapSize;
+	setSizeInLevel(sizeInLevel) {
+		this.sizeInLevel = sizeInLevel;
 		this.size = {
-			width: mapSize.width * 16,
-			height: mapSize.height * 16,
+			width: sizeInLevel.width * 16,
+			height: sizeInLevel.height * 16,
 		};
 	}
 }

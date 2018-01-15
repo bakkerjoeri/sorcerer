@@ -10,7 +10,7 @@ export default class Structure extends Entity {
 	applyStructureDefinition(structureDefinition) {
 		this.type = structureDefinition.type;
 		this.useSpriteWithName(structureDefinition.spriteName);
-		this.setMapSize(structureDefinition.size);
+		this.setSizeInLevel(structureDefinition.size);
 		this.setSolidity(structureDefinition.solid);
 		this.setCanBeAttacked(structureDefinition.canBeAttacked);
 	}
@@ -19,19 +19,19 @@ export default class Structure extends Entity {
 		this.canBeAttacked = canBeAttacked;
 	}
 
-	updateMapPosition(mapPosition) {
-		this.mapPosition = mapPosition;
+	setPositionInLevel(positionInLevel) {
+		this.positionInLevel = positionInLevel;
 		this.position = {
-			x: mapPosition.x * 16,
-			y: mapPosition.y * 16,
+			x: positionInLevel.x * 16,
+			y: positionInLevel.y * 16,
 		};
 	}
 
-	setMapSize(mapSize) {
-		this.mapSize = mapSize;
+	setSizeInLevel(sizeInLevel) {
+		this.sizeInLevel = sizeInLevel;
 		this.size = {
-			width: mapSize.width * 16,
-			height: mapSize.height * 16,
+			width: sizeInLevel.width * 16,
+			height: sizeInLevel.height * 16,
 		};
 	}
 }

@@ -14,6 +14,6 @@ export const Knight = {
 	},
 	solid: true,
 	deathrattle: function (map) {
-		map.addStructure(new Structure(Grave), this.mapPosition);
+		map.addStructure(new Structure(Grave), this.positionInLevel);
 	},
 };

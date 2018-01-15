@@ -6,7 +6,7 @@ import Room from 'core/Room';
 import Viewport from 'core/Viewport';
 import SpriteManager from 'core/SpriteManager';
 
-import Map from 'module/Map';
+import Level from 'module/Level';
 
 import Dialog from 'entity/Dialog';
 import Player from 'entity/Player';
@@ -45,7 +45,7 @@ const TILE_SIZE = 16;
 	room.useCanvas(canvas);
 
 	// Create world map
-	const worldMap = new Map({
+	const level = new Level({
 		width: MAP_SIZE_WIDTH,
 		height: MAP_SIZE_HEIGHT,
 	}, room);
@@ -54,11 +54,11 @@ const TILE_SIZE = 16;
 	const player = new Player(GreenKnight);
 
 	// Fill world map with all entities.
-	worldMap.addActor(player, {
+	level.addActor(player, {
 		x: MAP_SIZE_WIDTH / 2,
 		y: MAP_SIZE_HEIGHT / 2,
 	});
-	fillMap(worldMap);
+	fillLevel(level);
 
 	// Create a Viewport
 	const playerViewport = new Viewport({width: 240, height: 176}, {
@@ -73,51 +73,51 @@ const TILE_SIZE = 16;
 	// Assemble the game!
 	const game = new Game({
 		room: room,
-		level: worldMap,
+		level: level,
 	});
 	game.start();
 }());
 
-function fillMap(map) {
-	map.forEachTile((tile) => {
+function fillLevel(level) {
+	level.forEachTile((tile) => {
 		if (!tile.hasSolidEntities()) {
 			if (onChance(40)) {
-				map.addActor(new NonPlayer(Slime), tile.position);
+				level.addActor(new NonPlayer(Slime), tile.position);
 
 				return;
 			}
 
 			if (onChance(240)) {
-				map.addActor(new NonPlayer(Knight), tile.position);
+				level.addActor(new NonPlayer(Knight), tile.position);
 
 				return;
 			}
 
 			if (onChance(40)) {
-				map.addStructure(new Structure(Tree), tile.position);
+				level.addStructure(new Structure(Tree), tile.position);
 
 				return;
 			}
 
 			if (onChance(200)) {
-				map.addStructure(new Structure(Grave), tile.position);
+				level.addStructure(new Structure(Grave), tile.position);
 
 				return;
 			}
 
 			if (onChance(80)) {
-				map.addStructure(new Structure(Wall), tile.position);
+				level.addStructure(new Structure(Wall), tile.position);
 
 				return;
 			}
 		}
 
 		if (
-			!map.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
-			&& map.areBoundariesWithinMapBoundaries(tile.position, KingSlime.size)
+			!level.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
+			&& level.areBoundariesWithinLevelBoundaries(tile.position, KingSlime.size)
 		) {
 			if (onChance(240)) {
-				map.addActor(new NonPlayer(KingSlime), tile.position);
+				level.addActor(new NonPlayer(KingSlime), tile.position);
 
 				return;
 			}

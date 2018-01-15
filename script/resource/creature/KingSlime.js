@@ -14,9 +14,9 @@ export const KingSlime = {
 	},
 	solid: true,
 	deathrattle: function(map) {
-		map.addActor(new NonPlayer(Slime), this.mapPosition);
-		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y});
-		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x, y: this.mapPosition.y + 1});
-		map.addActor(new NonPlayer(Slime), {x: this.mapPosition.x + 1, y: this.mapPosition.y + 1});
+		map.addActor(new NonPlayer(Slime), this.positionInLevel);
+		map.addActor(new NonPlayer(Slime), {x: this.positionInLevel.x + 1, y: this.positionInLevel.y});
+		map.addActor(new NonPlayer(Slime), {x: this.positionInLevel.x, y: this.positionInLevel.y + 1});
+		map.addActor(new NonPlayer(Slime), {x: this.positionInLevel.x + 1, y: this.positionInLevel.y + 1});
 	},
 };
