@@ -11,6 +11,21 @@ const DEFAULT_OPTIONS = {
 };
 
 export default class Sprite {
+	static createFromDefinition(definition) {
+		let availableFrames = createFramesFromDefinition(definition);
+
+		let frames = definition.frames.map((frameName) => {
+			return availableFrames.find((frame) => {
+				return frame.getName() === frameName;
+			});
+		});
+
+		return new Sprite(frames, {
+			framesPerSecond: definition.framesPerSecond || 0,
+			origin: definition.origin || {x: 0, y: 0},
+		});
+	}
+
 	constructor(frames, options = {}) {
 		this.setFrames(frames);
 
@@ -167,4 +182,26 @@ function calculateMaximumSizeFromFrames(frames) {
 		width: biggestWidth,
 		height: biggestHeight,
 	}
+}
+
+function createFramesFromDefinition(definition) {
+	let frames = [];
+
+	if (definition.hasOwnProperty('file')) {
+		let image = new Image();
+		image.src = definition.file;
+
+		definition.cells.forEach((frameData) => {
+			let frame = new SpriteFrame(
+				frameData.name,
+				image,
+				frameData.origin,
+				frameData.size
+			);
+
+			frames.push(frame);
+		});
+	}
+
+	return frames;
 }
