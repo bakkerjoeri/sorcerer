@@ -1,6 +1,5 @@
 import PubSub from 'core/PubSub';
 import Log from 'module/Log';
-import clone from 'lodash/clone';
 
 export default class Game {
 	constructor(options = {}) {
@@ -30,7 +29,7 @@ export default class Game {
 }
 
 async function takeTurns(actors) {
-	for(let actor of clone(actors)) {
+	for(let actor of actors.slice(0)) {
 		await actor.takeTurn();
 	}
 

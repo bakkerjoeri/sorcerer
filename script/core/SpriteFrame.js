@@ -1,8 +1,8 @@
 export default class SpriteFrame {
-	constructor(name, image, position, size) {
+	constructor(name, image, origin, size) {
 		this.setName(name);
 		this.setImage(image);
-		this.setOrigin(position);
+		this.setOrigin(origin);
 		this.setSize(size);
 	}
 

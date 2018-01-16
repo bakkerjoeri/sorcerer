@@ -1,0 +1,257 @@
+[
+	{
+		"name": "greenknight",
+		"file": "assets/images/greenknight.png",
+		"frames": [
+			{
+				"name": "greenknight_idle_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "greenknight_idle_1",
+				"origin": {
+					"x": 16,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "greenknight_idle_2",
+				"origin": {
+					"x": 32,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "greenknight_idle_3",
+				"origin": {
+					"x": 48,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "greenknight_idle_4",
+				"origin": {
+					"x": 64,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "greenknight_idle_5",
+				"origin": {
+					"x": 80,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			}
+		]
+	},
+	{
+		"name": "slime",
+		"file": "assets/images/slime.png",
+		"frames": [
+			{
+				"name": "slime_idle_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "slime_idle_1",
+				"origin": {
+					"x": 16,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			}
+		]
+	},
+	{
+		"name": "kingslime",
+		"file": "assets/images/kingslime.png",
+		"frames": [
+			{
+				"name": "kingslime_idle_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 32,
+					"height": 32
+				}
+			},
+			{
+				"name": "kingslime_idle_1",
+				"origin": {
+					"x": 32,
+					"y": 0
+				},
+				"size": {
+					"width": 32,
+					"height": 32
+				}
+			}
+		]
+	},
+	{
+		"name": "knight",
+		"file": "assets/images/knight.png",
+		"frames": [
+			{
+				"name": "knight_idle_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "knight_idle_1",
+				"origin": {
+					"x": 16,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "knight_idle_2",
+				"origin": {
+					"x": 32,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "knight_idle_3",
+				"origin": {
+					"x": 48,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "knight_idle_4",
+				"origin": {
+					"x": 64,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			},
+			{
+				"name": "knight_idle_5",
+				"origin": {
+					"x": 80,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			}
+		]
+	},
+	{
+		"name": "wall",
+		"file": "assets/images/wall.png",
+		"frames": [
+			{
+				"name": "wall_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			}
+		]
+	},
+	{
+		"name": "tree",
+		"file": "assets/images/tree.png",
+		"origin": {
+			"x": 0,
+			"y": -16
+		},
+		"frames": [
+			{
+				"name": "tree_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 32
+				}
+			}
+		]
+	},
+	{
+		"name": "grave",
+		"file": "assets/images/grave.png",
+		"frames": [
+			{
+				"name": "grave_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 16,
+					"height": 16
+				}
+			}
+		]
+	}
+]

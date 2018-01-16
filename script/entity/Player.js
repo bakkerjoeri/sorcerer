@@ -1,5 +1,4 @@
 import Actor from './Actor';
-import PubSub from './../core/PubSub';
 import Log from './../module/Log';
 
 export default class Player extends Actor {
