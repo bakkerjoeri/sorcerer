@@ -4,8 +4,10 @@ import {Slime} from 'resource/creature/Slime';
 export const KingSlime = {
 	type: 'king slime',
 	stats: {
-		maxHealth: 28,
+		maxHealth: 1,
 		strength: 2,
+		moveCost: 400,
+		attackCost: 250,
 	},
 	spriteName: 'kingslime',
 	size: {
