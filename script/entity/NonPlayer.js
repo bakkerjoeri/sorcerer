@@ -5,10 +5,10 @@ export default class NonPlayer extends Actor {
 		super(type, options);
 	}
 
-	takeTurn() {
+	takeAction() {
 		return new Promise((resolve) => {
 			if (!this.dead) {
-				let decision = Math.round(Math.random() * 8);
+				let decision = Math.round(Math.random() * 3);
 
 				if (decision === 0) {
 					this.moveUp();

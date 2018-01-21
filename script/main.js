@@ -112,6 +112,7 @@ async function tick(characters) {
 function addNewCharacter() {
 	characters.push(new Character('Chatski'));
 }
+load();
 
 async function load() {
 	await SpriteManager.loadLibrary('assets/sprites.json');

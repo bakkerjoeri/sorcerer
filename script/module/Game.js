@@ -13,7 +13,7 @@ export default class Game {
 		}
 
 		window.requestAnimationFrame(this.loop.bind(this));
-		takeTurns(this.level.actors);
+		tick(this.level.actors);
 	}
 
 	loop(time) {
@@ -28,11 +28,11 @@ export default class Game {
 	}
 }
 
-async function takeTurns(actors) {
+async function tick(actors) {
 	for(let actor of actors.slice(0)) {
-		await actor.takeTurn();
+		await actor.tick();
 	}
 
 	// TODO: Prevent maximum call stack overflow if there is no interrupting turn.
-	takeTurns(actors);
+	tick(actors);
 }

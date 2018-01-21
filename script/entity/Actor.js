@@ -4,12 +4,15 @@ import Log from './../module/Log';
 const STATS_DEFAULT = {
 	strength: 1,
 	maxHealth: 1,
+	moveCost: 100,
+	attackCost: 100,
 }
 
 export default class Actor extends Entity {
 	constructor(creatureDefinition, options) {
 		super(options);
 
+		this.energy = 0;
 		this.applyCreatureDefinition(creatureDefinition);
 	}
 
@@ -36,7 +39,15 @@ export default class Actor extends Entity {
 		}
 	}
 
-	takeTurn() {
+	async tick() {
+		if (this.energy >= 0) {
+			await this.takeAction();
+		}
+
+		this.energy = this.energy + 1;
+	}
+
+	takeAction() {
 		return new Promise((resolve) => {
 			resolve();
 		});
@@ -47,6 +58,7 @@ export default class Actor extends Entity {
 			Log.showMessage(`<em>${this.type}</em> attacks <em>${target.type}</em>`);
 
 			this.attackTarget(target);
+
 			return true;
 		}
 
@@ -55,6 +67,7 @@ export default class Actor extends Entity {
 
 	attackTarget(target) {
 		target.applyDamage(this.calculateAttackDamage());
+		this.energy -= this.stats.attackCost;
 	}
 
 	calculateAttackDamage() {
@@ -99,6 +112,7 @@ export default class Actor extends Entity {
 			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
 			this.setPositionInLevel(newLevelPosition);
 
+			this.energy -= this.stats.moveCost;
 			return true;
 		}
 

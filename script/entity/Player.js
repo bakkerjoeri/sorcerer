@@ -7,7 +7,7 @@ export default class Player extends Actor {
 		Log.showMessage(`<em>${this.type}</em> awakens...`);
 	}
 
-	takeTurn() {
+	takeAction() {
 		return new Promise((resolve) => {
 			if (!this.dead) {
 				this.keyDownEvent = this.addEventListener('keydown', (event) => {
@@ -25,6 +25,7 @@ export default class Player extends Actor {
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
 			Log.showMessage(`${this.type} waits...`);
+			this.energy -= 100;
 			actionTaken = true;
 		}
 
