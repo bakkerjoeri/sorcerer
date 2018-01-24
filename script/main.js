@@ -62,7 +62,7 @@ async function load() {
 	fillLevel(level);
 
 	// Create a Viewport
-	const playerViewport = new Viewport({width: 240, height: 176}, {
+	const playerViewport = new Viewport({width: CANVAS_SIZE_WIDTH, height: CANVAS_SIZE_HEIGHT}, {
 		origin: {
 			x: 0,
 			y: 0,
