@@ -29,10 +29,58 @@ export default class Game {
 }
 
 async function tick(actors) {
-	for(let actor of actors.slice(0)) {
-		await actor.tick();
-	}
+	// console.log('New turn order:');
+	// actors.forEach((actor, index) => {
+	// 	console.log(`${index} ${actor.type}: ${actor.energy}`);
+	// });
+
+	let participatingActors = actors.filter((actor) => {
+		return !actor.dead;
+	});
+
+	// console.log(`${participatingActors[0].type}'s time to do something...`);
+	let actor = participatingActors.shift();
+	await actor.takeAction();
+	participatingActors = placeActorInOrder(actor, participatingActors);
 
 	// TODO: Prevent maximum call stack overflow if there is no interrupting turn.
-	tick(actors);
+	tick(participatingActors);
+}
+
+function placeActorInOrder(actorToPlace, actors) {
+	if (actors.length > 0) {
+		console.log('Current turn order:');
+		actors.forEach((actor, index) => {
+			console.log(`${index} ${actor.type}: ${actor.energy}`);
+		});
+		console.log('');
+		console.log('Let\'s compare');
+		for (let index = 0; index < actors.length; index = index + 1) {
+			console.log(`Comparing ${actorToPlace.type} (${actorToPlace.energy}) with ${actors[index].type} (${actors[index].energy})...`);
+			if (actors[index].energy > actorToPlace.energy) {
+				console.log(`Placing ${actorToPlace.type} at ${index} (found from front)`);
+				actors.splice(index, 0, actorToPlace);
+				break;
+			}
+
+			console.log(`Comparing ${actorToPlace.type} (${actorToPlace.energy}) with ${actors[actors.length - index - 1].type} (${actors[actors.length - index - 1].energy})...`);
+			if (actors[actors.length - index - 1].energy <= actorToPlace.energy) {
+				console.log(`Placing ${actorToPlace.type} at ${actors.length - index} (found from back)`);
+				actors.splice(actors.length - index, 0, actorToPlace);
+				break;
+			}
+		}
+	} else {
+		console.log(`No one else in queue, placing ${actorToPlace.type}`);
+		actors.push(actorToPlace);
+	}
+
+
+	console.log('');
+	console.log('New turn order:');
+	actors.forEach((actor, index) => {
+		console.log(`${index} ${actor.type}: ${actor.energy}`);
+	});
+	console.log('');
+	return actors;
 }
