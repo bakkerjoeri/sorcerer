@@ -39,14 +39,6 @@ export default class Actor extends Entity {
 		}
 	}
 
-	async tick() {
-		if (this.energy >= 0) {
-			await this.takeAction();
-		}
-
-		this.energy = this.energy + 1;
-	}
-
 	takeAction() {
 		return new Promise((resolve) => {
 			resolve();
@@ -67,7 +59,7 @@ export default class Actor extends Entity {
 
 	attackTarget(target) {
 		target.applyDamage(this.calculateAttackDamage());
-		this.energy -= this.stats.attackCost;
+		this.energy += this.stats.attackCost;
 	}
 
 	calculateAttackDamage() {
@@ -112,7 +104,7 @@ export default class Actor extends Entity {
 			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
 			this.setPositionInLevel(newLevelPosition);
 
-			this.energy -= this.stats.moveCost;
+			this.energy += this.stats.moveCost;
 			return true;
 		}
 
