@@ -10,14 +10,14 @@ export default class Ticker {
 	}
 
 	static unschedule(actor) {
-
+		scheduledEvents.splice(scheduledEvents.indexOf(actor), 1);
 	}
 }
 
 async function tick(schedule) {
 	let actor = schedule.shift();
 	await actor.takeAction();
-	schedule = placeEventInSchedule(actor, schedule);
+	placeEventInSchedule(actor, schedule);
 
 	tick(schedule);
 }

@@ -165,6 +165,7 @@ export default class Actor extends Entity {
 		this.dead = true;
 		this.solid = false;
 		delete this.sprite;
+		Ticker.unschedule(this);
 
 		if (typeof this.deathrattle === 'function') {
 			this.deathrattle(this.level);
