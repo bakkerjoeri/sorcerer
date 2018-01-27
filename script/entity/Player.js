@@ -25,7 +25,7 @@ export default class Player extends Actor {
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
 			Log.showMessage(`${this.type} waits...`);
-			this.energy -= 100;
+			this.energy += 100;
 			actionTaken = true;
 		}
 

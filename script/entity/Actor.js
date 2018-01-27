@@ -1,5 +1,6 @@
 import Entity from './../core/Entity';
 import Log from './../module/Log';
+import Ticker from './../module/Ticker';
 
 const STATS_DEFAULT = {
 	strength: 1,
@@ -14,6 +15,7 @@ export default class Actor extends Entity {
 
 		this.energy = 0;
 		this.applyCreatureDefinition(creatureDefinition);
+		Ticker.schedule(this);
 	}
 
 	applyCreatureDefinition(creatureDefinition) {
