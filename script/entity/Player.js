@@ -15,6 +15,7 @@ export default class Player extends Actor {
 					this.handleKeyPressed(event, resolve);
 				});
 			} else {
+				Ticker.schedule(this.takeAction.bind(this), 100);
 				window.setTimeout(resolve, 1000);
 			}
 		});
