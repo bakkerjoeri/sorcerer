@@ -13,7 +13,6 @@ export default class Actor extends Entity {
 	constructor(creatureDefinition, options) {
 		super(options);
 
-		this.energy = 0;
 		this.applyCreatureDefinition(creatureDefinition);
 		Ticker.schedule(this.takeAction.bind(this), 0);
 	}
