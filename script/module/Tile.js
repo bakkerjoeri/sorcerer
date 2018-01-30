@@ -54,10 +54,10 @@ export default class Tile {
 	}
 
 	hasSolidEntities(exclude = []) {
-		return this.getSolidEntities().length > 0;
+		return this.getSolidEntities(exclude).length > 0;
 	}
 
 	hasSolidActors(exclude = []) {
-		return this.getSolidActors().length > 0;
+		return this.getSolidActors(exclude).length > 0;
 	}
 }

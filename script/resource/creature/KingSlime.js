@@ -6,6 +6,8 @@ export const KingSlime = {
 	stats: {
 		maxHealth: 28,
 		strength: 2,
+		moveCost: 400,
+		attackCost: 400,
 	},
 	spriteName: 'kingslime',
 	size: {

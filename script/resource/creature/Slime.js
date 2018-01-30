@@ -3,6 +3,8 @@ export const Slime = {
 	stats: {
 		maxHealth: 16,
 		strength: 1,
+		moveCost: 200,
+		attackCost: 200,
 	},
 	spriteName: 'slime',
 	size: {

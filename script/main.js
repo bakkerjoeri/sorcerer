@@ -27,8 +27,9 @@ const MAP_SIZE_WIDTH = 36;
 const MAP_SIZE_HEIGHT = 24;
 const TILE_SIZE = 16;
 
-// Load game!
-(async function () {
+load();
+
+async function load() {
 	await SpriteManager.loadLibrary('assets/sprites.json');
 
 	// create canvas
@@ -61,7 +62,7 @@ const TILE_SIZE = 16;
 	fillLevel(level);
 
 	// Create a Viewport
-	const playerViewport = new Viewport({width: 240, height: 176}, {
+	const playerViewport = new Viewport({width: CANVAS_SIZE_WIDTH, height: CANVAS_SIZE_HEIGHT}, {
 		origin: {
 			x: 0,
 			y: 0,
@@ -76,7 +77,7 @@ const TILE_SIZE = 16;
 		level: level,
 	});
 	game.start();
-}());
+}
 
 function fillLevel(level) {
 	level.forEachTile((tile) => {

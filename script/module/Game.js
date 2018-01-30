@@ -1,5 +1,4 @@
-import PubSub from 'core/PubSub';
-import Log from 'module/Log';
+import Ticker from './Ticker';
 
 export default class Game {
 	constructor(options = {}) {
@@ -13,7 +12,7 @@ export default class Game {
 		}
 
 		window.requestAnimationFrame(this.loop.bind(this));
-		takeTurns(this.level.actors);
+		Ticker.startTicking(this.level.actors);
 	}
 
 	loop(time) {
@@ -26,13 +25,4 @@ export default class Game {
 
 		window.requestAnimationFrame(this.loop.bind(this));
 	}
-}
-
-async function takeTurns(actors) {
-	for(let actor of actors.slice(0)) {
-		await actor.takeTurn();
-	}
-
-	// TODO: Prevent maximum call stack overflow if there is no interrupting turn.
-	takeTurns(actors);
 }

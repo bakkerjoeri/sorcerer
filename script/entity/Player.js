@@ -1,4 +1,5 @@
 import Actor from './Actor';
+import Ticker from './../module/Ticker';
 import Log from './../module/Log';
 
 export default class Player extends Actor {
@@ -7,13 +8,14 @@ export default class Player extends Actor {
 		Log.showMessage(`<em>${this.type}</em> awakens...`);
 	}
 
-	takeTurn() {
+	takeAction() {
 		return new Promise((resolve) => {
 			if (!this.dead) {
 				this.keyDownEvent = this.addEventListener('keydown', (event) => {
 					this.handleKeyPressed(event, resolve);
 				});
 			} else {
+				Ticker.schedule(this.takeAction.bind(this), 100);
 				window.setTimeout(resolve, 1000);
 			}
 		});
@@ -25,6 +27,7 @@ export default class Player extends Actor {
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
 			Log.showMessage(`${this.type} waits...`);
+			Ticker.schedule(this.takeAction.bind(this), 100);
 			actionTaken = true;
 		}
 

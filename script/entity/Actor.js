@@ -1,9 +1,12 @@
 import Entity from './../core/Entity';
 import Log from './../module/Log';
+import Ticker from './../module/Ticker';
 
 const STATS_DEFAULT = {
 	strength: 1,
 	maxHealth: 1,
+	moveCost: 100,
+	attackCost: 100,
 }
 
 export default class Actor extends Entity {
@@ -11,6 +14,7 @@ export default class Actor extends Entity {
 		super(options);
 
 		this.applyCreatureDefinition(creatureDefinition);
+		Ticker.schedule(this.takeAction.bind(this), 0);
 	}
 
 	applyCreatureDefinition(creatureDefinition) {
@@ -36,7 +40,7 @@ export default class Actor extends Entity {
 		}
 	}
 
-	takeTurn() {
+	takeAction() {
 		return new Promise((resolve) => {
 			resolve();
 		});
@@ -47,6 +51,7 @@ export default class Actor extends Entity {
 			Log.showMessage(`<em>${this.type}</em> attacks <em>${target.type}</em>`);
 
 			this.attackTarget(target);
+
 			return true;
 		}
 
@@ -55,6 +60,7 @@ export default class Actor extends Entity {
 
 	attackTarget(target) {
 		target.applyDamage(this.calculateAttackDamage());
+		Ticker.schedule(this.takeAction.bind(this), this.stats.attackCost);
 	}
 
 	calculateAttackDamage() {
@@ -98,6 +104,8 @@ export default class Actor extends Entity {
 		) {
 			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
 			this.setPositionInLevel(newLevelPosition);
+
+			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost);
 
 			return true;
 		}
