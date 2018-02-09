@@ -15,7 +15,7 @@ export default class Player extends Actor {
 					this.handleKeyPressed(event, resolve);
 				});
 			} else {
-				Ticker.schedule(this.takeAction.bind(this), 100);
+				Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 				window.setTimeout(resolve, 1000);
 			}
 		});
@@ -27,7 +27,7 @@ export default class Player extends Actor {
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
 			Log.showMessage(`${this.type} waits...`);
-			Ticker.schedule(this.takeAction.bind(this), 100);
+			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 			actionTaken = true;
 		}
 

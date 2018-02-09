@@ -12,7 +12,7 @@ export default class MoveSouth extends Goal {
 		if (!actor.dead && actor.moveLeft()) {
 			this.moved = true;
 		} else {
-			Ticker.schedule(actor.takeAction.bind(actor), 100);
+			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost, actor);
 			this.fail();
 		}
 	}

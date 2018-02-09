@@ -12,7 +12,7 @@ export default class MoveNorth extends Goal {
 		if (!actor.dead && actor.moveUp()) {
 			this.moved = true;
 		} else {
-			Ticker.schedule(actor.takeAction.bind(actor), 100);
+			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost, actor);
 			this.fail();
 		}
 	}

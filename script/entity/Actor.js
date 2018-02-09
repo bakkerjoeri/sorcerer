@@ -14,7 +14,8 @@ export default class Actor extends Entity {
 		super(options);
 
 		this.applyCreatureDefinition(creatureDefinition);
-		Ticker.schedule(this.takeAction.bind(this), 0);
+
+		Ticker.schedule(this.takeAction.bind(this), 0, this);
 	}
 
 	applyCreatureDefinition(creatureDefinition) {
@@ -60,7 +61,7 @@ export default class Actor extends Entity {
 
 	attackTarget(target) {
 		target.applyDamage(this.calculateAttackDamage());
-		Ticker.schedule(this.takeAction.bind(this), this.stats.attackCost);
+		Ticker.schedule(this.takeAction.bind(this), this.stats.attackCost, this);
 	}
 
 	calculateAttackDamage() {
@@ -105,7 +106,7 @@ export default class Actor extends Entity {
 			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
 			this.setPositionInLevel(newLevelPosition);
 
-			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost);
+			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 
 			return true;
 		}

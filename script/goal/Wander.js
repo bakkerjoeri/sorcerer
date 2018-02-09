@@ -32,8 +32,6 @@ export default class Wander extends Goal {
 					this.subGoals.push(new MoveWest(this));
 				}
 			}
-
-			console.log(`${actor.type} will move ${directionName} for ${howManyTimes} turns.`);
 		}
 	}
 
