@@ -6,6 +6,8 @@ export const Knight = {
 	stats: {
 		maxHealth: 10,
 		strength: 3,
+		moveCost: 100,
+		attackCost: 100,
 	},
 	spriteName: 'knight',
 	size: {

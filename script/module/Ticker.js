@@ -18,7 +18,7 @@ export default class Ticker {
 }
 
 async function tick(schedule) {
-	for (let scheduledItem of schedule) {
+	for (let scheduledItem of schedule.slice(0)) {
 		if (scheduledItem.time === 0) {
 			await scheduledItem.action();
 			schedule.splice(schedule.indexOf(scheduledItem), 1);
