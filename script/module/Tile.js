@@ -40,8 +40,8 @@ export default class Tile {
 	getSolidEntities(exclude = []) {
 		let entities = this.getEntities();
 
-		return entities.filter((entity) => {
-			return entity.solid === true && !exclude.includes(entity);
+		return entities.filter((gameObject) => {
+			return gameObject.solid === true && !exclude.includes(gameObject);
 		});
 	}
 

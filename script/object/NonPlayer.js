@@ -1,5 +1,5 @@
 import Actor from './Actor';
-import Wander from 'goal/Wander';
+import Wander from './../goal/Wander';
 
 export default class NonPlayer extends Actor {
 	constructor(type, options) {
@@ -9,7 +9,9 @@ export default class NonPlayer extends Actor {
 
 	takeAction() {
 		return new Promise((resolve) => {
-			this.goal.act(this);
+			if (!this.dead) {
+				this.goal.act(this);
+			}
 
 			resolve();
 		});

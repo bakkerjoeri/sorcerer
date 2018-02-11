@@ -16,7 +16,7 @@ const DEFAULT_OPTIONS = {
 
 };
 
-export default class Entity {
+export default class GameObject {
 	constructor(options = {}) {
 		options = Object.assign({}, DEFAULT_OPTIONS, options);
 

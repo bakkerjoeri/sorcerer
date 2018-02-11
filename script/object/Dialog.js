@@ -1,6 +1,6 @@
-import Entity from './../core/Entity';
+import GameObject from './../core/GameObject';
 
-export default class Dialog extends Entity {
+export default class Dialog extends GameObject {
 	constructor (options) {
 		super(options);
 	}
@@ -17,7 +17,7 @@ export default class Dialog extends Entity {
 			this.position.x,
 			canvas.height - this.size.height - 10,
 			this.size.width,
-			this.size.height,
+			this.size.height
 		);
 
 		context.strokeStyle = '#bad455';
@@ -25,7 +25,7 @@ export default class Dialog extends Entity {
 			this.position.x,
 			canvas.height - this.size.height - 10,
 			this.size.width,
-			this.size.height,
+			this.size.height
 		);
 
 		if (this.message) {
@@ -34,7 +34,7 @@ export default class Dialog extends Entity {
 			context.fillText(
 				this.message,
 				this.position.x,
-				canvas.height - this.size.height - 10,
+				canvas.height - this.size.height - 10
 			);
 		}
 	}

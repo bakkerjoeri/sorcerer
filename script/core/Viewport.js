@@ -41,8 +41,8 @@ export default class Viewport {
 		this.room = room;
 	}
 
-	followEntity(entity) {
-		this.entityToFollow = entity;
+	followGameObject(gameObject) {
+		this.gameObjectToFollow = gameObject;
 	}
 
 	setSize(size) {
@@ -50,11 +50,11 @@ export default class Viewport {
 	}
 
 	step() {
-		// update position to follow entity
-		if (this.entityToFollow && this.entityToFollow.sprite && this.entityToFollow.sprite.size) {
+		// update position to follow gameObject
+		if (this.gameObjectToFollow && this.gameObjectToFollow.sprite && this.gameObjectToFollow.sprite.size) {
 			let newViewportPosition = {
-				x: this.entityToFollow.position.x - (this.size.width / 2) + (this.entityToFollow.sprite.size.width / 2),
-				y: this.entityToFollow.position.y - (this.size.height / 2) + (this.entityToFollow.sprite.size.height / 2),
+				x: this.gameObjectToFollow.position.x - (this.size.width / 2) + (this.gameObjectToFollow.sprite.size.width / 2),
+				y: this.gameObjectToFollow.position.y - (this.size.height / 2) + (this.gameObjectToFollow.sprite.size.height / 2),
 			};
 
 			if (newViewportPosition.x < 0) {
@@ -94,10 +94,10 @@ export default class Viewport {
 		});
 
 		// draw all entities
-		this.room.entities.filter((entity) => {
-			return entity.visible
-		}).forEach((visibleEntity) => {
-			visibleEntity.draw(time, canvas, this);
+		this.room.entities.filter((gameObject) => {
+			return gameObject.visible
+		}).forEach((visibleGameObject) => {
+			visibleGameObject.draw(time, canvas, this);
 		});
 	}
 

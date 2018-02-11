@@ -6,6 +6,10 @@ export default class Ticker {
 	}
 
 	static schedule(action, time) {
+		if (time < 0) {
+			throw new Error('Cannot schedule an item in the past');
+		}
+
 		scheduledActions.push({
 			action: action,
 			time: time,
@@ -29,7 +33,11 @@ async function tick(schedule) {
 
 	// Reduce the time of all items currently in the schedule with 1.
 	schedule.forEach((scheduledItem) => {
-		scheduledItem.time = scheduledItem.time - 1;
+		if (scheduledItem.time > 0) {
+			scheduledItem.time = scheduledItem.time - 1;
+		} else {
+			scheduledItem.time = 0;
+		}
 	});
 
 	tick(schedule);

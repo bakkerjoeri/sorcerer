@@ -14,9 +14,9 @@ export default class Room {
 			activeViewport.step(time);;
 		});
 
-		// update each entity
-		this.entities.forEach((entity) => {
-			entity.step(time);
+		// update each gameObject
+		this.entities.forEach((gameObject) => {
+			gameObject.step(time);
 		});
 	}
 
@@ -39,8 +39,8 @@ export default class Room {
 		this.context = canvas.getContext('2d');
 	}
 
-	addEntity(entity) {
-		this.entities.push(entity);
+	addGameObject(gameObject) {
+		this.entities.push(gameObject);
 	}
 
 	getEntities() {

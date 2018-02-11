@@ -8,10 +8,10 @@ import SpriteManager from 'core/SpriteManager';
 import Game from 'module/Game';
 import Level from 'module/Level';
 
-import Dialog from 'entity/Dialog';
-import Player from 'entity/Player';
-import NonPlayer from 'entity/NonPlayer';
-import Structure from 'entity/Structure';
+import Dialog from 'object/Dialog';
+import Player from 'object/Player';
+import NonPlayer from 'object/NonPlayer';
+import Structure from 'object/Structure';
 
 import {Knight} from 'resource/creature/Knight';
 import {GreenKnight} from 'resource/creature/GreenKnight';
@@ -23,8 +23,8 @@ import {Grave} from 'resource/structure/Grave';
 
 const CANVAS_SIZE_WIDTH = 240;
 const CANVAS_SIZE_HEIGHT = 176;
-const MAP_SIZE_WIDTH = 36;
-const MAP_SIZE_HEIGHT = 24;
+const MAP_SIZE_WIDTH = 10;
+const MAP_SIZE_HEIGHT = 10;
 const TILE_SIZE = 16;
 
 load();
@@ -68,7 +68,7 @@ async function load() {
 			y: 0,
 		},
 	});
-	playerViewport.followEntity(player);
+	playerViewport.followGameObject(player);
 	room.addViewport(playerViewport);
 
 	// Assemble the game!
@@ -82,35 +82,35 @@ async function load() {
 function fillLevel(level) {
 	level.forEachTile((tile) => {
 		if (!tile.hasSolidEntities()) {
-			if (onChance(40)) {
-				level.addActor(new NonPlayer(Slime), tile.position);
-
-				return;
-			}
-
-			if (onChance(240)) {
-				level.addActor(new NonPlayer(Knight), tile.position);
-
-				return;
-			}
-
-			if (onChance(40)) {
-				level.addStructure(new Structure(Tree), tile.position);
-
-				return;
-			}
-
-			if (onChance(200)) {
-				level.addStructure(new Structure(Grave), tile.position);
-
-				return;
-			}
-
-			if (onChance(80)) {
-				level.addStructure(new Structure(Wall), tile.position);
-
-				return;
-			}
+			// if (onChance(40)) {
+			// 	level.addActor(new NonPlayer(Slime), tile.position);
+			//
+			// 	return;
+			// }
+			//
+			// if (onChance(240)) {
+			// 	level.addActor(new NonPlayer(Knight), tile.position);
+			//
+			// 	return;
+			// }
+			//
+			// if (onChance(40)) {
+			// 	level.addStructure(new Structure(Tree), tile.position);
+			//
+			// 	return;
+			// }
+			//
+			// if (onChance(200)) {
+			// 	level.addStructure(new Structure(Grave), tile.position);
+			//
+			// 	return;
+			// }
+			//
+			// if (onChance(80)) {
+			// 	level.addStructure(new Structure(Wall), tile.position);
+			//
+			// 	return;
+			// }
 		}
 
 		if (

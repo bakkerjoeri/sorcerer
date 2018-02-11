@@ -1,4 +1,4 @@
-import Structure from 'entity/Structure';
+import Structure from 'object/Structure';
 import {Grave} from 'resource/structure/Grave';
 
 export const GreenKnight = {

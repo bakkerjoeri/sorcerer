@@ -1,8 +1,8 @@
-import Entity from './../core/Entity';
+import Entity from './Entity';
 import Log from './../module/Log';
 import Ticker from './../module/Ticker';
 
-const STATS_DEFAULT = {
+const DEFAULT_STATS = {
 	strength: 1,
 	maxHealth: 1,
 	moveCost: 100,
@@ -28,7 +28,7 @@ export default class Actor extends Entity {
 	}
 
 	applyStats(stats) {
-		this.stats = Object.assign({}, STATS_DEFAULT, stats);
+		this.stats = Object.assign({}, DEFAULT_STATS, stats);
 
 		if (this.health === undefined || this.health > this.stats.maxHealth) {
 			this.health = this.stats.maxHealth;
@@ -99,12 +99,8 @@ export default class Actor extends Entity {
 			return false;
 		}
 
-		if (
-			!this.level.hasSolidEntitiesInBoundaries(newLevelPosition, this.sizeInLevel, [this])
-			&& this.level.areBoundariesWithinLevelBoundaries(newLevelPosition, this.sizeInLevel)
-		) {
+		if (this.canMoveTo(newLevelPosition)) {
 			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
-			this.setPositionInLevel(newLevelPosition);
 
 			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 
@@ -128,6 +124,11 @@ export default class Actor extends Entity {
 		}
 
 		return false;
+	}
+
+	canMoveTo(levelPosition) {
+		return !this.level.hasSolidEntitiesInBoundaries(levelPosition, this.sizeInLevel, [this])
+			&& this.level.areBoundariesWithinLevelBoundaries(levelPosition, this.sizeInLevel);
 	}
 
 	moveUp() {
@@ -172,21 +173,5 @@ export default class Actor extends Entity {
 		}
 
 		Log.showMessage(`<em>${this.type}</em> is dead`);
-	}
-
-	setPositionInLevel(positionInLevel) {
-		this.positionInLevel = positionInLevel;
-		this.position = {
-			x: positionInLevel.x * 16,
-			y: positionInLevel.y * 16,
-		};
-	}
-
-	setSizeInLevel(sizeInLevel) {
-		this.sizeInLevel = sizeInLevel;
-		this.size = {
-			width: sizeInLevel.width * 16,
-			height: sizeInLevel.height * 16,
-		};
 	}
 }
