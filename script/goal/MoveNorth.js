@@ -9,12 +9,22 @@ export default class MoveNorth extends Goal {
 	}
 
 	takeAction(actor) {
-		if (!actor.dead && actor.moveUp()) {
-			this.moved = true;
-		} else {
-			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost);
-			this.fail();
+		if (actor.dead) {
+			return this.fail();
 		}
+
+		let newLevelPosition = {
+			x: actor.positionInLevel.x,
+			y: actor.positionInLevel.y - 1,
+		};
+
+		if (!actor.canMoveToPosition(newLevelPosition)) {
+			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost);
+			return this.fail();
+		}
+
+		actor.moveTo(newLevelPosition);
+		this.moved = true;
 	}
 
 	isFinished() {

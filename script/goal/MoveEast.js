@@ -9,12 +9,22 @@ export default class MoveEast extends Goal {
 	}
 
 	takeAction(actor) {
-		if (!actor.dead && actor.moveRight()) {
-			this.moved = true;
-		} else {
-			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost);
-			this.fail();
+		if (actor.dead) {
+			return this.fail();
 		}
+
+		let newLevelPosition = {
+			x: actor.positionInLevel.x + 1,
+			y: actor.positionInLevel.y,
+		};
+
+		if (!actor.canMoveToPosition(newLevelPosition)) {
+			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost);
+			return this.fail();
+		}
+
+		actor.moveTo(newLevelPosition);
+		this.moved = true;
 	}
 
 	isFinished() {

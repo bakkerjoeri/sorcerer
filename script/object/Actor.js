@@ -47,19 +47,45 @@ export default class Actor extends Entity {
 		});
 	}
 
-	bumpInto(target) {
-		if (target.canBeAttacked()) {
-			Log.showMessage(`<em>${this.type}</em> attacks <em>${target.type}</em>`);
+	canMoveToPosition(levelPosition) {
+		return this.level.hasTileAtPosition(levelPosition)
+			&& !this.level.hasSolidEntitiesInBoundaries(levelPosition, this.sizeInLevel, [this])
+			&& this.level.areBoundariesWithinLevelBoundaries(levelPosition, this.sizeInLevel);
+	}
 
-			this.attackTarget(target);
+	moveTo(newLevelPosition) {
+		this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
+		Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 
-			return true;
+		return true;
+	}
+
+	canAttackPosition(levelPosition) {
+		let solidActorsOnNewPosition = this.level.getSolidActorsInBoundaries(levelPosition, this.sizeInLevel, [this]);
+
+		return solidActorsOnNewPosition.some((actor) => {
+			return actor.canBeAttacked();
+		});
+	}
+
+	attackPosition(levelPosition) {
+		let targets = this.level.getSolidActorsInBoundaries(levelPosition, this.sizeInLevel, [this]).filter((actor) => {
+			return actor.canBeAttacked();
+		});
+
+		if (targets.length === 0) {
+			return false;
 		}
 
-		return false;
+		targets.forEach((target) => {
+			this.attackTarget(target);
+		});
+
+		return true;
 	}
 
 	attackTarget(target) {
+		Log.showMessage(`<em>${this.type}</em> attacks <em>${target.type}</em>`);
 		target.applyDamage(this.calculateAttackDamage());
 		Ticker.schedule(this.takeAction.bind(this), this.stats.attackCost, this);
 	}
@@ -92,71 +118,6 @@ export default class Actor extends Entity {
 			this.health = health;
 			Log.showMessage(`<em>${this.type}</em> health is ${this.health}/${this.stats.maxHealth}`);
 		}
-	}
-
-	moveTo(newLevelPosition) {
-		if (!this.level.hasTileAtPosition(newLevelPosition)) {
-			return false;
-		}
-
-		if (this.canMoveTo(newLevelPosition)) {
-			this.level.moveActorFromPositionToPosition(this, this.positionInLevel, newLevelPosition);
-
-			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
-
-			return true;
-		}
-
-		let solidActorsOnNewPosition = this.level.getSolidActorsInBoundaries(newLevelPosition, this.sizeInLevel, [this]);
-
-		if (solidActorsOnNewPosition.length > 0) {
-			let actionTaken = false;
-
-			solidActorsOnNewPosition.forEach((solidActor) => {
-				let bumpIntoResult = this.bumpInto(solidActor);
-
-				if (bumpIntoResult) {
-					actionTaken = true;
-				}
-			});
-
-			return actionTaken;
-		}
-
-		return false;
-	}
-
-	canMoveTo(levelPosition) {
-		return !this.level.hasSolidEntitiesInBoundaries(levelPosition, this.sizeInLevel, [this])
-			&& this.level.areBoundariesWithinLevelBoundaries(levelPosition, this.sizeInLevel);
-	}
-
-	moveUp() {
-		return this.moveTo({
-			x: this.positionInLevel.x,
-			y: this.positionInLevel.y - 1
-		});
-	}
-
-	moveRight() {
-		return this.moveTo({
-			x: this.positionInLevel.x + 1,
-			y: this.positionInLevel.y
-		});
-	}
-
-	moveDown() {
-		return this.moveTo({
-			x: this.positionInLevel.x,
-			y: this.positionInLevel.y + 1
-		});
-	}
-
-	moveLeft() {
-		return this.moveTo({
-			x: this.positionInLevel.x - 1,
-			y: this.positionInLevel.y,
-		});
 	}
 
 	canBeAttacked() {
