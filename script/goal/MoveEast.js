@@ -1,30 +1,32 @@
 import Goal from 'module/Goal';
-import Ticker from 'module/Ticker';
 
 export default class MoveEast extends Goal {
-	constructor(originalIntent) {
-		super(originalIntent);
+	constructor(originalGoal) {
+		super(originalGoal);
 
 		this.moved = false;
 	}
 
 	takeAction(actor) {
-		if (actor.dead) {
-			return this.fail();
-		}
+		return new Promise((success, fail) => {
+			if (actor.dead) {
+				return fail();
+			}
 
-		let newLevelPosition = {
-			x: actor.positionInLevel.x + 1,
-			y: actor.positionInLevel.y,
-		};
+			let newLevelPosition = {
+				x: actor.positionInLevel.x + 1,
+				y: actor.positionInLevel.y,
+			};
 
-		if (!actor.canMoveToPosition(newLevelPosition)) {
-			Ticker.schedule(actor.takeAction.bind(actor), actor.stats.moveCost);
-			return this.fail();
-		}
+			if (!actor.canMoveToPosition(newLevelPosition)) {
+				return fail();
+			}
 
-		actor.moveTo(newLevelPosition);
-		this.moved = true;
+			actor.moveTo(newLevelPosition);
+			this.moved = true;
+
+			return success();
+		});
 	}
 
 	isFinished() {
