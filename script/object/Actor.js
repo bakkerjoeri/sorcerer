@@ -47,6 +47,9 @@ export default class Actor extends Entity {
 		});
 	}
 
+	wait() {
+		Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
+	}
 	canMoveToPosition(levelPosition) {
 		return this.level.hasTileAtPosition(levelPosition)
 			&& !this.level.hasSolidEntitiesInBoundaries(levelPosition, this.sizeInLevel, [this])

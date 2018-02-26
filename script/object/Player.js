@@ -27,7 +27,7 @@ export default class Player extends Actor {
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
 			Log.showMessage(`${this.type} waits...`);
-			Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
+			this.wait();
 			actionTaken = true;
 		}
 
