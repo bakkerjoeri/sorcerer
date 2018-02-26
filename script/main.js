@@ -8,10 +8,10 @@ import SpriteManager from 'core/SpriteManager';
 import Game from 'module/Game';
 import Level from 'module/Level';
 
-import Dialog from 'entity/Dialog';
-import Player from 'entity/Player';
-import NonPlayer from 'entity/NonPlayer';
-import Structure from 'entity/Structure';
+import Dialog from 'object/Dialog';
+import Player from 'object/Player';
+import NonPlayer from 'object/NonPlayer';
+import Structure from 'object/Structure';
 
 import {Knight} from 'resource/creature/Knight';
 import {GreenKnight} from 'resource/creature/GreenKnight';
@@ -59,6 +59,7 @@ async function load() {
 		x: MAP_SIZE_WIDTH / 2,
 		y: MAP_SIZE_HEIGHT / 2,
 	});
+
 	fillLevel(level);
 
 	// Create a Viewport
@@ -68,7 +69,7 @@ async function load() {
 			y: 0,
 		},
 	});
-	playerViewport.followEntity(player);
+	playerViewport.followGameObject(player);
 	room.addViewport(playerViewport);
 
 	// Assemble the game!

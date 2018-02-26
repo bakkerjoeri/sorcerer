@@ -18,7 +18,7 @@ export default class Level {
 		});
 
 		actor.setPositionInLevel(position);
-		this.room.addEntity(actor);
+		this.room.addGameObject(actor);
 	}
 
 	addStructure(structure, position) {
@@ -30,7 +30,7 @@ export default class Level {
 		});
 
 		structure.setPositionInLevel(position);
-		this.room.addEntity(structure);
+		this.room.addGameObject(structure);
 	}
 
 	findTileAtPosition(position) {
@@ -70,6 +70,8 @@ export default class Level {
 		this.forEachTileInBoundaries(newPosition, actor.sizeInLevel, (tile) => {
 			tile.addActor(actor);
 		});
+
+		actor.setPositionInLevel(newPosition);
 	}
 
 	getSolidEntitiesInBoundaries(position, size, exclude = []) {

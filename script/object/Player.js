@@ -15,7 +15,7 @@ export default class Player extends Actor {
 					this.handleKeyPressed(event, resolve);
 				});
 			} else {
-				Ticker.schedule(this.takeAction.bind(this), 100);
+				Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 				window.setTimeout(resolve, 1000);
 			}
 		});
@@ -27,33 +27,81 @@ export default class Player extends Actor {
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
 			Log.showMessage(`${this.type} waits...`);
-			Ticker.schedule(this.takeAction.bind(this), 100);
+			this.wait();
 			actionTaken = true;
 		}
 
 		if (event.key === 'ArrowUp' || event.key === '8') {
 			event.preventDefault();
-			actionTaken = this.moveUp();
+			actionTaken = this.actNorth();
 		}
 
 		if (event.key === 'ArrowRight' || event.key === '6') {
 			event.preventDefault();
-			actionTaken = this.moveRight();
+			actionTaken = this.actEast();
 		}
 
 		if (event.key === 'ArrowDown' || event.key === '2') {
 			event.preventDefault();
-			actionTaken = this.moveDown();
+			actionTaken = this.actSouth();
 		}
 
 		if (event.key === 'ArrowLeft' || event.key === '4') {
 			event.preventDefault();
-			actionTaken = this.moveLeft();
+			actionTaken = this.actWest();
 		}
 
 		if (actionTaken) {
 			this.removeEventListener(this.keyDownEvent);
 			callback();
 		}
+	}
+
+	actTowardPosition(position) {
+		if (this.canMoveToPosition(position)) {
+			return this.moveTo(position);
+		}
+
+		if (this.canAttackPosition(position)) {
+			return this.attackPosition(position);
+		}
+
+		return false;
+	}
+
+	actNorth() {
+		let newPosition = {
+			x: this.positionInLevel.x,
+			y: this.positionInLevel.y - 1,
+		};
+
+		return this.actTowardPosition(newPosition);
+	}
+
+	actEast() {
+		let newPosition = {
+			x: this.positionInLevel.x + 1,
+			y: this.positionInLevel.y,
+		};
+
+		return this.actTowardPosition(newPosition);
+	}
+
+	actSouth() {
+		let newPosition = {
+			x: this.positionInLevel.x,
+			y: this.positionInLevel.y + 1,
+		};
+
+		return this.actTowardPosition(newPosition);
+	}
+
+	actWest() {
+		let newPosition = {
+			x: this.positionInLevel.x - 1,
+			y: this.positionInLevel.y,
+		};
+
+		return this.actTowardPosition(newPosition);
 	}
 }

@@ -1,4 +1,4 @@
-import NonPlayer from 'entity/NonPlayer';
+import NonPlayer from 'object/NonPlayer';
 import {Slime} from 'resource/creature/Slime';
 
 export const KingSlime = {

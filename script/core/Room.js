@@ -7,16 +7,19 @@ export default class Room {
 	}
 
 	step(time) {
+		// Update each gameObject
+		// This should happen before updating the viewport, otherwise the viewport
+		// follows entity position changes a step after they change position,
+		// while the new position is already rendered.
+		this.entities.forEach((gameObject) => {
+			gameObject.step(time);
+		});
+
 		// update the viewports
 		this.viewports.filter((viewport) => {
 			return viewport.isActive();
 		}).forEach((activeViewport) => {
 			activeViewport.step(time);;
-		});
-
-		// update each entity
-		this.entities.forEach((entity) => {
-			entity.step(time);
 		});
 	}
 
@@ -39,8 +42,8 @@ export default class Room {
 		this.context = canvas.getContext('2d');
 	}
 
-	addEntity(entity) {
-		this.entities.push(entity);
+	addGameObject(gameObject) {
+		this.entities.push(gameObject);
 	}
 
 	getEntities() {
