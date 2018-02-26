@@ -59,6 +59,7 @@ async function load() {
 		x: MAP_SIZE_WIDTH / 2,
 		y: MAP_SIZE_HEIGHT / 2,
 	});
+
 	fillLevel(level);
 
 	// Create a Viewport
