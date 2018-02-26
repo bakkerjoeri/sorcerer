@@ -122,7 +122,7 @@
 	},
 	{
 		"name": "kingslime",
-		"file": "assets/images/kingslime-with-crown.png",
+		"file": "assets/images/kingslime.png",
 		"framesPerSecond": 1,
 		"cells": [
 			{
