@@ -5,9 +5,13 @@ import MoveSouth from 'goal/MoveSouth';
 import MoveWest from 'goal/MoveWest';
 
 export default class Wander extends Goal {
-	takeAction() {
+	takeAction(actor) {
 		return new Promise((success) => {
 			let howManyTimes = Math.round(Math.random() * 3) + 1;
+			if (!actor.canMove()) {
+				actor.wait();
+				return success();
+			}
 
 			for(let t = 0; t < howManyTimes; t++) {
 				let direction = Math.round(Math.random() * 3);
