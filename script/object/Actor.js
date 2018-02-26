@@ -50,6 +50,14 @@ export default class Actor extends Entity {
 	wait() {
 		Ticker.schedule(this.takeAction.bind(this), this.stats.moveCost, this);
 	}
+
+	canMove() {
+		return this.canMoveToPosition({x: this.positionInLevel.x + 1, y: this.positionInLevel.y})
+			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y + 1})
+			|| this.canMoveToPosition({x: this.positionInLevel.x - 1, y: this.positionInLevel.y})
+			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y - 1});
+	}
+
 	canMoveToPosition(levelPosition) {
 		return this.level.hasTileAtPosition(levelPosition)
 			&& !this.level.hasSolidEntitiesInBoundaries(levelPosition, this.sizeInLevel, [this])
