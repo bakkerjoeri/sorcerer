@@ -1,41 +1,27 @@
 {
   "name": "sorcerer",
   "version": "0.0.0",
-  "description": "Where will it be?",
   "main": "scripts/main.js",
   "scripts": {
-    "watch": "NODE_ENV=development webpack -d --watch --progress",
-    "build": "NODE_ENV=production webpack -p --progress"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://joeribakker@github.com/joeribakker/sorcerer.git"
   },
   "keywords": [
-    "game"
+    "game",
+	"roguelike"
   ],
   "author": "Joeri Bakker <bakkerjoeri@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/joeribakker/sorcerer/issues"
   },
-  "homepage": "https://github.com/joeribakker/sorcerer#readme",
+  "homepage": "https://sorcerer.joeri.me",
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.35",
-    "@babel/core": "^7.0.0-beta.35",
-    "@babel/polyfill": "^7.0.0-beta.35",
-    "@babel/preset-env": "^7.0.0-beta.35",
-    "autoprefixer": "^7.1.2",
-    "babel-loader": "8.0.0-beta.0",
-    "browserslist": "2.10.0",
-    "clean-webpack-plugin": "^0.1.16",
-    "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.14.5",
-    "extract-text-webpack-plugin": "^3.0.0",
-    "node-sass": "^4.5.3",
-    "postcss-loader": "^2.0.6",
-    "sass-loader": "^6.0.6",
-    "webpack": "^3.5.1"
+    "webpack": "4.0.1",
+    "webpack-cli": "2.0.9"
   },
   "dependencies": {}
 }
