@@ -24,7 +24,7 @@ h1 {
     width: 960px;
     height: 704px;
 
-    background-color: blue;
+    background-color: #00f;
     image-rendering: -moz-crips-edges;
     image-rendering: -webkit-crips-edges;
     image-rendering: pixelated;
@@ -35,44 +35,44 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    height: 704px;
     width: 240px;
+    height: 704px;
     overflow: hidden;
     list-style: none;
     background-color: #000;
     border-left: 1px dashed #fff;
+}
 
-    &::before {
-        content:'';
-          width:100%;
-          height:100%;
-          position:absolute;
-          left:0;
-          top:0;
-          background:linear-gradient(#000, transparent 120px);
-    }
+.log::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#000, transparent 120px);
+    content: '';
 }
 
 .log__item {
-    line-height: 1.45;
     padding: 0 25px;
-    color: gray;
-
+    
     font-family: monospace;
+    line-height: 1.45;
+    color: #808080;
+}
 
-    em {
-        font-style: normal;
-        color: #fff;
-    }
+.log__item em {
+    font-style: normal;
+    color: #fff;
+}
 
-    &:last-child {
-        background-color: rgb(102, 0, 0);
-    }
+.log__item:last-child {
+    background-color: rgb(102, 0, 0);
+}
 
-    &::before {
-        content: '$';
-        display: inline-block;
-        width: 15px;
-        margin-left: -15px;
-    }
+.log__item::before {
+    content: '$';
+    display: inline-block;
+    width: 15px;
+    margin-left: -15px;
 }
