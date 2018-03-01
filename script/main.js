@@ -1,6 +1,3 @@
-require('../style/main.scss');
-import '@babel/polyfill';
-
 import Room from 'core/Room';
 import Viewport from 'core/Viewport';
 import SpriteManager from 'core/SpriteManager';
