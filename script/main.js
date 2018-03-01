@@ -1,5 +1,5 @@
-require('../style/main.scss');
-import '@babel/polyfill';
+// require('../style/main.scss');
+// import '@babel/polyfill';
 
 import Room from 'core/Room';
 import Viewport from 'core/Viewport';
