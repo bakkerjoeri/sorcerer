@@ -6,10 +6,10 @@ import MoveWest from 'goal/MoveWest';
 
 export default class Wander extends Goal {
 	takeAction(actor) {
-		return new Promise((success) => {
+		return new Promise((succeed) => {
 			if (!actor.canMove()) {
 				actor.wait();
-				return success();
+				return succeed();
 			}
 
 			let howManyTimes = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
@@ -34,7 +34,7 @@ export default class Wander extends Goal {
 				}
 			}
 
-			return success();
+			return succeed();
 		});
 	}
 
