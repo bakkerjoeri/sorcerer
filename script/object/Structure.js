@@ -15,7 +15,11 @@ export default class Structure extends Entity {
 		this.setCanBeAttacked(structureDefinition.canBeAttacked);
 	}
 
-	setCanBeAttacked(canBeAttacked = false) {
-		this.canBeAttacked = canBeAttacked;
+	setCanBeAttacked(attackable = false) {
+		this.attackable = attackable;
+	}
+	
+	canBeAttacked() {
+		return this.attackable;
 	}
 }
