@@ -10,7 +10,7 @@ export default class Brain {
 
 	processGoal(goal) {
 		// If the goal is finished, it removes itself from its parent’s subgoals and traversal resumes from the parent.
-		if (goal.isFinished()) {
+		if (goal.isFinished(this.owner)) {
 			if (goal.originalGoal) {
 				goal.originalGoal.subGoals.splice(goal.originalGoal.subGoals.indexOf(goal), 1);
 
