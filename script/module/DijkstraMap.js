@@ -3,19 +3,32 @@ export default class DijkstraMap {
 		this.cellMap = createCellMapWithSize(size);
 	}
 	
+	findPath(startingPosition, callback) {
+		let neighbours = this.findNeighbours(startingPosition);
+		let currentCell = this.findCellAtPosition(startingPosition);
+		let cellWithSmallestDistance = this.findCellWithSmallestDistance(neighbours);
+		
+		if (cellWithSmallestDistance.weight < currentCell.weight) {
+			callback(cellWithSmallestDistance.position);
+			this.findPath(cellWithSmallestDistance.position, callback);
+		}
+	}
+	
 	calculate() {
 		let cellsToProcess = [];
 		let visitedCells = [];
 		
 		this.forEachCell((cell) => {
-			cellsToProcess.push(cell);
+			if (cell.passable) {
+				cellsToProcess.push(cell);
+			}
 		});
 		
 		while (cellsToProcess.length) {
 			let cell = this.findCellWithSmallestDistance(cellsToProcess);
 			cellsToProcess.splice(cellsToProcess.indexOf(cell), 1);
 			
-			let neighbours = this.findUnvisitedNeighbours(cell.position);
+			let neighbours = this.findNeighbours(cell.position);
 			neighbours.forEach((neighbour) => {	
 					if (cell.weight + 1 < neighbour.weight) {
 						neighbour.weight = cell.weight + 1;
@@ -54,11 +67,11 @@ export default class DijkstraMap {
 		console.log(grid);
 	}
 	
-	findUnvisitedNeighbours(position) {
+	findNeighbours(position) {
 		let neighbours = [];
 		
 		if (this.hasCellAtPosition({x: position.x, y: position.y - 1})) {
-			let north = this.getCellAtPosition({x: position.x, y: position.y - 1});
+			let north = this.findCellAtPosition({x: position.x, y: position.y - 1});
 			
 			if (north.passable) {
 				neighbours.push(north);
@@ -66,7 +79,7 @@ export default class DijkstraMap {
 		}
 		
 		if (this.hasCellAtPosition({x: position.x + 1, y: position.y})) {
-			let east = this.getCellAtPosition({x: position.x + 1, y: position.y});
+			let east = this.findCellAtPosition({x: position.x + 1, y: position.y});
 			
 			if (east.passable) {
 				neighbours.push(east);
@@ -74,7 +87,7 @@ export default class DijkstraMap {
 		}
 		
 		if (this.hasCellAtPosition({x: position.x, y: position.y + 1})) {
-			let south = this.getCellAtPosition({x: position.x, y: position.y + 1});
+			let south = this.findCellAtPosition({x: position.x, y: position.y + 1});
 			
 			if (south.passable) {
 				neighbours.push(south);
@@ -82,7 +95,7 @@ export default class DijkstraMap {
 		}
 		
 		if (this.hasCellAtPosition({x: position.x - 1, y: position.y})) {
-			let west = this.getCellAtPosition({x: position.x - 1, y: position.y});
+			let west = this.findCellAtPosition({x: position.x - 1, y: position.y});
 			
 			if (west.passable) {
 				neighbours.push(west);
@@ -100,7 +113,7 @@ export default class DijkstraMap {
 		});
 	}
 	
-	getCellAtPosition(position) {
+	findCellAtPosition(position) {
 		return this.cellMap[position.x][position.y];
 	}
 	
