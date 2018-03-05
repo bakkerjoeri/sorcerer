@@ -25,9 +25,11 @@ export default class Brain {
 			goal.takeAction(this.owner)
 				// If the goal fails to execute, all its parent’s subgoals are removed and traversal is resumed from that parent goal.
 				.catch(() => {
-					goal.originalGoal.subGoals.length = 0;
+					if (goal.originalGoal) {
+						goal.originalGoal.subGoals.length = 0;
 
-					return this.processGoal(goal.originalGoal);
+						return this.processGoal(goal.originalGoal);
+					}
 				});
 		}
 
