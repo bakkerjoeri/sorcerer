@@ -27,13 +27,17 @@ export default class MoveToPosition extends Goal {
 				dijkstraMap.findCellAtPosition(solidEntity.positionInLevel).setPassability(false);
 			});
 			
-			dijkstraMap.draw();
 			dijkstraMap.calculate();
 			dijkstraMap.draw();
 			
+			// Check if the creature can move to the chosen location
+			if (dijkstraMap.findCellAtPosition(actor.positionInLevel).weight === Infinity) {
+				return fail();
+			}
+			
 			// roll down hill
 			let previousPosition = actor.positionInLevel;
-
+			
 			dijkstraMap.findPath(actor.positionInLevel, (nextPosition) => {
 				if (previousPosition.y < nextPosition.y) {
 					this.subGoals.push(new MoveSouth(this));
