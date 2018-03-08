@@ -52,8 +52,8 @@ export default class Actor extends Entity {
 	}
 
 	canMove() {
-		return this.canMoveToPosition({x: this.positionInLevel.x + 1, y: this.positionInLevel.y})
-			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y + 1})
+		return this.canMoveToPosition({x: this.positionInLevel.x + this.sizeInLevel.width, y: this.positionInLevel.y})
+			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y + this.sizeInLevel.height})
 			|| this.canMoveToPosition({x: this.positionInLevel.x - 1, y: this.positionInLevel.y})
 			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y - 1});
 	}
