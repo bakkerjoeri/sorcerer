@@ -23,7 +23,7 @@ export default class MoveToPosition extends Goal {
 			dijkstraMap.findCellAtPosition(this.position).setAsTarget();
 			
 			actor.level.forEachTileInBoundaries({x: 0, y: 0}, actor.level.size, (tile) => {
-				if (tile.hasSolidEntities([actor])) {
+				if (tile.hasSolidEntities([actor]) || !actor.canMoveToPosition(tile.position)) {
 					dijkstraMap.findCellAtPosition(tile.position).setPassability(false);
 				}
 			});

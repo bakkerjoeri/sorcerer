@@ -36,7 +36,7 @@ export default class Wander extends Goal {
 		dijkstraMap.findCellAtPosition(startingPosition).setAsTarget();
 		
 		level.forEachTileInBoundaries({x: 0, y: 0}, level.size, (tile) => {
-			if (tile.hasSolidEntities([actor]) && (tile.position.x !== startingPosition.x || tile.position.y !== startingPosition.y)) {
+			if ((tile.hasSolidEntities([actor]) || !actor.canMoveToPosition(tile.position)) && (tile.position.x !== startingPosition.x || tile.position.y !== startingPosition.y)) {
 				dijkstraMap.findCellAtPosition(tile.position).setPassability(false);
 			}
 		});
