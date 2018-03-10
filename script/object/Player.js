@@ -2,14 +2,20 @@ import Actor from './Actor';
 import Ticker from './../module/Ticker';
 import Log from './../module/Log';
 
+let turnCount = 0;
+
 export default class Player extends Actor {
 	constructor(type, options) {
 		super(type, options);
 		Log.showMessage(`<em>${this.type}</em> awakens...`);
+		this.turnCount = 0;
 	}
 
 	takeAction() {
 		return new Promise((resolve) => {
+			turnCount += 1;
+			Log.showMessage(`turn ${turnCount}`);
+			
 			if (!this.dead) {
 				this.keyDownEvent = this.addEventListener('keydown', (event) => {
 					this.handleKeyPressed(event, resolve);
@@ -26,7 +32,7 @@ export default class Player extends Actor {
 
 		if (event.key === ' ' || event.key === '5') {
 			event.preventDefault();
-			Log.showMessage(`${this.type} waits...`);
+			Log.showMessage(`<em>${this.type}</em> waits...`);
 			this.wait();
 			actionTaken = true;
 		}
