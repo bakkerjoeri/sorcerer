@@ -11,7 +11,7 @@ export default class Wander extends Goal {
 				return succeed();
 			}
 			
-			let possiblePositions = this.findPossiblePositionsInLevelFromStartingPosition(actor.level, actor.positionInLevel);
+			let possiblePositions = this.findPossiblePositionsInLevel(actor, actor.level, actor.positionInLevel);
 			
 			if (possiblePositions.length === 0) {
 				actor.wait();
@@ -28,17 +28,16 @@ export default class Wander extends Goal {
 		return false;
 	}
 	
-	findPossiblePositionsInLevelFromStartingPosition(level, startingPosition) {
+	findPossiblePositionsInLevel(actor, level, startingPosition) {
 		let possiblePositions = [];
 		
 		// calculate dijkstra map for position
 		let dijkstraMap = new DijkstraMap(level.size);
 		dijkstraMap.findCellAtPosition(startingPosition).setAsTarget();
 		
-		let solidEntities = level.getSolidEntitiesInBoundaries({x: 0, y: 0}, level.size);
-		solidEntities.forEach((solidEntity) => {
-			if (solidEntity.positionInLevel.x !== startingPosition.x || solidEntity.positionInLevel.y !== startingPosition.y) {
-				dijkstraMap.findCellAtPosition(solidEntity.positionInLevel).setPassability(false);
+		level.forEachTileInBoundaries({x: 0, y: 0}, level.size, (tile) => {
+			if (tile.hasSolidEntities([actor]) && (tile.position.x !== startingPosition.x || tile.position.y !== startingPosition.y)) {
+				dijkstraMap.findCellAtPosition(tile.position).setPassability(false);
 			}
 		});
 		

@@ -22,9 +22,10 @@ export default class MoveToPosition extends Goal {
 			let dijkstraMap = new DijkstraMap(actor.level.size);
 			dijkstraMap.findCellAtPosition(this.position).setAsTarget();
 			
-			let solidEntities = actor.level.getSolidEntitiesInBoundaries({x: 0, y: 0}, actor.level.size, [actor]);
-			solidEntities.forEach((solidEntity) => {
-				dijkstraMap.findCellAtPosition(solidEntity.positionInLevel).setPassability(false);
+			actor.level.forEachTileInBoundaries({x: 0, y: 0}, actor.level.size, (tile) => {
+				if (tile.hasSolidEntities([actor])) {
+					dijkstraMap.findCellAtPosition(tile.position).setPassability(false);
+				}
 			});
 			
 			dijkstraMap.calculate();
