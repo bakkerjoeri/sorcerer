@@ -13,6 +13,7 @@ import {Grave} from 'resource/structure/Grave';
 const LEVEL_KEY_RANDOM = 'random';
 const LEVEL_KEY_LOCKED_UP_KNIGHT = 'locked_up_knight';
 const LEVEL_KEY_ONLY_CREATURES = 'only_creatures';
+const LEVEL_KEY_KING_SLIME_DIJKSTRA_TEST = 'king_slime_dijkstra_test';
 
 export default class LevelGenerator {
     static createLevel(room, player, key) {
@@ -68,6 +69,45 @@ export default class LevelGenerator {
             });
             
             fillWithRandomCreatures(level);
+            
+            return level;
+        }
+        
+        if (key === LEVEL_KEY_KING_SLIME_DIJKSTRA_TEST) {
+            let level = new Level({
+                width: 8,
+                height: 8,
+            }, room);
+            
+            level.addActor(player, {
+                x: 7,
+                y: 0,
+            });
+            
+            level.addActor(new NonPlayer(KingSlime), {
+                x: 0,
+                y: 4,
+            });
+            
+            level.addActor(new Structure(Tree), {
+                x: 7,
+                y: 7,
+            });
+            
+            level.addActor(new Structure(Tree), {
+                x: 2,
+                y: 5,
+            });
+            
+            level.addActor(new Structure(Wall), {
+                x: 0,
+                y: 3,
+            });
+            
+            level.addActor(new Structure(Wall), {
+                x: 6,
+                y: 5,
+            });
             
             return level;
         }
