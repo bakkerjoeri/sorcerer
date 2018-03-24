@@ -121,6 +121,39 @@
 		]
 	},
 	{
+		"name": "giantslime",
+		"file": "assets/images/giantslime.png",
+		"framesPerSecond": 1,
+		"cells": [
+			{
+				"name": "giantslime_idle_0",
+				"origin": {
+					"x": 0,
+					"y": 0
+				},
+				"size": {
+					"width": 32,
+					"height": 32
+				}
+			},
+			{
+				"name": "giantslime_idle_1",
+				"origin": {
+					"x": 32,
+					"y": 0
+				},
+				"size": {
+					"width": 32,
+					"height": 32
+				}
+			}
+		],
+		"frames": [
+			"giantslime_idle_0",
+			"giantslime_idle_1"
+		]
+	},
+	{
 		"name": "kingslime",
 		"file": "assets/images/kingslime.png",
 		"framesPerSecond": 1,
