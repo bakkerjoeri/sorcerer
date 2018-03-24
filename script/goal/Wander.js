@@ -1,44 +1,46 @@
+import CellMap from 'module/CellMap';
+import choose from 'random/choose';
+import floodfill from 'utility/floodfill';
 import Goal from 'module/Goal';
-import MoveNorth from 'goal/MoveNorth';
-import MoveEast from 'goal/MoveEast';
-import MoveSouth from 'goal/MoveSouth';
-import MoveWest from 'goal/MoveWest';
+import MoveToPosition from 'goal/MoveToPosition';
 
 export default class Wander extends Goal {
 	takeAction(actor) {
-		return new Promise((success) => {
+		return new Promise((succeed) => {
 			if (!actor.canMove()) {
 				actor.wait();
-				return success();
+				return succeed();
 			}
-
-			let howManyTimes = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-
-			for(let t = 0; t < howManyTimes; t++) {
-				let direction = Math.floor(Math.random() * (3 + 1));
-
-				if (direction === 0) {
-					this.subGoals.push(new MoveNorth(this));
-				}
-
-				if (direction === 1) {
-					this.subGoals.push(new MoveEast(this));
-				}
-
-				if (direction === 2) {
-					this.subGoals.push(new MoveSouth(this));
-				}
-
-				if (direction === 3) {
-					this.subGoals.push(new MoveWest(this));
-				}
+			
+			let possiblePositions = this.findPossiblePositionsInLevel(actor, actor.level, actor.positionInLevel);
+			
+			if (possiblePositions.length === 0) {
+				actor.wait();
+				return succeed();
 			}
-
-			return success();
+			
+			this.subGoals.push(new MoveToPosition(choose(possiblePositions), this));
+			
+			return succeed();
 		});
 	}
 
 	isFinished() {
 		return false;
+	}
+
+	findPossiblePositionsInLevel(actor, level, fromPosition) {
+		let cellMap = CellMap.createWithSize(level.size);
+
+		level.forEachTileInBoundaries({x: 0, y: 0}, level.size, (tile) => {
+			if ((tile.hasSolidEntities([actor]) || !actor.canMoveToPosition(tile.position)) && (tile.position.x !== fromPosition.x || tile.position.y !== fromPosition.y)) {
+				cellMap.findCellAtPosition(tile.position).setPassability(false);
+			}
+		});
+
+		let possibleCells = floodfill(cellMap, fromPosition);
+		let possiblePositions = possibleCells.map(cell => cell.position);
+
+		return possiblePositions;
 	}
 }

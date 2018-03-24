@@ -52,10 +52,12 @@ export default class Actor extends Entity {
 	}
 
 	canMove() {
-		return this.canMoveToPosition({x: this.positionInLevel.x + 1, y: this.positionInLevel.y})
+		let canMove = this.canMoveToPosition({x: this.positionInLevel.x + 1, y: this.positionInLevel.y})
 			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y + 1})
 			|| this.canMoveToPosition({x: this.positionInLevel.x - 1, y: this.positionInLevel.y})
 			|| this.canMoveToPosition({x: this.positionInLevel.x, y: this.positionInLevel.y - 1});
+		
+		return canMove;
 	}
 
 	canMoveToPosition(levelPosition) {

@@ -10,7 +10,7 @@ export default class Brain {
 
 	processGoal(goal) {
 		// If the goal is finished, it removes itself from its parent’s subgoals and traversal resumes from the parent.
-		if (goal.isFinished()) {
+		if (goal.isFinished(this.owner)) {
 			if (goal.originalGoal) {
 				goal.originalGoal.subGoals.splice(goal.originalGoal.subGoals.indexOf(goal), 1);
 
@@ -25,9 +25,11 @@ export default class Brain {
 			goal.takeAction(this.owner)
 				// If the goal fails to execute, all its parent’s subgoals are removed and traversal is resumed from that parent goal.
 				.catch(() => {
-					goal.originalGoal.subGoals.length = 0;
+					if (goal.originalGoal) {
+						goal.originalGoal.subGoals.length = 0;
 
-					return this.processGoal(goal.originalGoal);
+						return this.processGoal(goal.originalGoal);
+					}
 				});
 		}
 

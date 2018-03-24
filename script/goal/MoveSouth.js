@@ -8,7 +8,7 @@ export default class MoveSouth extends Goal {
 	}
 
 	takeAction(actor) {
-		return new Promise((success, fail) => {
+		return new Promise((succeed, fail) => {
 			if (actor.dead) {
 				return fail();
 			}
@@ -25,7 +25,7 @@ export default class MoveSouth extends Goal {
 			actor.moveTo(newLevelPosition);
 			this.moved = true;
 
-			return success();
+			return succeed();
 		});
 	}
 
