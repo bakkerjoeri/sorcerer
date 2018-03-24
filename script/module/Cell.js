@@ -5,15 +5,15 @@ export default class Cell {
 		this.setWeight(weight);
 		this.setPassability(passable);
 	}
-	
+
 	setWeight(weight) {
 		this.weight = weight;
 	}
-	
+
 	resetWeight() {
 		this.setWeight(Infinity);
 	}
-	
+
 	setPassability(passable) {
 		this.passable = passable;
 	}
