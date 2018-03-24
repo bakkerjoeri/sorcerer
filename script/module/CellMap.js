@@ -12,7 +12,7 @@ export default class CellMap extends Array {
             }
         }
 
-        return new CellMap(cellMap);
+        return new this(cellMap);
     }
 
     constructor(cells) {

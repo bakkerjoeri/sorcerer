@@ -19,9 +19,9 @@ export default class MoveToPosition extends Goal {
 			}
 
 			// calculate dijkstra map for position
-			let dijkstraMap = new DijkstraMap(actor.level.size);
-			dijkstraMap.findCellAtPosition(this.position).setAsTarget();
+			let dijkstraMap = DijkstraMap.createWithSize(actor.level.size);
 			
+			dijkstraMap.findCellAtPosition(this.position).setWeight(0);
 			actor.level.forEachTileInBoundaries({x: 0, y: 0}, actor.level.size, (tile) => {
 				if (tile.hasSolidEntities([actor]) || !actor.canMoveToPosition(tile.position)) {
 					dijkstraMap.findCellAtPosition(tile.position).setPassability(false);
@@ -29,14 +29,13 @@ export default class MoveToPosition extends Goal {
 			});
 			
 			dijkstraMap.calculate();
-			dijkstraMap.draw();
 			
 			// Check if the creature can move to the chosen location
 			if (dijkstraMap.findCellAtPosition(actor.positionInLevel).weight === Infinity) {
 				return fail();
 			}
 			
-			// roll down hill
+			// Create goals from the path
 			let previousPosition = actor.positionInLevel;
 			
 			dijkstraMap.findPath(actor.positionInLevel, (nextPosition) => {

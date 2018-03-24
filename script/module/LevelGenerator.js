@@ -6,6 +6,7 @@ import Structure from 'object/Structure';
 import {Knight} from 'resource/creature/Knight';
 import {Slime} from 'resource/creature/Slime';
 import {KingSlime} from 'resource/creature/KingSlime';
+import {GiantSlime} from 'resource/creature/GiantSlime';
 import {Tree} from 'resource/structure/Tree';
 import {Wall} from 'resource/structure/Wall';
 import {Grave} from 'resource/structure/Grave';
@@ -89,6 +90,11 @@ export default class LevelGenerator {
                 y: 4,
             });
             
+            level.addActor(new NonPlayer(GiantSlime), {
+                x: 4,
+                y: 6,
+            });
+            
             level.addActor(new Structure(Tree), {
                 x: 7,
                 y: 7,
@@ -161,11 +167,11 @@ function fillWithRandomStuff(level) {
 		}
         
         if (
-			!level.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
-			&& level.areBoundariesWithinLevelBoundaries(tile.position, KingSlime.size)
+			!level.hasSolidEntitiesInBoundaries(tile.position, GiantSlime.size)
+			&& level.areBoundariesWithinLevelBoundaries(tile.position, GiantSlime.size)
 		) {
 			if (onChance(240)) {
-				level.addActor(new NonPlayer(KingSlime), tile.position);
+				level.addActor(new NonPlayer(GiantSlime), tile.position);
         
 				return;
 			}
@@ -176,11 +182,11 @@ function fillWithRandomStuff(level) {
 function fillWithRandomCreatures(level) {
     level.forEachTile((tile) => {
         if (
-			!level.hasSolidEntitiesInBoundaries(tile.position, KingSlime.size)
-			&& level.areBoundariesWithinLevelBoundaries(tile.position, KingSlime.size)
+			!level.hasSolidEntitiesInBoundaries(tile.position, GiantSlime.size)
+			&& level.areBoundariesWithinLevelBoundaries(tile.position, GiantSlime.size)
 		) {
 			if (onChance(240)) {
-				level.addActor(new NonPlayer(KingSlime), tile.position);
+				level.addActor(new NonPlayer(GiantSlime), tile.position);
         
 				return;
 			}
