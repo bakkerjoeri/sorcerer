@@ -1,6 +1,4 @@
 export default function choose(choices) {
-    console.log('choosing from', choices);
-    
     if (choices.length === 0) {
         throw new Error('Cannot choose from zero choices.');
     }
