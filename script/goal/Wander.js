@@ -1,7 +1,8 @@
+import CellMap from 'module/CellMap';
+import choose from 'random/choose';
+import floodfill from 'utility/floodfill';
 import Goal from 'module/Goal';
 import MoveToPosition from 'goal/MoveToPosition';
-import DijkstraMap from 'module/DijkstraMap';
-import choose from 'random/choose';
 
 export default class Wander extends Goal {
 	takeAction(actor) {
@@ -27,34 +28,19 @@ export default class Wander extends Goal {
 	isFinished() {
 		return false;
 	}
-	
-	findPossiblePositionsInLevel(actor, level, startingPosition) {
-		let possiblePositions = [];
-		
-		// calculate dijkstra map for position
-		let dijkstraMap = new DijkstraMap(level.size);
-		dijkstraMap.findCellAtPosition(startingPosition).setAsTarget();
-		
+
+	findPossiblePositionsInLevel(actor, level, fromPosition) {
+		let cellMap = CellMap.createWithSize(level.size);
+
 		level.forEachTileInBoundaries({x: 0, y: 0}, level.size, (tile) => {
-			if ((tile.hasSolidEntities([actor]) || !actor.canMoveToPosition(tile.position)) && (tile.position.x !== startingPosition.x || tile.position.y !== startingPosition.y)) {
-				dijkstraMap.findCellAtPosition(tile.position).setPassability(false);
+			if ((tile.hasSolidEntities([actor]) || !actor.canMoveToPosition(tile.position)) && (tile.position.x !== fromPosition.x || tile.position.y !== fromPosition.y)) {
+				cellMap.findCellAtPosition(tile.position).setPassability(false);
 			}
 		});
-		
-		dijkstraMap.draw();
-		dijkstraMap.calculate();
-		dijkstraMap.draw();
-		
-		// Check if the starting position is part of the possible positions.
-		if (dijkstraMap.findCellAtPosition(startingPosition).weight !== Infinity) {
-			// Flood fill to find all possible positions.
-			dijkstraMap.forEachCell((cell) => {
-				if (cell.weight !== Infinity && cell.passable) {
-					possiblePositions.push(cell.position);
-				}
-			});
-		}
-		
+
+		let possibleCells = floodfill(cellMap, fromPosition);
+		let possiblePositions = possibleCells.map(cell => cell.position);
+
 		return possiblePositions;
 	}
 }
