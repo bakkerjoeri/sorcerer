@@ -19,12 +19,8 @@ export default class CellMap extends Array {
 		super(...cells);
 	}
 
-	forEachCell(callback) {
-		this.forEach((row) => {
-			row.forEach((cell, index) => {
-				callback(cell, index)
-			});
-		});
+	get cells() {
+		return this.reduce((cells, row) => [...cells, ...row], []);
 	}
 
 	findCellAtPosition(position) {
@@ -39,7 +35,8 @@ export default class CellMap extends Array {
 		if (!this.hasCellAtPosition(position)) {
 			throw new Error('No cell exists at position', position);
 		}
-					let neighbours = [];
+
+		let neighbours = [];
 
 		if (this.hasCellAtPosition({
 			x: position.x,
@@ -92,10 +89,11 @@ export default class CellMap extends Array {
 
 		return neighbours;
 	}
-			draw() {
+
+	draw() {
 		let lines = [];
 
-		this.forEachCell((cell, index) => {
+		this.cells.forEach((cell, index) => {
 			lines[index] = `${(lines[index] || '')}${!cell.passable ? ' #' : cell.weight === Infinity ? ' .' : cell.weight.toString().length === 1 ? ` ${cell.weight}` : cell.weight} `;
 		});
 
