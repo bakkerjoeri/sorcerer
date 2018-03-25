@@ -4,7 +4,8 @@
   "main": "scripts/main.js",
   "scripts": {
     "build": "webpack --mode production",
-    "watch": "webpack --mode development --watch"
+    "watch": "webpack --mode development --watch",
+	"test": "nyc mocha"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,9 @@
   },
   "homepage": "https://sorcerer.joeri.me",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.5",
+    "nyc": "^11.6.0",
     "webpack": "4.0.1",
     "webpack-cli": "^2.0.9"
   },
