@@ -22,15 +22,14 @@ export default class Brain {
 
 		// If the goal has no subgoals, we execute the goal’s action.
 		if (goal.subGoals.length === 0) {
-			goal.takeAction(this.owner)
-				// If the goal fails to execute, all its parent’s subgoals are removed and traversal is resumed from that parent goal.
-				.catch(() => {
-					if (goal.originalGoal) {
-						goal.originalGoal.subGoals.length = 0;
+			// If the goal fails to execute, all its parent’s subgoals are removed and traversal is resumed from that parent goal.
+			if (!goal.takeAction(this.owner)) {
+				if (goal.originalGoal) {
+					goal.originalGoal.subGoals.length = 0;
 
-						return this.processGoal(goal.originalGoal);
-					}
-				});
+					return this.processGoal(goal.originalGoal);
+				}
+			}
 		}
 
 		// If now there are subgoals, traversal continues.

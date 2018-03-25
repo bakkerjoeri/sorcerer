@@ -8,25 +8,23 @@ export default class MoveEast extends Goal {
 	}
 
 	takeAction(actor) {
-		return new Promise((succeed, fail) => {
-			if (actor.dead) {
-				return fail();
-			}
+		if (actor.dead) {
+			return false;
+		}
 
-			let newLevelPosition = {
-				x: actor.positionInLevel.x + 1,
-				y: actor.positionInLevel.y,
-			};
+		let newLevelPosition = {
+			x: actor.positionInLevel.x + 1,
+			y: actor.positionInLevel.y,
+		};
 
-			if (!actor.canMoveToPosition(newLevelPosition)) {
-				return fail();
-			}
+		if (!actor.canMoveToPosition(newLevelPosition)) {
+			return false;
+		}
 
-			actor.moveTo(newLevelPosition);
-			this.moved = true;
+		actor.moveTo(newLevelPosition);
+		this.moved = true;
 
-			return succeed();
-		});
+		return true;
 	}
 
 	isFinished() {

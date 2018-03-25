@@ -8,25 +8,23 @@ export default class MoveSouth extends Goal {
 	}
 
 	takeAction(actor) {
-		return new Promise((succeed, fail) => {
-			if (actor.dead) {
-				return fail();
-			}
+		if (actor.dead) {
+			return false;
+		}
 
-			let newLevelPosition = {
-				x: actor.positionInLevel.x,
-				y: actor.positionInLevel.y + 1,
-			};
+		let newLevelPosition = {
+			x: actor.positionInLevel.x,
+			y: actor.positionInLevel.y + 1,
+		};
 
-			if (!actor.canMoveToPosition(newLevelPosition)) {
-				return fail();
-			}
+		if (!actor.canMoveToPosition(newLevelPosition)) {
+			return false;
+		}
 
-			actor.moveTo(newLevelPosition);
-			this.moved = true;
+		actor.moveTo(newLevelPosition);
+		this.moved = true;
 
-			return succeed();
-		});
+		return true;
 	}
 
 	isFinished() {

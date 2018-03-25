@@ -6,23 +6,21 @@ import MoveToPosition from 'goal/MoveToPosition';
 
 export default class Wander extends Goal {
 	takeAction(actor) {
-		return new Promise((succeed) => {
-			if (!actor.canMove()) {
-				actor.wait();
-				return succeed();
-			}
-			
-			let possiblePositions = this.findPossiblePositionsInLevel(actor, actor.level, actor.positionInLevel);
-			
-			if (possiblePositions.length === 0) {
-				actor.wait();
-				return succeed();
-			}
-			
-			this.subGoals.push(new MoveToPosition(choose(possiblePositions), this));
-			
-			return succeed();
-		});
+		if (!actor.canMove()) {
+			actor.wait();
+			return true;
+		}
+
+		let possiblePositions = this.findPossiblePositionsInLevel(actor, actor.level, actor.positionInLevel);
+
+		if (possiblePositions.length === 0) {
+			actor.wait();
+			return true;
+		}
+
+		this.subGoals.push(new MoveToPosition(choose(possiblePositions), this));
+
+		return true;
 	}
 
 	isFinished() {
