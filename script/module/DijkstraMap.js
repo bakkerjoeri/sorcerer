@@ -2,14 +2,8 @@ import CellMap from 'module/CellMap';
 
 export default class DijkstraMap extends CellMap {
 	calculate() {
-		let cellsToProcess = [];
 		let visitedCells = [];
-
-		this.forEachCell((cell) => {
-			if (cell.passable) {
-				cellsToProcess.push(cell);
-			}
-		});
+		let cellsToProcess = this.cells.filter(cell => cell.passable);
 
 		while (cellsToProcess.length) {
 			let cell = findCellWithSmallestWeight(cellsToProcess);
