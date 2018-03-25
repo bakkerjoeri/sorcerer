@@ -1,5 +1,5 @@
 import CellMap from 'module/CellMap';
-import choose from 'random/choose';
+import choose from 'utility/random/choose';
 import floodfill from 'utility/floodfill';
 import Goal from 'module/Goal';
 import MoveToPosition from 'goal/MoveToPosition';

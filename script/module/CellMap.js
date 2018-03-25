@@ -35,7 +35,8 @@ export default class CellMap extends Array {
 		if (!this.hasCellAtPosition(position)) {
 			throw new Error('No cell exists at position', position);
 		}
-					let neighbours = [];
+
+		let neighbours = [];
 
 		if (this.hasCellAtPosition({
 			x: position.x,
