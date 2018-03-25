@@ -36,6 +36,7 @@ function findCellWithSmallestWeight(cells) {
 	if (cells.length === 0) {
 		throw new Error('Cannot find cell with smallest weight from an array with 0 cells.');
 	}
+
 	cells.sort((a, b) => a.weight - b.weight);
 
 	return cells[0];
