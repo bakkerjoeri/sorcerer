@@ -33,13 +33,10 @@ export default class DijkstraMap extends CellMap {
 }
 
 function findCellWithSmallestWeight(cells) {
-	let cellWithSmallestDistance;
+	if (cells.length === 0) {
+		throw new Error('Cannot find cell with smallest weight from an array with 0 cells.');
+	}
+	cells.sort((a, b) => a.weight - b.weight);
 
-	cells.forEach((cell) => {
-		if (!cellWithSmallestDistance || cellWithSmallestDistance.weight > cell.weight) {
-			cellWithSmallestDistance = cell;
-		}
-	});
-
-	return cellWithSmallestDistance;
+	return cells[0];
 }
