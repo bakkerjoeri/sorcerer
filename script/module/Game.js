@@ -11,11 +11,11 @@ export default class Game {
 			throw new Error('Cannot start without a level.');
 		}
 
-		window.requestAnimationFrame(this.loop.bind(this));
+		window.requestAnimationFrame(this.step.bind(this));
 		Ticker.startTicking(this.level.actors);
 	}
 
-	loop(time) {
+	step(time) {
 		if (!this.room) {
 			throw new Error('Cannot start updating without a room.');
 		}
@@ -23,6 +23,6 @@ export default class Game {
 		this.room.step(time);
 		this.room.draw(time);
 
-		window.requestAnimationFrame(this.loop.bind(this));
+		window.requestAnimationFrame(this.step.bind(this));
 	}
 }

@@ -18,6 +18,20 @@ const TILE_SIZE = 16;
 
 load();
 
+// Datastore testing
+import createStore from 'core/createStore';
+import reducer from 'reducer';
+
+let store = createStore(reducer);
+
+console.log(store.getState());
+
+store.dispatch({
+	type: 'DO_A_THING',
+});
+
+console.log(store.getState());
+
 async function load() {
 	await SpriteManager.loadLibrary('assets/sprites.json');
 
@@ -33,12 +47,12 @@ async function load() {
 	});
 	room.setBackgroundColor('#000');
 	room.useCanvas(canvas);
-	
+
 	// Create the player
 	const player = new Player(GreenKnight);
 
 	// Create world map
-	const level = LevelGenerator.createLevel(room, player, 'random')
+	const level = LevelGenerator.createLevel(room, player, 'king_slime_dijkstra_test')
 
 	// Create a Viewport
 	const playerViewport = new Viewport({width: CANVAS_SIZE_WIDTH, height: CANVAS_SIZE_HEIGHT}, {

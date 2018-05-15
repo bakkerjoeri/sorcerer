@@ -27,29 +27,37 @@ export default class LevelGenerator {
 				x: 36 / 2,
 				y: 24 / 2,
 			});
-							fillWithRandomStuff(level);
-							return level;
+
+			fillWithRandomStuff(level);
+
+			return level;
 		}
-					if (key === LEVEL_KEY_LOCKED_UP_KNIGHT) {
+
+		if (key === LEVEL_KEY_LOCKED_UP_KNIGHT) {
 			let level = new Level({
 				width: 10,
 				height: 10,
 			}, room);
-							level.addActor(player, {
+
+			level.addActor(player, {
 				x: 4,
 				y: 3,
 			});
-							level.addActor(new NonPlayer(Knight), {
+
+			level.addActor(new NonPlayer(Knight), {
 				x: 3,
 				y: 3,
 			});
-							createCage(level, {
+
+			createCage(level, {
 				x: 3,
 				y: 3,
 			});
-							return level;
+
+			return level;
 		}
-					if (key === LEVEL_KEY_ONLY_CREATURES) {
+
+		if (key === LEVEL_KEY_ONLY_CREATURES) {
 			let level = new Level({
 				width: 36,
 				height: 24,
@@ -58,43 +66,53 @@ export default class LevelGenerator {
 				x: 36 / 2,
 				y: 24 / 2,
 			});
-							fillWithRandomCreatures(level);
-							return level;
+
+			fillWithRandomCreatures(level);
+			return level;
 		}
-					if (key === LEVEL_KEY_KING_SLIME_DIJKSTRA_TEST) {
+
+		if (key === LEVEL_KEY_KING_SLIME_DIJKSTRA_TEST) {
 			let level = new Level({
 				width: 8,
 				height: 8,
 			}, room);
-							level.addActor(player, {
-				x: 7,
-				y: 0,
+
+			level.addActor(player, {
+				x: 4,
+				y: 1,
 			});
-							level.addActor(new NonPlayer(KingSlime), {
+
+			level.addActor(new NonPlayer(KingSlime), {
 				x: 0,
 				y: 4,
 			});
-							level.addActor(new NonPlayer(GiantSlime), {
+
+			level.addActor(new NonPlayer(GiantSlime), {
 				x: 4,
 				y: 6,
 			});
-							level.addActor(new Structure(Tree), {
+
+			level.addActor(new Structure(Tree), {
 				x: 7,
 				y: 7,
 			});
-							level.addActor(new Structure(Tree), {
+
+			level.addActor(new Structure(Tree), {
 				x: 2,
 				y: 5,
 			});
-							level.addActor(new Structure(Wall), {
+
+			level.addActor(new Structure(Wall), {
 				x: 0,
 				y: 3,
 			});
-							level.addActor(new Structure(Wall), {
+
+			level.addActor(new Structure(Wall), {
 				x: 6,
 				y: 5,
 			});
-							return level;
+
+			return level;
 		}
 	}
 }
@@ -166,7 +184,8 @@ function fillWithRandomCreatures(level) {
 							return;
 			}
 		}
-					if (!tile.hasSolidEntities()) {
+
+		if (!tile.hasSolidEntities()) {
 			if (onChance(40)) {
 				level.addActor(new NonPlayer(Slime), tile.position);
 
