@@ -3,7 +3,7 @@ export default class Room {
 		this.setSize(size);
 
 		this.viewports = [];
-		this.entities = [];
+		this.gameObjects = [];
 	}
 
 	step(time) {
@@ -11,7 +11,7 @@ export default class Room {
 		// This should happen before updating the viewport, otherwise the viewport
 		// follows entity position changes a step after they change position,
 		// while the new position is already rendered.
-		this.entities.forEach((gameObject) => {
+		this.gameObjects.forEach((gameObject) => {
 			gameObject.step(time);
 		});
 
@@ -43,11 +43,11 @@ export default class Room {
 	}
 
 	addGameObject(gameObject) {
-		this.entities.push(gameObject);
+		this.gameObjects.push(gameObject);
 	}
 
 	getEntities() {
-		return this.entities;
+		return this.gameObjects;
 	}
 
 	setSize(size) {

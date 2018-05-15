@@ -93,8 +93,8 @@ export default class Viewport {
 			height: this.size.height,
 		});
 
-		// draw all entities
-		this.room.entities.filter((gameObject) => {
+		// draw all game objects
+		this.room.gameObjects.filter((gameObject) => {
 			return gameObject.visible
 		}).forEach((visibleGameObject) => {
 			visibleGameObject.draw(time, canvas, this);
