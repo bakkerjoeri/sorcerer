@@ -5,7 +5,7 @@ export function updateViewportInRoom(time, viewport, room) {
 	window.store.dispatch(changeViewportPosition(viewport.id, newPosition));
 }
 
-export function drawRoomInViewportOntoContext(time, room, viewport, context) {
+export function drawViewportForRoomOntoContext(time, viewport, room, context) {
 	// Clear viewport
 	clearViewportFromContext(viewport, context);
 
@@ -65,4 +65,18 @@ function drawRoomBackgroundOntoContext(room, origin, size, context) {
 
 function drawGameObjectInViewportOntoContext(time, gameObject, viewport, context) {
 	gameObject.draw(time, context, viewport);
+}
+
+function drawMiddleOfViewportOntoContext(context, viewport) {
+	context.strokeStyle = '#bad455';
+
+	context.beginPath();
+	context.moveTo(viewport.origin.x, viewport.origin.y);
+	context.lineTo(viewport.origin.x + viewport.size.width, viewport.origin.y + viewport.size.height);
+	context.stroke();
+
+	context.beginPath();
+	context.moveTo(viewport.origin.x + viewport.size.width, viewport.origin.y);
+	context.lineTo(viewport.origin.x, viewport.origin.y + viewport.size.height);
+	context.stroke();
 }

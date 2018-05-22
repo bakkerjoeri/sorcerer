@@ -1,3 +1,5 @@
+import {updateViewportInRoom, drawViewportForRoomOntoContext} from './viewports';
+
 export default class Room {
 	constructor(size) {
 		this.setSize(size);
@@ -15,20 +17,24 @@ export default class Room {
 			gameObject.step(time);
 		});
 
+		let viewports = Object.values(window.store.getState().viewports);
+
 		// update the viewports
-		this.viewports.filter((viewport) => {
-			return viewport.isActive();
+		viewports.filter((viewport) => {
+			return viewport.isActive;
 		}).forEach((activeViewport) => {
-			activeViewport.step(time);;
+			updateViewportInRoom(time, activeViewport, this);
 		});
 	}
 
 	draw(time) {
+		let viewports = Object.values(window.store.getState().viewports);
+
 		// draw each viewport
-		this.viewports.filter((viewport) => {
-			return viewport.isActive();
+		viewports.filter((viewport) => {
+			return viewport.isActive;
 		}).forEach((activeViewport) => {
-			activeViewport.draw(time, this.canvas);
+			drawViewportForRoomOntoContext(time, activeViewport, this, this.context);
 		});
 	}
 
