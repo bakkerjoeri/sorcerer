@@ -1,3 +1,5 @@
+import combineReducers from 'core/combineReducers';
+
 export default function createStore(reducer) {
 	let isDispatching = false;
 	let currentReducer;
@@ -11,7 +13,7 @@ export default function createStore(reducer) {
 		}
 
 		if (!action.type) {
-			throw new Error('Action doesn\'t have a type.');
+			throw new Error('Cannot execute action that doesn\'t have a type.');
 		}
 
 		try {
@@ -20,6 +22,8 @@ export default function createStore(reducer) {
 		} finally {
 			isDispatching = false;
 		}
+
+		return action;
 	}
 
 	function getState() {
@@ -38,12 +42,16 @@ export default function createStore(reducer) {
 		currentReducer = reducer;
 	}
 
-	dispatch({
-		type: 'INIT',
-	});
+	function addReducers(...reducers) {
+		replaceReducer(combineReducers(currentReducer, ...reducers));
+	}
+
+	dispatch({type: 'INIT'});
 
 	return {
 		dispatch,
 		getState,
+		replaceReducer,
+		addReducers,
 	};
 }
