@@ -36,9 +36,7 @@ export default class GameObject {
 		}
 	}
 
-	draw(time, canvas, viewport) {
-		let context = canvas.getContext('2d');
-
+	draw(time, context, viewport) {
 		if (
 			this.hasOwnProperty('sprite')
 			&& this.hasOwnProperty('position')
@@ -59,7 +57,7 @@ export default class GameObject {
 				}
 			}
 
-			this.sprite.draw(time, canvas, spriteDrawPosition);
+			this.sprite.draw(time, context, spriteDrawPosition);
 		}
 	}
 

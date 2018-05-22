@@ -100,8 +100,7 @@ export default class Sprite {
 		}
 	}
 
-	draw(time, canvas, position) {
-		let context = canvas.getContext('2d');
+	draw(time, context, position) {
 		let currentFrame = this.getCurrentFrame();
 
 		if (currentFrame) {
