@@ -1,4 +1,32 @@
-import {changeViewportPosition} from './actions/viewports';
+import getUniqueId from './../utility/getUniqueId';
+import {changeViewportPosition} from './../actions/viewports';
+
+export function createViewport(properties = {}) {
+	const DEFAULT_PROPERTIES = {
+		position: {
+			x: 0,
+			y: 0,
+		},
+		origin: {
+			x: 0,
+			y: 0,
+		},
+		size: {
+			width: 0,
+			height: 0,
+		},
+		isActive: true,
+		gameObjectIdToFollow: null,
+	};
+
+	let viewport = Object.assign({}, DEFAULT_PROPERTIES, properties);
+
+	if (!viewport.hasOwnProperty('id')) {
+		viewport.id = getUniqueId('viewports');
+	}
+
+	return viewport;
+}
 
 export function updateViewportInRoom(time, viewport, room) {
 	let newPosition = calculateViewportPositionForGameObjectToFollow(viewport, room, viewport.gameObjectToFollow);

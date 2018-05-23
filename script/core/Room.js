@@ -1,4 +1,4 @@
-import {updateViewportInRoom, drawViewportForRoomOntoContext} from './viewports';
+import {updateViewportInRoom, drawViewportForRoomOntoContext} from './module/Viewport';
 
 export default class Room {
 	constructor(size) {
