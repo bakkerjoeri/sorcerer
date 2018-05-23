@@ -9,10 +9,12 @@ import Player from 'object/Player';
 
 import {GreenKnight} from 'resource/creature/GreenKnight';
 
-import {viewports} from './core/reducers/index';
 import createStore from './core/createStore';
+import reducer from './core/reducers';
+import {createGameObject} from './core/module/GameObject';
+import {addGameObject} from './core/actions/gameObjects';
+import {createViewport} from './core/module/Viewport';
 import {addViewport, setViewportIsActive} from './core/actions/viewports';
-import getUniqueId from './core/utility/getUniqueId';
 
 const CANVAS_SIZE_WIDTH = 240;
 const CANVAS_SIZE_HEIGHT = 176;
@@ -46,29 +48,30 @@ async function load() {
 
 
 	// Start datastore and make globally available for now.
-	let store = createStore(viewports);
+	let store = createStore(reducer);
+
+	console.log(store.getState());
 
 	// @TODO: Remove global availability of store.
 	window.store = store;
 
+	// Create player game object.
+	let playerGameObject = createGameObject();
+	store.dispatch(addGameObject(playerGameObject));
+
+	console.log(store.getState());
+
 	// Add viewport
-	store.dispatch(addViewport({
-		id: getUniqueId(),
-		position: {
-			x: 0,
-			y: 0,
-		},
-		origin: {
-			x: 0,
-			y: 0,
-		},
+	let playerViewport = createViewport({
 		size: {
 			width: CANVAS_SIZE_WIDTH,
 			height: CANVAS_SIZE_HEIGHT,
 		},
-		isActive: true,
-		gameObjectToFollow: player,
-	}));
+		gameObjectIdToFollow: playerGameObject.id,
+	});
+	store.dispatch(addViewport(playerViewport));
+
+	console.log(store.getState());
 
 	// Assemble the game!
 	const game = new Game({
