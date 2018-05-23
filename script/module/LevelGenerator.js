@@ -23,7 +23,8 @@ export default class LevelGenerator {
 				width: 36,
 				height: 24,
 			}, room);
-							level.addActor(player, {
+
+			level.addActor(player, {
 				x: 36 / 2,
 				y: 24 / 2,
 			});
