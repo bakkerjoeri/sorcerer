@@ -1,5 +1,6 @@
 import getUniqueId from './../utility/getUniqueId';
-import {changeViewportPosition} from './../actions/viewports';
+import {changeViewportPosition} from './../store/actions/viewports';
+import gameStateStore from './../store/gameStateStore';
 
 export function createViewport(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -30,7 +31,7 @@ export function createViewport(properties = {}) {
 
 export function updateViewportInRoom(time, viewport, room) {
 	let newPosition = calculateViewportPositionForGameObjectToFollow(viewport, room, viewport.gameObjectToFollow);
-	window.store.dispatch(changeViewportPosition(viewport.id, newPosition));
+	gameStateStore.dispatch(changeViewportPosition(viewport.id, newPosition));
 }
 
 export function drawViewportForRoomOntoContext(time, viewport, room, context) {

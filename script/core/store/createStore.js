@@ -1,4 +1,4 @@
-import combineReducers from 'core/combineReducers';
+import combineReducers from './combineReducers';
 
 export default function createStore(reducer) {
 	let isDispatching = false;

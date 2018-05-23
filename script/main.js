@@ -9,12 +9,11 @@ import Player from 'object/Player';
 
 import {GreenKnight} from 'resource/creature/GreenKnight';
 
-import createStore from './core/createStore';
-import reducer from './core/reducers';
+import gameStateStore from './core/store/gameStateStore';
 import {createGameObject} from './core/module/GameObject';
-import {addGameObject} from './core/actions/gameObjects';
+import {addGameObject} from './core/store/actions/gameObjects';
 import {createViewport} from './core/module/Viewport';
-import {addViewport, setViewportIsActive} from './core/actions/viewports';
+import {addViewport, setViewportIsActive} from './core/store/actions/viewports';
 
 const CANVAS_SIZE_WIDTH = 240;
 const CANVAS_SIZE_HEIGHT = 176;
@@ -46,20 +45,11 @@ async function load() {
 	// Create world map
 	const level = LevelGenerator.createLevel(room, player, 'king_slime_dijkstra_test')
 
-
-	// Start datastore and make globally available for now.
-	let store = createStore(reducer);
-
-	console.log(store.getState());
-
-	// @TODO: Remove global availability of store.
-	window.store = store;
-
 	// Create player game object.
 	let playerGameObject = createGameObject();
-	store.dispatch(addGameObject(playerGameObject));
+	gameStateStore.dispatch(addGameObject(playerGameObject));
 
-	console.log(store.getState());
+	console.log(gameStateStore.getState());
 
 	// Add viewport
 	let playerViewport = createViewport({
@@ -69,9 +59,9 @@ async function load() {
 		},
 		gameObjectIdToFollow: playerGameObject.id,
 	});
-	store.dispatch(addViewport(playerViewport));
+	gameStateStore.dispatch(addViewport(playerViewport));
 
-	console.log(store.getState());
+	console.log(gameStateStore.getState());
 
 	// Assemble the game!
 	const game = new Game({

@@ -1,4 +1,5 @@
 import {updateViewportInRoom, drawViewportForRoomOntoContext} from './module/Viewport';
+import gameStateStore from './store/gameStateStore';
 
 export default class Room {
 	constructor(size) {
@@ -17,7 +18,7 @@ export default class Room {
 			gameObject.step(time);
 		});
 
-		let viewports = Object.values(window.store.getState().viewports);
+		let viewports = Object.values(gameStateStore.getState().viewports);
 
 		// update the viewports
 		viewports.filter((viewport) => {
@@ -28,7 +29,7 @@ export default class Room {
 	}
 
 	draw(time) {
-		let viewports = Object.values(window.store.getState().viewports);
+		let viewports = Object.values(gameStateStore.getState().viewports);
 
 		// draw each viewport
 		viewports.filter((viewport) => {
