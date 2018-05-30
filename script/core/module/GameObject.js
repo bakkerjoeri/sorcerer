@@ -1,4 +1,4 @@
-import getUniqueId from './../utility/getUniqueId';
+import createEntity from './../utility/createEntity';
 
 export function createGameObject(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -16,11 +16,5 @@ export function createGameObject(properties = {}) {
 		visible: true,
 	};
 
-	let gameObject = Object.assign({}, DEFAULT_PROPERTIES, properties);
-
-	if (!gameObject.hasOwnProperty('id')) {
-		gameObject.id = getUniqueId('gameObjects');
-	}
-
-	return gameObject;
+	return createEntity('gameObject', properties, DEFAULT_PROPERTIES);
 }

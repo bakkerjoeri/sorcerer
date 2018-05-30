@@ -1,6 +1,6 @@
-import getUniqueId from './../utility/getUniqueId';
+import createEntity from './../utility/createEntity';
 import {changeViewportPosition} from './../store/actions/viewports';
-import gameStateStore from './../store/gameStateStore';
+import gameStateStore from './../model/gameStateStore';
 
 export function createViewport(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -20,13 +20,7 @@ export function createViewport(properties = {}) {
 		gameObjectIdToFollow: null,
 	};
 
-	let viewport = Object.assign({}, DEFAULT_PROPERTIES, properties);
-
-	if (!viewport.hasOwnProperty('id')) {
-		viewport.id = getUniqueId('viewports');
-	}
-
-	return viewport;
+	return createEntity('viewport', properties, DEFAULT_PROPERTIES);
 }
 
 export function updateViewportInRoom(time, viewport, room) {
