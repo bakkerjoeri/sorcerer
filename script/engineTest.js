@@ -3,7 +3,7 @@ import {createGameObject} from './core/module/GameObject';
 import {createRoom} from './core/module/Room';
 import {createViewport} from './core/module/Viewport';
 import {addGameObject} from './core/model/actions/gameObjects';
-import {addRoom, addViewportToRoom} from './core/model/actions/rooms';
+import {addRoom, addViewportToRoom, addGameObjectToRoom} from './core/model/actions/rooms';
 import {addViewport, setViewportIsActive} from './core/model/actions/viewports';
 
 // Create player game object.
@@ -28,6 +28,9 @@ let room = createRoom({
 	},
 });
 gameStateStore.dispatch(addRoom(room));
+
+// Add a game object to the room
+gameStateStore.dispatch(addGameObjectToRoom(room.id, playerGameObject.id));
 
 // Add viewport to room
 gameStateStore.dispatch(addViewportToRoom(room.id, viewport.id));
