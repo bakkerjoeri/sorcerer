@@ -1,0 +1,33 @@
+import gameStateStore from './core/model/gameStateStore';
+import {createGameObject} from './core/module/GameObject';
+import {createRoom} from './core/module/Room';
+import {createViewport} from './core/module/Viewport';
+import {addGameObject} from './core/model/actions/gameObjects';
+import {addRoom, addViewportToRoom} from './core/model/actions/rooms';
+import {addViewport, setViewportIsActive} from './core/model/actions/viewports';
+
+// Create player game object.
+let playerGameObject = createGameObject();
+gameStateStore.dispatch(addGameObject(playerGameObject));
+
+// Create viewport
+let viewport = createViewport({
+	size: {
+		width: 100,
+		height: 100,
+	},
+	gameObjectIdToFollow: playerGameObject.id,
+});
+gameStateStore.dispatch(addViewport(viewport));
+
+// Create room
+let room = createRoom({
+	size: {
+		width: 400,
+		height: 400,
+	},
+});
+gameStateStore.dispatch(addRoom(room));
+
+// Add viewport to room
+gameStateStore.dispatch(addViewportToRoom(room.id, viewport.id));
