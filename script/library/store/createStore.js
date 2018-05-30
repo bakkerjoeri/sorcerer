@@ -17,8 +17,10 @@ export default function createStore(reducer) {
 		}
 
 		try {
+			console.log(`Dispatching action ${action.type}`);
 			isDispatching = true;
 			currentState = currentReducer(currentState, action);
+			console.log('Next state', currentState);
 		} finally {
 			isDispatching = false;
 		}
