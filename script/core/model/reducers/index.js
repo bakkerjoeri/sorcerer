@@ -1,5 +1,9 @@
 import combineReducers from './../../../library/store/combineReducers';
 import {
+	SET_GAME_NAME,
+	SET_CURRENT_ROOM_ID,
+} from './../actions/game';
+import {
 	ADD_VIEWPORT,
 	CHANGE_VIEWPORT_POSITION,
 	SET_VIEWPORT_IS_ACTIVE,
@@ -14,12 +18,48 @@ import {
 } from './../actions/rooms';
 
 const initialState = {
+	game: {
+		name: '',
+		currentRoomId: null,
+	},
 	gameObjects: {},
 	rooms: {},
 	viewports: {},
 };
 
-export default combineReducers(viewports, gameObjects, rooms);
+export default combineReducers(game, gameObjects, rooms, viewports);
+
+export function game(state = initialState, action) {
+	switch (action.type) {
+		case SET_GAME_NAME:
+			return Object.assign({}, state, {
+				game: Object.assign({}, state.game, {
+					name: action.name,
+				}),
+			});
+		case SET_CURRENT_ROOM_ID:
+			return Object.assign({}, state, {
+				game: Object.assign({}, state.game, {
+					currentRoomId: action.roomId,
+				}),
+			});
+		default:
+			return state;
+	}
+}
+
+export function gameObjects(state = initialState, action) {
+	switch (action.type) {
+		case ADD_GAME_OBJECT:
+			return Object.assign({}, state, {
+				gameObjects: Object.assign({}, state.gameObjects, {
+					[action.gameObject.id]: action.gameObject,
+				}),
+			});
+		default:
+			return state;
+	}
+}
 
 export function viewports(state = initialState, action) {
 	switch (action.type) {
@@ -43,19 +83,6 @@ export function viewports(state = initialState, action) {
 					[action.id]: Object.assign({}, state.viewports[action.id], {
 						position: action.position,
 					}),
-				}),
-			});
-		default:
-			return state;
-	}
-}
-
-export function gameObjects(state = initialState, action) {
-	switch (action.type) {
-		case ADD_GAME_OBJECT:
-			return Object.assign({}, state, {
-				gameObjects: Object.assign({}, state.gameObjects, {
-					[action.gameObject.id]: action.gameObject,
 				}),
 			});
 		default:
