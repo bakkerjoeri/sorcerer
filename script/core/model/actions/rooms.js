@@ -14,3 +14,12 @@ export function addViewportToRoom(id, viewportId) {
 		viewportId,
 	};
 }
+
+export const ADD_GAME_OBJECT_TO_ROOM = 'ADD_GAME_OBJECT_TO_ROOM';
+export function addGameObjectToRoom(id, gameObjectId) {
+	return {
+		type: ADD_GAME_OBJECT_TO_ROOM,
+		id,
+		gameObjectId,
+	};
+}

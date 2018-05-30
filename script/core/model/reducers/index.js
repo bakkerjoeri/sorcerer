@@ -2,7 +2,7 @@ import combineReducers from './../../../library/store/combineReducers';
 import {
 	ADD_VIEWPORT,
 	CHANGE_VIEWPORT_POSITION,
-	SET_VIEWPORT_IS_ACTIVE
+	SET_VIEWPORT_IS_ACTIVE,
 } from './../actions/viewports';
 import {
 	ADD_GAME_OBJECT,
@@ -10,6 +10,7 @@ import {
 import {
 	ADD_ROOM,
 	ADD_VIEWPORT_TO_ROOM,
+	ADD_GAME_OBJECT_TO_ROOM,
 } from './../actions/rooms';
 
 const initialState = {
@@ -75,6 +76,14 @@ export function rooms(state = initialState, action) {
 				rooms: Object.assign({}, state.rooms, {
 					[action.id]: Object.assign({}, state.rooms[action.id], {
 						viewports: [...state.rooms[action.id].viewports, action.viewportId],
+					}),
+				}),
+			});
+		case ADD_GAME_OBJECT_TO_ROOM:
+			return Object.assign({}, state, {
+				rooms: Object.assign({}, state.rooms, {
+					[action.id]: Object.assign({}, state.rooms[action.id], {
+						gameObjects: [...state.rooms[action.id].gameObjects, action.gameObjectId],
 					}),
 				}),
 			});
