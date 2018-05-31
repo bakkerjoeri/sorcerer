@@ -1,5 +1,5 @@
 import createEntity from './../utility/createEntity';
-import {changeViewportPosition} from './../store/actions/viewports';
+import {changeViewportPosition} from './../model/actions/viewports';
 import gameStateStore from './../model/gameStateStore';
 
 export function createViewport(properties = {}) {
