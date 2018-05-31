@@ -1,4 +1,4 @@
-import combineReducers from './../../../library/store/combineReducers';
+import combineReducers from './../../../../library/store/combineReducers';
 import {
 	SET_GAME_NAME,
 	SET_CURRENT_ROOM_ID,

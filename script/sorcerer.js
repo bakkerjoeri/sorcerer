@@ -1,5 +1,5 @@
-import Room from 'core/Room';
-import SpriteManager from 'core/SpriteManager';
+import Room from Room';
+import SpriteManager from SpriteManager';
 
 import Game from 'module/Game';
 import LevelGenerator from 'module/LevelGenerator';
