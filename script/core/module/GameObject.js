@@ -2,7 +2,7 @@ import createEntity from './../utility/createEntity';
 
 export function createGameObject(properties = {}) {
 	const DEFAULT_PROPERTIES = {
-		spriteName: '',
+		sprite: null,
 		position: {
 			x: 0,
 			y: 0,

@@ -5,3 +5,12 @@ export function addGameObject(gameObject) {
 		gameObject,
 	};
 }
+
+export const SET_SPRITE_FOR_GAME_OBJECT = 'SET_SPRITE_FOR_GAME_OBJECT';
+export function setSpriteForGameObject(id, spriteId) {
+	return {
+		type: SET_SPRITE_FOR_GAME_OBJECT,
+		id,
+		spriteId,
+	};
+}

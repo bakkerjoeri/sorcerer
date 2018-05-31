@@ -4,13 +4,24 @@ import {
 	SET_CURRENT_ROOM_ID,
 } from './../actions/game';
 import {
+	ADD_GAME_OBJECT,
+	SET_SPRITE_FOR_GAME_OBJECT,
+} from './../actions/gameObjects';
+import {
 	ADD_VIEWPORT,
 	CHANGE_VIEWPORT_POSITION,
 	SET_VIEWPORT_IS_ACTIVE,
 } from './../actions/viewports';
 import {
-	ADD_GAME_OBJECT,
-} from './../actions/gameObjects';
+	ADD_SPRITE,
+	ADD_SPRITE_FRAME_TO_SPRITE,
+} from './../actions/sprites';
+import {
+	ADD_SPRITE_FRAME,
+} from './../actions/spriteFrames';
+import {
+	ADD_SPRITE_SHEET,
+} from './../actions/spriteSheets';
 import {
 	ADD_ROOM,
 	ADD_VIEWPORT_TO_ROOM,
@@ -24,10 +35,13 @@ const initialState = {
 	},
 	gameObjects: {},
 	rooms: {},
+	sprites: {},
+	spriteFrames: {},
+	spriteSheets: {},
 	viewports: {},
 };
 
-export default combineReducers(game, gameObjects, rooms, viewports);
+export default combineReducers(game, gameObjects, rooms, sprites, spriteFrames, spriteSheets, viewports);
 
 export function game(state = initialState, action) {
 	switch (action.type) {
@@ -54,6 +68,14 @@ export function gameObjects(state = initialState, action) {
 			return Object.assign({}, state, {
 				gameObjects: Object.assign({}, state.gameObjects, {
 					[action.gameObject.id]: action.gameObject,
+				}),
+			});
+		case SET_SPRITE_FOR_GAME_OBJECT:
+			return Object.assign({}, state, {
+				gameObjects: Object.assign({}, state.gameObjects, {
+					[action.id]: Object.assign({}, state.gameObjects[action.id], {
+						sprite: action.spriteId,
+					}),
 				}),
 			});
 		default:
@@ -83,6 +105,53 @@ export function viewports(state = initialState, action) {
 					[action.id]: Object.assign({}, state.viewports[action.id], {
 						position: action.position,
 					}),
+				}),
+			});
+		default:
+			return state;
+	}
+}
+
+export function sprites(state = initialState, action) {
+	switch (action.type) {
+		case ADD_SPRITE:
+			return Object.assign({}, state, {
+				sprites: Object.assign({}, state.sprites, {
+					[action.sprite.id]: action.sprite,
+				}),
+			});
+		case ADD_SPRITE_FRAME_TO_SPRITE:
+			return Object.assign({}, state, {
+				sprites: Object.assign({}, state.sprites, {
+					[action.id]: Object.assign({}, state.sprites[action.id], {
+						spriteFrames: [...state.sprites[action.id].spriteFrames, action.spriteFrameId],
+					}),
+				}),
+			});
+		default:
+			return state;
+	}
+}
+
+export function spriteFrames(state = initialState, action) {
+	switch (action.type) {
+		case ADD_SPRITE_FRAME:
+			return Object.assign({}, state, {
+				spriteFrames: Object.assign({}, state.spriteFrames, {
+					[action.spriteFrame.id]: action.spriteFrame,
+				}),
+			});
+		default:
+			return state;
+	}
+}
+
+export function spriteSheets(state = initialState, action) {
+	switch (action.type) {
+		case ADD_SPRITE_SHEET:
+			return Object.assign({}, state, {
+				spriteSheets: Object.assign({}, state.spriteSheets, {
+					[action.spriteSheet.id]: action.spriteSheet,
 				}),
 			});
 		default:
