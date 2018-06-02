@@ -86,4 +86,4 @@ gameStateStore.dispatch(addViewportToRoom(room.id, viewport.id));
 gameStateStore.dispatch(setCurrentRoomId(room.id));
 
 // Start the game
-startGame('.canvas__sorcerer');
+startGame('.canvas__sorcerer', 4);

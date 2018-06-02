@@ -5,9 +5,11 @@ import {updateRoom, drawRoomOntoContext} from './Room';
 let canvas;
 let context;
 
-export function startGame(canvasSelector) {
+export function startGame(canvasSelector, scale) {
 	canvas = document.querySelector(canvasSelector);
 	context = canvas.getContext('2d');
+
+	changeCanvasScale(canvas, scale);
 
 	window.requestAnimationFrame((time) => {
 		updateGame(time, context);
@@ -25,4 +27,11 @@ function updateGame(time, context) {
 	window.requestAnimationFrame((time) => {
 		updateGame(time, context);
 	});
+}
+
+function changeCanvasScale(canvas, scale = 1) {
+	let canvasBoundaries = canvas.getBoundingClientRect();
+
+	canvas.width = canvasBoundaries.width / scale;
+	canvas.height = canvasBoundaries.height / scale;
 }
