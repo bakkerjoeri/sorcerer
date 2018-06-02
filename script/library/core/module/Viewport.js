@@ -1,6 +1,7 @@
 import createEntity from './../utility/createEntity';
 import {changeViewportPosition} from './../model/actions/viewports';
 import gameStateStore from './../model/gameStateStore';
+import {drawRoomBackgroundOntoContext} from './Room';
 
 export function createViewport(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -25,22 +26,12 @@ export function createViewport(properties = {}) {
 
 export function updateViewportInRoom(time, viewport, room) {
 	let newPosition = calculateViewportPositionForGameObjectToFollow(viewport, room, viewport.gameObjectToFollow);
-	gameStateStore.dispatch(changeViewportPosition(viewport.id, newPosition));
-}
 
-export function drawViewportForRoomOntoContext(time, viewport, room, context) {
-	// Clear viewport
-	clearViewportFromContext(viewport, context);
-
-	// draw room background
-	drawRoomBackgroundOntoContext(room, viewport.origin, viewport.size, context);
-
-	// draw all visible game objects
-	room.gameObjects
-	.filter((gameObject) => gameObject.visible)
-	.forEach((visibleGameObject) => {
-		drawGameObjectInViewportOntoContext(time, visibleGameObject, viewport, context)
-	});
+	// Only dispatch an update to the viewport position if the calculated
+	// new position is different from the current position.
+	if (newPosition.x !== viewport.position.x || newPosition.y !== viewport.position.y) {
+		gameStateStore.dispatch(changeViewportPosition(viewport.id, newPosition));
+	}
 }
 
 function calculateViewportPositionForGameObjectToFollow(viewport, room, gameObject) {
@@ -73,7 +64,7 @@ function calculateViewportPositionForGameObjectToFollow(viewport, room, gameObje
 	return viewport.position;
 }
 
-function clearViewportFromContext(viewport, context) {
+export function clearViewportFromContext(viewport, context) {
 	context.clearRect(
 		viewport.origin.x,
 		viewport.origin.y,
@@ -82,15 +73,7 @@ function clearViewportFromContext(viewport, context) {
 	);
 }
 
-function drawRoomBackgroundOntoContext(room, origin, size, context) {
-	room.drawBackground(context, origin, size);
-}
-
-function drawGameObjectInViewportOntoContext(time, gameObject, viewport, context) {
-	gameObject.draw(time, context, viewport);
-}
-
-function drawMiddleOfViewportOntoContext(context, viewport) {
+function drawMiddleOfViewportOntoContext(viewport, context) {
 	context.strokeStyle = '#bad455';
 
 	context.beginPath();

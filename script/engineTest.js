@@ -1,17 +1,19 @@
-import gameStateStore from './core/model/gameStateStore';
-import {createGameObject} from './core/module/GameObject';
-import {createRoom} from './core/module/Room';
-import {createViewport} from './core/module/Viewport';
-import {createSprite} from './core/module/Sprite';
-import {createSpriteFrame} from './core/module/SpriteFrame';
-import {createSpriteSheet} from './core/module/SpriteSheet';
-import {setGameName, setCurrentRoomId} from './core/model/actions/game';
-import {addGameObject, setSpriteForGameObject} from './core/model/actions/gameObjects';
-import {addRoom, addViewportToRoom, addGameObjectToRoom} from './core/model/actions/rooms';
-import {addViewport, setViewportIsActive} from './core/model/actions/viewports';
-import {addSprite, addSpriteFrameToSprite} from './core/model/actions/sprites';
-import {addSpriteFrame} from './core/model/actions/spriteFrames';
-import {addSpriteSheet} from './core/model/actions/spriteSheets';
+import gameStateStore from './library/core/model/gameStateStore';
+import {createGameObject} from './library/core/module/GameObject';
+import {createRoom} from './library/core/module/Room';
+import {createViewport} from './library/core/module/Viewport';
+import {createSprite} from './library/core/module/Sprite';
+import {createSpriteFrame} from './library/core/module/SpriteFrame';
+import {createSpriteSheet} from './library/core/module/SpriteSheet';
+import {setGameName, setCurrentRoomId} from './library/core/model/actions/game';
+import {addGameObject, setSpriteIdForGameObject} from './library/core/model/actions/gameObjects';
+import {addRoom, addViewportToRoom, addGameObjectToRoom} from './library/core/model/actions/rooms';
+import {addViewport, setViewportIsActive} from './library/core/model/actions/viewports';
+import {addSprite, addSpriteFrameToSprite} from './library/core/model/actions/sprites';
+import {addSpriteFrame} from './library/core/model/actions/spriteFrames';
+import {addSpriteSheet} from './library/core/model/actions/spriteSheets';
+
+import {startGame} from './library/core/module/Game';
 
 // Give the game a name
 gameStateStore.dispatch(setGameName('Sorcerer'));
@@ -23,24 +25,37 @@ let spriteSheet = createSpriteSheet({
 gameStateStore.dispatch(addSpriteSheet(spriteSheet));
 
 // Create a sprite frame
-let spriteFrame = createSpriteFrame({
+let spriteFrame1 = createSpriteFrame({
 	spriteSheet: spriteSheet.id,
 	size: {
 		width: 16,
 		height: 16,
 	},
 });
-gameStateStore.dispatch(addSpriteFrame(spriteFrame));
+let spriteFrame2 = createSpriteFrame({
+	spriteSheet: spriteSheet.id,
+	origin: {
+		x: 16,
+		y: 0,
+	},
+	size: {
+		width: 16,
+		height: 16,
+	},
+});
+gameStateStore.dispatch(addSpriteFrame(spriteFrame1));
+gameStateStore.dispatch(addSpriteFrame(spriteFrame2));
 
 // Create the player sprite
 let playerSprite = createSprite();
 gameStateStore.dispatch(addSprite(playerSprite));
-gameStateStore.dispatch(addSpriteFrameToSprite(playerSprite.id, spriteFrame.id))
+gameStateStore.dispatch(addSpriteFrameToSprite(playerSprite.id, spriteFrame1.id))
+gameStateStore.dispatch(addSpriteFrameToSprite(playerSprite.id, spriteFrame2.id))
 
 // Create player game object.
 let playerGameObject = createGameObject();
 gameStateStore.dispatch(addGameObject(playerGameObject));
-gameStateStore.dispatch(setSpriteForGameObject(playerGameObject.id, playerSprite.id));
+gameStateStore.dispatch(setSpriteIdForGameObject(playerGameObject.id, playerSprite.id));
 
 // Create viewport
 let viewport = createViewport({
@@ -69,3 +84,6 @@ gameStateStore.dispatch(addViewportToRoom(room.id, viewport.id));
 
 // Add the room to the game
 gameStateStore.dispatch(setCurrentRoomId(room.id));
+
+// Start the game
+startGame('.canvas__sorcerer');

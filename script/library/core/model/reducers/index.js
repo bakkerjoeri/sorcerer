@@ -1,32 +1,11 @@
 import combineReducers from './../../../../library/store/combineReducers';
-import {
-	SET_GAME_NAME,
-	SET_CURRENT_ROOM_ID,
-} from './../actions/game';
-import {
-	ADD_GAME_OBJECT,
-	SET_SPRITE_FOR_GAME_OBJECT,
-} from './../actions/gameObjects';
-import {
-	ADD_VIEWPORT,
-	CHANGE_VIEWPORT_POSITION,
-	SET_VIEWPORT_IS_ACTIVE,
-} from './../actions/viewports';
-import {
-	ADD_SPRITE,
-	ADD_SPRITE_FRAME_TO_SPRITE,
-} from './../actions/sprites';
-import {
-	ADD_SPRITE_FRAME,
-} from './../actions/spriteFrames';
-import {
-	ADD_SPRITE_SHEET,
-} from './../actions/spriteSheets';
-import {
-	ADD_ROOM,
-	ADD_VIEWPORT_TO_ROOM,
-	ADD_GAME_OBJECT_TO_ROOM,
-} from './../actions/rooms';
+import {SET_GAME_NAME, SET_CURRENT_ROOM_ID} from './../actions/game';
+import {ADD_GAME_OBJECT, SET_SPRITE_ID_FOR_GAME_OBJECT} from './../actions/gameObjects';
+import {ADD_VIEWPORT, CHANGE_VIEWPORT_POSITION, SET_VIEWPORT_IS_ACTIVE} from './../actions/viewports';
+import {ADD_SPRITE, ADD_SPRITE_FRAME_TO_SPRITE, SET_CURRENT_FRAME_INDEX_FOR_SPRITE} from './../actions/sprites';
+import {ADD_SPRITE_FRAME} from './../actions/spriteFrames';
+import {ADD_SPRITE_SHEET} from './../actions/spriteSheets';
+import {ADD_ROOM, ADD_VIEWPORT_TO_ROOM, ADD_GAME_OBJECT_TO_ROOM} from './../actions/rooms';
 
 const initialState = {
 	game: {
@@ -70,11 +49,11 @@ export function gameObjects(state = initialState, action) {
 					[action.gameObject.id]: action.gameObject,
 				}),
 			});
-		case SET_SPRITE_FOR_GAME_OBJECT:
+		case SET_SPRITE_ID_FOR_GAME_OBJECT:
 			return Object.assign({}, state, {
 				gameObjects: Object.assign({}, state.gameObjects, {
 					[action.id]: Object.assign({}, state.gameObjects[action.id], {
-						sprite: action.spriteId,
+						spriteId: action.spriteId,
 					}),
 				}),
 			});
@@ -125,6 +104,14 @@ export function sprites(state = initialState, action) {
 				sprites: Object.assign({}, state.sprites, {
 					[action.id]: Object.assign({}, state.sprites[action.id], {
 						spriteFrames: [...state.sprites[action.id].spriteFrames, action.spriteFrameId],
+					}),
+				}),
+			});
+		case SET_CURRENT_FRAME_INDEX_FOR_SPRITE:
+			return Object.assign({}, state, {
+				sprites: Object.assign({}, state.sprites, {
+					[action.id]: Object.assign({}, state.sprites[action.id], {
+						currentFrameIndex: action.currentFrameIndex,
 					}),
 				}),
 			});

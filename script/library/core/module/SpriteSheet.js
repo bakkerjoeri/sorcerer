@@ -7,3 +7,15 @@ export function createSpriteSheet(properties = {}) {
 
 	return createEntity('spriteSheet', properties, DEFAULT_PROPERTIES);
 }
+
+const imageOfSpriteSheetById = {};
+
+export function getImageFromSpriteSheet(spriteSheet) {
+	if (!imageOfSpriteSheetById[spriteSheet.id]) {
+		let image = new Image();
+		image.src = spriteSheet.filePath;
+		imageOfSpriteSheetById[spriteSheet.id] = image;
+	}
+
+	return imageOfSpriteSheetById[spriteSheet.id];
+}
