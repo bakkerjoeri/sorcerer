@@ -57,11 +57,15 @@ let playerGameObject = createGameObject();
 gameStateStore.dispatch(addGameObject(playerGameObject));
 gameStateStore.dispatch(setSpriteIdForGameObject(playerGameObject.id, playerSprite.id));
 
+const MAP_SIZE_WIDTH = 36;
+const MAP_SIZE_HEIGHT = 24;
+const TILE_SIZE = 16;
+
 // Create viewport
 let viewport = createViewport({
 	size: {
-		width: 100,
-		height: 100,
+		width: 240,
+		height: 176,
 	},
 	gameObjectIdToFollow: playerGameObject.id,
 });
@@ -70,8 +74,8 @@ gameStateStore.dispatch(addViewport(viewport));
 // Create room
 let room = createRoom({
 	size: {
-		width: 400,
-		height: 400,
+		width: MAP_SIZE_WIDTH * TILE_SIZE,
+		height: MAP_SIZE_HEIGHT * TILE_SIZE,
 	},
 });
 gameStateStore.dispatch(addRoom(room));
