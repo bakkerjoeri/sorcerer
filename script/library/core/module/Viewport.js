@@ -1,6 +1,8 @@
 import createEntity from './../utility/createEntity';
 import {changeViewportPosition} from './../model/actions/viewports';
 import gameStateStore from './../model/gameStateStore';
+import {getGameObjectWithId} from './../model/selectors/gameObjects';
+import {getSpriteWithId} from './../model/selectors/sprites';
 import {drawRoomBackgroundOntoContext} from './Room';
 
 export function createViewport(properties = {}) {
@@ -25,7 +27,7 @@ export function createViewport(properties = {}) {
 }
 
 export function updateViewportInRoom(time, viewport, room) {
-	let newPosition = calculateViewportPositionForGameObjectToFollow(viewport, room, viewport.gameObjectToFollow);
+	let newPosition = calculateNewViewportPosition(viewport, room);
 
 	// Only dispatch an update to the viewport position if the calculated
 	// new position is different from the current position.
@@ -34,31 +36,37 @@ export function updateViewportInRoom(time, viewport, room) {
 	}
 }
 
-function calculateViewportPositionForGameObjectToFollow(viewport, room, gameObject) {
-	if (gameObject && gameObject.sprite && gameObject.sprite.size) {
-		let newViewportPosition = {
-			x: gameObject.position.x - (viewport.size.width / 2) + (gameObject.sprite.size.width / 2),
-			y: gameObject.position.y - (viewport.size.height / 2) + (gameObject.sprite.size.height / 2),
-		};
+function calculateNewViewportPosition(viewport, room) {
+	if (viewport.gameObjectIdToFollow !== null) {
+		let gameObjectToFollow = getGameObjectWithId(gameStateStore.getState(), viewport.gameObjectIdToFollow);
 
-		if (newViewportPosition.x < 0) {
-			newViewportPosition.x = 0;
+		if (gameObjectToFollow.currentSprite !== null) {
+			let spriteOfGameObjectToFollow = getSpriteWithId(gameStateStore.getState(), gameObjectToFollow.spriteId);
+
+			let newViewportPosition = {
+				x: gameObjectToFollow.position.x - (viewport.size.width / 2) + (spriteOfGameObjectToFollow.size.width / 2),
+				y: gameObjectToFollow.position.y - (viewport.size.height / 2) + (spriteOfGameObjectToFollow.size.height / 2),
+			};
+
+			if (newViewportPosition.x < 0) {
+				newViewportPosition.x = 0;
+			}
+
+			if (newViewportPosition.y < 0) {
+				newViewportPosition.y = 0;
+			}
+
+			// @TODO: Remove dependency on `room`.
+			if (newViewportPosition.x > (room.size.width - viewport.size.width)) {
+				newViewportPosition.x = room.size.width - viewport.size.width;
+			}
+
+			if (newViewportPosition.y > (room.size.height - viewport.size.height)) {
+				newViewportPosition.y = room.size.height - viewport.size.height;
+			}
+
+			return newViewportPosition;
 		}
-
-		if (newViewportPosition.y < 0) {
-			newViewportPosition.y = 0;
-		}
-
-		// @TODO: Remove dependency on `room`.
-		if (newViewportPosition.x > (room.size.width - viewport.size.width)) {
-			newViewportPosition.x = room.size.width - viewport.size.width;
-		}
-
-		if (newViewportPosition.y > (room.size.height - viewport.size.height)) {
-			newViewportPosition.y = room.size.height - viewport.size.height;
-		}
-
-		return newViewportPosition;
 	}
 
 	return viewport.position;
