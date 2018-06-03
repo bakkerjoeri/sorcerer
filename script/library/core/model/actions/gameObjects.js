@@ -14,3 +14,12 @@ export function setSpriteIdForGameObject(id, spriteId) {
 		spriteId,
 	};
 }
+
+export const CHANGE_POSITION_OF_GAME_OBJECT = 'CHANGE_POSITION_OF_GAME_OBJECT';
+export function changePositionOfGameObject(id, newPosition) {
+	return {
+		type: CHANGE_POSITION_OF_GAME_OBJECT,
+		id,
+		newPosition,
+	}
+}

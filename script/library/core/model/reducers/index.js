@@ -1,6 +1,6 @@
 import combineReducers from './../../../../library/store/combineReducers';
 import {SET_GAME_NAME, SET_CURRENT_ROOM_ID} from './../actions/game';
-import {ADD_GAME_OBJECT, SET_SPRITE_ID_FOR_GAME_OBJECT} from './../actions/gameObjects';
+import {ADD_GAME_OBJECT, SET_SPRITE_ID_FOR_GAME_OBJECT, CHANGE_POSITION_OF_GAME_OBJECT} from './../actions/gameObjects';
 import {ADD_VIEWPORT, CHANGE_VIEWPORT_POSITION, SET_VIEWPORT_IS_ACTIVE} from './../actions/viewports';
 import {ADD_SPRITE, ADD_SPRITE_FRAME_TO_SPRITE, SET_CURRENT_FRAME_INDEX_FOR_SPRITE} from './../actions/sprites';
 import {ADD_SPRITE_FRAME} from './../actions/spriteFrames';
@@ -57,6 +57,14 @@ export function gameObjects(state = initialState, action) {
 					}),
 				}),
 			});
+		case CHANGE_POSITION_OF_GAME_OBJECT:
+			return Object.assign({}, state, {
+				gameObjects: Object.assign({}, state.gameObjects, {
+					[action.id]: Object.assign({}, state.gameObjects[action.id], {
+						position: action.newPosition,
+					}),
+				}),
+			});
 		default:
 			return state;
 	}
@@ -82,7 +90,7 @@ export function viewports(state = initialState, action) {
 			return Object.assign({}, state, {
 				viewports: Object.assign({}, state.viewports, {
 					[action.id]: Object.assign({}, state.viewports[action.id], {
-						position: action.position,
+						position: action.newPosition,
 					}),
 				}),
 			});
