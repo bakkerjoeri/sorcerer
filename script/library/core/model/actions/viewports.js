@@ -7,15 +7,15 @@ export function addViewport(viewport) {
 }
 
 export const CHANGE_VIEWPORT_POSITION = 'CHANGE_VIEWPORT_POSITION';
-export function changeViewportPosition(id, position) {
-	if (!position.hasOwnProperty('x') || !position.hasOwnProperty('y')) {
+export function changeViewportPosition(id, newPosition) {
+	if (!newPosition.hasOwnProperty('x') || !newPosition.hasOwnProperty('y')) {
 		throw new Error('Position should be an object with properties \'x\' and \'y\'.');
 	}
 
 	return {
 		type: CHANGE_VIEWPORT_POSITION,
 		id,
-		position,
+		newPosition,
 	};
 }
 
