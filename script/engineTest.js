@@ -3,15 +3,12 @@ import {createGameObject} from './library/core/module/GameObject';
 import {createRoom} from './library/core/module/Room';
 import {createViewport} from './library/core/module/Viewport';
 import {createSprite} from './library/core/module/Sprite';
-import {createSpriteFrame} from './library/core/module/SpriteFrame';
-import {createSpriteSheet} from './library/core/module/SpriteSheet';
+import {createSpriteSheet, loadSpriteSheet} from './library/core/module/SpriteSheet';
 import {setGameName, setCurrentRoomId} from './library/core/model/actions/game';
-import {addGameObject, setSpriteIdForGameObject} from './library/core/model/actions/gameObjects';
+import {addGameObject, setSpriteIdForGameObject, changePositionOfGameObject} from './library/core/model/actions/gameObjects';
 import {addRoom, addViewportToRoom, addGameObjectToRoom} from './library/core/model/actions/rooms';
 import {addViewport, setViewportIsActive} from './library/core/model/actions/viewports';
 import {addSprite, addSpriteFrameToSprite} from './library/core/model/actions/sprites';
-import {addSpriteFrame} from './library/core/model/actions/spriteFrames';
-import {addSpriteSheet} from './library/core/model/actions/spriteSheets';
 
 import {startGame} from './library/core/module/Game';
 
@@ -19,38 +16,17 @@ import {startGame} from './library/core/module/Game';
 gameStateStore.dispatch(setGameName('Sorcerer'));
 
 // Create a sprite sheet
-let spriteSheet = createSpriteSheet({
-	filePath: 'assets/images/greenknight.png',
-});
-gameStateStore.dispatch(addSpriteSheet(spriteSheet));
-
-// Create a sprite frame
-let spriteFrame1 = createSpriteFrame({
-	spriteSheet: spriteSheet.id,
-	size: {
-		width: 16,
-		height: 16,
-	},
-});
-let spriteFrame2 = createSpriteFrame({
-	spriteSheet: spriteSheet.id,
-	origin: {
-		x: 16,
-		y: 0,
-	},
-	size: {
-		width: 16,
-		height: 16,
-	},
-});
-gameStateStore.dispatch(addSpriteFrame(spriteFrame1));
-gameStateStore.dispatch(addSpriteFrame(spriteFrame2));
+loadSpriteSheet('assets/images/greenknight.png', {
+	width: 16,
+	height: 16,
+}, 0, 6);
 
 // Create the player sprite
-let playerSprite = createSprite();
+let playerSprite = createSprite({
+	framesPerSecond: 10,
+	spriteFrames: [1, 1, 1, 1, 1, 2, 3, 4, 4, 4, 4, 5, 6],
+});
 gameStateStore.dispatch(addSprite(playerSprite));
-gameStateStore.dispatch(addSpriteFrameToSprite(playerSprite.id, spriteFrame1.id))
-gameStateStore.dispatch(addSpriteFrameToSprite(playerSprite.id, spriteFrame2.id))
 
 // Create player game object.
 let playerGameObject = createGameObject();
@@ -91,3 +67,42 @@ gameStateStore.dispatch(setCurrentRoomId(room.id));
 
 // Start the game
 startGame('.canvas__sorcerer', 4);
+
+
+document.addEventListener('keydown', (event) => {
+	if (event.key === 'ArrowUp') {
+		event.preventDefault();
+
+		gameStateStore.dispatch(changePositionOfGameObject(playerGameObject.id, {
+			x: gameStateStore.getState().gameObjects[playerGameObject.id].position.x,
+			y: gameStateStore.getState().gameObjects[playerGameObject.id].position.y - 16,
+		}));
+	}
+
+	if (event.key === 'ArrowRight') {
+		event.preventDefault();
+
+		gameStateStore.dispatch(changePositionOfGameObject(playerGameObject.id, {
+			x: gameStateStore.getState().gameObjects[playerGameObject.id].position.x + 16,
+			y: gameStateStore.getState().gameObjects[playerGameObject.id].position.y,
+		}));
+	}
+
+	if (event.key === 'ArrowDown') {
+		event.preventDefault();
+
+		gameStateStore.dispatch(changePositionOfGameObject(playerGameObject.id, {
+			x: gameStateStore.getState().gameObjects[playerGameObject.id].position.x,
+			y: gameStateStore.getState().gameObjects[playerGameObject.id].position.y + 16,
+		}));
+	}
+
+	if (event.key === 'ArrowLeft') {
+		event.preventDefault();
+
+		gameStateStore.dispatch(changePositionOfGameObject(playerGameObject.id, {
+			x: gameStateStore.getState().gameObjects[playerGameObject.id].position.x - 16,
+			y: gameStateStore.getState().gameObjects[playerGameObject.id].position.y,
+		}));
+	}
+});
