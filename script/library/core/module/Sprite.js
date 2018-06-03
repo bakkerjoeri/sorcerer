@@ -16,7 +16,7 @@ export function createSprite(properties = {}) {
 		},
 		spriteFrames: [],
 		currentFrameIndex: 0,
-		framesPerSecond: 1,
+		framesPerSecond: 0,
 		isAnimationPaused: false,
 		isAnimationLooping: true,
 	};
