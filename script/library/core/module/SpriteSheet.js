@@ -6,6 +6,7 @@ import {createSpriteFrame} from './../module/SpriteFrame';
 
 export function createSpriteSheet(properties = {}) {
 	const DEFAULT_PROPERTIES = {
+		name: '',
 		filePath: '',
 	};
 
@@ -22,9 +23,10 @@ export function createSpriteSheet(properties = {}) {
  * @param  {Number} [framesPerRow=Infinity] How many frames each row of the sprite sheets contains.
  *                                          This is used to determine when to wrap down to the next frame.
  */
-export function loadSpriteSheet(filePath, frameSize, frameStart = 0, frameOffset = 1, framesPerRow = Infinity) {
+export function loadSpriteSheet(name, filePath, frameSize, frameStart = 0, frameOffset = 1, framesPerRow = Infinity) {
 	// Create a new sprite sheet
 	let spriteSheet = createSpriteSheet({
+		name: name,
 		filePath: filePath,
 	});
 
@@ -38,6 +40,7 @@ export function loadSpriteSheet(filePath, frameSize, frameStart = 0, frameOffset
 		currentFrameIndex = currentFrameIndex + 1
 	) {
 		let spriteFrame = createSpriteFrame({
+			id: `${name}_${currentFrameIndex}`,
 			spriteSheet: spriteSheet.id,
 			origin: {
 				x: currentFrameIndex * frameSize.width,

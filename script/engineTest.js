@@ -3,12 +3,12 @@ import {createGameObject} from './library/core/module/GameObject';
 import {createRoom} from './library/core/module/Room';
 import {createViewport} from './library/core/module/Viewport';
 import {createSprite} from './library/core/module/Sprite';
-import {createSpriteSheet, loadSpriteSheet} from './library/core/module/SpriteSheet';
+import {loadSpriteSheet} from './library/core/module/SpriteSheet';
 import {setGameName, setCurrentRoomId} from './library/core/model/actions/game';
 import {addGameObject, setSpriteIdForGameObject, changePositionOfGameObject} from './library/core/model/actions/gameObjects';
 import {addRoom, addViewportToRoom, addGameObjectToRoom} from './library/core/model/actions/rooms';
-import {addViewport, setViewportIsActive} from './library/core/model/actions/viewports';
-import {addSprite, addSpriteFrameToSprite} from './library/core/model/actions/sprites';
+import {addViewport} from './library/core/model/actions/viewports';
+import {addSprite} from './library/core/model/actions/sprites';
 
 import {startGame} from './library/core/module/Game';
 
@@ -16,7 +16,7 @@ import {startGame} from './library/core/module/Game';
 gameStateStore.dispatch(setGameName('Sorcerer'));
 
 // Create a sprite sheet
-loadSpriteSheet('assets/images/greenknight.png', {
+loadSpriteSheet('greenknight', 'assets/images/greenknight.png', {
 	width: 16,
 	height: 16,
 }, 0, 6);
@@ -24,7 +24,21 @@ loadSpriteSheet('assets/images/greenknight.png', {
 // Create the player sprite
 let playerSprite = createSprite({
 	framesPerSecond: 10,
-	spriteFrames: [1, 1, 1, 1, 1, 2, 3, 4, 4, 4, 4, 5, 6],
+	spriteFrames: [
+		'greenknight_0',
+		'greenknight_0',
+		'greenknight_0',
+		'greenknight_0',
+		'greenknight_0',
+		'greenknight_1',
+		'greenknight_2',
+		'greenknight_3',
+		'greenknight_3',
+		'greenknight_3',
+		'greenknight_3',
+		'greenknight_4',
+		'greenknight_5',
+	],
 });
 gameStateStore.dispatch(addSprite(playerSprite));
 
@@ -67,7 +81,6 @@ gameStateStore.dispatch(setCurrentRoomId(room.id));
 
 // Start the game
 startGame('.canvas__sorcerer', 4);
-
 
 document.addEventListener('keydown', (event) => {
 	if (event.key === 'ArrowUp') {
