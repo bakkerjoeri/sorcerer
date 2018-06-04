@@ -1,9 +1,9 @@
 import combineReducers from './combineReducers';
 
-export default function createStore(reducer) {
+export default function createStore(reducer, initialState) {
 	let isDispatching = false;
 	let currentReducer;
-	let currentState;
+	let currentState = initialState;
 
 	replaceReducer(reducer);
 

@@ -1,4 +1,5 @@
 import combineReducers from './../../../../library/store/combineReducers';
+import {REPLACE_STATE} from './../actions/general';
 import {SET_GAME_NAME, SET_CURRENT_ROOM_ID} from './../actions/game';
 import {ADD_GAME_OBJECT, SET_SPRITE_ID_FOR_GAME_OBJECT, CHANGE_POSITION_OF_GAME_OBJECT} from './../actions/gameObjects';
 import {ADD_VIEWPORT, CHANGE_VIEWPORT_POSITION, SET_VIEWPORT_IS_ACTIVE} from './../actions/viewports';
@@ -7,22 +8,18 @@ import {ADD_SPRITE_FRAME} from './../actions/spriteFrames';
 import {ADD_SPRITE_SHEET} from './../actions/spriteSheets';
 import {ADD_ROOM, ADD_VIEWPORT_TO_ROOM, ADD_GAME_OBJECT_TO_ROOM} from './../actions/rooms';
 
-const initialState = {
-	game: {
-		name: '',
-		currentRoomId: null,
-	},
-	gameObjects: {},
-	rooms: {},
-	sprites: {},
-	spriteFrames: {},
-	spriteSheets: {},
-	viewports: {},
-};
+export default combineReducers(general, game, gameObjects, rooms, sprites, spriteFrames, spriteSheets, viewports);
 
-export default combineReducers(game, gameObjects, rooms, sprites, spriteFrames, spriteSheets, viewports);
+export function general(state, action) {
+	switch (action.type) {
+		case REPLACE_STATE:
+			return Object.assign({}, action.newState);
+		default:
+			return state;
+	}
+}
 
-export function game(state = initialState, action) {
+export function game(state, action) {
 	switch (action.type) {
 		case SET_GAME_NAME:
 			return Object.assign({}, state, {
@@ -41,7 +38,7 @@ export function game(state = initialState, action) {
 	}
 }
 
-export function gameObjects(state = initialState, action) {
+export function gameObjects(state, action) {
 	switch (action.type) {
 		case ADD_GAME_OBJECT:
 			return Object.assign({}, state, {
@@ -70,7 +67,7 @@ export function gameObjects(state = initialState, action) {
 	}
 }
 
-export function viewports(state = initialState, action) {
+export function viewports(state, action) {
 	switch (action.type) {
 		case ADD_VIEWPORT:
 			return Object.assign({}, state, {
@@ -99,7 +96,7 @@ export function viewports(state = initialState, action) {
 	}
 }
 
-export function sprites(state = initialState, action) {
+export function sprites(state, action) {
 	switch (action.type) {
 		case ADD_SPRITE:
 			return Object.assign({}, state, {
@@ -128,7 +125,7 @@ export function sprites(state = initialState, action) {
 	}
 }
 
-export function spriteFrames(state = initialState, action) {
+export function spriteFrames(state, action) {
 	switch (action.type) {
 		case ADD_SPRITE_FRAME:
 			return Object.assign({}, state, {
@@ -141,7 +138,7 @@ export function spriteFrames(state = initialState, action) {
 	}
 }
 
-export function spriteSheets(state = initialState, action) {
+export function spriteSheets(state, action) {
 	switch (action.type) {
 		case ADD_SPRITE_SHEET:
 			return Object.assign({}, state, {
@@ -154,7 +151,7 @@ export function spriteSheets(state = initialState, action) {
 	}
 }
 
-export function rooms(state = initialState, action) {
+export function rooms(state, action) {
 	switch (action.type) {
 		case ADD_ROOM:
 			return Object.assign({}, state, {
