@@ -53,13 +53,13 @@ export function loadSpriteSheet(name, filePath, frameSize, frameStart = 0, frame
 	}
 }
 
-const imageOfSpriteSheetById = {};
+const imageOfSpriteSheetByPath = {};
 export function getImageFromSpriteSheet(spriteSheet) {
-	if (!imageOfSpriteSheetById[spriteSheet.id]) {
+	if (!imageOfSpriteSheetByPath[spriteSheet.filePath]) {
 		let image = new Image();
 		image.src = spriteSheet.filePath;
-		imageOfSpriteSheetById[spriteSheet.id] = image;
+		imageOfSpriteSheetById[spriteSheet.filePath] = image;
 	}
 
-	return imageOfSpriteSheetById[spriteSheet.id];
+	return imageOfSpriteSheetById[spriteSheet.filePath];
 }
