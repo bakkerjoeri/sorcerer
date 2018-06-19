@@ -58,8 +58,8 @@ export function getImageFromSpriteSheet(spriteSheet) {
 	if (!imageOfSpriteSheetByPath[spriteSheet.filePath]) {
 		let image = new Image();
 		image.src = spriteSheet.filePath;
-		imageOfSpriteSheetById[spriteSheet.filePath] = image;
+		imageOfSpriteSheetByPath[spriteSheet.filePath] = image;
 	}
 
-	return imageOfSpriteSheetById[spriteSheet.filePath];
+	return imageOfSpriteSheetByPath[spriteSheet.filePath];
 }
