@@ -11,9 +11,9 @@ import {GreenKnight} from 'resource/creature/GreenKnight';
 
 import gameStateStore from './core/model/gameStateStore';
 import {createGameObject} from './core/module/GameObject';
-import {addGameObject} from './core/model/actions/gameObjects';
+import {addGameObject} from './core/model/gameObjects';
 import {createViewport} from './core/module/Viewport';
-import {addViewport, setViewportIsActive} from './core/model/actions/viewports';
+import {addViewport, setViewportIsActive} from './core/model/viewports';
 
 const CANVAS_SIZE_WIDTH = 240;
 const CANVAS_SIZE_HEIGHT = 176;
