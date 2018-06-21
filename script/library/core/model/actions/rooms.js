@@ -1,25 +1,35 @@
-export const ADD_ROOM = 'ADD_ROOM';
-export function addRoom(room) {
-	return {
-		type: ADD_ROOM,
-		room,
-	};
-}
+export const addRoom = room => state => ({
+	...state,
+	rooms: {
+		...state.rooms,
+		[room.id]: room,
+	},
+});
 
-export const ADD_VIEWPORT_TO_ROOM = 'ADD_VIEWPORT_TO_ROOM';
-export function addViewportToRoom(id, viewportId) {
-	return {
-		type: ADD_VIEWPORT_TO_ROOM,
-		id,
-		viewportId,
-	};
-}
+export const addViewportToRoom = (id, viewportId) => state => ({
+	...state,
+	rooms: {
+		...state.rooms,
+		[id]: {
+			...state.rooms[id],
+			viewports: [
+				...state.rooms[id].viewports,
+				viewportId,
+			],
+		},
+	},
+});
 
-export const ADD_GAME_OBJECT_TO_ROOM = 'ADD_GAME_OBJECT_TO_ROOM';
-export function addGameObjectToRoom(id, gameObjectId) {
-	return {
-		type: ADD_GAME_OBJECT_TO_ROOM,
-		id,
-		gameObjectId,
-	};
-}
+export const addGameObjectToRoom = (id, gameObjectId) => state => ({
+	...state,
+	rooms: {
+		...state.rooms,
+		[id]: {
+			...state.rooms[id],
+			gameObjects: [
+				...state.rooms[id].gameObjects,
+				gameObjectId,
+			],
+		},
+	},
+});

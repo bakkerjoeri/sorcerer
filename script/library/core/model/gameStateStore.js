@@ -1,5 +1,4 @@
 import createStore from './../../../library/store/createStore';
-import reducer from './reducers';
 
 const INITIAL_STATE = {
 	game: {
@@ -14,4 +13,4 @@ const INITIAL_STATE = {
 	viewports: {},
 };
 
-export default createStore(reducer, INITIAL_STATE);
+export default createStore(INITIAL_STATE);

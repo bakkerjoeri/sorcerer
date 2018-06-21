@@ -1,7 +1,7 @@
-export const ADD_SPRITE_FRAME = 'ADD_SPRITE_FRAME';
-export function addSpriteFrame(spriteFrame) {
-	return {
-		type: ADD_SPRITE_FRAME,
-		spriteFrame,
-	};
-}
+export const addSpriteFrame = spriteFrame => state => ({
+	...state,
+	spriteFrames: {
+		...state.spriteFrames,
+		[spriteFrame.id]: spriteFrame,
+	},
+});
