@@ -1,4 +1,4 @@
-import {getRoomWithId} from './../model/selectors/rooms';
+import {getRoomWithId} from './../model/rooms';
 import gameStateStore from './../model/gameStateStore';
 import {updateRoom, drawRoomOntoContext} from './Room';
 

@@ -1,6 +1,6 @@
 import createEntity from './../utility/createEntity';
 import gameStateStore from './../model/gameStateStore';
-import {getSpriteSheetWithId} from './../model/selectors/spriteSheets';
+import {getSpriteSheetWithId} from './../model/spriteSheets';
 import {getImageFromSpriteSheet} from './SpriteSheet';
 
 export function createSpriteFrame(properties = {}) {

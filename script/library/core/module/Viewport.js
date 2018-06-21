@@ -1,8 +1,8 @@
 import createEntity from './../utility/createEntity';
-import {changeViewportPosition} from './../model/actions/viewports';
+import {changeViewportPosition} from './../model/viewports';
 import gameStateStore from './../model/gameStateStore';
-import {getGameObjectWithId} from './../model/selectors/gameObjects';
-import {getSpriteWithId} from './../model/selectors/sprites';
+import {getGameObjectWithId} from './../model/gameObjects';
+import {getSpriteWithId} from './../model/sprites';
 import {drawRoomBackgroundOntoContext} from './Room';
 
 export function createViewport(properties = {}) {

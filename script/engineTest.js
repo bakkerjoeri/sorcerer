@@ -4,11 +4,11 @@ import {createRoom} from './library/core/module/Room';
 import {createViewport} from './library/core/module/Viewport';
 import {createSprite} from './library/core/module/Sprite';
 import {loadSpriteSheet} from './library/core/module/SpriteSheet';
-import {setGameName, setCurrentRoomId} from './library/core/model/actions/game';
-import {addGameObject, setSpriteIdForGameObject, changePositionOfGameObject} from './library/core/model/actions/gameObjects';
-import {addRoom, addViewportToRoom, addGameObjectToRoom} from './library/core/model/actions/rooms';
-import {addViewport} from './library/core/model/actions/viewports';
-import {addSprite} from './library/core/model/actions/sprites';
+import {setGameName, setCurrentRoomId} from './library/core/model/game';
+import {addGameObject, setSpriteIdForGameObject, changePositionOfGameObject} from './library/core/model/gameObjects';
+import {addRoom, addViewportToRoom, addGameObjectToRoom} from './library/core/model/rooms';
+import {addViewport} from './library/core/model/viewports';
+import {addSprite} from './library/core/model/sprites';
 
 import {startGame} from './library/core/module/Game';
 

@@ -30,3 +30,11 @@ export const setCurrentFrameIndexForSprite = (id, currentFrameIndex) => state =>
 		},
 	},
 });
+
+export const getSprites = state => {
+	return Object.values(state.sprites);
+}
+
+export const getSpriteWithId = (state, spriteId) => {
+	return state.sprites[spriteId];
+}

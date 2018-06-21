@@ -1,7 +1,7 @@
 import createEntity from './../utility/createEntity';
 import gameStateStore from './../model/gameStateStore';
-import {addSpriteSheet} from './../model/actions/spriteSheets';
-import {addSpriteFrame} from './../model/actions/spriteFrames';
+import {addSpriteSheet} from './../model/spriteSheets';
+import {addSpriteFrame} from './../model/spriteFrames';
 import {createSpriteFrame} from './../module/SpriteFrame';
 
 export function createSpriteSheet(properties = {}) {

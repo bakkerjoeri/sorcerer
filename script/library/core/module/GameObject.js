@@ -1,6 +1,6 @@
 import createEntity from './../utility/createEntity';
 import gameStateStore from './../model/gameStateStore';
-import {getSpriteWithId} from './../model/selectors/sprites';
+import {getSpriteWithId} from './../model/sprites';
 import {updateSprite, drawSpriteAtPosition} from './Sprite';
 
 export function createGameObject(properties = {}) {

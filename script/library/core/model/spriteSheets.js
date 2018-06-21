@@ -5,3 +5,7 @@ export const addSpriteSheet = spriteSheet => state => ({
 		[spriteSheet.id]: spriteSheet,
 	},
 });
+
+export const getSpriteSheetWithId = (state, spriteSheetId) => {
+	return state.spriteSheets[spriteSheetId];
+}

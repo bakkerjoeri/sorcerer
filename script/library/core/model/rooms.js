@@ -33,3 +33,11 @@ export const addGameObjectToRoom = (id, gameObjectId) => state => ({
 		},
 	},
 });
+
+export const getRooms = state => {
+	return Object.values(state.rooms);
+}
+
+export const getRoomWithId = (state, id) => {
+	return state.rooms[id];
+}

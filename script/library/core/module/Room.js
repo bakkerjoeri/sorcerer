@@ -1,7 +1,7 @@
 import createEntity from './../utility/createEntity';
 import gameStateStore from './../model/gameStateStore';
-import {getActiveViewportsInRoomWithId} from './../model/selectors/viewports';
-import {getGameObjectsInRoomWithId, getVisibleGameObjectsInRoomWithId} from './../model/selectors/gameObjects';
+import {getActiveViewportsInRoomWithId} from './../model/viewports';
+import {getGameObjectsInRoomWithId, getVisibleGameObjectsInRoomWithId} from './../model/gameObjects';
 import {updateViewportInRoom, clearViewportFromContext} from './Viewport';
 import {updateGameObject, drawGameObjectInViewportOntoContext} from './GameObject';
 
