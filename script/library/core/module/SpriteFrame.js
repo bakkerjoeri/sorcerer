@@ -1,4 +1,4 @@
-import createEntity from './../utility/createEntity';
+import createStateEntity from './../utility/createStateEntity';
 import gameStateStore from './../model/gameStateStore';
 import {getSpriteSheetWithId} from './../model/spriteSheets';
 import {getImageFromSpriteSheet} from './SpriteSheet';
@@ -16,7 +16,7 @@ export function createSpriteFrame(properties = {}) {
 		},
 	};
 
-	return createEntity('spriteFrame', properties, DEFAULT_PROPERTIES);
+	return createStateEntity('spriteFrame', properties, DEFAULT_PROPERTIES);
 }
 
 export function drawSpriteFrameAtPosition(spriteFrame, position, context) {

@@ -1,4 +1,4 @@
-import createEntity from './../utility/createEntity';
+import createStateEntity from './../utility/createStateEntity';
 import gameStateStore from './../model/gameStateStore';
 import {getSpriteWithId} from './../model/sprites';
 import {updateSprite, drawSpriteAtPosition} from './Sprite';
@@ -19,7 +19,7 @@ export function createGameObject(properties = {}) {
 		isVisible: true,
 	};
 
-	return createEntity('gameObject', properties, DEFAULT_PROPERTIES);
+	return createStateEntity('gameObject', properties, DEFAULT_PROPERTIES);
 }
 
 export function updateGameObject(time, gameObject) {

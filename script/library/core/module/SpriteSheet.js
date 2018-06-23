@@ -1,4 +1,4 @@
-import createEntity from './../utility/createEntity';
+import createStateEntity from './../utility/createStateEntity';
 import gameStateStore from './../model/gameStateStore';
 import {addSpriteSheet} from './../model/spriteSheets';
 import {addSpriteFrame} from './../model/spriteFrames';
@@ -10,7 +10,7 @@ export function createSpriteSheet(properties = {}) {
 		filePath: '',
 	};
 
-	return createEntity('spriteSheet', properties, DEFAULT_PROPERTIES);
+	return createStateEntity('spriteSheet', properties, DEFAULT_PROPERTIES);
 }
 
 /**

@@ -1,4 +1,4 @@
-import createEntity from './../utility/createEntity';
+import createStateEntity from './../utility/createStateEntity';
 import gameStateStore from './../model/gameStateStore';
 import {getActiveViewportsInRoomWithId} from './../model/viewports';
 import {getGameObjectsInRoomWithId, getVisibleGameObjectsInRoomWithId} from './../model/gameObjects';
@@ -16,7 +16,7 @@ export function createRoom(properties = {}) {
 		gameObjects: [],
 	};
 
-	return createEntity('room', properties, DEFAULT_PROPERTIES);
+	return createStateEntity('room', properties, DEFAULT_PROPERTIES);
 }
 
 export function updateRoom(time, room) {

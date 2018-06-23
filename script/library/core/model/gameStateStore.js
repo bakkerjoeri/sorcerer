@@ -11,6 +11,7 @@ const INITIAL_STATE = {
 	spriteFrames: {},
 	spriteSheets: {},
 	viewports: {},
+	entities: {},
 };
 
 export default createStore(INITIAL_STATE);

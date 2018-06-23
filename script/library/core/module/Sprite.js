@@ -1,4 +1,4 @@
-import createEntity from './../utility/createEntity';
+import createStateEntity from './../utility/createStateEntity';
 import gameStateStore from './../model/gameStateStore';
 import {getSpriteFrameWithId} from './../model/spriteFrames';
 import {setCurrentFrameIndexForSprite} from './../model/sprites';
@@ -21,7 +21,7 @@ export function createSprite(properties = {}) {
 		isAnimationLooping: true,
 	};
 
-	return createEntity('sprite', properties, DEFAULT_PROPERTIES);
+	return createStateEntity('sprite', properties, DEFAULT_PROPERTIES);
 }
 
 const timeOfPreviousFrameBySpriteId = {};
