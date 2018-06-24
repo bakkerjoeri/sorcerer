@@ -14,7 +14,7 @@ export default class System {
 
 	update() {
 		this.getEligibleComponents().forEach((entity) => {
-			this.updateCallback(entity);
+			this.updateCallback(entity, this.game);
 		});
 	}
 }
