@@ -1,11 +1,10 @@
 import createStateEntity from './../utility/createStateEntity';
 import gameStateStore from './../model/gameStateStore';
-import {getSpriteSheetWithId} from './../model/spriteSheets';
-import {getImageFromSpriteSheet} from './SpriteSheet';
+import {addSpriteFrame} from './../model/spriteFrames';
 
 export function createSpriteFrame(properties = {}) {
 	const DEFAULT_PROPERTIES = {
-		spriteSheet: null,
+		imageFilePath: '',
 		origin: {
 			x: 0,
 			y: 0,
@@ -19,16 +18,47 @@ export function createSpriteFrame(properties = {}) {
 	return createStateEntity('spriteFrame', properties, DEFAULT_PROPERTIES);
 }
 
-export function drawSpriteFrameAtPosition(spriteFrame, position, context) {
-	if (spriteFrame.spriteSheet !== null) {
-		let spriteSheet = getSpriteSheetWithId(gameStateStore.getState(), spriteFrame.spriteSheet);
+/**
+ * Load a spritesheet into state.
+ *
+ * @param  {String} filePath                Path of to sprite sheet's image file
+ * @param  {Object} frameSize               The size of each frame
+ * @param  {Number} [frameStart=0]
+ * @param  {Number} [frameOffset=1]
+ * @param  {Number} [framesPerRow=Infinity] How many frames each row of the sprite sheets contains.
+ *                                          This is used to determine when to wrap down to the next frame.
+ */
+export function loadSpriteFrames(name, filePath, frameSize, frameStart = 0, frameOffset = 1, framesPerRow = Infinity) {
+	// Create a new sprite sheet
+	let currentFrameRow = 0;
 
-		context.drawImage(
-			getImageFromSpriteSheet(spriteSheet),
-			spriteFrame.origin.x, spriteFrame.origin.y,
-			spriteFrame.size.width, spriteFrame.size.height,
-			position.x, position.y,
-			spriteFrame.size.width, spriteFrame.size.height
-		);
+	for (
+		let currentFrameIndex = frameStart;
+		currentFrameIndex < frameStart + frameOffset;
+		currentFrameIndex = currentFrameIndex + 1
+	) {
+		let spriteFrame = createSpriteFrame({
+			id: `${name}_${currentFrameIndex}`,
+			imageFilePath: filePath,
+			origin: {
+				x: currentFrameIndex * frameSize.width,
+				y: currentFrameRow * frameSize.height,
+			},
+			size: frameSize,
+		});
+
+		gameStateStore.dispatch(addSpriteFrame(spriteFrame));
 	}
+}
+
+const imageCache = {};
+
+export function getImageFromFilePath(filePath, cached = true) {
+	if (!imageCache[filePath] || !cached) {
+		let image = new Image();
+		image.src = filePath;
+		imageCache[filePath] = image;
+	}
+
+	return imageCache[filePath];
 }

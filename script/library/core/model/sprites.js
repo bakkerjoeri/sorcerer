@@ -20,17 +20,6 @@ export const addSpriteFrameToSprite = (id, spriteFrameId) => state => ({
 	},
 });
 
-export const setCurrentFrameIndexForSprite = (id, currentFrameIndex) => state => ({
-	...state,
-	sprites: {
-		...state.sprites,
-		[id]: {
-			...state.sprites[id],
-			currentFrameIndex: currentFrameIndex,
-		},
-	},
-});
-
 export const getSprites = state => {
 	return Object.values(state.sprites);
 }

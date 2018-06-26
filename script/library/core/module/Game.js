@@ -18,14 +18,17 @@ export default class Game {
 	start() {
 		this.looping = true;
 
-		this.update();
+		window.requestAnimationFrame(this.update);
 	}
 
 	stop() {
 		this.looping = false;
 	}
 
-	update() {
+	update(time) {
+		this.timeSincePreviousUpdate = time - this.elapsed;
+		this.elapsed = time;
+
 		this.systems.forEach((system) => {
 			system.update(getAllEntities(gameStateStore.getState()));
 		});
