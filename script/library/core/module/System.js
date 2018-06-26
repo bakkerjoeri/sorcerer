@@ -1,5 +1,4 @@
 import {getEntitiesWithComponentNames} from './../model/entities';
-import {getComponentsForEntityWithId} from './Component';
 import gameStateStore from './../model/gameStateStore';
 
 export default class System {

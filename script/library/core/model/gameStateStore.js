@@ -5,11 +5,9 @@ const INITIAL_STATE = {
 		name: '',
 		currentRoomId: null,
 	},
-	gameObjects: {},
 	rooms: {},
 	sprites: {},
 	spriteFrames: {},
-	spriteSheets: {},
 	viewports: {},
 	entities: {},
 };
