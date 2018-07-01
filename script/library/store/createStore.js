@@ -1,4 +1,4 @@
-export default function createStore(initialState) {
+export default function createStore(initialState, debugMode = false) {
 	let isDispatching = false;
 	let currentState = initialState;
 
@@ -8,10 +8,16 @@ export default function createStore(initialState) {
 		}
 
 		try {
-			console.log('Dispatching action...');
+			if (debugMode) {
+				console.log('Dispatching action...');
+			}
+
 			isDispatching = true;
 			currentState = action(currentState);
-			console.log('Next state', currentState);
+
+			if (debugMode) {
+				console.log('Next state', currentState);
+			}
 		} finally {
 			isDispatching = false;
 		}

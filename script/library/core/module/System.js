@@ -17,7 +17,11 @@ export default class System {
 	}
 
 	update() {
-		this.getEligibleComponents().forEach((entity) => {
+		this.updateAllEntities(this.getEligibleComponents());
+	}
+
+	updateAllEntities(entities) {
+		entities.forEach((entity) => {
 			this.updateCallback(entity, this.game);
 		});
 	}
