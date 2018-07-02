@@ -10,9 +10,8 @@ export default class ActionTickerSystem extends System {
 }
 
 function act(entity) {
-	// console.log('Time to act!');
-	// gameStateStore.dispatch(removeComponentFromEntity(entity.id, 'canAct'));
-	// gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'actionTicker', {
-	// 	ticks: 100,
-	// }));
+	gameStateStore.dispatch(removeComponentFromEntity(entity.id, 'canAct'));
+	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'actionTicker', {
+		ticks: 100,
+	}));
 }

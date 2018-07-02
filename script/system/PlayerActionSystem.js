@@ -2,6 +2,7 @@ import System from './../library/core/module/System';
 import gameStateStore from './../library/core/model/gameStateStore';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 import {updateComponentOfEntity, removeComponentFromEntity} from './../library/core/model/entities'
+import canMoveFromPositionToPosition from './../canMoveFromPositionToPosition';
 
 export default class PlayerControlSystem extends System {
 	constructor() {
@@ -17,15 +18,17 @@ let hasMovedLeft = false;
 function act(entity) {
 	let {position} = entity.components;
 
+	if (isKeyPressed('Space')) {
+		concludeAction(entity);
+	}
+
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
 		hasMovedUp = true;
 
-		gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'position', {
+		tryToMoveToNewPosition(entity, {
 			x: position.x,
 			y: position.y - 16,
-		}));
-
-		concludeAction(entity);
+		});
 	} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
 		hasMovedUp = false;
 	}
@@ -33,12 +36,10 @@ function act(entity) {
 	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
 		hasMovedRight = true;
 
-		gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'position', {
+		tryToMoveToNewPosition(entity, {
 			x: position.x + 16,
 			y: position.y,
-		}));
-
-		concludeAction(entity);
+		});
 	} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
 		hasMovedRight = false;
 	}
@@ -46,12 +47,10 @@ function act(entity) {
 	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
 		hasMovedDown = true;
 
-		gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'position', {
+		tryToMoveToNewPosition(entity, {
 			x: position.x,
 			y: position.y + 16,
-		}));
-
-		concludeAction(entity);
+		});
 	} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
 		hasMovedDown = false;
 	}
@@ -59,14 +58,21 @@ function act(entity) {
 	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
 		hasMovedLeft = true;
 
-		gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'position', {
+		tryToMoveToNewPosition(entity, {
 			x: position.x - 16,
 			y: position.y,
-		}));
-
-		concludeAction(entity);
+		});
 	} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
 		hasMovedLeft = false;
+	}
+}
+
+function tryToMoveToNewPosition(entity, newPosition) {
+	let {position} = entity.components;
+
+	if (canMoveFromPositionToPosition(position, newPosition)) {
+		gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'position', newPosition));
+		concludeAction(entity);
 	}
 }
 
