@@ -13,16 +13,12 @@ export default class ActionTickerSystem extends System {
 		// loop through all entities, reducing each' tick by 1.
 		// when an entity reaches tick 0, stop looping and assign it `canAct`
 
-		let shouldTick = true;
-
-		while (shouldTick) {
+		while (getEntitiesWithComponentNames(gameStateStore.getState(), ['canAct']).length === 0) {
 			for (let entity of entities) {
 				let actionTicker = getComponentValueForEntity(gameStateStore.getState(), entity.id, 'actionTicker');
 
 				if (actionTicker.ticks === 0) {
 					gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'canAct', true));
-
-					shouldTick = false;
 				} else {
 					gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'actionTicker', {
 						ticks: actionTicker.ticks - 1,
