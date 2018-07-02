@@ -9,7 +9,7 @@ export default class AnimationSystem extends System {
 	}
 }
 
-const timeOfPreviousFrameBySpriteId = {};
+const timeOfPreviousFrameByEntityId = {};
 
 function animateEntity(entity, game) {
 	let {sprite} = entity.components;
@@ -21,13 +21,13 @@ function animateEntity(entity, game) {
 		&& !sprite.isAnimationPaused
 		&& !(!sprite.isAnimationLooping && sprite.currentFrameIndex === (spriteAsset.spriteFrames.length - 1))
 	) {
-		if (!timeOfPreviousFrameBySpriteId[sprite.id]) {
-			timeOfPreviousFrameBySpriteId[sprite.id] = game.elapsed;
+		if (!timeOfPreviousFrameByEntityId[entity.id]) {
+			timeOfPreviousFrameByEntityId[entity.id] = game.elapsed;
 		}
 
-		let timeSincePreviousFrame = game.elapsed - timeOfPreviousFrameBySpriteId[sprite.id];
+		let timeSincePreviousFrame = game.elapsed - timeOfPreviousFrameByEntityId[entity.id];
 
-		let frameChange = timeSincePreviousFrame / (1000 / spriteAsset.framesPerSecond);
+		let frameChange = timeSincePreviousFrame / (1000 / sprite.framesPerSecond);
 
 		if (frameChange > 0) {
 			frameChange = Math.floor(frameChange);
@@ -38,9 +38,8 @@ function animateEntity(entity, game) {
 		}
 
 		if (frameChange !== 0) {
-			timeOfPreviousFrameBySpriteId[sprite.id] = game.elapsed;
+			timeOfPreviousFrameByEntityId[entity.id] = game.elapsed;
 			let newFrameIndex = calculateNewFrameIndexWithChange(sprite.currentFrameIndex, frameChange, spriteAsset.spriteFrames.length, sprite.isAnimationLooping);
-
 			gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'sprite', {
 				currentFrameIndex: newFrameIndex
 			}));
