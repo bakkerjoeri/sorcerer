@@ -6,7 +6,7 @@ import canMoveFromPositionToPosition from './../canMoveFromPositionToPosition';
 
 export default class PlayerControlSystem extends System {
 	constructor() {
-		super(['actor', 'player', 'canAct', 'position'], act);
+		super(['actor', 'player', 'canAct', 'positionInLevel'], act);
 	}
 }
 
@@ -16,7 +16,7 @@ let hasMovedDown = false;
 let hasMovedLeft = false;
 
 function act(entity) {
-	let {position} = entity.components;
+	let {positionInLevel} = entity.components;
 
 	if (isKeyPressed('Space')) {
 		concludeAction(entity);
@@ -25,9 +25,9 @@ function act(entity) {
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
 		hasMovedUp = true;
 
-		tryToMoveToNewPosition(entity, {
-			x: position.x,
-			y: position.y - 16,
+		tryToMoveToNewPositionInLevel(entity, {
+			x: positionInLevel.x,
+			y: positionInLevel.y - 1,
 		});
 	} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
 		hasMovedUp = false;
@@ -36,9 +36,9 @@ function act(entity) {
 	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
 		hasMovedRight = true;
 
-		tryToMoveToNewPosition(entity, {
-			x: position.x + 16,
-			y: position.y,
+		tryToMoveToNewPositionInLevel(entity, {
+			x: positionInLevel.x + 1,
+			y: positionInLevel.y,
 		});
 	} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
 		hasMovedRight = false;
@@ -47,9 +47,9 @@ function act(entity) {
 	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
 		hasMovedDown = true;
 
-		tryToMoveToNewPosition(entity, {
-			x: position.x,
-			y: position.y + 16,
+		tryToMoveToNewPositionInLevel(entity, {
+			x: positionInLevel.x,
+			y: positionInLevel.y + 1,
 		});
 	} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
 		hasMovedDown = false;
@@ -58,22 +58,25 @@ function act(entity) {
 	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
 		hasMovedLeft = true;
 
-		tryToMoveToNewPosition(entity, {
-			x: position.x - 16,
-			y: position.y,
+		tryToMoveToNewPositionInLevel(entity, {
+			x: positionInLevel.x - 1,
+			y: positionInLevel.y,
 		});
 	} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
 		hasMovedLeft = false;
 	}
 }
 
-function tryToMoveToNewPosition(entity, newPosition) {
-	let {position} = entity.components;
+function tryToMoveToNewPositionInLevel(entity, newPositionInLevel) {
+	let {positionInLevel} = entity.components;
 
-	if (canMoveFromPositionToPosition(position, newPosition)) {
-		gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'position', newPosition));
-		concludeAction(entity);
-	}
+	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'positionInLevel', newPositionInLevel));
+	concludeAction(entity);
+
+	// if (canMoveFromPositionToPosition(positionInLevel, newPositionInLevel)) {
+	// 	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'positionInLevel', newPositionInLevel));
+	// 	concludeAction(entity);
+	// }
 }
 
 function concludeAction(entity) {
