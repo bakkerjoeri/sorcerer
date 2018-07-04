@@ -4,11 +4,12 @@ import {createEntity} from './library/core/module/Entity';
 import {addEntity, addComponentToEntity} from './library/core/model/entities';
 import loadSprites from './loadSprites';
 
-import RenderSystem from './library/core/system/RenderSystem';
 import AnimationSystem from './library/core/system/AnimationSystem';
-import PlayerActionSystem from './system/PlayerActionSystem';
-import ActionTickerSystem from './system/ActionTickerSystem';
 import ActionSystem from './system/ActionSystem';
+import ActionTickerSystem from './system/ActionTickerSystem';
+import PlayerActionSystem from './system/PlayerActionSystem';
+import PositionInLevelSystem from './system/PositionInLevelSystem';
+import RenderSystem from './library/core/system/RenderSystem';
 
 import isPositionFree from './isPositionFree';
 
@@ -74,10 +75,11 @@ while(amountOfSlimesToCreate > 0) {
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
-game.addSystem(new AnimationSystem());
-game.addSystem(new RenderSystem());
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
+game.addSystem(new PositionInLevelSystem());
 game.addSystem(new ActionTickerSystem());
+game.addSystem(new AnimationSystem());
+game.addSystem(new RenderSystem());
 
 game.start();
