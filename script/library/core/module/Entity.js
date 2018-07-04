@@ -1,7 +1,7 @@
 import createStateEntity from './../utility/createStateEntity';
 
-export function createEntity() {
+export function createEntity(components = {}) {
 	return createStateEntity('entity', {
-		components: {},
+		components,
 	});
 }

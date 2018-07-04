@@ -1,7 +1,10 @@
 import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
-import {createEntity} from './library/core/module/Entity';
+import {createEntity, createEntityFromBlueprint} from './library/core/module/Entity';
 import {addEntity, addComponentToEntity} from './library/core/model/entities';
+import ActorEntity from './entity/ActorEntity';
+import HealthComponent from './component/HealthComponent';
+import SpriteComponent from './component/SpriteComponent';
 import loadSprites from './loadSprites';
 
 import AnimationSystem from './library/core/system/AnimationSystem';
@@ -15,65 +18,58 @@ import isPositionFree from './isPositionFree';
 
 loadSprites();
 
-let playerEntity = createEntity();
+let playerEntity = new ActorEntity({
+	name: 'Green Knight',
+	player: true,
+	health: new HealthComponent({
+		maximum: 20,
+	}),
+	sprite: new SpriteComponent({
+		assetId: 'greenknight',
+		framesPerSecond: 10,
+	}),
+	positionInLevel: {
+		x: 10,
+		y: 10,
+	},
+});
+
 gameStateStore.dispatch(addEntity(playerEntity));
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'name', 'Green Knight'));
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'isSolid', true));
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'health', {
-	current: 20, maximum: 20.
-}));
 
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'actionTicker', {
-	ticks: 0,
-}));
-
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'sprite', {
-	assetId: 'greenknight',
-	currentFrameIndex: 0,
-	framesPerSecond: 10,
-	isAnimationPaused: false,
-	isAnimationLooping: true,
-}));
-
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'player', true));
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'actor', true));
-gameStateStore.dispatch(addComponentToEntity(playerEntity.id, 'position', {x: 16, y: 16}));
-
-let amountOfSlimesToCreate = 50;
+let amountOfSlimesToCreate = 3;
 
 while(amountOfSlimesToCreate > 0) {
-	let position = {x: Math.floor(Math.random() * 20) * 16, y: Math.floor(Math.random() * 20) * 16};
+	let positionInLevel = {
+		x: Math.floor(Math.random() * 10),
+		y: Math.floor(Math.random() * 10)
+	};
+	let position = {
+		x: positionInLevel.x * 16,
+		y: positionInLevel.y * 16,
+	}
 
 	if (isPositionFree(position)) {
-		let slimeEntity = createEntity();
+		let slimeEntity = new ActorEntity({
+			health: new HealthComponent({
+				maximum: 10,
+			}),
+			sprite: new SpriteComponent({
+				assetId: 'slime',
+				framesPerSecond: 1,
+			}),
+			positionInLevel: positionInLevel,
+			brain: {},
+		});
+
 		gameStateStore.dispatch(addEntity(slimeEntity));
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'name', 'Slime'));
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'isSolid', true));
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'health', {
-			current: 10, maximum: 10,
-		}));
-
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'actionTicker', {
-			ticks: 0,
-		}));
-
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'sprite', {
-			assetId: 'slime',
-			currentFrameIndex: 0,
-			framesPerSecond: 1,
-			isAnimationPaused: false,
-			isAnimationLooping: true,
-		}));
-
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'actor', true));
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'brain', {}));
-		gameStateStore.dispatch(addComponentToEntity(slimeEntity.id, 'position', position));
 
 		amountOfSlimesToCreate -= 1;
 	}
 }
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
+
+console.log(gameStateStore.getState());
 
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
