@@ -1,5 +1,8 @@
 import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
+import {createRoom} from './library/core/module/Room';
+import {addRoom, addEntityToRoom} from './library/core/model/rooms';
+import {setGameName, setCurrentRoomId} from './library/core/model/game';
 import {createEntity, createEntityFromBlueprint} from './library/core/module/Entity';
 import {addEntity, addComponentToEntity} from './library/core/model/entities';
 import ActorEntity from './entity/ActorEntity';
@@ -18,6 +21,18 @@ import isPositionFree from './isPositionFree';
 
 loadSprites();
 
+gameStateStore.dispatch(setGameName('Sorcerer'));
+
+let room = createRoom({
+	size: {
+		width: 240,
+		height: 176,
+	},
+});
+
+gameStateStore.dispatch(addRoom(room));
+gameStateStore.dispatch(setCurrentRoomId(room.id));
+
 let playerEntity = new ActorEntity({
 	name: 'Green Knight',
 	player: true,
@@ -35,6 +50,7 @@ let playerEntity = new ActorEntity({
 });
 
 gameStateStore.dispatch(addEntity(playerEntity));
+gameStateStore.dispatch(addEntityToRoom(room.id, playerEntity.id));
 
 let amountOfSlimesToCreate = 3;
 

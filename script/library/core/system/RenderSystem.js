@@ -1,5 +1,6 @@
 import System from './../module/System';
 import gameStateStore from './../model/gameStateStore';
+import {getCurrentRoom} from './../model/rooms';
 import {getSpriteWithId} from './../model/sprites';
 import {getSpriteFrameWithId} from './../model/spriteFrames';
 import {getImageFromFilePath} from './../module/SpriteFrame';
@@ -11,6 +12,7 @@ export default class RenderSystem extends System {
 
 	update(entities) {
 		clearCanvasContext(this.game.canvas, this.game.context);
+		drawCurrentRoomBackground(this.game.context);
 
 		super.update(entities);
 	}
@@ -18,6 +20,18 @@ export default class RenderSystem extends System {
 
 function clearCanvasContext(canvas, context) {
 	context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawCurrentRoomBackground(context) {
+	let currentRoom = getCurrentRoom(gameStateStore.getState());
+
+	context.fillStyle = currentRoom.backgroundColor;
+	context.fillRect(
+		0,
+		0,
+		currentRoom.size.width,
+		currentRoom.size.height,
+	);
 }
 
 function renderEntity(entity, game) {
