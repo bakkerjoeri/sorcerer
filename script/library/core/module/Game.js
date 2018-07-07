@@ -1,5 +1,5 @@
 import gameStateStore from './../model/gameStateStore';
-import {getAllEntities} from './../model/entities';
+import {getEntitiesInCurrentRoom} from './../model/entities';
 
 let canvas;
 let context;
@@ -26,16 +26,19 @@ export default class Game {
 	}
 
 	update(time) {
+		console.time('game.update');
 		this.timeSincePreviousUpdate = time - this.elapsed;
 		this.elapsed = time;
 
 		this.systems.forEach((system) => {
-			system.update(getAllEntities(gameStateStore.getState()));
+			system.update(getEntitiesInCurrentRoom(gameStateStore.getState()));
 		});
 
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);
 		}
+
+		console.timeEnd('game.update');
 	}
 
 	addSystem(system) {

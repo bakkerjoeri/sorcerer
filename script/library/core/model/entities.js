@@ -82,3 +82,11 @@ export const getEntitiesWithComponentNames = (state, componentNames = []) => {
 export const getComponentValueForEntity = (state, entityId, componentName) => {
 	return getEntityWithId(state, entityId).components[componentName];
 }
+
+export const getEntitiesInCurrentRoom = (state) => {
+	return getEntitiesInRoomWithId(state, state.game.currentRoomId);
+}
+
+export const getEntitiesInRoomWithId = (state, roomId) => {
+	return state.rooms[roomId].entities.map((entityId) => getEntityWithId(state, entityId));
+}

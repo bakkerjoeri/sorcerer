@@ -9,7 +9,7 @@ export default class ActionTickerSystem extends System {
 		super(['actor', 'actionTicker']);
 	}
 
-	updateAllEntities(entities) {
+	update(entities) {
 		// loop through all entities, reducing each' tick by 1.
 		// when an entity reaches tick 0, stop looping and assign it `canAct`
 
@@ -27,6 +27,6 @@ export default class ActionTickerSystem extends System {
 			}
 		}
 
-		super.updateAllEntities(entities);
+		super.update(entities);
 	}
 }

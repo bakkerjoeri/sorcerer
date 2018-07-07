@@ -9,10 +9,10 @@ export default class RenderSystem extends System {
 		super(['sprite', 'position'], renderEntity);
 	}
 
-	update() {
+	update(entities) {
 		clearCanvasContext(this.game.canvas, this.game.context);
 
-		super.update();
+		super.update(entities);
 	}
 }
 

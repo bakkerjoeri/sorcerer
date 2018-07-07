@@ -1,4 +1,3 @@
-import {getEntitiesWithComponentNames} from './../model/entities';
 import gameStateStore from './../model/gameStateStore';
 
 export default class System {
@@ -12,17 +11,21 @@ export default class System {
 		this.updateCallback = updateCallback;
 	}
 
-	getEligibleComponents() {
-		return getEntitiesWithComponentNames(gameStateStore.getState(), this.requiredComponents);
-	}
-
-	update() {
-		this.updateAllEntities(this.getEligibleComponents());
-	}
-
-	updateAllEntities(entities) {
-		entities.forEach((entity) => {
+	update(entities) {
+		filterEntitiesByComponentNames(entities, this.requiredComponents).forEach((entity) => {
 			this.updateCallback(entity, this.game);
 		});
 	}
+}
+
+function filterEntitiesByComponentNames(entities, componentNames) {
+	if (componentNames.length === 0) {
+		return entities;
+	}
+
+	return entities.filter((entity) => {
+		return componentNames.every((componentName) => {
+			return entity.components.hasOwnProperty(componentName);
+		})
+	});
 }
