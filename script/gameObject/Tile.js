@@ -5,7 +5,7 @@ export const TILE_ENTITY_COMPONENTS_BLUEPRINT = {
 		x: 0,
 		y: 0,
 	},
-	gameObjects: [],
+	entities: [],
 };
 
 export default function TileGameObject(components) {
