@@ -2,7 +2,6 @@ import System from './../library/core/module/System';
 import gameStateStore from './../library/core/model/gameStateStore';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 import {updateComponentOfEntity, removeComponentFromEntity} from './../library/core/model/entities'
-import canMoveFromPositionToPosition from './../canMoveFromPositionToPosition';
 
 export default class PlayerControlSystem extends System {
 	constructor() {
@@ -10,6 +9,7 @@ export default class PlayerControlSystem extends System {
 	}
 }
 
+let hasPressedSpace = false;
 let hasMovedUp = false;
 let hasMovedRight = false;
 let hasMovedDown = false;
@@ -18,8 +18,11 @@ let hasMovedLeft = false;
 function act(entity) {
 	let {positionInLevel} = entity.components;
 
-	if (isKeyPressed('Space')) {
+	if (isKeyPressed(' ') && !hasPressedSpace) {
+		hasPressedSpace = true;
 		concludeAction(entity);
+	} else if (!isKeyPressed(' ') && hasPressedSpace) {
+		hasPressedSpace = false;
 	}
 
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
@@ -68,15 +71,8 @@ function act(entity) {
 }
 
 function tryToMoveToNewPositionInLevel(entity, newPositionInLevel) {
-	let {positionInLevel} = entity.components;
-
 	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'positionInLevel', newPositionInLevel));
 	concludeAction(entity);
-
-	// if (canMoveFromPositionToPosition(positionInLevel, newPositionInLevel)) {
-	// 	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'positionInLevel', newPositionInLevel));
-	// 	concludeAction(entity);
-	// }
 }
 
 function concludeAction(entity) {
