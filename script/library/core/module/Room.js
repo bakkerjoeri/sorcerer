@@ -8,7 +8,7 @@ export function createRoom(properties = {}) {
 		},
 		backgroundColor: '#000',
 		viewports: [],
-		entities: [],
+		gameObjects: [],
 	};
 
 	return createStateEntity('room', properties, DEFAULT_PROPERTIES);

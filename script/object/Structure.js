@@ -1,6 +1,6 @@
-import Entity from './Entity';
+import GameObject from './GameObject';
 
-export default class Structure extends Entity {
+export default class Structure extends GameObject {
 	constructor(structureDefinition, options) {
 		super(options);
 

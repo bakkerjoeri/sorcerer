@@ -1,18 +1,18 @@
 import System from './../module/System';
 import gameStateStore from './../model/gameStateStore';
 import {getSpriteWithId} from './../model/sprites';
-import {updateComponentOfEntity} from './../model/entities'
+import {updateComponentOfGameObject} from './../model/gameObjects'
 
 export default class AnimationSystem extends System {
 	constructor() {
-		super(['sprite'], animateEntity);
+		super(['sprite'], animateGameObject);
 	}
 }
 
-const timeOfPreviousFrameByEntityId = {};
+const timeOfPreviousFrameByGameObjectId = {};
 
-function animateEntity(entity, game) {
-	let {sprite} = entity.components;
+function animateGameObject(gameObject, game) {
+	let {sprite} = gameObject.components;
 	let spriteAsset = getSpriteWithId(gameStateStore.getState(), sprite.assetId);
 
 	if (
@@ -21,11 +21,11 @@ function animateEntity(entity, game) {
 		&& !sprite.isAnimationPaused
 		&& !(!sprite.isAnimationLooping && sprite.currentFrameIndex === (spriteAsset.spriteFrames.length - 1))
 	) {
-		if (!timeOfPreviousFrameByEntityId[entity.id]) {
-			timeOfPreviousFrameByEntityId[entity.id] = game.elapsed;
+		if (!timeOfPreviousFrameByGameObjectId[gameObject.id]) {
+			timeOfPreviousFrameByGameObjectId[gameObject.id] = game.elapsed;
 		}
 
-		let timeSincePreviousFrame = game.elapsed - timeOfPreviousFrameByEntityId[entity.id];
+		let timeSincePreviousFrame = game.elapsed - timeOfPreviousFrameByGameObjectId[gameObject.id];
 
 		let frameChange = timeSincePreviousFrame / (1000 / sprite.framesPerSecond);
 
@@ -38,9 +38,9 @@ function animateEntity(entity, game) {
 		}
 
 		if (frameChange !== 0) {
-			timeOfPreviousFrameByEntityId[entity.id] = game.elapsed;
+			timeOfPreviousFrameByGameObjectId[gameObject.id] = game.elapsed;
 			let newFrameIndex = calculateNewFrameIndexWithChange(sprite.currentFrameIndex, frameChange, spriteAsset.spriteFrames.length, sprite.isAnimationLooping);
-			gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'sprite', {
+			gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'sprite', {
 				currentFrameIndex: newFrameIndex
 			}));
 		}

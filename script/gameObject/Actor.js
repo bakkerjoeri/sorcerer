@@ -1,4 +1,4 @@
-import {createEntity} from './../library/core/module/Entity';
+import {createGameObject} from './../library/core/module/GameObject';
 import HealthComponent from './../component/HealthComponent';
 
 export const ACTOR_ENTITY_COMPONENTS_BLUEPRINT = {
@@ -24,8 +24,8 @@ export const ACTOR_ENTITY_COMPONENTS_BLUEPRINT = {
 	},
 };
 
-export default function ActorEntity(components) {
-	return createEntity({
+export default function ActorGameObject(components) {
+	return createGameObject({
 		...ACTOR_ENTITY_COMPONENTS_BLUEPRINT,
 		...components,
 	})

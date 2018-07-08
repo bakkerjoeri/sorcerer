@@ -1,4 +1,4 @@
-import Entity from './Entity';
+import GameObject from './GameObject';
 import Log from './../module/Log';
 import Ticker from './../module/Ticker';
 
@@ -9,7 +9,7 @@ const DEFAULT_STATS = {
 	attackCost: 100,
 }
 
-export default class Actor extends Entity {
+export default class Actor extends GameObject {
 	constructor(creatureDefinition, options) {
 		super(options);
 
@@ -62,7 +62,7 @@ export default class Actor extends Entity {
 
 	canMoveToPosition(levelPosition) {
 		return this.level.hasTileAtPosition(levelPosition)
-			&& !this.level.hasSolidEntitiesInBoundaries(levelPosition, this.sizeInLevel, [this])
+			&& !this.level.hasSolidGameObjectsInBoundaries(levelPosition, this.sizeInLevel, [this])
 			&& this.level.areBoundariesWithinLevelBoundaries(levelPosition, this.sizeInLevel);
 	}
 

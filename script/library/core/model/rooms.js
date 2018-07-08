@@ -20,15 +20,15 @@ export const addViewportToRoom = (id, viewportId) => state => ({
 	},
 });
 
-export const addEntityToRoom = (id, entityId) => state => ({
+export const addGameObjectToRoom = (id, gameObjectId) => state => ({
 	...state,
 	rooms: {
 		...state.rooms,
 		[id]: {
 			...state.rooms[id],
-			entities: [
-				...state.rooms[id].entities,
-				entityId,
+			gameObjects: [
+				...state.rooms[id].gameObjects,
+				gameObjectId,
 			],
 		},
 	},

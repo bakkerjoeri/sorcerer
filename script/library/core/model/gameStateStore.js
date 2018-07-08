@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 	sprites: {},
 	spriteFrames: {},
 	viewports: {},
-	entities: {},
+	gameObjects: {},
 };
 
 export default createStore(INITIAL_STATE);

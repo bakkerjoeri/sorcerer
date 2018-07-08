@@ -1,11 +1,12 @@
 import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {createRoom} from './library/core/module/Room';
-import {addRoom, addEntityToRoom} from './library/core/model/rooms';
+import {addRoom, addGameObjectToRoom} from './library/core/model/rooms';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {createEntity, createEntityFromBlueprint} from './library/core/module/Entity';
-import {addEntity, addComponentToEntity} from './library/core/model/entities';
-import ActorEntity from './entity/ActorEntity';
+import {createGameObject, createGameObjectFromBlueprint} from './library/core/module/GameObject';
+import {addGameObject, addComponentToGameObject} from './library/core/model/gameObjects';
+import Actor from './gameObject/Actor';
+import Tile from './gameObject/Tile';
 import HealthComponent from './component/HealthComponent';
 import SpriteComponent from './component/SpriteComponent';
 import loadSprites from './loadSprites';
@@ -19,8 +20,8 @@ import RenderSystem from './library/core/system/RenderSystem';
 
 loadSprites();
 
+// Create a room
 gameStateStore.dispatch(setGameName('Sorcerer'));
-
 let room = createRoom({
 	size: {
 		width: 240,
@@ -28,10 +29,26 @@ let room = createRoom({
 	},
 });
 
+// Create tiles
+function createTileSet(width, height) {
+	let tiles = [];
+
+	for (let y = 0; y < height; y = y + 1) {
+		for (let x = 0; x < width; x = x + 1) {
+			let tile = new Tile({
+				positionInLevel: {
+					x: x,
+					y: y,
+				},
+			});
+		}
+	}
+}
+
 gameStateStore.dispatch(addRoom(room));
 gameStateStore.dispatch(setCurrentRoomId(room.id));
 
-let playerEntity = new ActorEntity({
+let playerGameObject = new Actor({
 	name: 'Green Knight',
 	player: true,
 	health: new HealthComponent({
@@ -47,8 +64,8 @@ let playerEntity = new ActorEntity({
 	},
 });
 
-gameStateStore.dispatch(addEntity(playerEntity));
-gameStateStore.dispatch(addEntityToRoom(room.id, playerEntity.id));
+gameStateStore.dispatch(addGameObject(playerGameObject));
+gameStateStore.dispatch(addGameObjectToRoom(room.id, playerGameObject.id));
 
 let amountOfSlimesToCreate = 10;
 
@@ -62,7 +79,7 @@ while(amountOfSlimesToCreate > 0) {
 		y: positionInLevel.y * 16,
 	}
 
-	let slimeEntity = new ActorEntity({
+	let slimeGameObject = new Actor({
 		nonPlayer: true,
 		health: new HealthComponent({
 			maximum: 10,
@@ -75,8 +92,8 @@ while(amountOfSlimesToCreate > 0) {
 		brain: {},
 	});
 
-	gameStateStore.dispatch(addEntity(slimeEntity));
-	gameStateStore.dispatch(addEntityToRoom(room.id, slimeEntity.id));
+	gameStateStore.dispatch(addGameObject(slimeGameObject));
+	gameStateStore.dispatch(addGameObjectToRoom(room.id, slimeGameObject.id));
 
 	amountOfSlimesToCreate -= 1;
 }

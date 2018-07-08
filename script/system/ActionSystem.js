@@ -1,7 +1,7 @@
 import System from './../library/core/module/System';
 import gameStateStore from './../library/core/model/gameStateStore';
 import choose from './../utility/random/choose';
-import {updateComponentOfEntity, removeComponentFromEntity} from './../library/core/model/entities'
+import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
 export default class ActionTickerSystem extends System {
 	constructor() {
@@ -9,8 +9,8 @@ export default class ActionTickerSystem extends System {
 	}
 }
 
-function act(entity) {
-	let {positionInLevel} = entity.components;
+function act(gameObject) {
+	let {positionInLevel} = gameObject.components;
 
 	let newPositionInLevel = choose([
 		{x: positionInLevel.x, y: positionInLevel.y - 1},
@@ -19,13 +19,13 @@ function act(entity) {
 		{x: positionInLevel.x - 1, y: positionInLevel.y},
 	]);
 
-	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'positionInLevel', newPositionInLevel));
-	concludeAction(entity);
+	gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'positionInLevel', newPositionInLevel));
+	concludeAction(gameObject);
 }
 
-function concludeAction(entity) {
-	gameStateStore.dispatch(removeComponentFromEntity(entity.id, 'canAct'));
-	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'actionTicker', {
+function concludeAction(gameObject) {
+	gameStateStore.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
+	gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
 	}));
 }

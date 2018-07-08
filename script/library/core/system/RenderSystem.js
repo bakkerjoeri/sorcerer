@@ -7,14 +7,14 @@ import {getImageFromFilePath} from './../module/SpriteFrame';
 
 export default class RenderSystem extends System {
 	constructor() {
-		super(['sprite', 'position'], renderEntity);
+		super(['sprite', 'position'], renderGameObject);
 	}
 
-	update(entities) {
+	update(gameObjects) {
 		clearCanvasContext(this.game.canvas, this.game.context);
 		drawCurrentRoomBackground(this.game.context);
 
-		super.update(entities);
+		super.update(gameObjects);
 	}
 }
 
@@ -34,8 +34,8 @@ function drawCurrentRoomBackground(context) {
 	);
 }
 
-function renderEntity(entity, game) {
-	let {sprite, position} = entity.components;
+function renderGameObject(gameObject, game) {
+	let {sprite, position} = gameObject.components;
 
 	let spriteAsset = getSpriteWithId(gameStateStore.getState(), sprite.assetId);
 	let currentSpriteFrame = getSpriteFrameWithId(gameStateStore.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);

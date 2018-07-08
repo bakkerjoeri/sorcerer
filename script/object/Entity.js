@@ -1,6 +1,6 @@
 import GameObject from './../core/GameObject';
 
-export default class Entity extends GameObject {
+export default class GameObject extends GameObject {
 	constructor(options) {
 		super(options);
 	}

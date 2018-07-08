@@ -1,11 +1,11 @@
 import uuid from './uuid';
 
 export default function createStateEntity(type = '', properties = {}, defaultProperties = {}) {
-	let entity = Object.assign({}, defaultProperties, properties);
+	let stateEntity = Object.assign({}, defaultProperties, properties);
 
-	if (!entity.hasOwnProperty('id')) {
-		entity.id = uuid();
+	if (!stateEntity.hasOwnProperty('id')) {
+		stateEntity.id = uuid();
 	}
 
-	return entity;
+	return stateEntity;
 }

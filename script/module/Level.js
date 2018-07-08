@@ -74,18 +74,18 @@ export default class Level {
 		actor.setPositionInLevel(newPosition);
 	}
 
-	getSolidEntitiesInBoundaries(position, size, exclude = []) {
-		let solidEntities = [];
+	getSolidGameObjectsInBoundaries(position, size, exclude = []) {
+		let solidGameObjects = [];
 
 		this.forEachTileInBoundaries(position, size, (tile) => {
-			solidEntities = solidEntities.concat(tile.getSolidEntities(exclude));
+			solidGameObjects = solidGameObjects.concat(tile.getSolidGameObjects(exclude));
 		});
 
-		return solidEntities;
+		return solidGameObjects;
 	}
 
-	hasSolidEntitiesInBoundaries(position, size, exclude = []) {
-		return this.getSolidEntitiesInBoundaries(position, size, exclude).length > 0;
+	hasSolidGameObjectsInBoundaries(position, size, exclude = []) {
+		return this.getSolidGameObjectsInBoundaries(position, size, exclude).length > 0;
 	}
 
 	getSolidActorsInBoundaries(position, size, exclude = []) {

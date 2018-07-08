@@ -120,7 +120,7 @@ export default class LevelGenerator {
 
 function createCage(level, position) {
 	level.forEachTile((tile) => {
-		if (!tile.hasSolidEntities()) {
+		if (!tile.hasSolidGameObjects()) {
 			if (tile.position.y !== position.y) {
 				level.addStructure(new Structure(Wall), tile.position);
 									return;
@@ -131,7 +131,7 @@ function createCage(level, position) {
 
 function fillWithRandomStuff(level) {
 	level.forEachTile((tile) => {
-		if (!tile.hasSolidEntities()) {
+		if (!tile.hasSolidGameObjects()) {
 			if (onChance(40)) {
 				level.addActor(new NonPlayer(Slime), tile.position);
 
@@ -163,7 +163,7 @@ function fillWithRandomStuff(level) {
 			}
 		}
 					if (
-			!level.hasSolidEntitiesInBoundaries(tile.position, GiantSlime.size)
+			!level.hasSolidGameObjectsInBoundaries(tile.position, GiantSlime.size)
 			&& level.areBoundariesWithinLevelBoundaries(tile.position, GiantSlime.size)
 		) {
 			if (onChance(240)) {
@@ -177,7 +177,7 @@ function fillWithRandomStuff(level) {
 function fillWithRandomCreatures(level) {
 	level.forEachTile((tile) => {
 		if (
-			!level.hasSolidEntitiesInBoundaries(tile.position, GiantSlime.size)
+			!level.hasSolidGameObjectsInBoundaries(tile.position, GiantSlime.size)
 			&& level.areBoundariesWithinLevelBoundaries(tile.position, GiantSlime.size)
 		) {
 			if (onChance(240)) {
@@ -186,7 +186,7 @@ function fillWithRandomCreatures(level) {
 			}
 		}
 
-		if (!tile.hasSolidEntities()) {
+		if (!tile.hasSolidGameObjects()) {
 			if (onChance(40)) {
 				level.addActor(new NonPlayer(Slime), tile.position);
 

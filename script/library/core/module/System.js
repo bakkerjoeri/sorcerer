@@ -11,21 +11,21 @@ export default class System {
 		this.updateCallback = updateCallback;
 	}
 
-	update(entities) {
-		filterEntitiesByComponentNames(entities, this.requiredComponents).forEach((entity) => {
-			this.updateCallback(entity, this.game);
+	update(gameObjects) {
+		filterGameObjectsByComponentNames(gameObjects, this.requiredComponents).forEach((gameObject) => {
+			this.updateCallback(gameObject, this.game);
 		});
 	}
 }
 
-function filterEntitiesByComponentNames(entities, componentNames) {
+function filterGameObjectsByComponentNames(gameObjects, componentNames) {
 	if (componentNames.length === 0) {
-		return entities;
+		return gameObjects;
 	}
 
-	return entities.filter((entity) => {
+	return gameObjects.filter((gameObject) => {
 		return componentNames.every((componentName) => {
-			return entity.components.hasOwnProperty(componentName);
+			return gameObject.components.hasOwnProperty(componentName);
 		})
 	});
 }

@@ -1,7 +1,7 @@
 import System from './../library/core/module/System';
 import gameStateStore from './../library/core/model/gameStateStore';
 import {isKeyPressed} from './../library/core/module/Keyboard';
-import {updateComponentOfEntity, removeComponentFromEntity} from './../library/core/model/entities'
+import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
 export default class PlayerControlSystem extends System {
 	constructor() {
@@ -15,12 +15,12 @@ let hasMovedRight = false;
 let hasMovedDown = false;
 let hasMovedLeft = false;
 
-function act(entity) {
-	let {positionInLevel} = entity.components;
+function act(gameObject) {
+	let {positionInLevel} = gameObject.components;
 
 	if (isKeyPressed(' ') && !hasPressedSpace) {
 		hasPressedSpace = true;
-		concludeAction(entity);
+		concludeAction(gameObject);
 	} else if (!isKeyPressed(' ') && hasPressedSpace) {
 		hasPressedSpace = false;
 	}
@@ -28,7 +28,7 @@ function act(entity) {
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
 		hasMovedUp = true;
 
-		tryToMoveToNewPositionInLevel(entity, {
+		tryToMoveToNewPositionInLevel(gameObject, {
 			x: positionInLevel.x,
 			y: positionInLevel.y - 1,
 		});
@@ -39,7 +39,7 @@ function act(entity) {
 	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
 		hasMovedRight = true;
 
-		tryToMoveToNewPositionInLevel(entity, {
+		tryToMoveToNewPositionInLevel(gameObject, {
 			x: positionInLevel.x + 1,
 			y: positionInLevel.y,
 		});
@@ -50,7 +50,7 @@ function act(entity) {
 	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
 		hasMovedDown = true;
 
-		tryToMoveToNewPositionInLevel(entity, {
+		tryToMoveToNewPositionInLevel(gameObject, {
 			x: positionInLevel.x,
 			y: positionInLevel.y + 1,
 		});
@@ -61,7 +61,7 @@ function act(entity) {
 	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
 		hasMovedLeft = true;
 
-		tryToMoveToNewPositionInLevel(entity, {
+		tryToMoveToNewPositionInLevel(gameObject, {
 			x: positionInLevel.x - 1,
 			y: positionInLevel.y,
 		});
@@ -70,14 +70,14 @@ function act(entity) {
 	}
 }
 
-function tryToMoveToNewPositionInLevel(entity, newPositionInLevel) {
-	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'positionInLevel', newPositionInLevel));
-	concludeAction(entity);
+function tryToMoveToNewPositionInLevel(gameObject, newPositionInLevel) {
+	gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'positionInLevel', newPositionInLevel));
+	concludeAction(gameObject);
 }
 
-function concludeAction(entity) {
-	gameStateStore.dispatch(removeComponentFromEntity(entity.id, 'canAct'));
-	gameStateStore.dispatch(updateComponentOfEntity(entity.id, 'actionTicker', {
+function concludeAction(gameObject) {
+	gameStateStore.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
+	gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
 	}));
 }

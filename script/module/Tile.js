@@ -29,7 +29,7 @@ export default class Tile {
 		}
 	}
 
-	getEntities() {
+	getGameObjects() {
 		return this.structures.concat(this.actors);
 	}
 
@@ -37,10 +37,10 @@ export default class Tile {
 		return this.actors;
 	}
 
-	getSolidEntities(exclude = []) {
-		let entities = this.getEntities();
+	getSolidGameObjects(exclude = []) {
+		let gameObjects = this.getGameObjects();
 
-		return entities.filter((gameObject) => {
+		return gameObjects.filter((gameObject) => {
 			return gameObject.solid === true && !exclude.includes(gameObject);
 		});
 	}
@@ -53,8 +53,8 @@ export default class Tile {
 		});
 	}
 
-	hasSolidEntities(exclude = []) {
-		return this.getSolidEntities(exclude).length > 0;
+	hasSolidGameObjects(exclude = []) {
+		return this.getSolidGameObjects(exclude).length > 0;
 	}
 
 	hasSolidActors(exclude = []) {
