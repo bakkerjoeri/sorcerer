@@ -17,8 +17,6 @@ import PlayerActionSystem from './system/PlayerActionSystem';
 import PositionInLevelSystem from './system/PositionInLevelSystem';
 import RenderSystem from './library/core/system/RenderSystem';
 
-import isPositionFree from './isPositionFree';
-
 loadSprites();
 
 gameStateStore.dispatch(setGameName('Sorcerer'));
@@ -52,7 +50,7 @@ let playerEntity = new ActorEntity({
 gameStateStore.dispatch(addEntity(playerEntity));
 gameStateStore.dispatch(addEntityToRoom(room.id, playerEntity.id));
 
-let amountOfSlimesToCreate = 3;
+let amountOfSlimesToCreate = 10;
 
 while(amountOfSlimesToCreate > 0) {
 	let positionInLevel = {
@@ -64,23 +62,23 @@ while(amountOfSlimesToCreate > 0) {
 		y: positionInLevel.y * 16,
 	}
 
-	if (isPositionFree(position)) {
-		let slimeEntity = new ActorEntity({
-			health: new HealthComponent({
-				maximum: 10,
-			}),
-			sprite: new SpriteComponent({
-				assetId: 'slime',
-				framesPerSecond: 1,
-			}),
-			positionInLevel: positionInLevel,
-			brain: {},
-		});
+	let slimeEntity = new ActorEntity({
+		nonPlayer: true,
+		health: new HealthComponent({
+			maximum: 10,
+		}),
+		sprite: new SpriteComponent({
+			assetId: 'slime',
+			framesPerSecond: 1,
+		}),
+		positionInLevel: positionInLevel,
+		brain: {},
+	});
 
-		gameStateStore.dispatch(addEntity(slimeEntity));
+	gameStateStore.dispatch(addEntity(slimeEntity));
+	gameStateStore.dispatch(addEntityToRoom(room.id, slimeEntity.id));
 
-		amountOfSlimesToCreate -= 1;
-	}
+	amountOfSlimesToCreate -= 1;
 }
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
