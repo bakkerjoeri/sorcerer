@@ -3,8 +3,8 @@ import Game from './library/core/module/Game';
 import {createRoom} from './library/core/module/Room';
 import {addRoom, addGameObjectToRoom} from './library/core/model/rooms';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {createGameObject, createGameObjectFromBlueprint} from './library/core/module/GameObject';
-import {addGameObject, addComponentToGameObject} from './library/core/model/gameObjects';
+import {createGameObject, addGameObjectAndAddToCurrentRoom} from './library/core/module/GameObject';
+import {addComponentToGameObject} from './library/core/model/gameObjects';
 import Actor from './gameObject/Actor';
 import Tile from './gameObject/Tile';
 import HealthComponent from './component/HealthComponent';
@@ -20,6 +20,9 @@ import RenderSystem from './library/core/system/RenderSystem';
 
 loadSprites();
 
+const LEVEL_WIDTH = 7;
+const LEVEL_HEIGHT = 7;
+
 // Create a room
 gameStateStore.dispatch(setGameName('Sorcerer'));
 let room = createRoom({
@@ -29,24 +32,11 @@ let room = createRoom({
 	},
 });
 
-// Create tiles
-function createTileSet(width, height) {
-	let tiles = [];
-
-	for (let y = 0; y < height; y = y + 1) {
-		for (let x = 0; x < width; x = x + 1) {
-			let tile = new Tile({
-				positionInLevel: {
-					x: x,
-					y: y,
-				},
-			});
-		}
-	}
-}
-
 gameStateStore.dispatch(addRoom(room));
 gameStateStore.dispatch(setCurrentRoomId(room.id));
+createTileSet(LEVEL_WIDTH, LEVEL_HEIGHT).forEach((tile) => {
+	addGameObjectAndAddToCurrentRoom(tile);
+});
 
 let playerGameObject = new Actor({
 	name: 'Green Knight',
@@ -59,25 +49,20 @@ let playerGameObject = new Actor({
 		framesPerSecond: 10,
 	}),
 	positionInLevel: {
-		x: 10,
-		y: 10,
+		x: 3,
+		y: 3,
 	},
 });
 
-gameStateStore.dispatch(addGameObject(playerGameObject));
-gameStateStore.dispatch(addGameObjectToRoom(room.id, playerGameObject.id));
+addGameObjectAndAddToCurrentRoom(playerGameObject);
 
-let amountOfSlimesToCreate = 10;
+let amountOfSlimesToCreate = 4;
 
 while(amountOfSlimesToCreate > 0) {
 	let positionInLevel = {
-		x: Math.floor(Math.random() * 10),
-		y: Math.floor(Math.random() * 10)
+		x: Math.floor(Math.random() * LEVEL_WIDTH),
+		y: Math.floor(Math.random() * LEVEL_HEIGHT),
 	};
-	let position = {
-		x: positionInLevel.x * 16,
-		y: positionInLevel.y * 16,
-	}
 
 	let slimeGameObject = new Actor({
 		nonPlayer: true,
@@ -92,8 +77,7 @@ while(amountOfSlimesToCreate > 0) {
 		brain: {},
 	});
 
-	gameStateStore.dispatch(addGameObject(slimeGameObject));
-	gameStateStore.dispatch(addGameObjectToRoom(room.id, slimeGameObject.id));
+	addGameObjectAndAddToCurrentRoom(slimeGameObject);
 
 	amountOfSlimesToCreate -= 1;
 }
@@ -110,3 +94,23 @@ game.addSystem(new AnimationSystem());
 game.addSystem(new RenderSystem());
 
 game.start();
+
+
+// Create tiles
+function createTileSet(width, height) {
+	let tiles = [];
+
+	for (let y = 0; y < height; y = y + 1) {
+		for (let x = 0; x < width; x = x + 1) {
+			tiles.push(new Tile({
+				id: [x][y],
+				positionInLevel: {
+					x: x,
+					y: y,
+				},
+			}));
+		}
+	}
+
+	return tiles;
+}
