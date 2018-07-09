@@ -12,7 +12,11 @@ export default class System {
 	}
 
 	update(gameObjects) {
-		filterGameObjectsByComponentNames(gameObjects, this.requiredComponents).forEach((gameObject) => {
+		this.updateGameObjects(filterGameObjectsByComponentNames(gameObjects, this.requiredComponents));
+	}
+
+	updateGameObjects(gameObjects) {
+		gameObjects.forEach((gameObject) => {
 			this.updateCallback(gameObject, this.game);
 		});
 	}

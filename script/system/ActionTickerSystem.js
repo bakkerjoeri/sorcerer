@@ -9,7 +9,7 @@ export default class ActionTickerSystem extends System {
 		super(['actor', 'actionTicker']);
 	}
 
-	update(gameObjects) {
+	updateGameObjects(gameObjects) {
 		// loop through all gameObjects, reducing each' tick by 1.
 		// when an gameObject reaches tick 0, stop looping and assign it `canAct`
 
@@ -27,6 +27,6 @@ export default class ActionTickerSystem extends System {
 			}
 		}
 
-		super.update(gameObjects);
+		super.updateGameObjects(gameObjects);
 	}
 }
