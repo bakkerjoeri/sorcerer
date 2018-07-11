@@ -23,7 +23,7 @@ function clearCanvasContext(canvas, context) {
 }
 
 function drawCurrentRoomBackground(context) {
-	let currentRoom = getCurrentRoom(gameStateStore.getState());
+	let currentRoom = getCurrentRoom();
 
 	context.fillStyle = currentRoom.backgroundColor;
 	context.fillRect(

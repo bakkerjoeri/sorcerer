@@ -1,6 +1,7 @@
 import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {createRoom} from './library/core/module/Room';
+import {appendState} from './library/core/model/general';
 import {addRoom, addGameObjectToRoom} from './library/core/model/rooms';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
 import {createGameObject, addGameObjectAndAddToCurrentRoom} from './library/core/module/GameObject';
@@ -23,6 +24,14 @@ loadSprites();
 const LEVEL_WIDTH = 7;
 const LEVEL_HEIGHT = 7;
 
+// Append game state
+gameStateStore.dispatch(appendState({
+	level: {
+		tiles: []
+	},
+	tiles: {}
+}));
+
 // Create a room
 gameStateStore.dispatch(setGameName('Sorcerer'));
 let room = createRoom({
@@ -32,8 +41,9 @@ let room = createRoom({
 	},
 });
 
-gameStateStore.dispatch(addRoom(room));
+addRoom(room);
 gameStateStore.dispatch(setCurrentRoomId(room.id));
+
 createTileSet(LEVEL_WIDTH, LEVEL_HEIGHT).forEach((tile) => {
 	addGameObjectAndAddToCurrentRoom(tile);
 });

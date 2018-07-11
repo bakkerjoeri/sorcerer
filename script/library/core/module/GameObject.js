@@ -11,5 +11,5 @@ export function createGameObject(components = {}) {
 
 export function addGameObjectAndAddToCurrentRoom(gameObject) {
 	gameStateStore.dispatch(addGameObject(gameObject));
-	gameStateStore.dispatch(addGameObjectToRoom(gameStateStore.getState().game.currentRoomId, gameObject.id));
+	addGameObjectToRoom(gameStateStore.getState().game.currentRoomId, gameObject.id);
 };
