@@ -26,7 +26,6 @@ export default class Game {
 	}
 
 	update(time) {
-		// console.time('game.update');
 		this.timeSincePreviousUpdate = time - this.elapsed;
 		this.elapsed = time;
 
@@ -37,8 +36,6 @@ export default class Game {
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);
 		}
-
-		// console.timeEnd('game.update');
 	}
 
 	addSystem(system) {
