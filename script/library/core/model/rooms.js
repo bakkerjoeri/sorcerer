@@ -1,10 +1,6 @@
 import gameStateStore from './gameStateStore';
 import createAction from './../../store/createAction';
-
-function createSelector(store, selector) {
-	console.log(selector)
-	selector(store.getState());
-}
+import createSelector from './../../store/createSelector';
 
 export const addRoom = room => createAction(gameStateStore, state => ({
 	...state,
