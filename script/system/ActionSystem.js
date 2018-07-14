@@ -1,5 +1,4 @@
 import System from './../library/core/module/System';
-import gameStateStore from './../library/core/model/gameStateStore';
 import choose from './../utility/random/choose';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
@@ -19,13 +18,13 @@ function act(gameObject) {
 		{x: positionInLevel.x - 1, y: positionInLevel.y},
 	]);
 
-	gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'positionInLevel', newPositionInLevel));
+	updateComponentOfGameObject(gameObject.id, 'positionInLevel', newPositionInLevel);
 	concludeAction(gameObject);
 }
 
 function concludeAction(gameObject) {
-	gameStateStore.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
-	gameStateStore.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
+	removeComponentFromGameObject(gameObject.id, 'canAct');
+	updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
-	}));
+	});
 }

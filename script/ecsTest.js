@@ -2,7 +2,7 @@ import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {createRoom} from './library/core/module/Room';
 import {appendState} from './library/core/model/general';
-import {addRoom, addGameObjectToRoom} from './library/core/model/rooms';
+import {addRoom, addGameObjectToRoom, getRooms} from './library/core/model/rooms';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
 import {createGameObject, addGameObjectAndAddToCurrentRoom} from './library/core/module/GameObject';
 import {addComponentToGameObject} from './library/core/model/gameObjects';
@@ -25,15 +25,16 @@ const LEVEL_WIDTH = 7;
 const LEVEL_HEIGHT = 7;
 
 // Append game state
-gameStateStore.dispatch(appendState({
+appendState({
 	level: {
 		tiles: []
 	},
 	tiles: {}
-}));
+});
+
+setGameName('Sorcerer');
 
 // Create a room
-gameStateStore.dispatch(setGameName('Sorcerer'));
 let room = createRoom({
 	size: {
 		width: 240,
@@ -42,7 +43,7 @@ let room = createRoom({
 });
 
 addRoom(room);
-gameStateStore.dispatch(setCurrentRoomId(room.id));
+setCurrentRoomId(room.id);
 
 createTileSet(LEVEL_WIDTH, LEVEL_HEIGHT).forEach((tile) => {
 	addGameObjectAndAddToCurrentRoom(tile);
@@ -94,7 +95,6 @@ while(amountOfSlimesToCreate > 0) {
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
-console.log(gameStateStore.getState());
 
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
@@ -105,6 +105,7 @@ game.addSystem(new RenderSystem());
 
 game.start();
 
+console.log(gameStateStore.getState());
 
 // Create tiles
 function createTileSet(width, height) {

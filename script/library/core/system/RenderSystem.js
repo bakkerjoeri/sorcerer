@@ -1,5 +1,4 @@
 import System from './../module/System';
-import gameStateStore from './../model/gameStateStore';
 import {getCurrentRoom} from './../model/rooms';
 import {getSpriteWithId} from './../model/sprites';
 import {getSpriteFrameWithId} from './../model/spriteFrames';
@@ -37,8 +36,8 @@ function drawCurrentRoomBackground(context) {
 function renderGameObject(gameObject, game) {
 	let {sprite, position} = gameObject.components;
 
-	let spriteAsset = getSpriteWithId(gameStateStore.getState(), sprite.assetId);
-	let currentSpriteFrame = getSpriteFrameWithId(gameStateStore.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
+	let spriteAsset = getSpriteWithId(sprite.assetId);
+	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	game.context.drawImage(
 		getImageFromFilePath(currentSpriteFrame.imageFilePath),

@@ -1,7 +1,7 @@
 import createStateEntity from './../utility/createStateEntity';
-import gameStateStore from './../model/gameStateStore';
 import {addGameObject} from './../model/gameObjects';
 import {addGameObjectToRoom} from './../model/rooms';
+import {getCurrentRoomId} from './../model/game';
 
 export function createGameObject(components = {}) {
 	return createStateEntity('gameObject', {
@@ -10,6 +10,6 @@ export function createGameObject(components = {}) {
 }
 
 export function addGameObjectAndAddToCurrentRoom(gameObject) {
-	gameStateStore.dispatch(addGameObject(gameObject));
-	addGameObjectToRoom(gameStateStore.getState().game.currentRoomId, gameObject.id);
+	addGameObject(gameObject);
+	addGameObjectToRoom(getCurrentRoomId(), gameObject.id);
 };

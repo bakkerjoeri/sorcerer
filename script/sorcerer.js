@@ -13,7 +13,7 @@ import gameStateStore from './core/model/gameStateStore';
 import {createGameObject} from './core/module/GameObject';
 import {addGameObject} from './core/model/gameObjects';
 import {createViewport} from './core/module/Viewport';
-import {addViewport, setViewportIsActive} from './core/model/viewports';
+import {addViewport} from './core/model/viewports';
 
 const CANVAS_SIZE_WIDTH = 240;
 const CANVAS_SIZE_HEIGHT = 176;
@@ -47,7 +47,7 @@ async function load() {
 
 	// Create player game object.
 	let playerGameObject = createGameObject();
-	gameStateStore.dispatch(addGameObject(playerGameObject));
+	addGameObject(playerGameObject);
 
 	console.log(gameStateStore.getState());
 
@@ -59,7 +59,7 @@ async function load() {
 		},
 		gameObjectIdToFollow: playerGameObject.id,
 	});
-	gameStateStore.dispatch(addViewport(playerViewport));
+	addViewport(playerViewport);
 
 	console.log(gameStateStore.getState());
 

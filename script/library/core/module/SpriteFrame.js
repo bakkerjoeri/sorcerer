@@ -1,5 +1,4 @@
 import createStateEntity from './../utility/createStateEntity';
-import gameStateStore from './../model/gameStateStore';
 import {addSpriteFrame} from './../model/spriteFrames';
 
 export function createSpriteFrame(properties = {}) {
@@ -47,7 +46,7 @@ export function loadSpriteFrames(name, filePath, frameSize, frameStart = 0, fram
 			size: frameSize,
 		});
 
-		gameStateStore.dispatch(addSpriteFrame(spriteFrame));
+		addSpriteFrame(spriteFrame);
 	}
 }
 

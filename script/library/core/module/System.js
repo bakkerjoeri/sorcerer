@@ -1,5 +1,3 @@
-import gameStateStore from './../model/gameStateStore';
-
 export default class System {
 	constructor(requiredComponents = [], updateCallback = () => {}) {
 		this.requiredComponents = requiredComponents;

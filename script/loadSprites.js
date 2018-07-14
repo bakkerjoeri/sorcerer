@@ -1,4 +1,3 @@
-import gameStateStore from './library/core/model/gameStateStore';
 import {loadSpriteFrames} from './library/core/module/SpriteFrame';
 import {createSprite} from './library/core/module/Sprite';
 import {addSprite} from './library/core/model/sprites';
@@ -33,7 +32,8 @@ function loadGreenKnightSprite() {
 			'greenknight_5',
 		],
 	});
-	gameStateStore.dispatch(addSprite(playerSprite));
+
+	addSprite(playerSprite);
 }
 
 function loadSlimeSprite() {
@@ -50,5 +50,6 @@ function loadSlimeSprite() {
 			'slime_1',
 		],
 	});
-	gameStateStore.dispatch(addSprite(playerSprite));
+
+	addSprite(playerSprite);
 }

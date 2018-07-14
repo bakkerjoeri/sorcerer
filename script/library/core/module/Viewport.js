@@ -1,9 +1,7 @@
 import createStateEntity from './../utility/createStateEntity';
 import {changeViewportPosition} from './../model/viewports';
-import gameStateStore from './../model/gameStateStore';
 import {getGameObjectWithId} from './../model/gameObjects';
 import {getSpriteWithId} from './../model/sprites';
-import {drawRoomBackgroundOntoContext} from './Room';
 
 export function createViewport(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -32,16 +30,16 @@ export function updateViewportInRoom(time, viewport, room) {
 	// Only dispatch an update to the viewport position if the calculated
 	// new position is different from the current position.
 	if (newPosition.x !== viewport.position.x || newPosition.y !== viewport.position.y) {
-		gameStateStore.dispatch(changeViewportPosition(viewport.id, newPosition));
+		changeViewportPosition(viewport.id, newPosition);
 	}
 }
 
 function calculateNewViewportPosition(viewport, room) {
 	if (viewport.gameObjectIdToFollow !== null) {
-		let gameObjectToFollow = getGameObjectWithId(gameStateStore.getState(), viewport.gameObjectIdToFollow);
+		let gameObjectToFollow = getGameObjectWithId(viewport.gameObjectIdToFollow);
 
 		if (gameObjectToFollow.currentSprite !== null) {
-			let spriteOfGameObjectToFollow = getSpriteWithId(gameStateStore.getState(), gameObjectToFollow.spriteId);
+			let spriteOfGameObjectToFollow = getSpriteWithId(gameObjectToFollow.spriteId);
 
 			let newViewportPosition = {
 				x: gameObjectToFollow.position.x - (viewport.size.width / 2) + (spriteOfGameObjectToFollow.size.width / 2),

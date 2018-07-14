@@ -1,4 +1,3 @@
-import gameStateStore from './../model/gameStateStore';
 import {getGameObjectsInCurrentRoom} from './../model/gameObjects';
 
 let canvas;
@@ -30,7 +29,7 @@ export default class Game {
 		this.elapsed = time;
 
 		this.systems.forEach((system) => {
-			system.update(getGameObjectsInCurrentRoom(gameStateStore.getState()));
+			system.update(getGameObjectsInCurrentRoom());
 		});
 
 		if (this.looping) {
