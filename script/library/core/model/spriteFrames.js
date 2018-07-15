@@ -1,8 +1,6 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const addSpriteFrame = spriteFrame => createAction(gameStateStore, state => ({
+export const addSpriteFrame = spriteFrame => gameStateStore.dispatch(state => ({
 	...state,
 	spriteFrames: {
 		...state.spriteFrames,
@@ -10,6 +8,6 @@ export const addSpriteFrame = spriteFrame => createAction(gameStateStore, state 
 	},
 }));
 
-export const getSpriteFrameWithId = (spriteFrameId) => createSelector(gameStateStore, state => {
-	return state.spriteFrames[spriteFrameId];
-});
+export const getSpriteFrameWithId = (spriteFrameId) => {
+	return gameStateStore.getState().spriteFrames[spriteFrameId];
+};

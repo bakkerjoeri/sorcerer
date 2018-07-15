@@ -1,8 +1,6 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const addGameObject = gameObject => createAction(gameStateStore, state => ({
+export const addGameObject = gameObject => gameStateStore.dispatch(state => ({
 	...state,
 	gameObjects: {
 		...state.gameObjects,
@@ -10,7 +8,7 @@ export const addGameObject = gameObject => createAction(gameStateStore, state =>
 	},
 }));
 
-export const addComponentToGameObject = (gameObjectId, componentName, componentValue) => createAction(gameStateStore, state => ({
+export const addComponentToGameObject = (gameObjectId, componentName, componentValue) => gameStateStore.dispatch(state => ({
 	...state,
 	gameObjects: {
 		...state.gameObjects,
@@ -24,7 +22,7 @@ export const addComponentToGameObject = (gameObjectId, componentName, componentV
 	},
 }));
 
-export const updateComponentOfGameObject = (gameObjectId, componentName, updatedComponentValue) => createAction(gameStateStore, state => ({
+export const updateComponentOfGameObject = (gameObjectId, componentName, updatedComponentValue) => gameStateStore.dispatch(state => ({
 	...state,
 	gameObjects: {
 		...state.gameObjects,
@@ -41,7 +39,7 @@ export const updateComponentOfGameObject = (gameObjectId, componentName, updated
 	},
 }));
 
-export const removeComponentFromGameObject = (gameObjectId, componentName) => createAction(gameStateStore, state => ({
+export const removeComponentFromGameObject = (gameObjectId, componentName) => gameStateStore.dispatch(state => ({
 	...state,
 	gameObjects: {
 		...state.gameObjects,
@@ -61,15 +59,15 @@ export const removeComponentFromGameObject = (gameObjectId, componentName) => cr
 	},
 }));
 
-export const getGameObjectWithId = gameObjectId => createSelector(gameStateStore, state => {
-	return state.gameObjects[gameObjectId];
-});
+export const getGameObjectWithId = gameObjectId => {
+	return gameStateStore.getState().gameObjects[gameObjectId];
+};
 
-export const getAllGameObjects = () => createSelector(gameStateStore, state => {
-	return Object.values(state.gameObjects);
-});
+export const getAllGameObjects = () => {
+	return Object.values(gameStateStore.getState().gameObjects);
+};
 
-export const getGameObjectsWithComponentNames = (componentNames = []) => createSelector(gameStateStore, state => {
+export const getGameObjectsWithComponentNames = (componentNames = []) => {
 	let allGameObjects = getAllGameObjects();
 
 	if (componentNames.length === 0) {
@@ -81,16 +79,16 @@ export const getGameObjectsWithComponentNames = (componentNames = []) => createS
 			return gameObject.components.hasOwnProperty(componentName);
 		})
 	});
-});
+};
 
 export const getComponentValueForGameObject = (gameObjectId, componentName) => {
 	return getGameObjectWithId(gameObjectId).components[componentName];
 };
 
-export const getGameObjectsInCurrentRoom = () => createSelector(gameStateStore, state => {
-	return getGameObjectsInRoomWithId(state.game.currentRoomId);
-});
+export const getGameObjectsInCurrentRoom = () => {
+	return getGameObjectsInRoomWithId(gameStateStore.getState().game.currentRoomId);
+};
 
-export const getGameObjectsInRoomWithId = roomId => createSelector(gameStateStore, state => {
-	return state.rooms[roomId].gameObjects.map((gameObjectId) => getGameObjectWithId(gameObjectId));
-});
+export const getGameObjectsInRoomWithId = roomId => {
+	return gameStateStore.getState().rooms[roomId].gameObjects.map((gameObjectId) => getGameObjectWithId(gameObjectId));
+};

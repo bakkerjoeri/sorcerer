@@ -1,8 +1,6 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const addTile = tile => createAction(gameStateStore, state => ({
+export const addTile = tile => gameStateStore.dispatch(state => ({
 	...state,
 	tiles: {
 		...state.tiles,
@@ -10,7 +8,7 @@ export const addTile = tile => createAction(gameStateStore, state => ({
 	},
 }));
 
-export const addEntityToTile = (tileId, entityId) => createAction(gameStateStore, state => ({
+export const addEntityToTile = (tileId, entityId) => gameStateStore.dispatch(state => ({
 	...state,
 	tiles: {
 		...state.tiles,
@@ -24,7 +22,7 @@ export const addEntityToTile = (tileId, entityId) => createAction(gameStateStore
 	},
 }));
 
-export const removeEntityFromTile = (tileId, entityId) => createAction(gameStateStore, state => ({
+export const removeEntityFromTile = (tileId, entityId) => gameStateStore.dispatch(state => ({
 	...state,
 	tiles: {
 		...state.tiles,

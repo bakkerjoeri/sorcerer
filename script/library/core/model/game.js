@@ -1,8 +1,6 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const setGameName = name => createAction(gameStateStore, state => ({
+export const setGameName = name => gameStateStore.dispatch(state => ({
 	...state,
 	game: {
 		...state.game,
@@ -10,7 +8,7 @@ export const setGameName = name => createAction(gameStateStore, state => ({
 	},
 }));
 
-export const setCurrentRoomId = roomId => createAction(gameStateStore, state => ({
+export const setCurrentRoomId = roomId => gameStateStore.dispatch(state => ({
 	...state,
 	game: {
 		...state.game,
@@ -18,6 +16,6 @@ export const setCurrentRoomId = roomId => createAction(gameStateStore, state => 
 	},
 }));
 
-export const getCurrentRoomId = () => createSelector(gameStateStore, state => {
-	return state.game.currentRoomId;
-});
+export const getCurrentRoomId = () => {
+	return gameStateStore.getState().game.currentRoomId;
+};

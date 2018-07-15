@@ -1,8 +1,6 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const addRoom = room => createAction(gameStateStore, state => ({
+export const addRoom = room => gameStateStore.dispatch(state => ({
 	...state,
 	rooms: {
 		...state.rooms,
@@ -10,7 +8,7 @@ export const addRoom = room => createAction(gameStateStore, state => ({
 	},
 }));
 
-export const addViewportToRoom = (id, viewportId) => createAction(gameStateStore, state => ({
+export const addViewportToRoom = (id, viewportId) => gameStateStore.dispatch(state => ({
 	...state,
 	rooms: {
 		...state.rooms,
@@ -24,7 +22,7 @@ export const addViewportToRoom = (id, viewportId) => createAction(gameStateStore
 	},
 }));
 
-export const addGameObjectToRoom = (id, gameObjectId) => createAction(gameStateStore, state => ({
+export const addGameObjectToRoom = (id, gameObjectId) => gameStateStore.dispatch(state => ({
 	...state,
 	rooms: {
 		...state.rooms,
@@ -38,14 +36,14 @@ export const addGameObjectToRoom = (id, gameObjectId) => createAction(gameStateS
 	},
 }));
 
-export const getRooms = () => createSelector(gameStateStore, state => {
-	return Object.values(state.rooms);
-});
+export const getRooms = () => {
+	return Object.values(gameStateStore.getState().rooms);
+};
 
-export const getRoomWithId = (id) => createSelector(gameStateStore, state => {
-	return state.rooms[id];
-});
+export const getRoomWithId = (id) => {
+	return gameStateStore.getState().rooms[id];
+};
 
-export const getCurrentRoom = () => createSelector(gameStateStore, state => {
-	return getRoomWithId(state.game.currentRoomId);
-});
+export const getCurrentRoom = () => {
+	return getRoomWithId(gameStateStore.getState().game.currentRoomId);
+};

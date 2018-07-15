@@ -1,14 +1,8 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const replaceState = newState => createAction(gameStateStore, state => ({...newState}));
+export const replaceState = newState => gameStateStore.dispatch(state => ({...newState}));
 
-export const appendState = appendedState => createAction(gameStateStore, state => ({
+export const appendState = appendedState => gameStateStore.dispatch(state => ({
 	...state,
 	...appendedState,
 }));
-
-export const getState = () => createSelector(gameStateStore, state => {
-	return state;
-});

@@ -1,8 +1,6 @@
 import gameStateStore from './gameStateStore';
-import createAction from './../../store/createAction';
-import createSelector from './../../store/createSelector';
 
-export const addSprite = sprite => createAction(gameStateStore, state => ({
+export const addSprite = sprite => gameStateStore.dispatch(state => ({
 	...state,
 	sprites: {
 		...state.sprites,
@@ -10,7 +8,7 @@ export const addSprite = sprite => createAction(gameStateStore, state => ({
 	},
 }));
 
-export const addSpriteFrameToSprite = (id, spriteFrameId) => createAction(gameStateStore, state => ({
+export const addSpriteFrameToSprite = (id, spriteFrameId) => gameStateStore.dispatch(state => ({
 	...state,
 	sprites: {
 		...state.sprites,
@@ -24,10 +22,10 @@ export const addSpriteFrameToSprite = (id, spriteFrameId) => createAction(gameSt
 	},
 }));
 
-export const getSprites = () => createSelector(gameStateStore, state => {
-	return Object.values(state.sprites);
-});
+export const getSprites = () => {
+	return Object.values(gameStateStore.getState().sprites);
+};
 
-export const getSpriteWithId = (spriteId) => createSelector(gameStateStore, state => {
-	return state.sprites[spriteId];
-});
+export const getSpriteWithId = (spriteId) => {
+	return gameStateStore.getState().sprites[spriteId];
+};
