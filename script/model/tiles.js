@@ -1,4 +1,4 @@
-import gameStateStore from './gameStateStore';
+import gameStateStore from './../library/core/model/gameStateStore';
 
 export const addTile = tile => gameStateStore.dispatch(state => ({
 	...state,
