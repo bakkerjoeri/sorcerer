@@ -1,4 +1,5 @@
 import gameStateStore from './gameStateStore';
+import isObject from './../utility/isObject';
 
 export const addGameObject = gameObject => gameStateStore.dispatch(state => ({
 	...state,
@@ -8,7 +9,7 @@ export const addGameObject = gameObject => gameStateStore.dispatch(state => ({
 	},
 }));
 
-export const setComponentForGameObject = (gameObjectId, componentName, componentValue) => gameStateStore.dispatch(state => ({
+export const addComponentToGameObject = (gameObjectId, componentName, componentValue) => gameStateStore.dispatch(state => ({
 	...state,
 	gameObjects: {
 		...state.gameObjects,
@@ -22,22 +23,31 @@ export const setComponentForGameObject = (gameObjectId, componentName, component
 	},
 }));
 
-export const updateComponentOfGameObject = (gameObjectId, componentName, updatedComponentValue) => gameStateStore.dispatch(state => ({
-	...state,
-	gameObjects: {
-		...state.gameObjects,
-		[gameObjectId]: {
-			...state.gameObjects[gameObjectId],
-			components: {
-				...state.gameObjects[gameObjectId].components,
-				[componentName]: {
-					...state.gameObjects[gameObjectId].components[componentName],
-					...updatedComponentValue,
+export const updateComponentOfGameObject = (gameObjectId, componentName, updatedComponentValue) => gameStateStore.dispatch(state => {
+	let oldComponentValue = state.gameObjects[gameObjectId].components[componentName];
+	let newComponentValue = updatedComponentValue;
+
+	if (isObject(updatedComponentValue) && isObject(oldComponentValue)) {
+		newComponentValue = {
+			...oldComponentValue,
+			...updatedComponentValue,
+		};
+	}
+
+	return {
+		...state,
+		gameObjects: {
+			...state.gameObjects,
+			[gameObjectId]: {
+				...state.gameObjects[gameObjectId],
+				components: {
+					...state.gameObjects[gameObjectId].components,
+					[componentName]: newComponentValue,
 				},
 			},
 		},
-	},
-}));
+	}
+});
 
 export const removeComponentFromGameObject = (gameObjectId, componentName) => gameStateStore.dispatch(state => ({
 	...state,
