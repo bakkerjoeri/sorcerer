@@ -1,5 +1,5 @@
 import createStateEntity from './../utility/createStateEntity';
-import {changeViewportPosition} from './../model/viewports';
+import {addViewport, changeViewportPosition} from './../model/viewports';
 import {getGameObjectWithId} from './../model/gameObjects';
 import {getSpriteWithId} from './../model/sprites';
 
@@ -21,7 +21,14 @@ export function createViewport(properties = {}) {
 		gameObjectIdToFollow: null,
 	};
 
-	return createStateEntity('viewport', properties, DEFAULT_PROPERTIES);
+	let viewport = createStateEntity('viewport', {
+		...DEFAULT_PROPERTIES,
+		...properties,
+	});
+
+	addViewport(viewport);
+
+	return viewport;
 }
 
 export function updateViewportInRoom(time, viewport, room) {

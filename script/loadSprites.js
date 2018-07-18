@@ -14,7 +14,7 @@ function loadGreenKnightSprite() {
 	}, 0, 6);
 
 	// Create the player sprite
-	let playerSprite = createSprite({
+	createSprite({
 		id: 'greenknight',
 		spriteFrames: [
 			'greenknight_0',
@@ -32,8 +32,6 @@ function loadGreenKnightSprite() {
 			'greenknight_5',
 		],
 	});
-
-	addSprite(playerSprite);
 }
 
 function loadSlimeSprite() {
@@ -43,13 +41,11 @@ function loadSlimeSprite() {
 	}, 0, 2);
 
 	// Create the player sprite
-	let playerSprite = createSprite({
+	createSprite({
 		id: 'slime',
 		spriteFrames: [
 			'slime_0',
 			'slime_1',
 		],
 	});
-
-	addSprite(playerSprite);
 }

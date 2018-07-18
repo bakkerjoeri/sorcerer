@@ -14,7 +14,14 @@ export function createSpriteFrame(properties = {}) {
 		},
 	};
 
-	return createStateEntity('spriteFrame', properties, DEFAULT_PROPERTIES);
+	let spriteFrame = createStateEntity('spriteFrame', {
+		...DEFAULT_PROPERTIES,
+		...properties,
+	});
+
+	addSpriteFrame(spriteFrame);
+
+	return spriteFrame;
 }
 
 /**
@@ -45,8 +52,6 @@ export function loadSpriteFrames(name, filePath, frameSize, frameStart = 0, fram
 			},
 			size: frameSize,
 		});
-
-		addSpriteFrame(spriteFrame);
 	}
 }
 

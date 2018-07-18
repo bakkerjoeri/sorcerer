@@ -32,7 +32,7 @@ async function load() {
 	canvas.height = CANVAS_SIZE_HEIGHT;
 
 	// Create room
-	const room = new Room({
+	const room = createRoom({
 		width: MAP_SIZE_WIDTH * TILE_SIZE,
 		height: MAP_SIZE_HEIGHT * TILE_SIZE,
 	});
@@ -47,7 +47,6 @@ async function load() {
 
 	// Create player game object.
 	let playerGameObject = createGameObject();
-	addGameObject(playerGameObject);
 
 	console.log(gameStateStore.getState());
 
@@ -59,7 +58,6 @@ async function load() {
 		},
 		gameObjectIdToFollow: playerGameObject.id,
 	});
-	addViewport(playerViewport);
 
 	console.log(gameStateStore.getState());
 

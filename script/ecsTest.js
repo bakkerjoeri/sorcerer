@@ -1,13 +1,13 @@
 import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
-import {createRoom} from './library/core/module/Room';
 import {appendState} from './library/core/model/general';
-import {addRoom, addGameObjectToRoom, getRooms} from './library/core/model/rooms';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {createGameObject, addGameObjectAndAddToCurrentRoom} from './library/core/module/GameObject';
-import {addComponentToGameObject} from './library/core/model/gameObjects';
+import {setComponentForGameObject} from './library/core/model/gameObjects';
+import {addGameObjectToRoom} from './library/core/model/rooms';
+import {createRoom} from './library/core/module/Room';
+import {getLevelWithId} from './model/levels';
+import {createLevelOfSize, addEntityToPositionInLevel} from './module/Level';
 import Actor from './gameObject/Actor';
-import Tile from './gameObject/Tile';
 import HealthComponent from './component/HealthComponent';
 import SpriteComponent from './component/SpriteComponent';
 import loadSprites from './loadSprites';
@@ -26,9 +26,7 @@ const LEVEL_HEIGHT = 7;
 
 // Append game state
 appendState({
-	level: {
-		tiles: []
-	},
+	levels: {},
 	tiles: {}
 });
 
@@ -42,13 +40,15 @@ let room = createRoom({
 	},
 });
 
-addRoom(room);
 setCurrentRoomId(room.id);
 
-createTileSet(LEVEL_WIDTH, LEVEL_HEIGHT).forEach((tile) => {
-	addGameObjectAndAddToCurrentRoom(tile);
+// Create a level
+let level = createLevelOfSize({
+	width: 10,
+	height: 10,
 });
 
+// Create some entities
 let playerGameObject = new Actor({
 	name: 'Green Knight',
 	player: true,
@@ -59,13 +59,15 @@ let playerGameObject = new Actor({
 		assetId: 'greenknight',
 		framesPerSecond: 10,
 	}),
-	positionInLevel: {
-		x: 3,
-		y: 3,
-	},
 });
 
-addGameObjectAndAddToCurrentRoom(playerGameObject);
+console.log(gameStateStore.getState());
+
+addGameObjectToRoom(room.id, playerGameObject.id)
+addEntityToPositionInLevel(playerGameObject.id, level.id, {
+	x: 3,
+	y: 3,
+});
 
 let amountOfSlimesToCreate = 4;
 
@@ -88,7 +90,7 @@ while(amountOfSlimesToCreate > 0) {
 		brain: {},
 	});
 
-	addGameObjectAndAddToCurrentRoom(slimeGameObject);
+	addGameObjectToRoom(room.id, slimeGameObject.id);
 
 	amountOfSlimesToCreate -= 1;
 }
@@ -106,22 +108,3 @@ game.addSystem(new RenderSystem());
 game.start();
 
 console.log(gameStateStore.getState());
-
-// Create tiles
-function createTileSet(width, height) {
-	let tiles = [];
-
-	for (let y = 0; y < height; y = y + 1) {
-		for (let x = 0; x < width; x = x + 1) {
-			tiles.push(new Tile({
-				id: [x][y],
-				positionInLevel: {
-					x: x,
-					y: y,
-				},
-			}));
-		}
-	}
-
-	return tiles;
-}

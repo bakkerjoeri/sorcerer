@@ -1,15 +1,14 @@
-import createStateEntity from './../utility/createStateEntity';
+import createStateEntity, {StateEntity} from './../utility/createStateEntity';
 import {addGameObject} from './../model/gameObjects';
 import {addGameObjectToRoom} from './../model/rooms';
 import {getCurrentRoomId} from './../model/game';
 
 export function createGameObject(components = {}) {
-	return createStateEntity('gameObject', {
+	let stateEntity = createStateEntity('gameObject', {
 		components,
 	});
-}
 
-export function addGameObjectAndAddToCurrentRoom(gameObject) {
-	addGameObject(gameObject);
-	addGameObjectToRoom(getCurrentRoomId(), gameObject.id);
-};
+	addGameObject(stateEntity);
+
+	return stateEntity;
+}

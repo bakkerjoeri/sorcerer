@@ -1,4 +1,5 @@
 import gameStateStore from './../library/core/model/gameStateStore';
+import {getTilesInLevel} from './levels';
 
 export const addTile = tile => gameStateStore.dispatch(state => ({
 	...state,
@@ -35,3 +36,16 @@ export const removeEntityFromTile = (tileId, entityId) => gameStateStore.dispatc
 		},
 	},
 }));
+
+export const getTileWithId = (tileId) => {
+	return gameStateStore.getState().tiles[tileId];
+}
+
+export const getTilesInLevelAtRange = (levelId, position, offset) => {
+	return getTilesInLevel(levelId).filter((tile) => {
+		return tile.positionInLevel.x >= position.x
+			&& tile.positionInLevel.x <= (position.x + offset.width - 1)
+			&& tile.positionInLevel.y >= position.y
+			&& tile.positionInLevel.y <= (position.y + offset.height - 1);
+	});
+}

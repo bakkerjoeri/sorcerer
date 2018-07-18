@@ -1,4 +1,5 @@
 import createStateEntity from './../utility/createStateEntity';
+import {addRoom} from './../model/rooms';
 
 export function createRoom(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -11,5 +12,12 @@ export function createRoom(properties = {}) {
 		gameObjects: [],
 	};
 
-	return createStateEntity('room', properties, DEFAULT_PROPERTIES);
+	let room = createStateEntity('room', {
+		...DEFAULT_PROPERTIES,
+		...properties,
+	});
+
+	addRoom(room);
+
+	return room;
 }

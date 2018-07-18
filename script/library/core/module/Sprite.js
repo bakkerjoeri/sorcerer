@@ -1,9 +1,17 @@
 import createStateEntity from './../utility/createStateEntity';
+import {addSprite} from './../model/sprites';
 
 export function createSprite(properties = {}) {
 	const DEFAULT_PROPERTIES = {
 		spriteFrames: [],
 	};
 
-	return createStateEntity('sprite', properties, DEFAULT_PROPERTIES);
+	let sprite = createStateEntity('sprite', {
+		...DEFAULT_PROPERTIES,
+		...properties,
+	});
+
+	addSprite(sprite);
+
+	return sprite;
 }
