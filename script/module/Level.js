@@ -14,8 +14,8 @@ export function createLevel(properties = {}) {
 	}
 
 	let level = createStateEntity('level', {
+		...DEFAULT_PROPERTIES,
 		...properties,
-		...DEFAULT_PROPERTIES
 	});
 
 	addLevel(level);

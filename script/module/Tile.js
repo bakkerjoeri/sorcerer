@@ -11,8 +11,8 @@ export function createTile(properties = {}) {
 	};
 
 	let tile = createStateEntity('tile', {
-		...properties,
 		...DEFAULT_PROPERTIES,
+		...properties,
 	});
 
 	addTile(tile);
