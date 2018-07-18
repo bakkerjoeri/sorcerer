@@ -1,4 +1,5 @@
 import System from './../library/core/module/System';
+import {canEntityBeInPositionInLevel, moveEntityToPositionInLevel} from './../module/Level';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
@@ -70,8 +71,11 @@ function act(gameObject) {
 }
 
 function tryToMoveToNewPositionInLevel(gameObject, newPositionInLevel) {
-	updateComponentOfGameObject(gameObject.id, 'positionInLevel', newPositionInLevel);
-	concludeAction(gameObject);
+	let {currentLevelId} = gameObject.components;
+	if (canEntityBeInPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId)) {
+		moveEntityToPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId);
+		concludeAction(gameObject);
+	}
 }
 
 function concludeAction(gameObject) {

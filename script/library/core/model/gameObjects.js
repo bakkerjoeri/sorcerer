@@ -9,7 +9,7 @@ export const addGameObject = gameObject => gameStateStore.dispatch(state => ({
 	},
 }));
 
-export const addComponentToGameObject = (gameObjectId, componentName, componentValue) => gameStateStore.dispatch(state => ({
+export const setComponentForGameObject = (gameObjectId, componentName, componentValue) => gameStateStore.dispatch(state => ({
 	...state,
 	gameObjects: {
 		...state.gameObjects,

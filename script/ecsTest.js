@@ -2,12 +2,11 @@ import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {appendState} from './library/core/model/general';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {setComponentForGameObject} from './library/core/model/gameObjects';
 import {addGameObjectToRoom} from './library/core/model/rooms';
 import {createRoom} from './library/core/module/Room';
-import {getLevelWithId} from './model/levels';
-import {createLevelOfSize, addEntityToPositionInLevel} from './module/Level';
+import {createLevelOfSize, moveEntityToPositionInLevel} from './module/Level';
 import Actor from './gameObject/Actor';
+import Structure from './gameObject/Structure';
 import HealthComponent from './component/HealthComponent';
 import SpriteComponent from './component/SpriteComponent';
 import loadSprites from './loadSprites';
@@ -44,8 +43,8 @@ setCurrentRoomId(room.id);
 
 // Create a level
 let level = createLevelOfSize({
-	width: 10,
-	height: 10,
+	width: 3,
+	height: 3,
 });
 
 // Create some entities
@@ -61,42 +60,13 @@ let playerGameObject = new Actor({
 	}),
 });
 
-console.log(gameStateStore.getState());
-
 addGameObjectToRoom(room.id, playerGameObject.id)
-addEntityToPositionInLevel(playerGameObject.id, level.id, {
-	x: 3,
-	y: 3,
-});
-
-let amountOfSlimesToCreate = 4;
-
-while(amountOfSlimesToCreate > 0) {
-	let positionInLevel = {
-		x: Math.floor(Math.random() * LEVEL_WIDTH),
-		y: Math.floor(Math.random() * LEVEL_HEIGHT),
-	};
-
-	let slimeGameObject = new Actor({
-		nonPlayer: true,
-		health: new HealthComponent({
-			maximum: 10,
-		}),
-		sprite: new SpriteComponent({
-			assetId: 'slime',
-			framesPerSecond: 1,
-		}),
-		positionInLevel: positionInLevel,
-		brain: {},
-	});
-
-	addGameObjectToRoom(room.id, slimeGameObject.id);
-
-	amountOfSlimesToCreate -= 1;
-}
+moveEntityToPositionInLevel(playerGameObject.id, {
+	x: 1,
+	y: 1,
+}, level.id);
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
-
 
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
@@ -108,3 +78,41 @@ game.addSystem(new RenderSystem());
 game.start();
 
 console.log(gameStateStore.getState());
+
+let slimeGameObject = new Structure({
+	sprite: new SpriteComponent({
+		assetId: 'wall',
+	}),
+});
+
+addGameObjectToRoom(room.id, slimeGameObject.id);
+moveEntityToPositionInLevel(slimeGameObject.id, {
+	x: 0,
+	y: 1,
+}, level.id);
+
+function createSlimes(amountOfSlimesToCreate) {
+	while(amountOfSlimesToCreate > 0) {
+		let positionInLevel = {
+			x: Math.floor(Math.random() * LEVEL_WIDTH),
+			y: Math.floor(Math.random() * LEVEL_HEIGHT),
+		};
+
+		let slimeGameObject = new Actor({
+			nonPlayer: true,
+			health: new HealthComponent({
+				maximum: 10,
+			}),
+			sprite: new SpriteComponent({
+				assetId: 'slime',
+				framesPerSecond: 1,
+			}),
+			brain: {},
+		});
+
+		addGameObjectToRoom(room.id, slimeGameObject.id);
+		moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
+
+		amountOfSlimesToCreate -= 1;
+	}
+}

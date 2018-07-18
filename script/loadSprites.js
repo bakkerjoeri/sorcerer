@@ -5,6 +5,7 @@ import {addSprite} from './library/core/model/sprites';
 export default function loadSprites() {
 	loadGreenKnightSprite();
 	loadSlimeSprite();
+	loadWallSprite();
 }
 
 function loadGreenKnightSprite() {
@@ -46,6 +47,21 @@ function loadSlimeSprite() {
 		spriteFrames: [
 			'slime_0',
 			'slime_1',
+		],
+	});
+}
+
+function loadWallSprite() {
+	loadSpriteFrames('wall', '/assets/images/wall.png', {
+		width: 16,
+		height: 16,
+	});
+
+	// Create the player sprite
+	createSprite({
+		id: 'wall',
+		spriteFrames: [
+			'wall_0',
 		],
 	});
 }

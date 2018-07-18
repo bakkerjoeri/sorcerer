@@ -41,7 +41,14 @@ export const getTileWithId = (tileId) => {
 	return gameStateStore.getState().tiles[tileId];
 }
 
-export const getTilesInLevelAtRange = (levelId, position, offset) => {
+export const getTileInLevelWithPosition = (levelId, position) => {
+	return getTilesInLevel(levelId).find((tile) => {
+		return tile.positionInLevel.x === position.x
+			&& tile.positionInLevel.y === position.y;
+	});
+}
+
+export const getTilesInLevelAtRange = (levelId, position, offset = {width: 1, height: 1}) => {
 	return getTilesInLevel(levelId).filter((tile) => {
 		return tile.positionInLevel.x >= position.x
 			&& tile.positionInLevel.x <= (position.x + offset.width - 1)

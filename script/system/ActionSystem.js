@@ -1,6 +1,7 @@
 import System from './../library/core/module/System';
 import choose from './../utility/random/choose';
-import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
+import {canEntityBeInPositionInLevel} from './../module/Level';
+import {updateComponentOfGameObject, removeComponentFromGameObject, moveEntityToPositionInLevel} from './../library/core/model/gameObjects'
 
 export default class ActionTickerSystem extends System {
 	constructor() {
@@ -9,7 +10,7 @@ export default class ActionTickerSystem extends System {
 }
 
 function act(gameObject) {
-	let {positionInLevel} = gameObject.components;
+	let {positionInLevel, currentLevelId} = gameObject.components;
 
 	let newPositionInLevel = choose([
 		{x: positionInLevel.x, y: positionInLevel.y - 1},
@@ -18,13 +19,15 @@ function act(gameObject) {
 		{x: positionInLevel.x - 1, y: positionInLevel.y},
 	]);
 
-	updateComponentOfGameObject(gameObject.id, 'positionInLevel', newPositionInLevel);
-	concludeAction(gameObject);
+	if (canEntityBeInPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId)) {
+		moveEntityToPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId);
+		concludeAction(gameObject);
+	}
 }
 
 function concludeAction(gameObject) {
 	removeComponentFromGameObject(gameObject.id, 'canAct');
 	updateComponentOfGameObject(gameObject.id, 'actionTicker', {
-		ticks: 100,
+		ticks: 800,
 	});
 }

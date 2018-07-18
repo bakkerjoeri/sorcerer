@@ -1,7 +1,9 @@
 import createStateEntity from './../library/core/utility/createStateEntity';
-import {getGameObjectWithId, updateComponentOfGameObject} from './../library/core/model/gameObjects';
+import gameStateStore from './../library/core/model/gameStateStore';
+import getPositionsInRange from './../utility/getPositionsInRange';
+import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects';
 import {addLevel, getLevelWithId} from './../model/levels';
-import {getTilesInLevelAtRange, addEntityToTile} from './../model/tiles';
+import {getTileInLevelWithPosition, getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles';
 import {createTileSet} from './Tile';
 
 export function createLevel(properties = {}) {
@@ -35,13 +37,15 @@ export function createLevelOfSize(size, properties = {}) {
 	return level;
 }
 
-export function addEntityToPositionInLevel(entityId, levelId, position) {
+export function moveEntityToPositionInLevel(entityId, position, levelId) {
 	let entity = getGameObjectWithId(entityId);
-	let newLevel = getLevelWithId(levelId);
 
-	if (entity.components.currentLevel) {
-		// remove from current level
-		// remove from tiles at current position in current level
+	if (entity.components.currentLevelId !== null) {
+		removeEntityFromPositionInLevel(entityId, levelId, entity.components.positionInLevel);
+	}
+
+	if (entity.components.currentLevelId !== levelId) {
+		updateComponentOfGameObject(entityId, 'currentLevelId', levelId);
 	}
 
 	getTilesInLevelAtRange(levelId, position, entity.components.sizeInLevel).forEach((tile) => {
@@ -49,4 +53,38 @@ export function addEntityToPositionInLevel(entityId, levelId, position) {
 	});
 
 	updateComponentOfGameObject(entityId, 'positionInLevel', position);
+}
+
+export function removeEntityFromPositionInLevel(entityId, levelId, position) {
+	let entity = getGameObjectWithId(entityId);
+
+	getTilesInLevelAtRange(levelId, position, entity.components.sizeInLevel).forEach((tile) => {
+		removeEntityFromTile(tile.id, entityId);
+	});
+}
+
+export function canEntityBeInPositionInLevel(entityId, positionInLevel, levelId) {
+	let entity = getGameObjectWithId(entityId);
+
+	return getPositionsInRange(positionInLevel, entity.components.sizeInLevel).every((position) => {
+		return doesPositionExistInLevel(levelId, position)
+			&& isPositionInLevelFree(levelId, position);
+	});
+}
+
+export function isPositionInLevelFree(levelId, position) {
+	let tile = getTileInLevelWithPosition(levelId, position);
+
+	return tile.entities.every((entity) => {
+		return !getComponentValueForGameObject(entity, 'isSolid');
+	});
+}
+
+export function doesPositionExistInLevel(levelId, position) {
+	let level = getLevelWithId(levelId);
+
+	return position.x >= 0
+		&& position.y >= 0
+		&& position.x <= level.size.width - 1
+		&& position.y <= level.size.height - 1;
 }
