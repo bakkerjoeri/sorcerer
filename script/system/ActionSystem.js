@@ -1,7 +1,7 @@
 import System from './../library/core/module/System';
 import choose from './../utility/random/choose';
-import {canEntityBeInPositionInLevel} from './../module/Level';
-import {updateComponentOfGameObject, removeComponentFromGameObject, moveEntityToPositionInLevel} from './../library/core/model/gameObjects'
+import {canEntityBeInPositionInLevel, moveEntityToPositionInLevel} from './../module/Level';
+import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
 export default class ActionTickerSystem extends System {
 	constructor() {
@@ -28,6 +28,6 @@ function act(gameObject) {
 function concludeAction(gameObject) {
 	removeComponentFromGameObject(gameObject.id, 'canAct');
 	updateComponentOfGameObject(gameObject.id, 'actionTicker', {
-		ticks: 800,
+		ticks: 100,
 	});
 }
