@@ -68,15 +68,15 @@ export function canEntityBeInPositionInLevel(entityId, positionInLevel, levelId)
 
 	return getPositionsInRange(positionInLevel, entity.components.sizeInLevel).every((position) => {
 		return doesPositionExistInLevel(levelId, position)
-			&& isPositionInLevelFree(levelId, position);
+			&& isPositionInLevelFree(levelId, position, [entityId]);
 	});
 }
 
-export function isPositionInLevelFree(levelId, position) {
+export function isPositionInLevelFree(levelId, position, excludedEntities = []) {
 	let tile = getTileInLevelWithPosition(levelId, position);
 
 	return tile.entities.every((entity) => {
-		return !getComponentValueForGameObject(entity, 'isSolid');
+		return excludedEntities.includes(entity.id) || !getComponentValueForGameObject(entity, 'isSolid');
 	});
 }
 
@@ -87,4 +87,13 @@ export function doesPositionExistInLevel(levelId, position) {
 		&& position.y >= 0
 		&& position.x <= level.size.width - 1
 		&& position.y <= level.size.height - 1;
+}
+
+export function canEntityMoveInLevel(levelId, entityId) {
+	let {positionInLevel} = getGameObjectWithId(entityId).components;
+
+	return canEntityBeInPositionInLevel(entityId, {x: positionInLevel.x, y: positionInLevel.y - 1}, levelId)
+		|| canEntityBeInPositionInLevel(entityId, {x: positionInLevel.x + 1, y: positionInLevel.y}, levelId)
+		|| canEntityBeInPositionInLevel(entityId, {x: positionInLevel.x, y: positionInLevel.y + 1}, levelId)
+		|| canEntityBeInPositionInLevel(entityId, {x: positionInLevel.x - 1, y: positionInLevel.y}, levelId);
 }

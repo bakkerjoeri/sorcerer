@@ -6,14 +6,16 @@ import {getImageFromFilePath} from './../module/SpriteFrame';
 
 export default class RenderSystem extends System {
 	constructor() {
-		super(['sprite', 'position'], renderGameObject);
-	}
+		super(['sprite', 'position']);
 
-	update(gameObjects) {
-		clearCanvasContext(this.game.canvas, this.game.context);
-		drawCurrentRoomBackground(this.game.context);
+		this.observe('draw', (gameObjects, game) => {
+			clearCanvasContext(this.game.canvas, this.game.context);
+			drawCurrentRoomBackground(this.game.context);
 
-		super.update(gameObjects);
+			gameObjects.forEach(gameObject => {
+				renderGameObject(gameObject, game)
+			});
+		});
 	}
 }
 
@@ -38,7 +40,7 @@ function renderGameObject(gameObject, game) {
 
 	let spriteAsset = getSpriteWithId(sprite.assetId);
 	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
-
+	debugger;
 	game.context.drawImage(
 		getImageFromFilePath(currentSpriteFrame.imageFilePath),
 		currentSpriteFrame.origin.x, currentSpriteFrame.origin.y,

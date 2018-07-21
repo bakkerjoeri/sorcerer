@@ -43,8 +43,8 @@ setCurrentRoomId(room.id);
 
 // Create a level
 let level = createLevelOfSize({
-	width: 3,
-	height: 3,
+	width: LEVEL_WIDTH,
+	height: LEVEL_HEIGHT,
 });
 
 // Create some entities
@@ -63,8 +63,15 @@ let playerGameObject = new Actor({
 addGameObjectToRoom(room.id, playerGameObject.id)
 moveEntityToPositionInLevel(playerGameObject.id, {
 	x: 1,
-	y: 1,
+	y: 0,
 }, level.id);
+
+createSlimeAtPosition({x: 0, y: 0});
+let wallGameObject = new Structure({
+	sprite: new SpriteComponent({
+		assetId: 'wall',
+	}),
+});
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
@@ -79,14 +86,10 @@ game.start();
 
 console.log(gameStateStore.getState());
 
-let slimeGameObject = new Structure({
-	sprite: new SpriteComponent({
-		assetId: 'wall',
-	}),
-});
+// createSlimes(10);
 
-addGameObjectToRoom(room.id, slimeGameObject.id);
-moveEntityToPositionInLevel(slimeGameObject.id, {
+addGameObjectToRoom(room.id, wallGameObject.id);
+moveEntityToPositionInLevel(wallGameObject.id, {
 	x: 0,
 	y: 1,
 }, level.id);
@@ -98,21 +101,25 @@ function createSlimes(amountOfSlimesToCreate) {
 			y: Math.floor(Math.random() * LEVEL_HEIGHT),
 		};
 
-		let slimeGameObject = new Actor({
-			nonPlayer: true,
-			health: new HealthComponent({
-				maximum: 10,
-			}),
-			sprite: new SpriteComponent({
-				assetId: 'slime',
-				framesPerSecond: 1,
-			}),
-			brain: {},
-		});
-
-		addGameObjectToRoom(room.id, slimeGameObject.id);
-		moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
+		createSlimeAtPosition(positionInLevel);
 
 		amountOfSlimesToCreate -= 1;
 	}
+}
+
+function createSlimeAtPosition(positionInLevel) {
+	let slimeGameObject = new Actor({
+		nonPlayer: true,
+		health: new HealthComponent({
+			maximum: 10,
+		}),
+		sprite: new SpriteComponent({
+			assetId: 'slime',
+			framesPerSecond: 1,
+		}),
+		brain: {},
+	});
+
+	addGameObjectToRoom(room.id, slimeGameObject.id);
+	moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
 }

@@ -5,7 +5,11 @@ import {updateComponentOfGameObject, removeComponentFromGameObject} from './../l
 
 export default class PlayerControlSystem extends System {
 	constructor() {
-		super(['actor', 'player', 'canAct', 'positionInLevel'], act);
+		super(['actor', 'player', 'canAct', 'positionInLevel']);
+
+		this.observe('update', gameObjects => {
+			gameObjects.forEach(act);
+		});
 	}
 }
 

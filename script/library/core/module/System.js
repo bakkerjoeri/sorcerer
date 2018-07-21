@@ -1,22 +1,29 @@
 export default class System {
 	constructor(requiredComponents = [], updateCallback = () => {}) {
 		this.requiredComponents = requiredComponents;
+		this.topics = new Map();
+	}
 
-		if (typeof updateCallback !== 'function') {
-			throw new Error(`Expected updateCallback to be of type 'function', but got '${typeof updateCallback}'.`)
+	observe(topic, callback) {
+		if (typeof callback !== 'function') {
+			throw new Error(`Expected callback to be of type 'function', but got '${typeof callback}'.`)
 		}
 
-		this.updateCallback = updateCallback;
+		if (!this.topics.has(topic)) {
+			this.topics.set(topic, []);
+		}
+
+		this.topics.get(topic).push(callback);
 	}
 
-	update(gameObjects) {
-		this.updateGameObjects(filterGameObjectsByComponentNames(gameObjects, this.requiredComponents));
-	}
+	handleNotify(topic, gameObjects) {
+		let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
 
-	updateGameObjects(gameObjects) {
-		gameObjects.forEach((gameObject) => {
-			this.updateCallback(gameObject, this.game);
-		});
+		if (this.topics.has(topic)) {
+			this.topics.get(topic).forEach((callback) => {
+				callback(filteredGameObjects, this.game);
+			});
+		}
 	}
 }
 

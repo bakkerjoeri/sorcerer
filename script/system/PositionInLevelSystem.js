@@ -3,7 +3,11 @@ import {updateComponentOfGameObject} from './../library/core/model/gameObjects'
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(['positionInLevel', 'position'], updatePosition);
+		super(['positionInLevel', 'position']);
+
+		this.observe('update', gameObjects => {
+			gameObjects.forEach(updatePosition);
+		});
 	}
 }
 

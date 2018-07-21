@@ -24,13 +24,20 @@ export default class Game {
 		this.looping = false;
 	}
 
+	notify(eventName, entities) {
+		this.systems.forEach((system) => {
+			system.handleNotify(eventName, entities);
+		});
+	}
+
 	update(time) {
 		this.timeSincePreviousUpdate = time - this.elapsed;
 		this.elapsed = time;
 
-		this.systems.forEach((system) => {
-			system.update(getGameObjectsInCurrentRoom());
-		});
+		let gameObjectsInCurrentRoom = getGameObjectsInCurrentRoom();
+
+		this.notify('update', gameObjectsInCurrentRoom);
+		this.notify('draw', gameObjectsInCurrentRoom);
 
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);

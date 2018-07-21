@@ -4,7 +4,13 @@ import {updateComponentOfGameObject} from './../model/gameObjects'
 
 export default class AnimationSystem extends System {
 	constructor() {
-		super(['sprite'], animateGameObject);
+		super(['sprite']);
+
+		this.observe('update', (gameObjects, game) => {
+			gameObjects.forEach(gameObject => {
+				animateGameObject(gameObject, game);
+			});
+		});
 	}
 }
 
