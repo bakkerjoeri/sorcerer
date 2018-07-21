@@ -112,6 +112,7 @@ function createSlimes(amountOfSlimesToCreate) {
 
 function createSlimeInLevelAtPosition(levelId, positionInLevel) {
 	let slimeGameObject = new Actor({
+		name: 'Slime',
 		nonPlayer: true,
 		health: new HealthComponent({
 			maximum: 10,
@@ -128,6 +129,7 @@ function createSlimeInLevelAtPosition(levelId, positionInLevel) {
 
 function createKingSlimeInLevelAtPosition(levelId, positionInLevel) {
 	let kingSlimeGameObject = new Actor({
+		name: 'King Slime',
 		nonPlayer: true,
 		health: new HealthComponent({
 			maximum: 80,
