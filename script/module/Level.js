@@ -75,8 +75,9 @@ export function canEntityBeInPositionInLevel(entityId, positionInLevel, levelId)
 export function isPositionInLevelFree(levelId, position, excludedEntities = []) {
 	let tile = getTileInLevelWithPosition(levelId, position);
 
-	return tile.entities.every((entity) => {
-		return excludedEntities.includes(entity.id) || !getComponentValueForGameObject(entity, 'isSolid');
+	return tile.entities.every((entityId) => {
+		return excludedEntities.includes(entityId)
+			|| !getComponentValueForGameObject(entityId, 'isSolid');
 	});
 }
 
