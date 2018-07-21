@@ -27,5 +27,11 @@ export const getSprites = () => {
 };
 
 export const getSpriteWithId = (spriteId) => {
+	let sprite = gameStateStore.getState().sprites[spriteId];
+
+	if (!sprite) {
+		throw new Error(`No sprite with id "${spriteId}" found.`)
+	}
+
 	return gameStateStore.getState().sprites[spriteId];
 };

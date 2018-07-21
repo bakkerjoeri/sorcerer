@@ -5,6 +5,7 @@ import {addSprite} from './library/core/model/sprites';
 export default function loadSprites() {
 	loadGreenKnightSprite();
 	loadSlimeSprite();
+	loadGiantSlimeSprite();
 	loadWallSprite();
 }
 
@@ -47,6 +48,22 @@ function loadSlimeSprite() {
 		spriteFrames: [
 			'slime_0',
 			'slime_1',
+		],
+	});
+}
+
+function loadGiantSlimeSprite() {
+	loadSpriteFrames('giantslime', '/assets/images/giantslime.png', {
+		width: 32,
+		height: 32,
+	}, 0, 2);
+
+	// Create the player sprite
+	createSprite({
+		id: 'giantslime',
+		spriteFrames: [
+			'giantslime_0',
+			'giantslime_1',
 		],
 	});
 }

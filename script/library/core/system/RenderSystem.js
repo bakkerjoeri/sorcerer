@@ -40,7 +40,7 @@ function renderGameObject(gameObject, game) {
 
 	let spriteAsset = getSpriteWithId(sprite.assetId);
 	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
-	debugger;
+
 	game.context.drawImage(
 		getImageFromFilePath(currentSpriteFrame.imageFilePath),
 		currentSpriteFrame.origin.x, currentSpriteFrame.origin.y,

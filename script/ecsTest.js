@@ -66,12 +66,15 @@ moveEntityToPositionInLevel(playerGameObject.id, {
 	y: 0,
 }, level.id);
 
-createSlimeAtPosition({x: 0, y: 0});
+createSlimeInLevelAtPosition(level.id, {x: 0, y: 0});
+createKingSlimeInLevelAtPosition(level.id, {x: 3, y: 3});
+
 let wallGameObject = new Structure({
 	sprite: new SpriteComponent({
 		assetId: 'wall',
 	}),
 });
+
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
@@ -101,13 +104,13 @@ function createSlimes(amountOfSlimesToCreate) {
 			y: Math.floor(Math.random() * LEVEL_HEIGHT),
 		};
 
-		createSlimeAtPosition(positionInLevel);
+		createSlimeInLevelAtPosition(positionInLevel);
 
 		amountOfSlimesToCreate -= 1;
 	}
 }
 
-function createSlimeAtPosition(positionInLevel) {
+function createSlimeInLevelAtPosition(levelId, positionInLevel) {
 	let slimeGameObject = new Actor({
 		nonPlayer: true,
 		health: new HealthComponent({
@@ -115,11 +118,30 @@ function createSlimeAtPosition(positionInLevel) {
 		}),
 		sprite: new SpriteComponent({
 			assetId: 'slime',
-			framesPerSecond: 1,
+			framesPerSecond: 2,
 		}),
-		brain: {},
 	});
 
 	addGameObjectToRoom(room.id, slimeGameObject.id);
 	moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
+}
+
+function createKingSlimeInLevelAtPosition(levelId, positionInLevel) {
+	let kingSlimeGameObject = new Actor({
+		nonPlayer: true,
+		health: new HealthComponent({
+			maximum: 80,
+		}),
+		sprite: new SpriteComponent({
+			assetId: 'giantslime',
+			framesPerSecond: 1,
+		}),
+		sizeInLevel: {
+			width: 2,
+			height: 2,
+		},
+	});
+
+	addGameObjectToRoom(room.id, kingSlimeGameObject.id);
+	moveEntityToPositionInLevel(kingSlimeGameObject.id, positionInLevel, level.id);
 }
