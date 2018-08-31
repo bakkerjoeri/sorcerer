@@ -17,9 +17,9 @@ export default class System {
 	}
 
 	handleNotify(topic, gameObjects) {
-		let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
-
 		if (this.topics.has(topic)) {
+			let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
+
 			this.topics.get(topic).forEach((callback) => {
 				callback(filteredGameObjects, this.game);
 			});
