@@ -8,6 +8,7 @@ import {createTileSet} from './Tile';
 
 export function createLevel(properties = {}) {
 	const DEFAULT_PROPERTIES = {
+		roomId: null,
 		size: {
 			width: 0,
 			height: 0,
@@ -30,8 +31,11 @@ export function createLevelOfSize(size, properties = {}) {
 	let tileIdsInLevel = tiles.map(tile => tile.id);
 
 	let level = createLevel({
-		size: size,
-		tiles: tileIdsInLevel,
+		...properties,
+		...{
+			size: size,
+			tiles: tileIdsInLevel,
+		}
 	});
 
 	return level;
