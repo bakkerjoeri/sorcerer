@@ -1,4 +1,5 @@
 import gameStateStore from './gameStateStore';
+import {getCurrentRoomId} from './game';
 
 export const addRoom = room => gameStateStore.dispatch(state => ({
 	...state,
@@ -45,5 +46,5 @@ export const getRoomWithId = (id) => {
 };
 
 export const getCurrentRoom = () => {
-	return getRoomWithId(gameStateStore.getState().game.currentRoomId);
+	return getRoomWithId(getCurrentRoomId());
 };

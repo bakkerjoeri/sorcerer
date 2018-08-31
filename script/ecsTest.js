@@ -18,11 +18,12 @@ import ActionTickerSystem from './system/ActionTickerSystem';
 import PlayerActionSystem from './system/PlayerActionSystem';
 import PositionInLevelSystem from './system/PositionInLevelSystem';
 import RenderSystem from './library/core/system/RenderSystem';
+import ViewportPositionSystem from './library/core/system/ViewportPositionSystem';
 
 loadSprites();
 
-const LEVEL_WIDTH = 100;
-const LEVEL_HEIGHT = 7;
+const LEVEL_WIDTH = 30;
+const LEVEL_HEIGHT = 11;
 
 // Append game state
 appendState({
@@ -35,8 +36,8 @@ setGameName('Sorcerer');
 // Create a room
 let room = createRoom({
 	size: {
-		width: 240,
-		height: 176,
+		width: LEVEL_WIDTH * 16,
+		height: LEVEL_HEIGHT * 16,
 	},
 });
 
@@ -92,39 +93,24 @@ let viewport = createViewport({
 		y: 0,
 	},
 	size: {
-		width: 118,
-		height: 176,
-	},
-});
-
-// Create a second viewport
-let secondViewport = createViewport({
-	gameObjectIdToFollow: kingSlimeGameObject.id,
-	origin: {
-		x: 124,
-		y: 0,
-	},
-	position: {
-		x: 0,
-		y: 0,
-	},
-	size: {
-		width: 118,
+		width: 240,
 		height: 176,
 	},
 });
 
 addViewportToRoom(room.id, viewport.id);
-addViewportToRoom(room.id, secondViewport.id);
+// addViewportToRoom(room.id, secondViewport.id);
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
-game.addSystem(new PositionInLevelSystem());
 game.addSystem(new ActionTickerSystem());
+game.addSystem(new PositionInLevelSystem());
 game.addSystem(new AnimationSystem());
+
 game.addSystem(new RenderSystem());
+game.addSystem(new ViewportPositionSystem());
 
 game.start();
 

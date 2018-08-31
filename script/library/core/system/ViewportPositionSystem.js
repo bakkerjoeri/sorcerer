@@ -1,17 +1,25 @@
 import System from './../module/System';
-import {getCurrentRoomId} from './../model/game';
-import {getActiveViewportsInRoomWithId} from './../model/viewports';
+import {getCurrentRoom} from './../model/rooms';
+import {getActiveViewportsInRoomWithId, changeViewportPosition} from './../model/viewports';
 import {getSpriteWithId} from './../model/sprites';
-import {updateComponentOfGameObject} from './../model/gameObjects';
+import {getSpriteFrameWithId} from './../model/spriteFrames';
+import {getGameObjectWithId} from './../model/gameObjects';
 
 export default class ViewportPositionSystem extends System {
 	constructor() {
 		super();
 
-		this.observe('update', () => {
-			getActiveViewportsInRoomWithId(getCurrentRoomId).filter((viewport) =>
-				viewport.gameObjectIdToFollow !== null
-			);
+		this.observe('draw', () => {
+			let currentRoom = getCurrentRoom();
+			let viewportsToUpdate = getActiveViewportsInRoomWithId(currentRoom.id)
+				.filter((viewport) => viewport.gameObjectIdToFollow !== null);
+
+			viewportsToUpdate.forEach((viewport) => {
+				changeViewportPosition(
+					viewport.id,
+					calculateNewViewportPosition(viewport, currentRoom)
+				);
+			});
 		});
 	}
 }
@@ -20,12 +28,13 @@ function calculateNewViewportPosition(viewport, room) {
 	if (viewport.gameObjectIdToFollow !== null) {
 		let gameObjectToFollow = getGameObjectWithId(viewport.gameObjectIdToFollow);
 
-		if (gameObjectToFollow.currentSprite !== null) {
-			let spriteOfGameObjectToFollow = getSpriteWithId(gameObjectToFollow.spriteId);
+		if (gameObjectToFollow.components.sprite) {
+			let spriteAsset = getSpriteWithId(gameObjectToFollow.components.sprite.assetId);
+			let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[gameObjectToFollow.components.sprite.currentFrameIndex]);
 
 			let newViewportPosition = {
-				x: gameObjectToFollow.position.x - (viewport.size.width / 2) + (spriteOfGameObjectToFollow.size.width / 2),
-				y: gameObjectToFollow.position.y - (viewport.size.height / 2) + (spriteOfGameObjectToFollow.size.height / 2),
+				x: gameObjectToFollow.components.position.x - (viewport.size.width / 2) + (currentSpriteFrame.size.width / 2),
+				y: gameObjectToFollow.components.position.y - (viewport.size.height / 2) + (currentSpriteFrame.size.height / 2),
 			};
 
 			if (newViewportPosition.x < 0) {
