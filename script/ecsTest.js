@@ -23,7 +23,7 @@ import ViewportPositionSystem from './library/core/system/ViewportPositionSystem
 loadSprites();
 
 const LEVEL_WIDTH = 30;
-const LEVEL_HEIGHT = 11;
+const LEVEL_HEIGHT = 22;
 
 // Append game state
 appendState({
