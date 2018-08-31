@@ -2,13 +2,14 @@ import gameStateStore from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {appendState} from './library/core/model/general';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {addGameObjectToRoom} from './library/core/model/rooms';
+import {addGameObjectToRoom, addViewportToRoom} from './library/core/model/rooms';
 import {createRoom} from './library/core/module/Room';
+import {createViewport} from './library/core/module/Viewport';
 import {createLevelOfSize, moveEntityToPositionInLevel} from './module/Level';
 import Actor from './gameObject/Actor';
 import Structure from './gameObject/Structure';
 import HealthComponent from './component/HealthComponent';
-import SpriteComponent from './component/SpriteComponent';
+import SpriteComponent from './library/core/component/SpriteComponent';
 import loadSprites from './loadSprites';
 
 import AnimationSystem from './library/core/system/AnimationSystem';
@@ -20,7 +21,7 @@ import RenderSystem from './library/core/system/RenderSystem';
 
 loadSprites();
 
-const LEVEL_WIDTH = 7;
+const LEVEL_WIDTH = 100;
 const LEVEL_HEIGHT = 7;
 
 // Append game state
@@ -45,6 +46,8 @@ setCurrentRoomId(room.id);
 let level = createLevelOfSize({
 	width: LEVEL_WIDTH,
 	height: LEVEL_HEIGHT,
+}, {
+	roomId: room.id,
 });
 
 // Create some entities
@@ -67,7 +70,7 @@ moveEntityToPositionInLevel(playerGameObject.id, {
 }, level.id);
 
 createSlimeInLevelAtPosition(level.id, {x: 0, y: 0});
-createKingSlimeInLevelAtPosition(level.id, {x: 3, y: 3});
+let kingSlimeGameObject = createKingSlimeInLevelAtPosition(level.id, {x: 3, y: 3});
 
 let wallGameObject = new Structure({
 	sprite: new SpriteComponent({
@@ -75,6 +78,44 @@ let wallGameObject = new Structure({
 	}),
 });
 
+addGameObjectToRoom(room.id, wallGameObject.id);
+moveEntityToPositionInLevel(wallGameObject.id, {
+	x: 0,
+	y: 1,
+}, level.id);
+
+// Create a viewport
+let viewport = createViewport({
+	gameObjectIdToFollow: playerGameObject.id,
+	position: {
+		x: 0,
+		y: 0,
+	},
+	size: {
+		width: 118,
+		height: 176,
+	},
+});
+
+// Create a second viewport
+let secondViewport = createViewport({
+	gameObjectIdToFollow: kingSlimeGameObject.id,
+	origin: {
+		x: 124,
+		y: 0,
+	},
+	position: {
+		x: 0,
+		y: 0,
+	},
+	size: {
+		width: 118,
+		height: 176,
+	},
+});
+
+addViewportToRoom(room.id, viewport.id);
+addViewportToRoom(room.id, secondViewport.id);
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
@@ -88,14 +129,6 @@ game.addSystem(new RenderSystem());
 game.start();
 
 console.log(gameStateStore.getState());
-
-// createSlimes(10);
-
-addGameObjectToRoom(room.id, wallGameObject.id);
-moveEntityToPositionInLevel(wallGameObject.id, {
-	x: 0,
-	y: 1,
-}, level.id);
 
 function createSlimes(amountOfSlimesToCreate) {
 	while(amountOfSlimesToCreate > 0) {
@@ -125,6 +158,8 @@ function createSlimeInLevelAtPosition(levelId, positionInLevel) {
 
 	addGameObjectToRoom(room.id, slimeGameObject.id);
 	moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
+
+	return slimeGameObject;
 }
 
 function createKingSlimeInLevelAtPosition(levelId, positionInLevel) {
@@ -146,4 +181,6 @@ function createKingSlimeInLevelAtPosition(levelId, positionInLevel) {
 
 	addGameObjectToRoom(room.id, kingSlimeGameObject.id);
 	moveEntityToPositionInLevel(kingSlimeGameObject.id, positionInLevel, level.id);
+
+	return kingSlimeGameObject;
 }
