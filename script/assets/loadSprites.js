@@ -1,6 +1,6 @@
-import {loadSpriteFrames} from './library/core/module/SpriteFrame';
-import {createSprite} from './library/core/module/Sprite';
-import {addSprite} from './library/core/model/sprites';
+import {loadSpriteFrames} from './../library/core/module/SpriteFrame';
+import {createSprite} from './../library/core/module/Sprite';
+import {addSprite} from './../library/core/model/sprites';
 
 export default function loadSprites() {
 	loadGreenKnightSprite();
