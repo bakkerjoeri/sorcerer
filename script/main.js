@@ -10,7 +10,7 @@ import Actor from './gameObject/Actor';
 import Structure from './gameObject/Structure';
 import HealthComponent from './component/HealthComponent';
 import SpriteComponent from './library/core/component/SpriteComponent';
-import loadSprites from './loadSprites';
+import loadSprites from './assets/loadSprites';
 
 import AnimationSystem from './library/core/system/AnimationSystem';
 import ActionSystem from './system/ActionSystem';
