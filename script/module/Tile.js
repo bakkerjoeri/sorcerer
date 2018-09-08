@@ -1,63 +1,38 @@
-export default class Tile {
-	constructor(position) {
-		this.position = position;
-		this.actors = [];
-		this.structures = [];
-	}
+import createStateEntity from './../library/core/utility/createStateEntity';
+import {addTile} from './../model/tiles';
 
-	addActor(actor) {
-		this.actors.push(actor);
-	}
+export function createTile(properties = {}) {
+	const DEFAULT_PROPERTIES = {
+		entities: [],
+		positionInLevel: {
+			x: 0,
+			y: 0,
+		},
+	};
 
-	removeActor(actor) {
-		let actorIndex = this.actors.indexOf(actor);
+	let tile = createStateEntity('tile', {
+		...DEFAULT_PROPERTIES,
+		...properties,
+	});
 
-		if (actorIndex !== -1) {
-			this.actors.splice(actorIndex, 1);
+	addTile(tile);
+
+	return tile;
+}
+
+export function createTileSet(size) {
+	let tiles = [];
+
+	for (let y = 0; y < size.height; y = y + 1) {
+		for (let x = 0; x < size.width; x = x + 1) {
+			tiles.push(createTile({
+				positionInLevel: {
+					x: x,
+					y: y,
+				},
+			}));
 		}
 	}
 
-	addStructure(structure) {
-		this.structures.push(structure);
-	}
-
-	removeStructure(structure) {
-		let structureIndex = this.structures.findIndex(structure);
-
-		if (structureIndex !== -1) {
-			this.actors.splice(structureIndex, 1);
-		}
-	}
-
-	getEntities() {
-		return this.structures.concat(this.actors);
-	}
-
-	getActors() {
-		return this.actors;
-	}
-
-	getSolidEntities(exclude = []) {
-		let entities = this.getEntities();
-
-		return entities.filter((gameObject) => {
-			return gameObject.solid === true && !exclude.includes(gameObject);
-		});
-	}
-
-	getSolidActors(exclude = []) {
-		let actors = this.getActors();
-
-		return actors.filter((actor) => {
-			return actor.solid === true && !exclude.includes(actor);
-		});
-	}
-
-	hasSolidEntities(exclude = []) {
-		return this.getSolidEntities(exclude).length > 0;
-	}
-
-	hasSolidActors(exclude = []) {
-		return this.getSolidActors(exclude).length > 0;
-	}
+	return tiles;
 }
