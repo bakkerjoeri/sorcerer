@@ -1,5 +1,5 @@
 import createStateEntity from './../library/core/utility/createStateEntity';
-import gameStateStore from './../library/core/model/gameStateStore';
+import store from './../library/core/model/gameStateStore';
 import getPositionsInRange from './../utility/getPositionsInRange';
 import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects';
 import {addLevel, getLevelWithId} from './../model/levels';
@@ -21,7 +21,7 @@ export function createLevel(properties = {}) {
 		...properties,
 	});
 
-	addLevel(level);
+	store.dispatch(addLevel(level));
 
 	return level;
 }
@@ -86,7 +86,7 @@ export function isPositionInLevelFree(levelId, position, excludedEntities = []) 
 }
 
 export function doesPositionExistInLevel(levelId, position) {
-	let level = getLevelWithId(levelId);
+	let level = getLevelWithId(store.getState(), levelId);
 
 	return position.x >= 0
 		&& position.y >= 0
