@@ -1,4 +1,5 @@
 import createStateEntity from './../utility/createStateEntity';
+import store from './../model/gameStateStore';
 import {addSprite} from './../model/sprites';
 
 export function createSprite(properties = {}) {
@@ -15,7 +16,7 @@ export function createSprite(properties = {}) {
 		...properties,
 	});
 
-	addSprite(sprite);
+	store.dispatch(addSprite(sprite));
 
 	return sprite;
 }

@@ -30,7 +30,7 @@ function calculateNewViewportPosition(viewport, room) {
 		let gameObjectToFollow = getGameObjectWithId(store.getState(), viewport.gameObjectIdToFollow);
 
 		if (gameObjectToFollow.components.sprite) {
-			let spriteAsset = getSpriteWithId(gameObjectToFollow.components.sprite.assetId);
+			let spriteAsset = getSpriteWithId(store.getState(), gameObjectToFollow.components.sprite.assetId);
 			let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[gameObjectToFollow.components.sprite.currentFrameIndex]);
 
 			let newViewportPosition = {

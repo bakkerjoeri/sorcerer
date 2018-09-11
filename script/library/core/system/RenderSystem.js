@@ -50,7 +50,7 @@ function drawCurrentRoomBackgroundInViewport(context, viewport) {
 function renderGameObjectInViewport(gameObject, viewport, game) {
 	let {sprite, position} = gameObject.components;
 
-	let spriteAsset = getSpriteWithId(sprite.assetId);
+	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
 	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	let drawPosition = {
@@ -70,7 +70,7 @@ function renderGameObjectInViewport(gameObject, viewport, game) {
 function isGameObjectVisibleInViewport(gameObject, viewport) {
 	let {sprite, position} = gameObject.components;
 
-	let spriteAsset = getSpriteWithId(sprite.assetId);
+	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
 	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	let visibleBoundingBox = {

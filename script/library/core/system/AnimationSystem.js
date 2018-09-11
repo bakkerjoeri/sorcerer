@@ -19,7 +19,7 @@ const timeOfPreviousFrameByGameObjectId = {};
 
 function animateGameObject(gameObject, game) {
 	let {sprite} = gameObject.components;
-	let spriteAsset = getSpriteWithId(sprite.assetId);
+	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
 
 	if (
 		spriteAsset.spriteFrames.length > 1

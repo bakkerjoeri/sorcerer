@@ -1,14 +1,14 @@
 import gameStateStore from './gameStateStore';
 
-export const addSprite = sprite => gameStateStore.dispatch(state => ({
+export const addSprite = sprite => state => ({
 	...state,
 	sprites: {
 		...state.sprites,
 		[sprite.id]: sprite,
 	},
-}));
+});
 
-export const addSpriteFrameToSprite = (id, spriteFrameId) => gameStateStore.dispatch(state => ({
+export const addSpriteFrameToSprite = (id, spriteFrameId) => state => ({
 	...state,
 	sprites: {
 		...state.sprites,
@@ -20,18 +20,18 @@ export const addSpriteFrameToSprite = (id, spriteFrameId) => gameStateStore.disp
 			],
 		},
 	},
-}));
+});
 
-export const getSprites = () => {
-	return Object.values(gameStateStore.getState().sprites);
+export const getAllSprites = (state) => {
+	return Object.values(state.sprites);
 };
 
-export const getSpriteWithId = (spriteId) => {
-	let sprite = gameStateStore.getState().sprites[spriteId];
+export const getSpriteWithId = (state, spriteId) => {
+	let sprite = state.sprites[spriteId];
 
 	if (!sprite) {
 		throw new Error(`No sprite with id "${spriteId}" found.`)
 	}
 
-	return gameStateStore.getState().sprites[spriteId];
+	return state.sprites[spriteId];
 };
