@@ -1,4 +1,5 @@
 import createStateEntity from './../utility/createStateEntity';
+import store from './../model/gameStateStore';
 import {addViewport, changeViewportPosition} from './../model/viewports';
 
 export function createViewport(properties = {}) {
@@ -24,17 +25,7 @@ export function createViewport(properties = {}) {
 		...properties,
 	});
 
-	addViewport(viewport);
+	store.dispatch(addViewport(viewport));
 
 	return viewport;
-}
-
-export function updateViewportPositionInRoom(viewportId, roomId) {
-	let newPosition = calculateNewViewportPosition(viewport, room);
-
-	// Only dispatch an update to the viewport position if the calculated
-	// new position is different from the current position.
-	if (newPosition.x !== viewport.position.x || newPosition.y !== viewport.position.y) {
-		changeViewportPosition(viewport.id, newPosition);
-	}
 }

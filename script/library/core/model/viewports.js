@@ -1,14 +1,14 @@
 import gameStateStore from './gameStateStore';
 
-export const addViewport = viewport => gameStateStore.dispatch(state => ({
+export const addViewport = viewport => state => ({
 	...state,
 	viewports: {
 		...state.viewports,
 		[viewport.id]: viewport,
 	},
-}));
+});
 
-export const changeViewportPosition = (id, newPosition) => gameStateStore.dispatch(state => ({
+export const changeViewportPosition = (id, newPosition) => state => ({
 	...state,
 	viewports: {
 		...state.viewports,
@@ -17,9 +17,9 @@ export const changeViewportPosition = (id, newPosition) => gameStateStore.dispat
 			position: newPosition,
 		}
 	}
-}));
+});
 
-export const setViewportIsActive = (id, isActive) => gameStateStore.dispatch(state => ({
+export const setViewportIsActive = (id, isActive) => state => ({
 	...state,
 	viewports: {
 		...state.viewports,
@@ -28,24 +28,24 @@ export const setViewportIsActive = (id, isActive) => gameStateStore.dispatch(sta
 			isActive,
 		}
 	}
-}));
+});
 
-export const getViewports = () => {
-	return Object.values(gameStateStore.getState().viewports);
+export const getAllViewports = (state) => {
+	return Object.values(state.viewports);
 };
 
-export const getViewportWithId = (id) => {
-	return gameStateStore.getState().viewports[id];
+export const getViewportWithId = (state, id) => {
+	return state.viewports[id];
 };
 
-export const getActiveViewports = () => {
-	return getViewports().filter(viewport => viewport.isActive);
+export const getActiveViewports = (state) => {
+	return getAllViewports(state).filter(viewport => viewport.isActive);
 }
 
-export const getViewportsInRoomWithId = (roomId) => {
-	return gameStateStore.getState().rooms[roomId].viewports.map(viewportId => getViewportWithId(viewportId));
+export const getViewportsInRoomWithId = (state, roomId) => {
+	return state.rooms[roomId].viewports.map(viewportId => getViewportWithId(state, viewportId));
 };
 
-export const getActiveViewportsInRoomWithId = (roomId) => {
-	return getViewportsInRoomWithId(roomId).filter(viewport => viewport.isActive);
+export const getActiveViewportsInRoomWithId = (state, roomId) => {
+	return getViewportsInRoomWithId(state, roomId).filter(viewport => viewport.isActive);
 };

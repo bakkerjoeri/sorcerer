@@ -15,7 +15,7 @@ export default class RenderSystem extends System {
 }
 
 function drawFrame(gameObjects, game) {
-	let viewports = getActiveViewportsInRoomWithId(getCurrentRoom(store.getState()).id);
+	let viewports = getActiveViewportsInRoomWithId(store.getState(), getCurrentRoom(store.getState()).id);
 
 	viewports.forEach((viewport) => {
 		drawFrameInViewport(gameObjects, viewport, game);
