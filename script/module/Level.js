@@ -52,8 +52,8 @@ export function moveEntityToPositionInLevel(entityId, position, levelId) {
 		updateComponentOfGameObject(entityId, 'currentLevelId', levelId);
 	}
 
-	getTilesInLevelAtRange(levelId, position, entity.components.sizeInLevel).forEach((tile) => {
-		addEntityToTile(tile.id, entityId);
+	getTilesInLevelAtRange(store.getState(), levelId, position, entity.components.sizeInLevel).forEach((tile) => {
+		store.dispatch(addEntityToTile(tile.id, entityId));
 	});
 
 	updateComponentOfGameObject(entityId, 'positionInLevel', position);
@@ -62,8 +62,8 @@ export function moveEntityToPositionInLevel(entityId, position, levelId) {
 export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 	let entity = getGameObjectWithId(entityId);
 
-	getTilesInLevelAtRange(levelId, position, entity.components.sizeInLevel).forEach((tile) => {
-		removeEntityFromTile(tile.id, entityId);
+	getTilesInLevelAtRange(store.getState(), levelId, position, entity.components.sizeInLevel).forEach((tile) => {
+		store.dispatch(removeEntityFromTile(tile.id, entityId));
 	});
 }
 
@@ -77,7 +77,7 @@ export function canEntityBeInPositionInLevel(entityId, positionInLevel, levelId)
 }
 
 export function isPositionInLevelFree(levelId, position, excludedEntities = []) {
-	let tile = getTileInLevelWithPosition(levelId, position);
+	let tile = getTileInLevelWithPosition(store.getState(), levelId, position);
 
 	return tile.entities.every((entityId) => {
 		return excludedEntities.includes(entityId)

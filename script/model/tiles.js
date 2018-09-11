@@ -1,15 +1,15 @@
 import gameStateStore from './../library/core/model/gameStateStore';
 import {getTilesInLevel} from './levels';
 
-export const addTile = tile => gameStateStore.dispatch(state => ({
+export const addTile = tile => state => ({
 	...state,
 	tiles: {
 		...state.tiles,
 		[tile.id]: tile,
 	},
-}));
+});
 
-export const addEntityToTile = (tileId, entityId) => gameStateStore.dispatch(state => ({
+export const addEntityToTile = (tileId, entityId) => state => ({
 	...state,
 	tiles: {
 		...state.tiles,
@@ -21,9 +21,9 @@ export const addEntityToTile = (tileId, entityId) => gameStateStore.dispatch(sta
 			],
 		},
 	},
-}));
+});
 
-export const removeEntityFromTile = (tileId, entityId) => gameStateStore.dispatch(state => ({
+export const removeEntityFromTile = (tileId, entityId) => state => ({
 	...state,
 	tiles: {
 		...state.tiles,
@@ -35,21 +35,21 @@ export const removeEntityFromTile = (tileId, entityId) => gameStateStore.dispatc
 			],
 		},
 	},
-}));
+});
 
 export const getTileWithId = (state, tileId) => {
 	return state.tiles[tileId];
 }
 
-export const getTileInLevelWithPosition = (levelId, position) => {
-	return getTilesInLevel(gameStateStore.getState(), levelId).find((tile) => {
+export const getTileInLevelWithPosition = (state, levelId, position) => {
+	return getTilesInLevel(state, levelId).find((tile) => {
 		return tile.positionInLevel.x === position.x
 			&& tile.positionInLevel.y === position.y;
 	});
 }
 
-export const getTilesInLevelAtRange = (levelId, position, offset = {width: 1, height: 1}) => {
-	return getTilesInLevel(gameStateStore.getState(), levelId).filter((tile) => {
+export const getTilesInLevelAtRange = (state, levelId, position, offset = {width: 1, height: 1}) => {
+	return getTilesInLevel(state, levelId).filter((tile) => {
 		return tile.positionInLevel.x >= position.x
 			&& tile.positionInLevel.x <= (position.x + offset.width - 1)
 			&& tile.positionInLevel.y >= position.y
