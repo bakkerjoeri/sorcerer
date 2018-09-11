@@ -1,3 +1,4 @@
+import store from './../model/gameStateStore';
 import createStateEntity, {StateEntity} from './../utility/createStateEntity';
 import {addGameObject} from './../model/gameObjects';
 
@@ -6,7 +7,7 @@ export function createGameObject(components = {}) {
 		components,
 	});
 
-	addGameObject(stateEntity);
+	store.dispatch(addGameObject(stateEntity));
 
 	return stateEntity;
 }

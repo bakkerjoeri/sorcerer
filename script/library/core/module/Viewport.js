@@ -1,7 +1,5 @@
 import createStateEntity from './../utility/createStateEntity';
 import {addViewport, changeViewportPosition} from './../model/viewports';
-import {getGameObjectWithId} from './../model/gameObjects';
-import {getSpriteWithId} from './../model/sprites';
 
 export function createViewport(properties = {}) {
 	const DEFAULT_PROPERTIES = {

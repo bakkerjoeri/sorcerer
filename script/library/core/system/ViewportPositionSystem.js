@@ -1,4 +1,5 @@
 import System from './../module/System';
+import store from './../model/gameStateStore';
 import {getCurrentRoom} from './../model/rooms';
 import {getActiveViewportsInRoomWithId, changeViewportPosition} from './../model/viewports';
 import {getSpriteWithId} from './../model/sprites';
@@ -26,7 +27,7 @@ export default class ViewportPositionSystem extends System {
 
 function calculateNewViewportPosition(viewport, room) {
 	if (viewport.gameObjectIdToFollow !== null) {
-		let gameObjectToFollow = getGameObjectWithId(viewport.gameObjectIdToFollow);
+		let gameObjectToFollow = getGameObjectWithId(store.getState(), viewport.gameObjectIdToFollow);
 
 		if (gameObjectToFollow.components.sprite) {
 			let spriteAsset = getSpriteWithId(gameObjectToFollow.components.sprite.assetId);

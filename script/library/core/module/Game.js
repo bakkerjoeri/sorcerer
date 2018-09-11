@@ -1,3 +1,4 @@
+import store from './../model/gameStateStore';
 import {getGameObjectsInCurrentRoom} from './../model/gameObjects';
 
 let canvas;
@@ -34,7 +35,7 @@ export default class Game {
 		this.timeSincePreviousUpdate = time - this.elapsed;
 		this.elapsed = time;
 
-		let gameObjectsInCurrentRoom = getGameObjectsInCurrentRoom();
+		let gameObjectsInCurrentRoom = getGameObjectsInCurrentRoom(store.getState());
 
 		this.notify('update', gameObjectsInCurrentRoom);
 		this.notify('draw', gameObjectsInCurrentRoom);

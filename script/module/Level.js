@@ -42,25 +42,25 @@ export function createLevelOfSize(size, properties = {}) {
 }
 
 export function moveEntityToPositionInLevel(entityId, position, levelId) {
-	let entity = getGameObjectWithId(entityId);
+	let entity = getGameObjectWithId(store.getState(), entityId);
 
 	if (entity.components.currentLevelId !== null) {
 		removeEntityFromPositionInLevel(entityId, levelId, entity.components.positionInLevel);
 	}
 
 	if (entity.components.currentLevelId !== levelId) {
-		updateComponentOfGameObject(entityId, 'currentLevelId', levelId);
+		store.dispatch(updateComponentOfGameObject(entityId, 'currentLevelId', levelId));
 	}
 
 	getTilesInLevelAtRange(store.getState(), levelId, position, entity.components.sizeInLevel).forEach((tile) => {
 		store.dispatch(addEntityToTile(tile.id, entityId));
 	});
 
-	updateComponentOfGameObject(entityId, 'positionInLevel', position);
+	store.dispatch(updateComponentOfGameObject(entityId, 'positionInLevel', position));
 }
 
 export function removeEntityFromPositionInLevel(entityId, levelId, position) {
-	let entity = getGameObjectWithId(entityId);
+	let entity = getGameObjectWithId(store.getState(), entityId);
 
 	getTilesInLevelAtRange(store.getState(), levelId, position, entity.components.sizeInLevel).forEach((tile) => {
 		store.dispatch(removeEntityFromTile(tile.id, entityId));
@@ -68,7 +68,7 @@ export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 }
 
 export function canEntityBeInPositionInLevel(entityId, positionInLevel, levelId) {
-	let entity = getGameObjectWithId(entityId);
+	let entity = getGameObjectWithId(store.getState(), entityId);
 
 	return getPositionsInRange(positionInLevel, entity.components.sizeInLevel).every((position) => {
 		return doesPositionExistInLevel(levelId, position)
@@ -81,7 +81,7 @@ export function isPositionInLevelFree(levelId, position, excludedEntities = []) 
 
 	return tile.entities.every((entityId) => {
 		return excludedEntities.includes(entityId)
-			|| !getComponentValueForGameObject(entityId, 'isSolid');
+			|| !getComponentValueForGameObject(store.getState(), entityId, 'isSolid');
 	});
 }
 
@@ -95,7 +95,7 @@ export function doesPositionExistInLevel(levelId, position) {
 }
 
 export function canEntityMoveInLevel(levelId, entityId) {
-	let {positionInLevel} = getGameObjectWithId(entityId).components;
+	let {positionInLevel} = getGameObjectWithId(store.getState(), entityId).components;
 
 	return canEntityBeInPositionInLevel(entityId, {x: positionInLevel.x, y: positionInLevel.y - 1}, levelId)
 		|| canEntityBeInPositionInLevel(entityId, {x: positionInLevel.x + 1, y: positionInLevel.y}, levelId)
