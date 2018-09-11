@@ -46,5 +46,5 @@ export const getRoomWithId = (id) => {
 };
 
 export const getCurrentRoom = () => {
-	return getRoomWithId(getCurrentRoomId());
+	return getRoomWithId(getCurrentRoomId(gameStateStore.getState()));
 };

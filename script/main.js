@@ -1,4 +1,4 @@
-import gameStateStore from './library/core/model/gameStateStore';
+import store from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {appendState} from './library/core/model/general';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
@@ -31,7 +31,7 @@ appendState({
 	tiles: {}
 });
 
-setGameName('Sorcerer');
+store.dispatch(setGameName('Sorcerer'));
 
 // Create a room
 let room = createRoom({
@@ -41,7 +41,7 @@ let room = createRoom({
 	},
 });
 
-setCurrentRoomId(room.id);
+store.dispatch(setCurrentRoomId(room.id));
 
 // Create a level
 let level = createLevelOfSize({
@@ -114,7 +114,7 @@ game.addSystem(new ViewportPositionSystem());
 
 game.start();
 
-console.log(gameStateStore.getState());
+console.log(store.getState());
 
 function createSlimes(amountOfSlimesToCreate) {
 	while(amountOfSlimesToCreate > 0) {

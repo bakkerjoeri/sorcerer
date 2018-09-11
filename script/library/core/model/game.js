@@ -1,21 +1,25 @@
 import gameStateStore from './gameStateStore';
 
-export const setGameName = name => gameStateStore.dispatch(state => ({
+export const setGameName = name => state => ({
 	...state,
 	game: {
 		...state.game,
 		name: name,
 	},
-}));
+});
 
-export const setCurrentRoomId = roomId => gameStateStore.dispatch(state => ({
+export const setCurrentRoomId = roomId => state => ({
 	...state,
 	game: {
 		...state.game,
 		currentRoomId: roomId,
 	},
-}));
+});
 
-export const getCurrentRoomId = () => {
-	return gameStateStore.getState().game.currentRoomId;
+export const getGame = (state) => {
+	return state.game;
+}
+
+export const getCurrentRoomId = (state) => {
+	return getGame(state).currentRoomId;
 };

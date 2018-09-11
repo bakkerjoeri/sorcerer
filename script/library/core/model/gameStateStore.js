@@ -1,6 +1,6 @@
 import createStore from './../../../library/store/createStore';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
 	game: {
 		name: '',
 		currentRoomId: null,
