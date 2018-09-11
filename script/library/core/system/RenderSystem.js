@@ -51,7 +51,7 @@ function renderGameObjectInViewport(gameObject, viewport, game) {
 	let {sprite, position} = gameObject.components;
 
 	let spriteAsset = getSpriteWithId(sprite.assetId);
-	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
+	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	let drawPosition = {
 		x: (position.x + spriteAsset.offset.x) - (viewport.position.x - viewport.origin.x),
@@ -71,7 +71,7 @@ function isGameObjectVisibleInViewport(gameObject, viewport) {
 	let {sprite, position} = gameObject.components;
 
 	let spriteAsset = getSpriteWithId(sprite.assetId);
-	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
+	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	let visibleBoundingBox = {
 		x: position.x + spriteAsset.offset.x,

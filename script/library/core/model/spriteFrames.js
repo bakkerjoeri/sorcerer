@@ -1,13 +1,13 @@
 import gameStateStore from './gameStateStore';
 
-export const addSpriteFrame = spriteFrame => gameStateStore.dispatch(state => ({
+export const addSpriteFrame = spriteFrame => state => ({
 	...state,
 	spriteFrames: {
 		...state.spriteFrames,
 		[spriteFrame.id]: spriteFrame,
 	},
-}));
+});
 
-export const getSpriteFrameWithId = (spriteFrameId) => {
-	return gameStateStore.getState().spriteFrames[spriteFrameId];
+export const getSpriteFrameWithId = (state, spriteFrameId) => {
+	return state.spriteFrames[spriteFrameId];
 };
