@@ -1,4 +1,3 @@
-import gameStateStore from './gameStateStore';
 import {getCurrentRoomId} from './game';
 
 export const addRoom = room => state => ({

@@ -1,4 +1,3 @@
-import gameStateStore from './../library/core/model/gameStateStore';
 import {getTileWithId} from './tiles';
 
 export const addLevel = level => state => ({

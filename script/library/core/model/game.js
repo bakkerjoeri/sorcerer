@@ -1,5 +1,3 @@
-import gameStateStore from './gameStateStore';
-
 export const setGameName = name => state => ({
 	...state,
 	game: {

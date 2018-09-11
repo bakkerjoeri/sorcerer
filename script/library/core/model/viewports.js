@@ -1,5 +1,3 @@
-import gameStateStore from './gameStateStore';
-
 export const addViewport = viewport => state => ({
 	...state,
 	viewports: {

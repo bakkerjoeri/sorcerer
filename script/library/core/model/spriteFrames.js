@@ -1,5 +1,3 @@
-import gameStateStore from './gameStateStore';
-
 export const addSpriteFrame = spriteFrame => state => ({
 	...state,
 	spriteFrames: {

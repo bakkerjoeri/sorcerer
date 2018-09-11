@@ -1,5 +1,3 @@
-import gameStateStore from './gameStateStore';
-
 export const addSprite = sprite => state => ({
 	...state,
 	sprites: {
