@@ -26,10 +26,10 @@ const LEVEL_WIDTH = 30;
 const LEVEL_HEIGHT = 22;
 
 // Append game state
-appendState({
+store.dispatch(appendState({
 	levels: {},
 	tiles: {}
-});
+}));
 
 store.dispatch(setGameName('Sorcerer'));
 
