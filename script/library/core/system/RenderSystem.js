@@ -1,4 +1,5 @@
 import System from './../module/System';
+import store from './../model/gameStateStore';
 import {getCurrentRoom} from './../model/rooms';
 import {getActiveViewportsInRoomWithId} from './../model/viewports';
 import {getSpriteWithId} from './../model/sprites';
@@ -14,7 +15,7 @@ export default class RenderSystem extends System {
 }
 
 function drawFrame(gameObjects, game) {
-	let viewports = getActiveViewportsInRoomWithId(getCurrentRoom().id);
+	let viewports = getActiveViewportsInRoomWithId(getCurrentRoom(store.getState()).id);
 
 	viewports.forEach((viewport) => {
 		drawFrameInViewport(gameObjects, viewport, game);
@@ -35,7 +36,7 @@ function clearCanvasContext(context, viewport) {
 }
 
 function drawCurrentRoomBackgroundInViewport(context, viewport) {
-	let currentRoom = getCurrentRoom();
+	let currentRoom = getCurrentRoom(store.getState());
 
 	context.fillStyle = currentRoom.backgroundColor;
 	context.fillRect(

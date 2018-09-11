@@ -64,7 +64,7 @@ let playerGameObject = new Actor({
 	}),
 });
 
-addGameObjectToRoom(room.id, playerGameObject.id)
+store.dispatch(addGameObjectToRoom(room.id, playerGameObject.id))
 moveEntityToPositionInLevel(playerGameObject.id, {
 	x: 1,
 	y: 0,
@@ -79,7 +79,7 @@ let wallGameObject = new Structure({
 	}),
 });
 
-addGameObjectToRoom(room.id, wallGameObject.id);
+store.dispatch(addGameObjectToRoom(room.id, wallGameObject.id));
 moveEntityToPositionInLevel(wallGameObject.id, {
 	x: 0,
 	y: 1,
@@ -98,8 +98,7 @@ let viewport = createViewport({
 	},
 });
 
-addViewportToRoom(room.id, viewport.id);
-// addViewportToRoom(room.id, secondViewport.id);
+store.dispatch(addViewportToRoom(room.id, viewport.id));
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
@@ -142,7 +141,7 @@ function createSlimeInLevelAtPosition(levelId, positionInLevel) {
 		}),
 	});
 
-	addGameObjectToRoom(room.id, slimeGameObject.id);
+	store.dispatch(addGameObjectToRoom(room.id, slimeGameObject.id));
 	moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
 
 	return slimeGameObject;
@@ -165,7 +164,7 @@ function createKingSlimeInLevelAtPosition(levelId, positionInLevel) {
 		},
 	});
 
-	addGameObjectToRoom(room.id, kingSlimeGameObject.id);
+	store.dispatch(addGameObjectToRoom(room.id, kingSlimeGameObject.id));
 	moveEntityToPositionInLevel(kingSlimeGameObject.id, positionInLevel, level.id);
 
 	return kingSlimeGameObject;
