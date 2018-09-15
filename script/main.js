@@ -1,4 +1,4 @@
-import gameStateStore from './library/core/model/gameStateStore';
+import store from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {appendState} from './library/core/model/general';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
@@ -26,12 +26,12 @@ const LEVEL_WIDTH = 30;
 const LEVEL_HEIGHT = 22;
 
 // Append game state
-appendState({
+store.dispatch(appendState({
 	levels: {},
 	tiles: {}
-});
+}));
 
-setGameName('Sorcerer');
+store.dispatch(setGameName('Sorcerer'));
 
 // Create a room
 let room = createRoom({
@@ -41,7 +41,7 @@ let room = createRoom({
 	},
 });
 
-setCurrentRoomId(room.id);
+store.dispatch(setCurrentRoomId(room.id));
 
 // Create a level
 let level = createLevelOfSize({
@@ -64,7 +64,7 @@ let playerGameObject = new Actor({
 	}),
 });
 
-addGameObjectToRoom(room.id, playerGameObject.id)
+store.dispatch(addGameObjectToRoom(room.id, playerGameObject.id))
 moveEntityToPositionInLevel(playerGameObject.id, {
 	x: 1,
 	y: 0,
@@ -79,7 +79,7 @@ let wallGameObject = new Structure({
 	}),
 });
 
-addGameObjectToRoom(room.id, wallGameObject.id);
+store.dispatch(addGameObjectToRoom(room.id, wallGameObject.id));
 moveEntityToPositionInLevel(wallGameObject.id, {
 	x: 0,
 	y: 1,
@@ -98,8 +98,7 @@ let viewport = createViewport({
 	},
 });
 
-addViewportToRoom(room.id, viewport.id);
-// addViewportToRoom(room.id, secondViewport.id);
+store.dispatch(addViewportToRoom(room.id, viewport.id));
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
@@ -114,7 +113,7 @@ game.addSystem(new ViewportPositionSystem());
 
 game.start();
 
-console.log(gameStateStore.getState());
+console.log(store.getState());
 
 function createSlimes(amountOfSlimesToCreate) {
 	while(amountOfSlimesToCreate > 0) {
@@ -142,7 +141,7 @@ function createSlimeInLevelAtPosition(levelId, positionInLevel) {
 		}),
 	});
 
-	addGameObjectToRoom(room.id, slimeGameObject.id);
+	store.dispatch(addGameObjectToRoom(room.id, slimeGameObject.id));
 	moveEntityToPositionInLevel(slimeGameObject.id, positionInLevel, level.id);
 
 	return slimeGameObject;
@@ -165,7 +164,7 @@ function createKingSlimeInLevelAtPosition(levelId, positionInLevel) {
 		},
 	});
 
-	addGameObjectToRoom(room.id, kingSlimeGameObject.id);
+	store.dispatch(addGameObjectToRoom(room.id, kingSlimeGameObject.id));
 	moveEntityToPositionInLevel(kingSlimeGameObject.id, positionInLevel, level.id);
 
 	return kingSlimeGameObject;

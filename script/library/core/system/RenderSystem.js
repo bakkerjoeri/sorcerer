@@ -1,4 +1,5 @@
 import System from './../module/System';
+import store from './../model/gameStateStore';
 import {getCurrentRoom} from './../model/rooms';
 import {getActiveViewportsInRoomWithId} from './../model/viewports';
 import {getSpriteWithId} from './../model/sprites';
@@ -14,7 +15,7 @@ export default class RenderSystem extends System {
 }
 
 function drawFrame(gameObjects, game) {
-	let viewports = getActiveViewportsInRoomWithId(getCurrentRoom().id);
+	let viewports = getActiveViewportsInRoomWithId(store.getState(), getCurrentRoom(store.getState()).id);
 
 	viewports.forEach((viewport) => {
 		drawFrameInViewport(gameObjects, viewport, game);
@@ -35,7 +36,7 @@ function clearCanvasContext(context, viewport) {
 }
 
 function drawCurrentRoomBackgroundInViewport(context, viewport) {
-	let currentRoom = getCurrentRoom();
+	let currentRoom = getCurrentRoom(store.getState());
 
 	context.fillStyle = currentRoom.backgroundColor;
 	context.fillRect(
@@ -49,8 +50,8 @@ function drawCurrentRoomBackgroundInViewport(context, viewport) {
 function renderGameObjectInViewport(gameObject, viewport, game) {
 	let {sprite, position} = gameObject.components;
 
-	let spriteAsset = getSpriteWithId(sprite.assetId);
-	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
+	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
+	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	let drawPosition = {
 		x: (position.x + spriteAsset.offset.x) - (viewport.position.x - viewport.origin.x),
@@ -69,8 +70,8 @@ function renderGameObjectInViewport(gameObject, viewport, game) {
 function isGameObjectVisibleInViewport(gameObject, viewport) {
 	let {sprite, position} = gameObject.components;
 
-	let spriteAsset = getSpriteWithId(sprite.assetId);
-	let currentSpriteFrame = getSpriteFrameWithId(spriteAsset.spriteFrames[sprite.currentFrameIndex]);
+	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
+	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
 
 	let visibleBoundingBox = {
 		x: position.x + spriteAsset.offset.x,

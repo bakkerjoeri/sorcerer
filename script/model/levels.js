@@ -1,18 +1,23 @@
-import gameStateStore from './../library/core/model/gameStateStore';
 import {getTileWithId} from './tiles';
 
-export const addLevel = level => gameStateStore.dispatch(state => ({
+export const addLevel = level => state => ({
 	...state,
 	levels: {
 		...state.levels,
 		[level.id]: level,
 	},
-}));
+});
 
-export const getLevelWithId = levelId => {
-	return gameStateStore.getState().levels[levelId];
+export const getLevels = state => {
+	return state.levels;
 }
 
-export const getTilesInLevel = levelId => {
-	return getLevelWithId(levelId).tiles.map(getTileWithId);
+export const getLevelWithId = (state, levelId) => {
+	return getLevels(state)[levelId];
+}
+
+export const getTilesInLevel = (state, levelId) => {
+	return getLevelWithId(state, levelId).tiles.map((tileId) => {
+		return getTileWithId(state, tileId);
+	});
 }

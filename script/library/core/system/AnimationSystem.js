@@ -1,4 +1,5 @@
 import System from './../module/System';
+import store from './../model/gameStateStore';
 import {getSpriteWithId} from './../model/sprites';
 import {updateComponentOfGameObject} from './../model/gameObjects'
 
@@ -18,7 +19,7 @@ const timeOfPreviousFrameByGameObjectId = {};
 
 function animateGameObject(gameObject, game) {
 	let {sprite} = gameObject.components;
-	let spriteAsset = getSpriteWithId(sprite.assetId);
+	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
 
 	if (
 		spriteAsset.spriteFrames.length > 1
@@ -45,9 +46,9 @@ function animateGameObject(gameObject, game) {
 		if (frameChange !== 0) {
 			timeOfPreviousFrameByGameObjectId[gameObject.id] = game.elapsed;
 			let newFrameIndex = calculateNewFrameIndexWithChange(sprite.currentFrameIndex, frameChange, spriteAsset.spriteFrames.length, sprite.isAnimationLooping);
-			updateComponentOfGameObject(gameObject.id, 'sprite', {
+			store.dispatch(updateComponentOfGameObject(gameObject.id, 'sprite', {
 				currentFrameIndex: newFrameIndex
-			});
+			}));
 		}
 	}
 }

@@ -1,4 +1,5 @@
 import System from './../library/core/module/System';
+import store from './../library/core/model/gameStateStore';
 import choose from './../utility/random/choose';
 import {canEntityBeInPositionInLevel, moveEntityToPositionInLevel, canEntityMoveInLevel} from './../module/Level';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
@@ -34,8 +35,8 @@ function act(gameObject) {
 }
 
 function concludeAction(gameObject) {
-	removeComponentFromGameObject(gameObject.id, 'canAct');
-	updateComponentOfGameObject(gameObject.id, 'actionTicker', {
+	store.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
+	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
-	});
+	}));
 }

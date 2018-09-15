@@ -1,4 +1,5 @@
 import System from './../library/core/module/System';
+import store from './../library/core/model/gameStateStore';
 import {canEntityBeInPositionInLevel, moveEntityToPositionInLevel} from './../module/Level';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
@@ -83,8 +84,8 @@ function tryToMoveToNewPositionInLevel(gameObject, newPositionInLevel) {
 }
 
 function concludeAction(gameObject) {
-	removeComponentFromGameObject(gameObject.id, 'canAct');
-	updateComponentOfGameObject(gameObject.id, 'actionTicker', {
+	store.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
+	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
-	});
+	}));
 }

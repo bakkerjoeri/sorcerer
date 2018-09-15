@@ -1,3 +1,4 @@
+import gameStateStore from './../library/core/model/gameStateStore';
 import createStateEntity from './../library/core/utility/createStateEntity';
 import {addTile} from './../model/tiles';
 
@@ -15,7 +16,7 @@ export function createTile(properties = {}) {
 		...properties,
 	});
 
-	addTile(tile);
+	gameStateStore.dispatch(addTile(tile));
 
 	return tile;
 }

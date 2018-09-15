@@ -1,4 +1,5 @@
 import System from './../library/core/module/System';
+import store from './../library/core/model/gameStateStore';
 import {updateComponentOfGameObject} from './../library/core/model/gameObjects'
 
 export default class ActionTickerSystem extends System {
@@ -14,8 +15,8 @@ export default class ActionTickerSystem extends System {
 function updatePosition(gameObject) {
 	let {positionInLevel} = gameObject.components;
 
-	updateComponentOfGameObject(gameObject.id, 'position', {
+	store.dispatch(updateComponentOfGameObject(gameObject.id, 'position', {
 		x: positionInLevel.x * 16,
 		y: positionInLevel.y * 16,
-	});
+	}));
 }

@@ -1,15 +1,14 @@
-import gameStateStore from './gameStateStore';
 import {getCurrentRoomId} from './game';
 
-export const addRoom = room => gameStateStore.dispatch(state => ({
+export const addRoom = room => state => ({
 	...state,
 	rooms: {
 		...state.rooms,
 		[room.id]: room,
 	},
-}));
+});
 
-export const addViewportToRoom = (id, viewportId) => gameStateStore.dispatch(state => ({
+export const addViewportToRoom = (id, viewportId) => state => ({
 	...state,
 	rooms: {
 		...state.rooms,
@@ -21,9 +20,9 @@ export const addViewportToRoom = (id, viewportId) => gameStateStore.dispatch(sta
 			],
 		},
 	},
-}));
+});
 
-export const addGameObjectToRoom = (id, gameObjectId) => gameStateStore.dispatch(state => ({
+export const addGameObjectToRoom = (id, gameObjectId) => state => ({
 	...state,
 	rooms: {
 		...state.rooms,
@@ -35,16 +34,16 @@ export const addGameObjectToRoom = (id, gameObjectId) => gameStateStore.dispatch
 			],
 		},
 	},
-}));
+});
 
-export const getRooms = () => {
-	return Object.values(gameStateStore.getState().rooms);
+export const getAllRooms = (state) => {
+	return Object.values(state.rooms);
 };
 
-export const getRoomWithId = (id) => {
-	return gameStateStore.getState().rooms[id];
+export const getRoomWithId = (state, id) => {
+	return state.rooms[id];
 };
 
-export const getCurrentRoom = () => {
-	return getRoomWithId(getCurrentRoomId());
+export const getCurrentRoom = (state) => {
+	return getRoomWithId(state, getCurrentRoomId(state));
 };

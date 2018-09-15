@@ -1,4 +1,5 @@
 import createStateEntity from './../utility/createStateEntity';
+import store from './../model/gameStateStore';
 import {addRoom} from './../model/rooms';
 
 export function createRoom(properties = {}) {
@@ -17,7 +18,7 @@ export function createRoom(properties = {}) {
 		...properties,
 	});
 
-	addRoom(room);
+	store.dispatch(addRoom(room));
 
 	return room;
 }
