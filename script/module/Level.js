@@ -85,6 +85,24 @@ export function isPositionInLevelFree(levelId, position, excludedEntities = []) 
 	});
 }
 
+export function getEntitiesAtPositionInLevel(levelId, position, excludedEntityIds = []) {
+	if (!doesPositionExistInLevel(levelId, position)) {
+		return [];
+	}
+
+	let tile = getTileInLevelWithPosition(store.getState(), levelId, position);
+
+	return tile.entities
+		.filter(entityId => !excludedEntityIds.includes(entityId))
+		.map(entityId => getGameObjectWithId(store.getState(), entityId));
+}
+
+export function getSolidEntitiesAtPositionInLevel(levelId, position, excludedEntityIds = []) {
+	return getEntitiesAtPositionInLevel(levelId, position, excludedEntityIds).filter((entity) => {
+		return getComponentValueForGameObject(store.getState(), entity.id, 'isSolid');
+	});
+}
+
 export function doesPositionExistInLevel(levelId, position) {
 	let level = getLevelWithId(store.getState(), levelId);
 

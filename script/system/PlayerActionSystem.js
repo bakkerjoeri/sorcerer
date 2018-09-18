@@ -1,6 +1,10 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
-import {canEntityBeInPositionInLevel, moveEntityToPositionInLevel} from './../module/Level';
+import {
+	doesPositionExistInLevel,
+	moveEntityToPositionInLevel,
+	getSolidEntitiesAtPositionInLevel
+} from './../module/Level';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
@@ -33,7 +37,7 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
 		hasMovedUp = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x,
 			y: positionInLevel.y - 1,
 		});
@@ -44,7 +48,7 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
 		hasMovedRight = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x + 1,
 			y: positionInLevel.y,
 		});
@@ -55,7 +59,7 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
 		hasMovedDown = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x,
 			y: positionInLevel.y + 1,
 		});
@@ -66,7 +70,7 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
 		hasMovedLeft = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x - 1,
 			y: positionInLevel.y,
 		});
@@ -75,11 +79,29 @@ function act(gameObject) {
 	}
 }
 
-function tryToMoveToNewPositionInLevel(gameObject, newPositionInLevel) {
+function actTowardsPosition(gameObject, position) {
 	let {currentLevelId} = gameObject.components;
-	if (canEntityBeInPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId)) {
-		moveEntityToPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId);
-		concludeAction(gameObject);
+
+	// Action can only happen towards a position that exists in the level.
+	if (doesPositionExistInLevel(currentLevelId, position)) {
+		let entitiesAtPosition = getSolidEntitiesAtPositionInLevel(currentLevelId, position, [gameObject.id]);
+
+		// If there's nothing in the way, move to the position.
+		if (entitiesAtPosition.length === 0) {
+			moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
+			return concludeAction(gameObject);
+		}
+
+		// Find an entity that can be attacked, if available.
+		let entityToAttack = entitiesAtPosition.find((targetEntity) => {
+			return targetEntity.components.hasOwnProperty('health');
+		});
+
+		// Attack and conclude the turn.
+		if (entityToAttack) {
+			console.log('Attack!', entityToAttack);
+			return concludeAction(gameObject);
+		}
 	}
 }
 
