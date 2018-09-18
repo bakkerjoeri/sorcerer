@@ -1,9 +1,8 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
 import {
-	doesPositionExistInLevel,
 	moveEntityToPositionInLevel,
-	getSolidEntitiesAtPositionInLevel
+	canEntityMoveToPositionInLevel
 } from './../module/Level';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
@@ -82,27 +81,13 @@ function act(gameObject) {
 function actTowardsPosition(gameObject, position) {
 	let {currentLevelId} = gameObject.components;
 
-	// Action can only happen towards a position that exists in the level.
-	if (doesPositionExistInLevel(currentLevelId, position)) {
-		let entitiesAtPosition = getSolidEntitiesAtPositionInLevel(currentLevelId, position, [gameObject.id]);
-
-		// If there's nothing in the way, move to the position.
-		if (entitiesAtPosition.length === 0) {
-			moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
-			return concludeAction(gameObject);
-		}
-
-		// Find an entity that can be attacked, if available.
-		let entityToAttack = entitiesAtPosition.find((targetEntity) => {
-			return targetEntity.components.hasOwnProperty('health');
-		});
-
-		// Attack and conclude the turn.
-		if (entityToAttack) {
-			console.log('Attack!', entityToAttack);
-			return concludeAction(gameObject);
-		}
+	if (canEntityMoveToPositionInLevel(currentLevelId, gameObject.id, position)) {
+		moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
+		return concludeAction(gameObject);
 	}
+
+	console.log(`${gameObject.components.name} waits...`);
+	return concludeAction(gameObject);
 }
 
 function concludeAction(gameObject) {
