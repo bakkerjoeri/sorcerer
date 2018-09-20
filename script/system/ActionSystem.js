@@ -74,7 +74,8 @@ function getAttackTargetForPositionInLevel(levelId, gameObject, positionToAttack
 
 	let entitiesInBoundaries = getEntitiesAtBoundariesInLevel(levelId, positionToAttack, sizeInLevel, [gameObject.id])
 	let attackableEntities = entitiesInBoundaries.filter((entity) => {
-		return doesGameObjectHaveComponent(entity, 'health');
+		return doesGameObjectHaveComponent(entity, 'health')
+			&& !doesGameObjectHaveComponent(entity, 'isDead');
 	});
 
 	if (attackableEntities.length === 0) {
