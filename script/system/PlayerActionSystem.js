@@ -1,15 +1,27 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
-import {canEntityBeInPositionInLevel, moveEntityToPositionInLevel} from './../module/Level';
+import {
+	moveEntityToPositionInLevel,
+	canEntityBeAtPositionInLevel,
+	getEntitiesAtBoundariesInLevel,
+} from './../module/Level';
+import {
+	updateComponentOfGameObject,
+	removeComponentFromGameObject
+} from './../library/core/model/gameObjects';
+import {
+	doesGameObjectHaveComponent,
+} from './../library/core/module/GameObject';
 import {isKeyPressed} from './../library/core/module/Keyboard';
-import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
 export default class PlayerControlSystem extends System {
 	constructor() {
 		super(['actor', 'player', 'canAct', 'positionInLevel']);
 
-		this.observe('update', gameObjects => {
-			gameObjects.forEach(act);
+		this.observe('update', (gameObjects, game) => {
+			gameObjects.forEach((gameObject) => {
+				act(gameObject, game);
+			});
 		});
 	}
 }
@@ -20,7 +32,7 @@ let hasMovedRight = false;
 let hasMovedDown = false;
 let hasMovedLeft = false;
 
-function act(gameObject) {
+function act(gameObject, game) {
 	let {positionInLevel} = gameObject.components;
 
 	if (isKeyPressed(' ') && !hasPressedSpace) {
@@ -33,10 +45,10 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
 		hasMovedUp = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x,
 			y: positionInLevel.y - 1,
-		});
+		}, game);
 	} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
 		hasMovedUp = false;
 	}
@@ -44,10 +56,10 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
 		hasMovedRight = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x + 1,
 			y: positionInLevel.y,
-		});
+		}, game);
 	} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
 		hasMovedRight = false;
 	}
@@ -55,10 +67,10 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
 		hasMovedDown = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x,
 			y: positionInLevel.y + 1,
-		});
+		}, game);
 	} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
 		hasMovedDown = false;
 	}
@@ -66,21 +78,35 @@ function act(gameObject) {
 	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
 		hasMovedLeft = true;
 
-		tryToMoveToNewPositionInLevel(gameObject, {
+		actTowardsPosition(gameObject, {
 			x: positionInLevel.x - 1,
 			y: positionInLevel.y,
-		});
+		}, game);
 	} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
 		hasMovedLeft = false;
 	}
 }
 
-function tryToMoveToNewPositionInLevel(gameObject, newPositionInLevel) {
+function actTowardsPosition(gameObject, position, game) {
 	let {currentLevelId} = gameObject.components;
-	if (canEntityBeInPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId)) {
-		moveEntityToPositionInLevel(gameObject.id, newPositionInLevel, currentLevelId);
-		concludeAction(gameObject);
+
+	if (canEntityBeAtPositionInLevel(currentLevelId, gameObject.id, position)) {
+		moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
+
+		return concludeAction(gameObject);
 	}
+
+	let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, gameObject, position);
+
+	if (attackTarget) {
+		game.notify('takeDamage', [attackTarget], 1);
+
+		return concludeAction(gameObject);
+	}
+
+	console.log(`${gameObject.components.name} waits...`);
+
+	return concludeAction(gameObject);
 }
 
 function concludeAction(gameObject) {
@@ -88,4 +114,19 @@ function concludeAction(gameObject) {
 	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
 	}));
+}
+
+function getAttackTargetForPositionInLevel(levelId, gameObject, positionToAttack) {
+	let {sizeInLevel} = gameObject.components;
+
+	let entitiesInBoundaries = getEntitiesAtBoundariesInLevel(levelId, positionToAttack, sizeInLevel, [gameObject.id])
+	let attackableEntities = entitiesInBoundaries.filter((entity) => {
+		return doesGameObjectHaveComponent(entity, 'health');
+	});
+
+	if (attackableEntities.length === 0) {
+		return;
+	}
+
+	return attackableEntities[0];
 }

@@ -1,3 +1,5 @@
+import {filterGameObjectsByComponentNames} from './GameObject';
+
 export default class System {
 	constructor(requiredComponents = [], updateCallback = () => {}) {
 		this.requiredComponents = requiredComponents;
@@ -16,25 +18,13 @@ export default class System {
 		this.topics.get(topic).push(callback);
 	}
 
-	handleNotify(topic, gameObjects) {
+	handleNotify(topic, gameObjects, ...args) {
 		if (this.topics.has(topic)) {
 			let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
 
 			this.topics.get(topic).forEach((callback) => {
-				callback(filteredGameObjects, this.game);
+				callback(filteredGameObjects, this.game, ...args);
 			});
 		}
 	}
-}
-
-function filterGameObjectsByComponentNames(gameObjects, componentNames) {
-	if (componentNames.length === 0) {
-		return gameObjects;
-	}
-
-	return gameObjects.filter((gameObject) => {
-		return componentNames.every((componentName) => {
-			return gameObject.components.hasOwnProperty(componentName);
-		})
-	});
 }
