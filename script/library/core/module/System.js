@@ -16,12 +16,12 @@ export default class System {
 		this.topics.get(topic).push(callback);
 	}
 
-	handleNotify(topic, gameObjects) {
+	handleNotify(topic, gameObjects, ...args) {
 		if (this.topics.has(topic)) {
 			let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
 
 			this.topics.get(topic).forEach((callback) => {
-				callback(filteredGameObjects, this.game);
+				callback(filteredGameObjects, this.game, ...args);
 			});
 		}
 	}

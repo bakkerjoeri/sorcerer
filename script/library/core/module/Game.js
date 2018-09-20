@@ -25,9 +25,9 @@ export default class Game {
 		this.looping = false;
 	}
 
-	notify(eventName, entities) {
+	notify(eventName, entities, ...args) {
 		this.systems.forEach((system) => {
-			system.handleNotify(eventName, entities);
+			system.handleNotify(eventName, entities, ...args);
 		});
 	}
 
