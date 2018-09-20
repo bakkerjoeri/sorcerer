@@ -2,6 +2,7 @@ import {createGameObject} from './../library/core/module/GameObject';
 
 export const ENTITY_COMPONENTS_BLUEPRINT = {
 	isSolid: true,
+	isVisible: true,
 	currentLevelId: null,
 	position: {
 		x: 0,

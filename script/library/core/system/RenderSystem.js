@@ -8,7 +8,7 @@ import {getImageFromFilePath} from './../module/SpriteFrame';
 
 export default class RenderSystem extends System {
 	constructor() {
-		super(['sprite', 'position']);
+		super(['sprite', 'position', 'isVisible']);
 
 		this.observe('draw', drawFrame);
 	}
