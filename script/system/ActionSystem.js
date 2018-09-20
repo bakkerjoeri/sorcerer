@@ -3,7 +3,7 @@ import store from './../library/core/model/gameStateStore';
 import choose from './../utility/random/choose';
 import {
 	moveEntityToPositionInLevel,
-	canEntityMoveToPositionInLevel,
+	canEntityBeAtPositionInLevel,
 } from './../module/Level';
 import {updateComponentOfGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
 
@@ -34,7 +34,7 @@ function act(gameObject) {
 function actTowardsPosition(gameObject, position) {
 	let {currentLevelId} = gameObject.components;
 
-	if (canEntityMoveToPositionInLevel(currentLevelId, gameObject.id, position)) {
+	if (canEntityBeAtPositionInLevel(currentLevelId, gameObject.id, position)) {
 		moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
 		return concludeAction(gameObject);
 	}

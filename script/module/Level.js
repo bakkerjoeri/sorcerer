@@ -67,7 +67,7 @@ export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 	});
 }
 
-export function canEntityMoveToPositionInLevel(levelId, entityId, positionInLevel) {
+export function canEntityBeAtPositionInLevel(levelId, entityId, positionInLevel) {
 	let entity = getGameObjectWithId(store.getState(), entityId);
 	let {sizeInLevel} = entity.components;
 
