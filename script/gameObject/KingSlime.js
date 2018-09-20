@@ -5,7 +5,7 @@ import SpriteComponent from './../library/core/component/SpriteComponent';
 export const KING_SLIME_COMPONENTS_BLUEPRINT = {
 	name: 'King Slime',
 	health: new HealthComponent({
-		maximum: 80,
+		maximum: 16,
 	}),
 	sprite: new SpriteComponent({
 		assetId: 'giantslime',
