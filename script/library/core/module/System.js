@@ -1,3 +1,5 @@
+import {filterGameObjectsByComponentNames} from './GameObject';
+
 export default class System {
 	constructor(requiredComponents = [], updateCallback = () => {}) {
 		this.requiredComponents = requiredComponents;
@@ -25,16 +27,4 @@ export default class System {
 			});
 		}
 	}
-}
-
-function filterGameObjectsByComponentNames(gameObjects, componentNames) {
-	if (componentNames.length === 0) {
-		return gameObjects;
-	}
-
-	return gameObjects.filter((gameObject) => {
-		return componentNames.every((componentName) => {
-			return gameObject.components.hasOwnProperty(componentName);
-		})
-	});
 }

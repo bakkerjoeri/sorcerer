@@ -21,6 +21,7 @@ import AnimationSystem from './library/core/system/AnimationSystem';
 import ActionSystem from './system/ActionSystem';
 import ActionTickerSystem from './system/ActionTickerSystem';
 import PlayerActionSystem from './system/PlayerActionSystem';
+import DamageSystem from './system/DamageSystem';
 import PositionInLevelSystem from './system/PositionInLevelSystem';
 import RenderSystem from './library/core/system/RenderSystem';
 import ViewportPositionSystem from './library/core/system/ViewportPositionSystem';
@@ -78,12 +79,12 @@ store.dispatch(addViewportToRoom(room.id, viewport.id));
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
+game.addSystem(new ActionTickerSystem());
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
-game.addSystem(new ActionTickerSystem());
+game.addSystem(new DamageSystem());
 game.addSystem(new PositionInLevelSystem());
 game.addSystem(new AnimationSystem());
-
 game.addSystem(new RenderSystem());
 game.addSystem(new ViewportPositionSystem());
 
