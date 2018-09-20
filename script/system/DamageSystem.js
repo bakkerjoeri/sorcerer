@@ -16,7 +16,7 @@ export default class DamageSystem extends System {
 	takeDamage(gameObject, damage) {
 		let {health, name} = gameObject.components;
 
-		console.log(`${name} takes ${damage} damage!`);
+		console.log(`${name} takes ${damage} damage! (${health.current - damage}/${health.maximum})`);
 		store.dispatch(updateComponentOfGameObject(gameObject.id, 'health', {
 			current: health.current - damage,
 		}));

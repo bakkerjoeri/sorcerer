@@ -2,10 +2,10 @@ import store from './library/core/model/gameStateStore';
 import Game from './library/core/module/Game';
 import {appendState} from './library/core/model/general';
 import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {addGameObjectToRoom, addViewportToRoom} from './library/core/model/rooms';
+import {addViewportToRoom} from './library/core/model/rooms';
 import {createRoom} from './library/core/module/Room';
 import {createViewport} from './library/core/module/Viewport';
-import {createLevelOfSize, moveEntityToPositionInLevel} from './module/Level';
+import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Level';
 
 import GreenKnight from './gameObject/GreenKnight';
 import KingSlime from './gameObject/KingSlime';
@@ -22,6 +22,7 @@ import ActionSystem from './system/ActionSystem';
 import ActionTickerSystem from './system/ActionTickerSystem';
 import PlayerActionSystem from './system/PlayerActionSystem';
 import DamageSystem from './system/DamageSystem';
+import DeathSystem from './system/DeathSystem';
 import PositionInLevelSystem from './system/PositionInLevelSystem';
 import RenderSystem from './library/core/system/RenderSystem';
 import ViewportPositionSystem from './library/core/system/ViewportPositionSystem';
@@ -57,10 +58,10 @@ let level = createLevelOfSize({
 	roomId: room.id,
 });
 
-// createEntityAtPositionInLevel(level.id, {x: 1, y: 0}, GreenKnight, {player: true});
-// createEntityAtPositionInLevel(level.id, {x: 0, y: 0}, Slime, {nonPlayer: true});
-let player = createEntityAtPositionInLevel(level.id, {x: 3, y: 3}, KingSlime, {player: true});
-createEntityAtPositionInLevel(level.id, {x: 5, y: 3}, Slime, {nonPlayer: true});
+let player = createGameObjectAtPositionInLevel(level.id, {x: 1, y: 0}, GreenKnight, {player: true});
+createGameObjectAtPositionInLevel(level.id, {x: 0, y: 0}, Slime, {nonPlayer: true});
+createGameObjectAtPositionInLevel(level.id, {x: 3, y: 3}, KingSlime, {nonPlayer: true});
+createGameObjectAtPositionInLevel(level.id, {x: 5, y: 3}, Slime, {nonPlayer: true});
 
 // Create a viewport
 let viewport = createViewport({
@@ -83,6 +84,7 @@ game.addSystem(new ActionTickerSystem());
 game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
 game.addSystem(new DamageSystem());
+game.addSystem(new DeathSystem());
 game.addSystem(new PositionInLevelSystem());
 game.addSystem(new AnimationSystem());
 game.addSystem(new RenderSystem());
@@ -92,15 +94,6 @@ game.start();
 
 console.log(store.getState());
 
-function createEntityAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
-	let entity = new EntityClass(components);
-
-	store.dispatch(addGameObjectToRoom(room.id, entity.id));
-	moveEntityToPositionInLevel(entity.id, positionInLevel, levelId);
-
-	return entity;
-}
-
 function createSlimes(amountOfSlimesToCreate) {
 	while(amountOfSlimesToCreate > 0) {
 		let positionInLevel = {
@@ -108,7 +101,7 @@ function createSlimes(amountOfSlimesToCreate) {
 			y: Math.floor(Math.random() * LEVEL_HEIGHT),
 		};
 
-		createEntityAtPositionInLevel(level.id, positionInLevel, Slime, {nonPlayer: true});
+		createGameObjectAtPositionInLevel(level.id, positionInLevel, Slime, {nonPlayer: true});
 
 		amountOfSlimesToCreate -= 1;
 	}

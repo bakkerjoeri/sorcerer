@@ -1,6 +1,7 @@
 import createStateEntity from './../library/core/utility/createStateEntity';
 import store from './../library/core/model/gameStateStore';
 import getPositionsInRange from './../utility/getPositionsInRange';
+import {addGameObjectToRoom} from './../library/core/model/rooms';
 import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects';
 import {addLevel, getLevelWithId} from './../model/levels';
 import {getTileInLevelWithPosition, getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles';
@@ -39,6 +40,16 @@ export function createLevelOfSize(size, properties = {}) {
 	});
 
 	return level;
+}
+
+export function createGameObjectAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
+	let level = getLevelWithId(store.getState(), levelId);
+	let entity = new EntityClass(components);
+
+	store.dispatch(addGameObjectToRoom(level.roomId, entity.id));
+	moveEntityToPositionInLevel(entity.id, positionInLevel, levelId);
+
+	return entity;
 }
 
 export function moveEntityToPositionInLevel(entityId, position, levelId) {

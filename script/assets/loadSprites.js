@@ -6,6 +6,7 @@ export default function loadSprites() {
 	loadSlimeSprite();
 	loadGiantSlimeSprite();
 	loadWallSprite();
+	loadGraveSprite();
 }
 
 function loadGreenKnightSprite() {
@@ -14,7 +15,6 @@ function loadGreenKnightSprite() {
 		height: 16,
 	}, 0, 6);
 
-	// Create the player sprite
 	createSprite({
 		id: 'greenknight',
 		spriteFrames: [
@@ -41,7 +41,6 @@ function loadSlimeSprite() {
 		height: 16,
 	}, 0, 2);
 
-	// Create the player sprite
 	createSprite({
 		id: 'slime',
 		spriteFrames: [
@@ -57,7 +56,6 @@ function loadGiantSlimeSprite() {
 		height: 32,
 	}, 0, 2);
 
-	// Create the player sprite
 	createSprite({
 		id: 'giantslime',
 		spriteFrames: [
@@ -73,11 +71,24 @@ function loadWallSprite() {
 		height: 16,
 	});
 
-	// Create the player sprite
 	createSprite({
 		id: 'wall',
 		spriteFrames: [
 			'wall_0',
+		],
+	});
+}
+
+function loadGraveSprite() {
+	loadSpriteFrames('grave', '/assets/images/grave.png', {
+		width: 16,
+		height: 16,
+	});
+
+	createSprite({
+		id: 'grave',
+		spriteFrames: [
+			'grave_0',
 		],
 	});
 }
