@@ -26,6 +26,7 @@ export default class PlayerControlSystem extends System {
 	}
 }
 
+let waitingToConclude = false;
 let hasPressedSpace = false;
 let hasMovedUp = false;
 let hasMovedRight = false;
@@ -33,10 +34,21 @@ let hasMovedDown = false;
 let hasMovedLeft = false;
 
 function act(gameObject, game) {
-	let {positionInLevel} = gameObject.components;
+	let {isDead, positionInLevel} = gameObject.components;
+
+	if (isDead && !waitingToConclude) {
+		waitingToConclude = true;
+
+		window.setTimeout(() => {
+			concludeAction(gameObject);
+		}, 500);
+
+		return;
+	}
 
 	if (isKeyPressed(' ') && !hasPressedSpace) {
 		hasPressedSpace = true;
+		console.log(`${gameObject.components.name} waits...`);
 		concludeAction(gameObject);
 	} else if (!isKeyPressed(' ') && hasPressedSpace) {
 		hasPressedSpace = false;
@@ -103,10 +115,6 @@ function actTowardsPosition(gameObject, position, game) {
 
 		return concludeAction(gameObject);
 	}
-
-	console.log(`${gameObject.components.name} waits...`);
-
-	return concludeAction(gameObject);
 }
 
 function concludeAction(gameObject) {
@@ -114,6 +122,8 @@ function concludeAction(gameObject) {
 	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
 	}));
+
+	waitingToConclude = false;
 }
 
 function getAttackTargetForPositionInLevel(levelId, gameObject, positionToAttack) {

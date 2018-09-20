@@ -27,7 +27,11 @@ export default class ActionTickerSystem extends System {
 }
 
 function act(gameObject, game) {
-	let {positionInLevel, currentLevelId} = gameObject.components;
+	let {isDead, positionInLevel, currentLevelId} = gameObject.components;
+
+	if (isDead) {
+		return concludeAction(gameObject);
+	}
 
 	let newPositionInLevel = choose([
 		{x: positionInLevel.x, y: positionInLevel.y - 1},
@@ -37,7 +41,6 @@ function act(gameObject, game) {
 	]);
 
 	actTowardsPosition(gameObject, newPositionInLevel, game);
-	return concludeAction(gameObject);
 }
 
 function actTowardsPosition(gameObject, position, game) {
@@ -65,7 +68,7 @@ function actTowardsPosition(gameObject, position, game) {
 function concludeAction(gameObject) {
 	store.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
 	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
-		ticks: 100,
+		ticks: 200,
 	}));
 }
 
