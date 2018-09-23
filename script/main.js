@@ -10,17 +10,14 @@ import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Lev
 import GreenKnight from './gameObject/GreenKnight';
 import KingSlime from './gameObject/KingSlime';
 import Slime from './gameObject/Slime';
-import Wall from './gameObject/Wall';
-
-import HealthComponent from './component/HealthComponent';
-import SpriteComponent from './library/core/component/SpriteComponent';
 
 import loadSprites from './assets/loadSprites';
 
 import AnimationSystem from './library/core/system/AnimationSystem';
+import BrainSystem from './system/BrainSystem';
 import ActionSystem from './system/ActionSystem';
 import ActionTickerSystem from './system/ActionTickerSystem';
-import PlayerActionSystem from './system/PlayerActionSystem';
+import PlayerControlSystem from './system/PlayerControlSystem';
 import DamageSystem from './system/DamageSystem';
 import DeathSystem from './system/DeathSystem';
 import PositionInLevelSystem from './system/PositionInLevelSystem';
@@ -80,8 +77,9 @@ store.dispatch(addViewportToRoom(room.id, viewport.id));
 
 let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
+game.addSystem(new PlayerControlSystem());
+game.addSystem(new BrainSystem());
 game.addSystem(new ActionTickerSystem());
-game.addSystem(new PlayerActionSystem());
 game.addSystem(new ActionSystem());
 game.addSystem(new DamageSystem());
 game.addSystem(new DeathSystem());
@@ -93,16 +91,3 @@ game.addSystem(new ViewportPositionSystem());
 game.start();
 
 console.log(store.getState());
-
-function createSlimes(amountOfSlimesToCreate) {
-	while(amountOfSlimesToCreate > 0) {
-		let positionInLevel = {
-			x: Math.floor(Math.random() * LEVEL_WIDTH),
-			y: Math.floor(Math.random() * LEVEL_HEIGHT),
-		};
-
-		createGameObjectAtPositionInLevel(level.id, positionInLevel, Slime, {nonPlayer: true});
-
-		amountOfSlimesToCreate -= 1;
-	}
-}
