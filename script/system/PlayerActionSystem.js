@@ -1,17 +1,4 @@
 import System from './../library/core/module/System';
-import store from './../library/core/model/gameStateStore';
-import {
-	moveEntityToPositionInLevel,
-	canEntityBeAtPositionInLevel,
-	getEntitiesAtBoundariesInLevel,
-} from './../module/Level';
-import {
-	updateComponentOfGameObject,
-	removeComponentFromGameObject
-} from './../library/core/model/gameObjects';
-import {
-	doesGameObjectHaveComponent,
-} from './../library/core/module/GameObject';
 import {isKeyPressed} from './../library/core/module/Keyboard';
 
 export default class PlayerControlSystem extends System {
@@ -20,7 +7,7 @@ export default class PlayerControlSystem extends System {
 
 		this.observe('update', (gameObjects, game) => {
 			gameObjects.forEach((gameObject) => {
-				act(gameObject, game);
+				attemptAction(gameObject, game);
 			});
 		});
 	}
@@ -33,14 +20,14 @@ let hasMovedRight = false;
 let hasMovedDown = false;
 let hasMovedLeft = false;
 
-function act(gameObject, game) {
+function attemptAction(gameObject, game) {
 	let {isDead, positionInLevel} = gameObject.components;
 
 	if (isDead && !waitingToConclude) {
 		waitingToConclude = true;
 
 		window.setTimeout(() => {
-			concludeAction(gameObject);
+			game.notify('actWait', [gameObject]);
 		}, 500);
 
 		return;
@@ -49,7 +36,7 @@ function act(gameObject, game) {
 	if (isKeyPressed(' ') && !hasPressedSpace) {
 		hasPressedSpace = true;
 		console.log(`${gameObject.components.name} waits...`);
-		concludeAction(gameObject);
+		game.notify('actWait', [gameObject]);
 	} else if (!isKeyPressed(' ') && hasPressedSpace) {
 		hasPressedSpace = false;
 	}
@@ -57,7 +44,7 @@ function act(gameObject, game) {
 	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
 		hasMovedUp = true;
 
-		actTowardsPosition(gameObject, {
+		game.notify('actTowardsPosition', [gameObject], {
 			x: positionInLevel.x,
 			y: positionInLevel.y - 1,
 		}, game);
@@ -68,7 +55,7 @@ function act(gameObject, game) {
 	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
 		hasMovedRight = true;
 
-		actTowardsPosition(gameObject, {
+		game.notify('actTowardsPosition', [gameObject], {
 			x: positionInLevel.x + 1,
 			y: positionInLevel.y,
 		}, game);
@@ -79,7 +66,7 @@ function act(gameObject, game) {
 	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
 		hasMovedDown = true;
 
-		actTowardsPosition(gameObject, {
+		game.notify('actTowardsPosition', [gameObject], {
 			x: positionInLevel.x,
 			y: positionInLevel.y + 1,
 		}, game);
@@ -90,54 +77,11 @@ function act(gameObject, game) {
 	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
 		hasMovedLeft = true;
 
-		actTowardsPosition(gameObject, {
+		game.notify('actTowardsPosition', [gameObject], {
 			x: positionInLevel.x - 1,
 			y: positionInLevel.y,
 		}, game);
 	} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
 		hasMovedLeft = false;
 	}
-}
-
-function actTowardsPosition(gameObject, position, game) {
-	let {currentLevelId} = gameObject.components;
-
-	if (canEntityBeAtPositionInLevel(currentLevelId, gameObject.id, position)) {
-		moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
-
-		return concludeAction(gameObject);
-	}
-
-	let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, gameObject, position);
-
-	if (attackTarget) {
-		game.notify('takeDamage', [attackTarget], 1);
-
-		return concludeAction(gameObject);
-	}
-}
-
-function concludeAction(gameObject) {
-	store.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
-	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
-		ticks: 100,
-	}));
-
-	waitingToConclude = false;
-}
-
-function getAttackTargetForPositionInLevel(levelId, gameObject, positionToAttack) {
-	let {sizeInLevel} = gameObject.components;
-
-	let entitiesInBoundaries = getEntitiesAtBoundariesInLevel(levelId, positionToAttack, sizeInLevel, [gameObject.id])
-	let attackableEntities = entitiesInBoundaries.filter((entity) => {
-		return doesGameObjectHaveComponent(entity, 'health')
-			&& !doesGameObjectHaveComponent(entity, 'isDead');
-	});
-
-	if (attackableEntities.length === 0) {
-		return;
-	}
-
-	return attackableEntities[0];
 }
