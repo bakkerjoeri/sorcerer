@@ -1,6 +1,5 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
-import choose from './../utility/random/choose';
 import {
 	moveEntityToPositionInLevel,
 	canEntityBeAtPositionInLevel,
@@ -16,60 +15,54 @@ import {
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(['actor', 'nonPlayer', 'canAct', 'positionInLevel']);
+		super(['actor', 'canAct', 'positionInLevel']);
 
-		this.observe('update', (gameObjects, game) => {
+		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
+		this.entityWaits = this.entityWaits.bind(this);
+		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
+
+		this.observe('actWait', gameObjects => {
+			gameObjects.forEach(this.entityWaits);
+		});
+
+		this.observe('actTowardsPosition', (gameObjects, game, newPositionInLevel) => {
 			gameObjects.forEach((gameObject) => {
-				act(gameObject, game);
+				this.entityActsTowardsPosition(gameObject, newPositionInLevel);
 			});
 		});
 	}
-}
 
-function act(gameObject, game) {
-	let {isDead, positionInLevel, currentLevelId} = gameObject.components;
+	entityActsTowardsPosition(entity, newPositionInLevel) {
+		let {currentLevelId} = entity.components;
 
-	if (isDead) {
-		return concludeAction(gameObject);
+		if (canEntityBeAtPositionInLevel(currentLevelId, entity.id, newPositionInLevel)) {
+			moveEntityToPositionInLevel(entity.id, newPositionInLevel, currentLevelId);
+
+			return this.entityConcludesTurn(entity);
+		}
+
+		let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, entity, newPositionInLevel);
+
+		if (attackTarget) {
+			this.game.notify('takeDamage', [attackTarget], 1);
+
+			return this.entityConcludesTurn(entity);
+		}
+
+		return this.entityWaits(entity);
 	}
 
-	let newPositionInLevel = choose([
-		{x: positionInLevel.x, y: positionInLevel.y - 1},
-		{x: positionInLevel.x + 1, y: positionInLevel.y},
-		{x: positionInLevel.x, y: positionInLevel.y + 1},
-		{x: positionInLevel.x - 1, y: positionInLevel.y},
-	]);
-
-	actTowardsPosition(gameObject, newPositionInLevel, game);
-}
-
-function actTowardsPosition(gameObject, position, game) {
-	let {currentLevelId} = gameObject.components;
-
-	if (canEntityBeAtPositionInLevel(currentLevelId, gameObject.id, position)) {
-		moveEntityToPositionInLevel(gameObject.id, position, currentLevelId);
-
-		return concludeAction(gameObject);
+	entityWaits(entity) {
+		console.log(`${entity.components.name} waits...`);
+		return this.entityConcludesTurn(entity);
 	}
 
-	let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, gameObject, position);
-
-	if (attackTarget) {
-		game.notify('takeDamage', [attackTarget], 1);
-
-		return concludeAction(gameObject);
+	entityConcludesTurn(entity) {
+		store.dispatch(removeComponentFromGameObject(entity.id, 'canAct'));
+		store.dispatch(updateComponentOfGameObject(entity.id, 'actionTicker', {
+			ticks: 200,
+		}));
 	}
-
-	console.log(`${gameObject.components.name} waits...`);
-
-	return concludeAction(gameObject);
-}
-
-function concludeAction(gameObject) {
-	store.dispatch(removeComponentFromGameObject(gameObject.id, 'canAct'));
-	store.dispatch(updateComponentOfGameObject(gameObject.id, 'actionTicker', {
-		ticks: 200,
-	}));
 }
 
 function getAttackTargetForPositionInLevel(levelId, gameObject, positionToAttack) {
