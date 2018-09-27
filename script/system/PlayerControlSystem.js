@@ -28,60 +28,62 @@ function attemptAction(gameObject, game) {
 
 		window.setTimeout(() => {
 			game.notify('actWait', [gameObject]);
-		}, 500);
+			waitingToConclude = false;
+		}, 1000);
 
 		return;
 	}
 
-	if (isKeyPressed(' ') && !hasPressedSpace) {
-		hasPressedSpace = true;
-		console.log(`${gameObject.components.name} waits...`);
-		game.notify('actWait', [gameObject]);
-	} else if (!isKeyPressed(' ') && hasPressedSpace) {
-		hasPressedSpace = false;
-	}
+	if (!isDead) {
+		if (isKeyPressed(' ') && !hasPressedSpace) {
+			hasPressedSpace = true;
+			game.notify('actWait', [gameObject]);
+		} else if (!isKeyPressed(' ') && hasPressedSpace) {
+			hasPressedSpace = false;
+		}
 
-	if (isKeyPressed('ArrowUp') && !hasMovedUp) {
-		hasMovedUp = true;
+		if (isKeyPressed('ArrowUp') && !hasMovedUp) {
+			hasMovedUp = true;
 
-		game.notify('actTowardsPosition', [gameObject], {
-			x: positionInLevel.x,
-			y: positionInLevel.y - 1,
-		}, game);
-	} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
-		hasMovedUp = false;
-	}
+			game.notify('actTowardsPosition', [gameObject], {
+				x: positionInLevel.x,
+				y: positionInLevel.y - 1,
+			}, game);
+		} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
+			hasMovedUp = false;
+		}
 
-	if (isKeyPressed('ArrowRight') && !hasMovedRight) {
-		hasMovedRight = true;
+		if (isKeyPressed('ArrowRight') && !hasMovedRight) {
+			hasMovedRight = true;
 
-		game.notify('actTowardsPosition', [gameObject], {
-			x: positionInLevel.x + 1,
-			y: positionInLevel.y,
-		}, game);
-	} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
-		hasMovedRight = false;
-	}
+			game.notify('actTowardsPosition', [gameObject], {
+				x: positionInLevel.x + 1,
+				y: positionInLevel.y,
+			}, game);
+		} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
+			hasMovedRight = false;
+		}
 
-	if (isKeyPressed('ArrowDown') && !hasMovedDown) {
-		hasMovedDown = true;
+		if (isKeyPressed('ArrowDown') && !hasMovedDown) {
+			hasMovedDown = true;
 
-		game.notify('actTowardsPosition', [gameObject], {
-			x: positionInLevel.x,
-			y: positionInLevel.y + 1,
-		}, game);
-	} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
-		hasMovedDown = false;
-	}
+			game.notify('actTowardsPosition', [gameObject], {
+				x: positionInLevel.x,
+				y: positionInLevel.y + 1,
+			}, game);
+		} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
+			hasMovedDown = false;
+		}
 
-	if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
-		hasMovedLeft = true;
+		if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
+			hasMovedLeft = true;
 
-		game.notify('actTowardsPosition', [gameObject], {
-			x: positionInLevel.x - 1,
-			y: positionInLevel.y,
-		}, game);
-	} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
-		hasMovedLeft = false;
+			game.notify('actTowardsPosition', [gameObject], {
+				x: positionInLevel.x - 1,
+				y: positionInLevel.y,
+			}, game);
+		} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
+			hasMovedLeft = false;
+		}
 	}
 }
