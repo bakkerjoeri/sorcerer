@@ -17,8 +17,12 @@ export default class ActionTickerSystem extends System {
 	constructor() {
 		super(['actor', 'canAct', 'positionInLevel']);
 
+		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
+		this.entityWaits = this.entityWaits.bind(this);
+		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
+
 		this.observe('actWait', gameObjects => {
-			gameObjects.forEach(this.entityConcludesTurn);
+			gameObjects.forEach(this.entityWaits);
 		});
 
 		this.observe('actTowardsPosition', (gameObjects, game, newPositionInLevel) => {
@@ -45,8 +49,11 @@ export default class ActionTickerSystem extends System {
 			return this.entityConcludesTurn(entity);
 		}
 
-		console.log(`${entity.components.name} waits...`);
+		return this.entityWaits(entity);
+	}
 
+	entityWaits(entity) {
+		console.log(`${entity.components.name} waits...`);
 		return this.entityConcludesTurn(entity);
 	}
 
