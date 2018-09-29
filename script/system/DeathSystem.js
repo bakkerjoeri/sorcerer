@@ -1,7 +1,7 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
 import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
-import createGrave from './../abilities/deathrattles/createGrave';
+import {getAbilityWithName} from './../abilities';
 
 export default class DamageSystem extends System {
 	constructor() {
@@ -13,7 +13,7 @@ export default class DamageSystem extends System {
 	}
 
 	checkForDeath(gameObject) {
-		let {isDead, currentLevelId, health, name} = gameObject.components;
+		let {isDead, currentLevelId, health, name, deathrattle} = gameObject.components;
 
 		if (!isDead && health.current <= 0) {
 			console.log(`${name} died!`);
@@ -22,7 +22,9 @@ export default class DamageSystem extends System {
 			store.dispatch(removeComponentFromGameObject(gameObject.id, 'isSolid'));
 			store.dispatch(setComponentForGameObject(gameObject.id, 'isDead', true));
 
-			createGrave(currentLevelId, gameObject);
+			if (deathrattle) {
+				getAbilityWithName(deathrattle)(currentLevelId, gameObject);
+			}
 		}
 	}
 }

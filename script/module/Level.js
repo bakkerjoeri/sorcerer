@@ -4,7 +4,7 @@ import getPositionsInRange from './../utility/getPositionsInRange';
 import {addGameObjectToRoom} from './../library/core/model/rooms';
 import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects';
 import {addLevel, getLevelWithId} from './../model/levels';
-import {getTileInLevelWithPosition, getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles';
+import {getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles';
 import {createTileSet} from './Tile';
 
 export function createLevel(properties = {}) {
@@ -112,6 +112,12 @@ export function doesPositionExistInLevel(levelId, position) {
 		&& position.y >= 0
 		&& position.x <= level.size.width - 1
 		&& position.y <= level.size.height - 1;
+}
+
+export function getPositionsInRangeInLevel(levelId, position, offset) {
+	return getPositionsInRange(position, offset).filter(positionInRange => {
+		return doesPositionExistInLevel(levelId, positionInRange);
+	});
 }
 
 export function doPositionsInBoundariesExistInLevel(levelId, position, offset) {

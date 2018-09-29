@@ -9,6 +9,7 @@ export const ACTOR_COMPONENTS_BLUEPRINT = {
 	actionTicker: {
 		ticks: 0,
 	},
+	deathrattle: 'createGrave',
 };
 
 export default function Actor(components = {}) {

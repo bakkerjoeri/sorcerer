@@ -15,6 +15,7 @@ export const KING_SLIME_COMPONENTS_BLUEPRINT = {
 		width: 2,
 		height: 2,
 	},
+	deathrattle: 'spawnSlimes',
 };
 
 export default function KingSlime(components = {}) {
