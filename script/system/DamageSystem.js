@@ -6,7 +6,7 @@ export default class DamageSystem extends System {
 	constructor() {
 		super(['health']);
 
-		this.observe('takeDamage', (gameObjects, game, damage) => {
+		this.observe('takeDamage', (gameObjects, damage) => {
 			gameObjects.forEach((gameObject) => {
 				this.takeDamage(gameObject, damage)
 			});

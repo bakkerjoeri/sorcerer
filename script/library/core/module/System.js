@@ -23,7 +23,7 @@ export default class System {
 			let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
 
 			this.topics.get(topic).forEach((callback) => {
-				callback(filteredGameObjects, this.game, ...args);
+				callback(filteredGameObjects, ...args);
 			});
 		}
 	}

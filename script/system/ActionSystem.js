@@ -25,7 +25,7 @@ export default class ActionTickerSystem extends System {
 			gameObjects.forEach(this.entityWaits);
 		});
 
-		this.observe('actTowardsPosition', (gameObjects, game, newPositionInLevel) => {
+		this.observe('actTowardsPosition', (gameObjects, newPositionInLevel) => {
 			gameObjects.forEach((gameObject) => {
 				this.entityActsTowardsPosition(gameObject, newPositionInLevel);
 			});

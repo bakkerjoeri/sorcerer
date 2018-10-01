@@ -5,12 +5,81 @@ export default class PlayerControlSystem extends System {
 	constructor() {
 		super(['actor', 'player', 'canAct', 'positionInLevel']);
 
-		this.observe('update', (gameObjects, game) => {
-			gameObjects.forEach((gameObject) => {
-				attemptAction(gameObject, game);
-			});
+		this.attemptAction = this.attemptAction.bind(this);
+
+		this.observe('update', (gameObjects) => {
+			gameObjects.forEach(this.attemptAction);
 		});
 	}
+
+	attemptAction(gameObject) {
+		let {isDead, positionInLevel} = gameObject.components;
+
+		if (isDead && !waitingToConclude) {
+			waitingToConclude = true;
+
+			window.setTimeout(() => {
+				this.game.notify('actWait', [gameObject]);
+				waitingToConclude = false;
+			}, 1000);
+
+			return;
+		}
+
+		if (!isDead) {
+			if (isKeyPressed(' ') && !hasPressedSpace) {
+				hasPressedSpace = true;
+				this.game.notify('actWait', [gameObject]);
+			} else if (!isKeyPressed(' ') && hasPressedSpace) {
+				hasPressedSpace = false;
+			}
+
+			if (isKeyPressed('ArrowUp') && !hasMovedUp) {
+				hasMovedUp = true;
+
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x,
+					y: positionInLevel.y - 1,
+				});
+			} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
+				hasMovedUp = false;
+			}
+
+			if (isKeyPressed('ArrowRight') && !hasMovedRight) {
+				hasMovedRight = true;
+
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x + 1,
+					y: positionInLevel.y,
+				});
+			} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
+				hasMovedRight = false;
+			}
+
+			if (isKeyPressed('ArrowDown') && !hasMovedDown) {
+				hasMovedDown = true;
+
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x,
+					y: positionInLevel.y + 1,
+				});
+			} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
+				hasMovedDown = false;
+			}
+
+			if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
+				hasMovedLeft = true;
+
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x - 1,
+					y: positionInLevel.y,
+				});
+			} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
+				hasMovedLeft = false;
+			}
+		}
+	}
+
 }
 
 let waitingToConclude = false;
@@ -19,71 +88,3 @@ let hasMovedUp = false;
 let hasMovedRight = false;
 let hasMovedDown = false;
 let hasMovedLeft = false;
-
-function attemptAction(gameObject, game) {
-	let {isDead, positionInLevel} = gameObject.components;
-
-	if (isDead && !waitingToConclude) {
-		waitingToConclude = true;
-
-		window.setTimeout(() => {
-			game.notify('actWait', [gameObject]);
-			waitingToConclude = false;
-		}, 1000);
-
-		return;
-	}
-
-	if (!isDead) {
-		if (isKeyPressed(' ') && !hasPressedSpace) {
-			hasPressedSpace = true;
-			game.notify('actWait', [gameObject]);
-		} else if (!isKeyPressed(' ') && hasPressedSpace) {
-			hasPressedSpace = false;
-		}
-
-		if (isKeyPressed('ArrowUp') && !hasMovedUp) {
-			hasMovedUp = true;
-
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x,
-				y: positionInLevel.y - 1,
-			}, game);
-		} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
-			hasMovedUp = false;
-		}
-
-		if (isKeyPressed('ArrowRight') && !hasMovedRight) {
-			hasMovedRight = true;
-
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x + 1,
-				y: positionInLevel.y,
-			}, game);
-		} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
-			hasMovedRight = false;
-		}
-
-		if (isKeyPressed('ArrowDown') && !hasMovedDown) {
-			hasMovedDown = true;
-
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x,
-				y: positionInLevel.y + 1,
-			}, game);
-		} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
-			hasMovedDown = false;
-		}
-
-		if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
-			hasMovedLeft = true;
-
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x - 1,
-				y: positionInLevel.y,
-			}, game);
-		} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
-			hasMovedLeft = false;
-		}
-	}
-}
