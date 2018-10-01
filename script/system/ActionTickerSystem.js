@@ -1,11 +1,14 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
-import {getGameObjectsWithComponentNames} from './../library/core/model/gameObjects';
-import {updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects'
+import {getGameObjectsWithComponentNames, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects'
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(['actor', 'actionTicker']);
+		super(entity => {
+			return doesGameObjectHaveComponents(entity, ['actor', 'actionTicker'])
+				&& !doesGameObjectHaveComponents(entity, ['isDead']);
+		});
 
 		this.observe('update', updateTicks);
 	}

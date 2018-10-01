@@ -55,8 +55,8 @@ let level = createLevelOfSize({
 	roomId: room.id,
 });
 
-let player = createGameObjectAtPositionInLevel(level.id, {x: 1, y: 0}, GreenKnight, {player: true});
-createGameObjectAtPositionInLevel(level.id, {x: 0, y: 0}, Slime, {nonPlayer: true});
+let player = createGameObjectAtPositionInLevel(level.id, {x: 1, y: 1}, GreenKnight, {player: true});
+createGameObjectAtPositionInLevel(level.id, {x: 2, y: 1}, Slime, {nonPlayer: true});
 createGameObjectAtPositionInLevel(level.id, {x: 3, y: 3}, KingSlime, {nonPlayer: true});
 createGameObjectAtPositionInLevel(level.id, {x: 5, y: 3}, Slime, {nonPlayer: true});
 

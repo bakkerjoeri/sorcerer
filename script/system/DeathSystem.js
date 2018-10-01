@@ -1,30 +1,33 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
-import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects'
+import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
 import {getAbilityWithName} from './../abilities';
 
 export default class DamageSystem extends System {
 	constructor() {
-		super(['health']);
+		super(entity => {
+			return doesGameObjectHaveComponents(entity, ['health'])
+				&& entity.components.health.current <= 0
+				&& !doesGameObjectHaveComponents(entity, ['isDead'])
+		});
 
 		this.observe('update', gameObjects => {
-			gameObjects.forEach(this.checkForDeath);
+			gameObjects.forEach(this.die);
 		});
 	}
 
-	checkForDeath(gameObject) {
-		let {isDead, currentLevelId, health, name, deathrattle} = gameObject.components;
+	die(gameObject) {
+		let {currentLevelId, name, deathrattle} = gameObject.components;
 
-		if (!isDead && health.current <= 0) {
-			console.log(`${name} died!`);
+		console.log(`${name} died!`);
 
-			store.dispatch(removeComponentFromGameObject(gameObject.id, 'isVisible'));
-			store.dispatch(removeComponentFromGameObject(gameObject.id, 'isSolid'));
-			store.dispatch(setComponentForGameObject(gameObject.id, 'isDead', true));
+		store.dispatch(removeComponentFromGameObject(gameObject.id, 'isVisible'));
+		store.dispatch(removeComponentFromGameObject(gameObject.id, 'isSolid'));
+		store.dispatch(setComponentForGameObject(gameObject.id, 'isDead', true));
 
-			if (deathrattle) {
-				getAbilityWithName(deathrattle)(currentLevelId, gameObject);
-			}
+		if (deathrattle && currentLevelId) {
+			getAbilityWithName(deathrattle)(currentLevelId, gameObject);
 		}
 	}
 }

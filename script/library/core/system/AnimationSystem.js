@@ -2,53 +2,54 @@ import System from './../module/System';
 import store from './../model/gameStateStore';
 import {getSpriteWithId} from './../model/sprites';
 import {updateComponentOfGameObject} from './../model/gameObjects'
+import {doesGameObjectHaveComponents} from './../module/GameObject';
 
 export default class AnimationSystem extends System {
 	constructor() {
-		super(['sprite']);
+		super(entity => doesGameObjectHaveComponents(entity, ['sprite']));
 
-		this.observe('update', (gameObjects, game) => {
-			gameObjects.forEach(gameObject => {
-				animateGameObject(gameObject, game);
-			});
+		this.timeOfPreviousFrameByGameObjectId = {};
+
+		this.animateGameObject = this.animateGameObject.bind(this);
+
+		this.observe('update', (gameObjects) => {
+			gameObjects.forEach(this.animateGameObject);
 		});
 	}
-}
 
-const timeOfPreviousFrameByGameObjectId = {};
+	animateGameObject(gameObject) {
+		let {sprite} = gameObject.components;
+		let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
 
-function animateGameObject(gameObject, game) {
-	let {sprite} = gameObject.components;
-	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
+		if (
+			spriteAsset.spriteFrames.length > 1
+			&& sprite.framesPerSecond !== 0
+			&& !sprite.isAnimationPaused
+			&& !(!sprite.isAnimationLooping && sprite.currentFrameIndex === (spriteAsset.spriteFrames.length - 1))
+		) {
+			if (!this.timeOfPreviousFrameByGameObjectId[gameObject.id]) {
+				this.timeOfPreviousFrameByGameObjectId[gameObject.id] = this.game.elapsed;
+			}
 
-	if (
-		spriteAsset.spriteFrames.length > 1
-		&& sprite.framesPerSecond !== 0
-		&& !sprite.isAnimationPaused
-		&& !(!sprite.isAnimationLooping && sprite.currentFrameIndex === (spriteAsset.spriteFrames.length - 1))
-	) {
-		if (!timeOfPreviousFrameByGameObjectId[gameObject.id]) {
-			timeOfPreviousFrameByGameObjectId[gameObject.id] = game.elapsed;
-		}
+			let timeSincePreviousFrame = this.game.elapsed - this.timeOfPreviousFrameByGameObjectId[gameObject.id];
 
-		let timeSincePreviousFrame = game.elapsed - timeOfPreviousFrameByGameObjectId[gameObject.id];
+			let frameChange = timeSincePreviousFrame / (1000 / sprite.framesPerSecond);
 
-		let frameChange = timeSincePreviousFrame / (1000 / sprite.framesPerSecond);
+			if (frameChange > 0) {
+				frameChange = Math.floor(frameChange);
+			}
 
-		if (frameChange > 0) {
-			frameChange = Math.floor(frameChange);
-		}
+			if (frameChange < 0) {
+				frameChange = Math.ceil(frameChange);
+			}
 
-		if (frameChange < 0) {
-			frameChange = Math.ceil(frameChange);
-		}
-
-		if (frameChange !== 0) {
-			timeOfPreviousFrameByGameObjectId[gameObject.id] = game.elapsed;
-			let newFrameIndex = calculateNewFrameIndexWithChange(sprite.currentFrameIndex, frameChange, spriteAsset.spriteFrames.length, sprite.isAnimationLooping);
-			store.dispatch(updateComponentOfGameObject(gameObject.id, 'sprite', {
-				currentFrameIndex: newFrameIndex
-			}));
+			if (frameChange !== 0) {
+				this.timeOfPreviousFrameByGameObjectId[gameObject.id] = this.game.elapsed;
+				let newFrameIndex = calculateNewFrameIndexWithChange(sprite.currentFrameIndex, frameChange, spriteAsset.spriteFrames.length, sprite.isAnimationLooping);
+				store.dispatch(updateComponentOfGameObject(gameObject.id, 'sprite', {
+					currentFrameIndex: newFrameIndex
+				}));
+			}
 		}
 	}
 }

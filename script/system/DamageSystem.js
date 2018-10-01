@@ -1,12 +1,13 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
 import {updateComponentOfGameObject} from './../library/core/model/gameObjects'
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
 
 export default class DamageSystem extends System {
 	constructor() {
-		super(['health']);
+		super(entity => doesGameObjectHaveComponents(entity, ['health']));
 
-		this.observe('takeDamage', (gameObjects, game, damage) => {
+		this.observe('takeDamage', (gameObjects, damage) => {
 			gameObjects.forEach((gameObject) => {
 				this.takeDamage(gameObject, damage)
 			});

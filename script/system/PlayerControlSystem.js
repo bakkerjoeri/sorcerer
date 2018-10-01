@@ -1,17 +1,6 @@
 import System from './../library/core/module/System';
 import {isKeyPressed} from './../library/core/module/Keyboard';
-
-export default class PlayerControlSystem extends System {
-	constructor() {
-		super(['actor', 'player', 'canAct', 'positionInLevel']);
-
-		this.observe('update', (gameObjects, game) => {
-			gameObjects.forEach((gameObject) => {
-				attemptAction(gameObject, game);
-			});
-		});
-	}
-}
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
 
 let waitingToConclude = false;
 let hasPressedSpace = false;
@@ -20,70 +9,82 @@ let hasMovedRight = false;
 let hasMovedDown = false;
 let hasMovedLeft = false;
 
-function attemptAction(gameObject, game) {
-	let {isDead, positionInLevel} = gameObject.components;
+export default class PlayerControlSystem extends System {
+	constructor() {
+		super(entity => doesGameObjectHaveComponents(entity, ['actor', 'player', 'canAct', 'positionInLevel']));
 
-	if (isDead && !waitingToConclude) {
-		waitingToConclude = true;
+		this.attemptAction = this.attemptAction.bind(this);
 
-		window.setTimeout(() => {
-			game.notify('actWait', [gameObject]);
-			waitingToConclude = false;
-		}, 1000);
-
-		return;
+		this.observe('update', (gameObjects) => {
+			gameObjects.forEach(this.attemptAction);
+		});
 	}
 
-	if (!isDead) {
-		if (isKeyPressed(' ') && !hasPressedSpace) {
-			hasPressedSpace = true;
-			game.notify('actWait', [gameObject]);
-		} else if (!isKeyPressed(' ') && hasPressedSpace) {
-			hasPressedSpace = false;
+	attemptAction(gameObject) {
+		let {isDead, positionInLevel} = gameObject.components;
+
+		if (isDead && !waitingToConclude) {
+			waitingToConclude = true;
+
+			window.setTimeout(() => {
+				this.game.notify('actWait', [gameObject]);
+				waitingToConclude = false;
+			}, 1000);
+
+			return;
 		}
 
-		if (isKeyPressed('ArrowUp') && !hasMovedUp) {
-			hasMovedUp = true;
+		if (!isDead) {
+			if (isKeyPressed(' ') && !hasPressedSpace) {
+				hasPressedSpace = true;
+				this.game.notify('actWait', [gameObject]);
+			} else if (!isKeyPressed(' ') && hasPressedSpace) {
+				hasPressedSpace = false;
+			}
 
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x,
-				y: positionInLevel.y - 1,
-			}, game);
-		} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
-			hasMovedUp = false;
-		}
+			if (isKeyPressed('ArrowUp') && !hasMovedUp) {
+				hasMovedUp = true;
 
-		if (isKeyPressed('ArrowRight') && !hasMovedRight) {
-			hasMovedRight = true;
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x,
+					y: positionInLevel.y - 1,
+				});
+			} else if (!isKeyPressed('ArrowUp') && hasMovedUp) {
+				hasMovedUp = false;
+			}
 
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x + 1,
-				y: positionInLevel.y,
-			}, game);
-		} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
-			hasMovedRight = false;
-		}
+			if (isKeyPressed('ArrowRight') && !hasMovedRight) {
+				hasMovedRight = true;
 
-		if (isKeyPressed('ArrowDown') && !hasMovedDown) {
-			hasMovedDown = true;
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x + 1,
+					y: positionInLevel.y,
+				});
+			} else if (!isKeyPressed('ArrowRight') && hasMovedRight) {
+				hasMovedRight = false;
+			}
 
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x,
-				y: positionInLevel.y + 1,
-			}, game);
-		} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
-			hasMovedDown = false;
-		}
+			if (isKeyPressed('ArrowDown') && !hasMovedDown) {
+				hasMovedDown = true;
 
-		if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
-			hasMovedLeft = true;
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x,
+					y: positionInLevel.y + 1,
+				});
+			} else if (!isKeyPressed('ArrowDown') && hasMovedDown) {
+				hasMovedDown = false;
+			}
 
-			game.notify('actTowardsPosition', [gameObject], {
-				x: positionInLevel.x - 1,
-				y: positionInLevel.y,
-			}, game);
-		} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
-			hasMovedLeft = false;
+			if (isKeyPressed('ArrowLeft') && !hasMovedLeft) {
+				hasMovedLeft = true;
+
+				this.game.notify('actTowardsPosition', [gameObject], {
+					x: positionInLevel.x - 1,
+					y: positionInLevel.y,
+				});
+			} else if (!isKeyPressed('ArrowLeft') && hasMovedLeft) {
+				hasMovedLeft = false;
+			}
 		}
 	}
 }

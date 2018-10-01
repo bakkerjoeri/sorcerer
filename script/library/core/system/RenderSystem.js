@@ -5,30 +5,55 @@ import {getActiveViewportsInRoomWithId} from './../model/viewports';
 import {getSpriteWithId} from './../model/sprites';
 import {getSpriteFrameWithId} from './../model/spriteFrames';
 import {getImageFromFilePath} from './../module/SpriteFrame';
+import {doesGameObjectHaveComponents} from './../module/GameObject';
 
 export default class RenderSystem extends System {
 	constructor() {
-		super(['sprite', 'position', 'isVisible']);
+		super(entity => doesGameObjectHaveComponents(entity, ['sprite', 'position', 'isVisible']));
 
-		this.observe('draw', drawFrame);
+		this.drawFrame = this.drawFrame.bind(this);
+		this.drawFrameInViewport = this.drawFrameInViewport.bind(this);
+		this.renderGameObjectInViewport = this.renderGameObjectInViewport.bind(this);
+
+		this.observe('draw', this.drawFrame);
 	}
-}
 
-function drawFrame(gameObjects, game) {
-	let viewports = getActiveViewportsInRoomWithId(store.getState(), getCurrentRoom(store.getState()).id);
+	drawFrame(gameObjects) {
+		let viewports = getActiveViewportsInRoomWithId(store.getState(), getCurrentRoom(store.getState()).id);
 
-	viewports.forEach((viewport) => {
-		drawFrameInViewport(gameObjects, viewport, game);
-	});
-}
+		viewports.forEach((viewport) => {
+			this.drawFrameInViewport(gameObjects, viewport, this.game);
+		});
+	}
 
-function drawFrameInViewport(gameObjects, viewport, game) {
-	clearCanvasContext(game.context, viewport);
-	drawCurrentRoomBackgroundInViewport(game.context, viewport);
+	drawFrameInViewport(gameObjects, viewport) {
+		clearCanvasContext(this.game.context, viewport);
+		drawCurrentRoomBackgroundInViewport(this.game.context, viewport);
 
-	gameObjects.filter(gameObject => isGameObjectVisibleInViewport(gameObject, viewport)).forEach(gameObject => {
-		renderGameObjectInViewport(gameObject, viewport, game)
-	});
+		gameObjects.filter(gameObject => isGameObjectVisibleInViewport(gameObject, viewport)).forEach(gameObject => {
+			this.renderGameObjectInViewport(gameObject, viewport)
+		});
+	}
+
+	renderGameObjectInViewport(gameObject, viewport) {
+		let {sprite, position} = gameObject.components;
+
+		let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
+		let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
+
+		let drawPosition = {
+			x: (position.x + spriteAsset.offset.x) - (viewport.position.x - viewport.origin.x),
+			y: (position.y + spriteAsset.offset.y) - (viewport.position.y - viewport.origin.y),
+		};
+
+		this.game.context.drawImage(
+			getImageFromFilePath(currentSpriteFrame.imageFilePath),
+			currentSpriteFrame.origin.x, currentSpriteFrame.origin.y,
+			currentSpriteFrame.size.width, currentSpriteFrame.size.height,
+			drawPosition.x, drawPosition.y,
+			currentSpriteFrame.size.width, currentSpriteFrame.size.height
+		);
+	}
 }
 
 function clearCanvasContext(context, viewport) {
@@ -44,26 +69,6 @@ function drawCurrentRoomBackgroundInViewport(context, viewport) {
 		viewport.origin.y,
 		viewport.size.width,
 		viewport.size.height,
-	);
-}
-
-function renderGameObjectInViewport(gameObject, viewport, game) {
-	let {sprite, position} = gameObject.components;
-
-	let spriteAsset = getSpriteWithId(store.getState(), sprite.assetId);
-	let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[sprite.currentFrameIndex]);
-
-	let drawPosition = {
-		x: (position.x + spriteAsset.offset.x) - (viewport.position.x - viewport.origin.x),
-		y: (position.y + spriteAsset.offset.y) - (viewport.position.y - viewport.origin.y),
-	};
-
-	game.context.drawImage(
-		getImageFromFilePath(currentSpriteFrame.imageFilePath),
-		currentSpriteFrame.origin.x, currentSpriteFrame.origin.y,
-		currentSpriteFrame.size.width, currentSpriteFrame.size.height,
-		drawPosition.x, drawPosition.y,
-		currentSpriteFrame.size.width, currentSpriteFrame.size.height
 	);
 }
 

@@ -10,12 +10,12 @@ import {
 	removeComponentFromGameObject
 } from './../library/core/model/gameObjects';
 import {
-	doesGameObjectHaveComponent,
+	doesGameObjectHaveComponents,
 } from './../library/core/module/GameObject';
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(['actor', 'canAct', 'positionInLevel']);
+		super(entity => doesGameObjectHaveComponents(entity, ['actor', 'canAct', 'positionInLevel']));
 
 		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
 		this.entityWaits = this.entityWaits.bind(this);
@@ -25,7 +25,7 @@ export default class ActionTickerSystem extends System {
 			gameObjects.forEach(this.entityWaits);
 		});
 
-		this.observe('actTowardsPosition', (gameObjects, game, newPositionInLevel) => {
+		this.observe('actTowardsPosition', (gameObjects, newPositionInLevel) => {
 			gameObjects.forEach((gameObject) => {
 				this.entityActsTowardsPosition(gameObject, newPositionInLevel);
 			});
@@ -70,8 +70,8 @@ function getAttackTargetForPositionInLevel(levelId, gameObject, positionToAttack
 
 	let entitiesInBoundaries = getEntitiesAtBoundariesInLevel(levelId, positionToAttack, sizeInLevel, [gameObject.id])
 	let attackableEntities = entitiesInBoundaries.filter((entity) => {
-		return doesGameObjectHaveComponent(entity, 'health')
-			&& !doesGameObjectHaveComponent(entity, 'isDead');
+		return doesGameObjectHaveComponents(entity, ['health'])
+			&& !doesGameObjectHaveComponents(entity, ['isDead']);
 	});
 
 	if (attackableEntities.length === 0) {
