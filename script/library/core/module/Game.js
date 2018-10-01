@@ -1,10 +1,13 @@
 import store from './../model/gameStateStore';
 import {getGameObjectsInCurrentRoom} from './../model/gameObjects';
+import Keyboard from './Keyboard';
 
 export default class Game {
 	constructor(canvas, scale) {
+		this.keyboard = new Keyboard(this);
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
+
 		this.systems = [];
 		this.looping = false;
 		this.update = this.update.bind(this);
