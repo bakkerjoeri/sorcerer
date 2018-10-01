@@ -1,9 +1,17 @@
 import System from './../library/core/module/System';
 import {isKeyPressed} from './../library/core/module/Keyboard';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
+
+let waitingToConclude = false;
+let hasPressedSpace = false;
+let hasMovedUp = false;
+let hasMovedRight = false;
+let hasMovedDown = false;
+let hasMovedLeft = false;
 
 export default class PlayerControlSystem extends System {
 	constructor() {
-		super(['actor', 'player', 'canAct', 'positionInLevel']);
+		super(entity => doesGameObjectHaveComponents(entity, ['actor', 'player', 'canAct', 'positionInLevel']));
 
 		this.attemptAction = this.attemptAction.bind(this);
 
@@ -79,12 +87,4 @@ export default class PlayerControlSystem extends System {
 			}
 		}
 	}
-
 }
-
-let waitingToConclude = false;
-let hasPressedSpace = false;
-let hasMovedUp = false;
-let hasMovedRight = false;
-let hasMovedDown = false;
-let hasMovedLeft = false;

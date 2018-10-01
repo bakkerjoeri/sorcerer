@@ -1,10 +1,11 @@
 import System from './../library/core/module/System';
 import store from './../library/core/model/gameStateStore';
-import {updateComponentOfGameObject} from './../library/core/model/gameObjects'
+import {updateComponentOfGameObject} from './../library/core/model/gameObjects';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(['positionInLevel', 'position']);
+		super(entity => doesGameObjectHaveComponents(entity, ['positionInLevel', 'position']));
 
 		this.observe('update', gameObjects => {
 			gameObjects.forEach(updatePosition);

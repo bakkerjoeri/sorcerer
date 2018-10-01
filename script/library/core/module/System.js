@@ -1,8 +1,6 @@
-import {filterGameObjectsByComponentNames} from './GameObject';
-
 export default class System {
-	constructor(requiredComponents = []) {
-		this.requiredComponents = requiredComponents;
+	constructor(entityFilter = entity => entity) {
+		this.entityFilter = entityFilter;
 		this.topics = new Map();
 	}
 
@@ -20,7 +18,7 @@ export default class System {
 
 	handleNotify(topic, gameObjects, ...args) {
 		if (this.topics.has(topic)) {
-			let filteredGameObjects = filterGameObjectsByComponentNames(gameObjects, this.requiredComponents);
+			let filteredGameObjects = gameObjects.filter(this.entityFilter);
 
 			this.topics.get(topic).forEach((callback) => {
 				callback(filteredGameObjects, ...args);

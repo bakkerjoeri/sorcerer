@@ -1,9 +1,10 @@
 import System from './../library/core/module/System';
 import choose from './../utility/random/choose';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
 
 export default class BrainSystem extends System {
 	constructor() {
-		super(['actor', 'nonPlayer', 'canAct', 'positionInLevel']);
+		super(entity => doesGameObjectHaveComponents(entity, ['actor', 'nonPlayer', 'canAct', 'positionInLevel']));
 
 		this.decideAction = this.decideAction.bind(this);
 

@@ -1,5 +1,5 @@
 import store from './../model/gameStateStore';
-import createStateEntity, {StateEntity} from './../utility/createStateEntity';
+import createStateEntity from './../utility/createStateEntity';
 import {addGameObject} from './../model/gameObjects';
 
 export function createGameObject(components = {}) {
@@ -10,16 +10,6 @@ export function createGameObject(components = {}) {
 	store.dispatch(addGameObject(stateEntity));
 
 	return stateEntity;
-}
-
-export function filterGameObjectsByComponentNames(gameObjects, componentNames) {
-	if (componentNames.length === 0) {
-		return gameObjects;
-	}
-
-	return gameObjects.filter((gameObject) => {
-		return doesGameObjectHaveComponents(gameObject, componentNames);
-	});
 }
 
 export function doesGameObjectHaveComponents(gameObject, componentNames) {

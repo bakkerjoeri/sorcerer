@@ -2,10 +2,11 @@ import System from './../module/System';
 import store from './../model/gameStateStore';
 import {getSpriteWithId} from './../model/sprites';
 import {updateComponentOfGameObject} from './../model/gameObjects'
+import {doesGameObjectHaveComponents} from './../module/GameObject';
 
 export default class AnimationSystem extends System {
 	constructor() {
-		super(['sprite']);
+		super(entity => doesGameObjectHaveComponents(entity, ['sprite']));
 
 		this.timeOfPreviousFrameByGameObjectId = {};
 
