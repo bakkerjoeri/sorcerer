@@ -1,7 +1,7 @@
 import {filterGameObjectsByComponentNames} from './GameObject';
 
 export default class System {
-	constructor(requiredComponents = [], updateCallback = () => {}) {
+	constructor(requiredComponents = []) {
 		this.requiredComponents = requiredComponents;
 		this.topics = new Map();
 	}
