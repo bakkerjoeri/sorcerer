@@ -1,9 +1,6 @@
 import store from './../model/gameStateStore';
 import {getGameObjectsInCurrentRoom} from './../model/gameObjects';
 
-let canvas;
-let context;
-
 export default class Game {
 	constructor(canvas, scale) {
 		this.canvas = canvas;
@@ -25,7 +22,7 @@ export default class Game {
 		this.looping = false;
 	}
 
-	notify(eventName, entities, ...args) {
+	notify(eventName, entities = getGameObjectsInCurrentRoom(store.getState()), ...args) {
 		this.systems.forEach((system) => {
 			system.handleNotify(eventName, entities, ...args);
 		});
@@ -35,10 +32,8 @@ export default class Game {
 		this.timeSincePreviousUpdate = time - this.elapsed;
 		this.elapsed = time;
 
-		let gameObjectsInCurrentRoom = getGameObjectsInCurrentRoom(store.getState());
-
-		this.notify('update', gameObjectsInCurrentRoom);
-		this.notify('draw', gameObjectsInCurrentRoom);
+		this.notify('update');
+		this.notify('draw');
 
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);
