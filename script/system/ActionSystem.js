@@ -1,17 +1,17 @@
-import System from './../library/core/module/System';
-import store from './../library/core/model/gameStateStore';
+import System from './../library/core/module/System.js';
+import store from './../library/core/model/gameStateStore.js';
 import {
 	moveEntityToPositionInLevel,
 	canEntityBeAtPositionInLevel,
 	getEntitiesAtBoundariesInLevel,
-} from './../module/Level';
+} from './../module/Level.js';
 import {
 	updateComponentOfGameObject,
 	removeComponentFromGameObject
-} from './../library/core/model/gameObjects';
+} from './../library/core/model/gameObjects.js';
 import {
 	doesGameObjectHaveComponents,
-} from './../library/core/module/GameObject';
+} from './../library/core/module/GameObject.js';
 
 export default class ActionTickerSystem extends System {
 	constructor() {

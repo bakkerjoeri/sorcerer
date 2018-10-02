@@ -1,4 +1,4 @@
-import GameObject from './GameObject';
+import GameObject from './GameObject.js';
 
 export default class Structure extends GameObject {
 	constructor(structureDefinition, options) {

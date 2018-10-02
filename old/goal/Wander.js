@@ -1,8 +1,8 @@
-import CellMap from 'module/CellMap';
-import choose from 'utility/random/choose';
-import floodfill from 'utility/floodfill';
-import Goal from 'module/Goal';
-import MoveToPosition from 'goal/MoveToPosition';
+import CellMap from 'module/CellMap.js';
+import choose from 'utility/random/choose.js';
+import floodfill from 'utility/floodfill.js';
+import Goal from 'module/Goal.js';
+import MoveToPosition from 'goal/MoveToPosition.js';
 
 export default class Wander extends Goal {
 	takeAction(actor) {

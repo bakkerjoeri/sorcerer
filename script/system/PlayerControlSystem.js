@@ -1,5 +1,5 @@
-import System from './../library/core/module/System';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
+import System from './../library/core/module/System.js';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
 
 export default class PlayerControlSystem extends System {
 	constructor() {

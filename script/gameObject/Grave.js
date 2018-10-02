@@ -1,5 +1,5 @@
-import Structure from './Structure';
-import SpriteComponent from './../library/core/component/SpriteComponent';
+import Structure from './Structure.js';
+import SpriteComponent from './../library/core/component/SpriteComponent.js';
 
 export const GRAVE_COMPONENTS_BLUEPRINT = {
 	sprite: new SpriteComponent({

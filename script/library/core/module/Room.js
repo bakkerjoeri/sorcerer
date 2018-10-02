@@ -1,6 +1,6 @@
-import createStateEntity from './../utility/createStateEntity';
-import store from './../model/gameStateStore';
-import {addRoom} from './../model/rooms';
+import createStateEntity from './../utility/createStateEntity.js';
+import store from './../model/gameStateStore.js';
+import {addRoom} from './../model/rooms.js';
 
 export function createRoom(properties = {}) {
 	const DEFAULT_PROPERTIES = {

@@ -1,4 +1,4 @@
-import {getTileWithId} from './tiles';
+import {getTileWithId} from './tiles.js';
 
 export const addLevel = level => state => ({
 	...state,

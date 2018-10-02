@@ -1,4 +1,4 @@
-import getRandomNumberInRange from './getRandomNumberInRange';
+import getRandomNumberInRange from './getRandomNumberInRange.js';
 
 export default function choose(choices) {
 	if (choices.length === 0) {

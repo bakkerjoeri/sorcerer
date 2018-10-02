@@ -1,6 +1,6 @@
-import store from './../model/gameStateStore';
-import createStateEntity from './../utility/createStateEntity';
-import {addGameObject} from './../model/gameObjects';
+import store from './../model/gameStateStore.js';
+import createStateEntity from './../utility/createStateEntity.js';
+import {addGameObject} from './../model/gameObjects.js';
 
 export function createGameObject(components = {}) {
 	let stateEntity = createStateEntity('gameObject', {

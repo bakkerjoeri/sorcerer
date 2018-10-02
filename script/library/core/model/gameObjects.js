@@ -1,5 +1,5 @@
-import isObject from './../utility/isObject';
-import {getCurrentRoomId} from './game';
+import isObject from './../utility/isObject.js';
+import {getCurrentRoomId} from './game.js';
 
 export const addGameObject = gameObject => state => ({
 	...state,

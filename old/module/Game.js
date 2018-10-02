@@ -1,4 +1,4 @@
-import Ticker from './Ticker';
+import Ticker from './Ticker.js';
 
 export default class Game {
 	constructor(options = {}) {

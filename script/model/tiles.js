@@ -1,4 +1,4 @@
-import {getTilesInLevel} from './levels';
+import {getTilesInLevel} from './levels.js';
 
 export const addTile = tile => state => ({
 	...state,

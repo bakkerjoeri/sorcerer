@@ -1,5 +1,5 @@
-import NonPlayer from 'object/NonPlayer';
-import {Slime} from 'resource/creature/Slime';
+import NonPlayer from 'object/NonPlayer.js';
+import {Slime} from 'resource/creature/Slime.js';
 
 export const GiantSlime = {
 	type: 'giant slime',

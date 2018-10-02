@@ -1,6 +1,6 @@
-import Actor from './Actor';
-import Brain from './../module/Brain';
-import Wander from './../goal/Wander';
+import Actor from './Actor.js';
+import Brain from './../module/Brain.js';
+import Wander from './../goal/Wander.js';
 
 export default class NonPlayer extends Actor {
 	constructor(type, options) {

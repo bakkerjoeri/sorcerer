@@ -1,15 +1,15 @@
-import Level from 'module/Level';
+import Level from 'module/Level.js';
 
-import NonPlayer from 'object/NonPlayer';
-import Structure from 'object/Structure';
+import NonPlayer from 'object/NonPlayer.js';
+import Structure from 'object/Structure.js';
 
-import {Knight} from 'resource/creature/Knight';
-import {Slime} from 'resource/creature/Slime';
-import {KingSlime} from 'resource/creature/KingSlime';
-import {GiantSlime} from 'resource/creature/GiantSlime';
-import {Tree} from 'resource/structure/Tree';
-import {Wall} from 'resource/structure/Wall';
-import {Grave} from 'resource/structure/Grave';
+import {Knight} from 'resource/creature/Knight.js';
+import {Slime} from 'resource/creature/Slime.js';
+import {KingSlime} from 'resource/creature/KingSlime.js';
+import {GiantSlime} from 'resource/creature/GiantSlime.js';
+import {Tree} from 'resource/structure/Tree.js';
+import {Wall} from 'resource/structure/Wall.js';
+import {Grave} from 'resource/structure/Grave.js';
 
 const LEVEL_KEY_RANDOM = 'random';
 const LEVEL_KEY_LOCKED_UP_KNIGHT = 'locked_up_knight';

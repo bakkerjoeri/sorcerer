@@ -1,4 +1,4 @@
-import Cell from './Cell';
+import Cell from './Cell.js';
 
 export default class CellMap extends Array {
 	static createWithSize(size) {

@@ -1,8 +1,8 @@
-import System from './../module/System';
-import store from './../model/gameStateStore';
-import {getSpriteWithId} from './../model/sprites';
-import {updateComponentOfGameObject} from './../model/gameObjects'
-import {doesGameObjectHaveComponents} from './../module/GameObject';
+import System from './../module/System.js';
+import store from './../model/gameStateStore.js';
+import {getSpriteWithId} from './../model/sprites.js';
+import {updateComponentOfGameObject} from './../model/gameObjects.js';
+import {doesGameObjectHaveComponents} from './../module/GameObject.js';
 
 export default class AnimationSystem extends System {
 	constructor() {

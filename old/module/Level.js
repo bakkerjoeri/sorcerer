@@ -1,4 +1,4 @@
-import Tile from './../module/Tile';
+import Tile from './../module/Tile.js';
 
 export default class Level {
 	constructor(size, room) {

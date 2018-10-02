@@ -1,6 +1,6 @@
-import createStateEntity from './../utility/createStateEntity';
-import store from './../model/gameStateStore';
-import {addSprite} from './../model/sprites';
+import createStateEntity from './../utility/createStateEntity.js';
+import store from './../model/gameStateStore.js';
+import {addSprite} from './../model/sprites.js';
 
 export function createSprite(properties = {}) {
 	const DEFAULT_PROPERTIES = {

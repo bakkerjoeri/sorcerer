@@ -1,6 +1,6 @@
-import store from './../model/gameStateStore';
-import {getGameObjectsInCurrentRoom} from './../model/gameObjects';
-import Keyboard from './Keyboard';
+import store from './../model/gameStateStore.js';
+import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
+import Keyboard from './Keyboard.js';
 
 export default class Game {
 	constructor(canvas, scale) {

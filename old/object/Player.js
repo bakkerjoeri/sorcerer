@@ -1,6 +1,6 @@
-import Actor from './Actor';
-import Ticker from './../module/Ticker';
-import Log from './../module/Log';
+import Actor from './Actor.js';
+import Ticker from './../module/Ticker.js';
+import Log from './../module/Log.js';
 
 let turnCount = 0;
 

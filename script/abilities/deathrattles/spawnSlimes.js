@@ -1,5 +1,5 @@
-import Slime from './../../gameObject/Slime';
-import {getPositionsInRangeInLevel, createGameObjectAtPositionInLevel} from './../../module/Level';
+import Slime from './../../gameObject/Slime.js';
+import {getPositionsInRangeInLevel, createGameObjectAtPositionInLevel} from './../../module/Level.js';
 
 export default function spawnSlimes(levelId, entity) {
 	let {positionInLevel, sizeInLevel} = entity.components;
