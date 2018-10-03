@@ -1,5 +1,5 @@
 import chai from 'chai';
-import HealthComponent from './../script/component/HealthComponent';
+import HealthComponent from './../script/component/HealthComponent.js';
 
 let assert = chai.assert;
 

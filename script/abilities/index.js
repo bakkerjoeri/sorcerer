@@ -1,5 +1,5 @@
-import createGrave from './deathrattles/createGrave';
-import spawnSlimes from './deathrattles/spawnSlimes';
+import createGrave from './deathrattles/createGrave.js';
+import spawnSlimes from './deathrattles/spawnSlimes.js';
 
 export function getAbilityWithName(abilityName) {
 	if (!abilities.hasOwnProperty(abilityName)) {

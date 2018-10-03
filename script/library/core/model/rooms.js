@@ -1,4 +1,4 @@
-import {getCurrentRoomId} from './game';
+import {getCurrentRoomId} from './game.js';
 
 export const addRoom = room => state => ({
 	...state,

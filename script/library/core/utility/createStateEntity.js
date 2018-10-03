@@ -1,4 +1,4 @@
-import uuid from './uuid';
+import uuid from './uuid.js';
 
 export default function createStateEntity(type = '', properties = {}) {
 	let stateEntity = {...properties};

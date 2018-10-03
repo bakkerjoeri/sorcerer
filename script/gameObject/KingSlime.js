@@ -1,6 +1,6 @@
-import Actor from './Actor';
-import HealthComponent from './../component/HealthComponent';
-import SpriteComponent from './../library/core/component/SpriteComponent';
+import Actor from './Actor.js';
+import HealthComponent from './../component/HealthComponent.js';
+import SpriteComponent from './../library/core/component/SpriteComponent.js';
 
 export const KING_SLIME_COMPONENTS_BLUEPRINT = {
 	name: 'King Slime',

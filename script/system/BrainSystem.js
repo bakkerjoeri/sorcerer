@@ -1,6 +1,6 @@
-import System from './../library/core/module/System';
-import choose from './../utility/random/choose';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
+import System from './../library/core/module/System.js';
+import choose from './../utility/random/choose.js';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
 
 export default class BrainSystem extends System {
 	constructor() {

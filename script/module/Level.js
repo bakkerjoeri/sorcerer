@@ -1,11 +1,11 @@
-import createStateEntity from './../library/core/utility/createStateEntity';
-import store from './../library/core/model/gameStateStore';
-import getPositionsInRange from './../utility/getPositionsInRange';
-import {addGameObjectToRoom} from './../library/core/model/rooms';
-import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects';
-import {addLevel, getLevelWithId} from './../model/levels';
-import {getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles';
-import {createTileSet} from './Tile';
+import createStateEntity from './../library/core/utility/createStateEntity.js';
+import store from './../library/core/model/gameStateStore.js';
+import getPositionsInRange from './../utility/getPositionsInRange.js';
+import {addGameObjectToRoom} from './../library/core/model/rooms.js';
+import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects.js';
+import {addLevel, getLevelWithId} from './../model/levels.js';
+import {getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles.js';
+import {createTileSet} from './Tile.js';
 
 export function createLevel(properties = {}) {
 	const DEFAULT_PROPERTIES = {

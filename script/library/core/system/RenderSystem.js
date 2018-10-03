@@ -1,11 +1,11 @@
-import System from './../module/System';
-import store from './../model/gameStateStore';
-import {getCurrentRoom} from './../model/rooms';
-import {getActiveViewportsInRoomWithId} from './../model/viewports';
-import {getSpriteWithId} from './../model/sprites';
-import {getSpriteFrameWithId} from './../model/spriteFrames';
-import {getImageFromFilePath} from './../module/SpriteFrame';
-import {doesGameObjectHaveComponents} from './../module/GameObject';
+import System from './../module/System.js';
+import store from './../model/gameStateStore.js';
+import {getCurrentRoom} from './../model/rooms.js';
+import {getActiveViewportsInRoomWithId} from './../model/viewports.js';
+import {getSpriteWithId} from './../model/sprites.js';
+import {getSpriteFrameWithId} from './../model/spriteFrames.js';
+import {getImageFromFilePath} from './../module/SpriteFrame.js';
+import {doesGameObjectHaveComponents} from './../module/GameObject.js';
 
 export default class RenderSystem extends System {
 	constructor() {

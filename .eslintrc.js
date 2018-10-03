@@ -1,5 +1,4 @@
 module.exports = {
-	"parser": "babel-eslint",
 	"env": {
 		"browser": true,
 		"es6": true,
@@ -7,6 +6,10 @@ module.exports = {
 	"extends": [
 		"eslint:recommended",
 	],
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+	},
 	"rules": {
 		"quotes": [
 			"warn",

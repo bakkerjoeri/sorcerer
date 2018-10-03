@@ -1,9 +1,9 @@
-import Goal from 'module/Goal';
-import DijkstraMap from 'module/DijkstraMap';
-import MoveNorth from 'goal/MoveNorth';
-import MoveEast from 'goal/MoveEast';
-import MoveSouth from 'goal/MoveSouth';
-import MoveWest from 'goal/MoveWest';
+import Goal from 'module/Goal.js';
+import DijkstraMap from 'module/DijkstraMap.js';
+import MoveNorth from 'goal/MoveNorth.js';
+import MoveEast from 'goal/MoveEast.js';
+import MoveSouth from 'goal/MoveSouth.js';
+import MoveWest from 'goal/MoveWest.js';
 
 export default class MoveToPosition extends Goal {
 	constructor(position, originalGoal) {

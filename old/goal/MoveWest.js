@@ -1,4 +1,4 @@
-import Goal from 'module/Goal';
+import Goal from 'module/Goal.js';
 
 export default class MoveWest extends Goal {
 	constructor(originalGoal) {

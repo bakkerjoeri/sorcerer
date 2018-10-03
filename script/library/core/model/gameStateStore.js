@@ -1,4 +1,4 @@
-import createStore from './../../../library/store/createStore';
+import createStore from './../../../library/store/createStore.js';
 
 export const INITIAL_STATE = {
 	game: {

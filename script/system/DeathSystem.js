@@ -1,8 +1,8 @@
-import System from './../library/core/module/System';
-import store from './../library/core/model/gameStateStore';
-import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject';
-import {getAbilityWithName} from './../abilities';
+import System from './../library/core/module/System.js';
+import store from './../library/core/model/gameStateStore.js';
+import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects.js';
+import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
+import {getAbilityWithName} from './../abilities/index.js';
 
 export default class DamageSystem extends System {
 	constructor() {

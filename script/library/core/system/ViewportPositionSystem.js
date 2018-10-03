@@ -1,10 +1,10 @@
-import System from './../module/System';
-import store from './../model/gameStateStore';
-import {getCurrentRoom} from './../model/rooms';
-import {getActiveViewportsInRoomWithId, changeViewportPosition} from './../model/viewports';
-import {getSpriteWithId} from './../model/sprites';
-import {getSpriteFrameWithId} from './../model/spriteFrames';
-import {getGameObjectWithId} from './../model/gameObjects';
+import System from './../module/System.js';
+import store from './../model/gameStateStore.js';
+import {getCurrentRoom} from './../model/rooms.js';
+import {getActiveViewportsInRoomWithId, changeViewportPosition} from './../model/viewports.js';
+import {getSpriteWithId} from './../model/sprites.js';
+import {getSpriteFrameWithId} from './../model/spriteFrames.js';
+import {getGameObjectWithId} from './../model/gameObjects.js';
 
 export default class ViewportPositionSystem extends System {
 	constructor() {

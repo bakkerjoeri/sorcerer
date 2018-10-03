@@ -1,28 +1,28 @@
-import store from './library/core/model/gameStateStore';
-import Game from './library/core/module/Game';
-import {appendState} from './library/core/model/general';
-import {setGameName, setCurrentRoomId} from './library/core/model/game';
-import {addViewportToRoom} from './library/core/model/rooms';
-import {createRoom} from './library/core/module/Room';
-import {createViewport} from './library/core/module/Viewport';
-import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Level';
+import store from './library/core/model/gameStateStore.js';
+import Game from './library/core/module/Game.js';
+import {appendState} from './library/core/model/general.js';
+import {setGameName, setCurrentRoomId} from './library/core/model/game.js';
+import {addViewportToRoom} from './library/core/model/rooms.js';
+import {createRoom} from './library/core/module/Room.js';
+import {createViewport} from './library/core/module/Viewport.js';
+import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Level.js';
 
-import GreenKnight from './gameObject/GreenKnight';
-import KingSlime from './gameObject/KingSlime';
-import Slime from './gameObject/Slime';
+import GreenKnight from './gameObject/GreenKnight.js';
+import KingSlime from './gameObject/KingSlime.js';
+import Slime from './gameObject/Slime.js';
 
-import loadSprites from './assets/loadSprites';
+import loadSprites from './assets/loadSprites.js';
 
-import AnimationSystem from './library/core/system/AnimationSystem';
-import BrainSystem from './system/BrainSystem';
-import ActionSystem from './system/ActionSystem';
-import ActionTickerSystem from './system/ActionTickerSystem';
-import PlayerControlSystem from './system/PlayerControlSystem';
-import DamageSystem from './system/DamageSystem';
-import DeathSystem from './system/DeathSystem';
-import PositionInLevelSystem from './system/PositionInLevelSystem';
-import RenderSystem from './library/core/system/RenderSystem';
-import ViewportPositionSystem from './library/core/system/ViewportPositionSystem';
+import AnimationSystem from './library/core/system/AnimationSystem.js';
+import BrainSystem from './system/BrainSystem.js';
+import ActionSystem from './system/ActionSystem.js';
+import ActionTickerSystem from './system/ActionTickerSystem.js';
+import PlayerControlSystem from './system/PlayerControlSystem.js';
+import DamageSystem from './system/DamageSystem.js';
+import DeathSystem from './system/DeathSystem.js';
+import PositionInLevelSystem from './system/PositionInLevelSystem.js';
+import RenderSystem from './library/core/system/RenderSystem.js';
+import ViewportPositionSystem from './library/core/system/ViewportPositionSystem.js';
 
 loadSprites();
 

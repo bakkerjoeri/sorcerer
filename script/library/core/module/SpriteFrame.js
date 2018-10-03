@@ -1,6 +1,6 @@
-import createStateEntity from './../utility/createStateEntity';
-import store from './../model/gameStateStore';
-import {addSpriteFrame} from './../model/spriteFrames';
+import createStateEntity from './../utility/createStateEntity.js';
+import store from './../model/gameStateStore.js';
+import {addSpriteFrame} from './../model/spriteFrames.js';
 
 export function createSpriteFrame(properties = {}) {
 	const DEFAULT_PROPERTIES = {

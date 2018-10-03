@@ -1,5 +1,5 @@
-import Grave from './../../gameObject/Grave';
-import {createGameObjectAtPositionInLevel} from './../../module/Level';
+import Grave from './../../gameObject/Grave.js';
+import {createGameObjectAtPositionInLevel} from './../../module/Level.js';
 
 export default function createGrave(levelId, entity) {
 	let {positionInLevel} = entity.components;

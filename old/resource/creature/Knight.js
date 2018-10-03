@@ -1,5 +1,5 @@
-import Structure from 'object/Structure';
-import {Grave} from 'resource/structure/Grave';
+import Structure from 'object/Structure.js';
+import {Grave} from 'resource/structure/Grave.js';
 
 export const Knight = {
 	type: 'knight',

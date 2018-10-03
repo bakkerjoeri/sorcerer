@@ -1,6 +1,6 @@
-import GameObject from './GameObject';
-import Log from './../module/Log';
-import Ticker from './../module/Ticker';
+import GameObject from './GameObject.js';
+import Log from './../module/Log.js';
+import Ticker from './../module/Ticker.js';
 
 const DEFAULT_STATS = {
 	strength: 1,
