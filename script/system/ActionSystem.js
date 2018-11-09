@@ -21,11 +21,11 @@ export default class ActionTickerSystem extends System {
 		this.entityWaits = this.entityWaits.bind(this);
 		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
 
-		this.subscribe('actWait', gameObjects => {
+		this.onEvent('actWait', gameObjects => {
 			gameObjects.forEach(this.entityWaits);
 		});
 
-		this.subscribe('actTowardsPosition', (gameObjects, newPositionInLevel) => {
+		this.onEvent('actTowardsPosition', (gameObjects, newPositionInLevel) => {
 			gameObjects.forEach((gameObject) => {
 				this.entityActsTowardsPosition(gameObject, newPositionInLevel);
 			});

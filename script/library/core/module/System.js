@@ -4,7 +4,7 @@ export default class System {
 		this.topics = new Map();
 	}
 
-	subscribe(topic, callback) {
+	onEvent(topic, callback) {
 		if (typeof callback !== 'function') {
 			throw new Error(`Expected callback to be of type 'function', but got '${typeof callback}'.`)
 		}

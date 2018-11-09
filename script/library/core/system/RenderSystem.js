@@ -15,7 +15,7 @@ export default class RenderSystem extends System {
 		this.drawFrameInViewport = this.drawFrameInViewport.bind(this);
 		this.renderGameObjectInViewport = this.renderGameObjectInViewport.bind(this);
 
-		this.subscribe('draw', this.drawFrame);
+		this.onEvent('draw', this.drawFrame);
 	}
 
 	drawFrame(gameObjects) {

@@ -10,7 +10,7 @@ export default class ActionTickerSystem extends System {
 				&& !doesGameObjectHaveComponents(entity, ['isDead']);
 		});
 
-		this.subscribe('update', updateTicks);
+		this.onEvent('update', updateTicks);
 	}
 }
 

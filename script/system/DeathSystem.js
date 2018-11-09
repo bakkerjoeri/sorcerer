@@ -12,7 +12,7 @@ export default class DamageSystem extends System {
 				&& !doesGameObjectHaveComponents(entity, ['isDead'])
 		});
 
-		this.subscribe('update', gameObjects => {
+		this.onEvent('update', gameObjects => {
 			gameObjects.forEach(this.die);
 		});
 	}

@@ -10,7 +10,7 @@ export default class PlayerControlSystem extends System {
 
 		this.attemptAction = this.attemptAction.bind(this);
 
-		this.subscribe('keydown', (gameObjects, key) => {
+		this.onEvent('keydown', (gameObjects, key) => {
 			gameObjects.forEach((gameObject) => {
 				this.attemptAction(gameObject, key)
 			});

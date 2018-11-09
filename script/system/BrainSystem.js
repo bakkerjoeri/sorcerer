@@ -8,7 +8,7 @@ export default class BrainSystem extends System {
 
 		this.decideAction = this.decideAction.bind(this);
 
-		this.subscribe('update', gameObjects => {
+		this.onEvent('update', gameObjects => {
 			gameObjects.forEach(this.decideAction);
 		});
 	}
