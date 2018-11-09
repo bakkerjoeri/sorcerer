@@ -12,7 +12,7 @@ export default class AnimationSystem extends System {
 
 		this.animateGameObject = this.animateGameObject.bind(this);
 
-		this.onEvent('update', (gameObjects) => {
+		this.onEvent('beforeDraw', (gameObjects) => {
 			gameObjects.forEach(this.animateGameObject);
 		});
 	}

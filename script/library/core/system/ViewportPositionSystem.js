@@ -10,7 +10,7 @@ export default class ViewportPositionSystem extends System {
 	constructor() {
 		super();
 
-		this.onEvent('draw', () => {
+		this.onEvent('beforeDraw', () => {
 			let currentRoom = getCurrentRoom(store.getState());
 			let viewportsToUpdate = getActiveViewportsInRoomWithId(store.getState(), currentRoom.id)
 				.filter((viewport) => viewport.gameObjectIdToFollow !== null);
