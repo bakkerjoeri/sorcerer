@@ -84,9 +84,9 @@ game.addSystem(new ActionSystem());
 game.addSystem(new DamageSystem());
 game.addSystem(new DeathSystem());
 game.addSystem(new PositionInLevelSystem());
+game.addSystem(new ViewportPositionSystem());
 game.addSystem(new AnimationSystem());
 game.addSystem(new RenderSystem());
-game.addSystem(new ViewportPositionSystem());
 
 game.start();
 
