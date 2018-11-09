@@ -1,6 +1,6 @@
 import createStateEntity from './../utility/createStateEntity.js';
 import store from './../model/gameStateStore.js';
-import {addViewport, changeViewportPosition} from './../model/viewports.js';
+import {addViewport} from './../model/viewports.js';
 
 export function createViewport(properties = {}) {
 	const DEFAULT_PROPERTIES = {

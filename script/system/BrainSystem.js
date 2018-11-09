@@ -8,7 +8,7 @@ export default class BrainSystem extends System {
 
 		this.decideAction = this.decideAction.bind(this);
 
-		this.observe('update', gameObjects => {
+		this.onEvent('update', gameObjects => {
 			gameObjects.forEach(this.decideAction);
 		});
 	}
@@ -17,7 +17,7 @@ export default class BrainSystem extends System {
 		let {isDead, positionInLevel} = gameObject.components;
 
 		if (isDead) {
-			this.game.notify('actWait', [gameObject]);
+			this.game.emitEvent('actWait', [gameObject]);
 		} else {
 			let newPositionInLevel = choose([
 				{x: positionInLevel.x, y: positionInLevel.y - 1},
@@ -26,7 +26,7 @@ export default class BrainSystem extends System {
 				{x: positionInLevel.x - 1, y: positionInLevel.y},
 			]);
 
-			this.game.notify('actTowardsPosition', [gameObject], newPositionInLevel);
+			this.game.emitEvent('actTowardsPosition', [gameObject], newPositionInLevel);
 		}
 	}
 }

@@ -3,11 +3,11 @@ export default class Keyboard {
 		this.game = game;
 
 		window.addEventListener('keydown', (event) => {
-			game.notify('keydown', undefined, event.key);
+			game.emitEvent('keydown', undefined, event.key);
 		});
 
 		window.addEventListener('keyup', (event) => {
-			game.notify('keyup', undefined, event.key);
+			game.emitEvent('keyup', undefined, event.key);
 		});
 	}
 }

@@ -10,7 +10,7 @@ export default class PlayerControlSystem extends System {
 
 		this.attemptAction = this.attemptAction.bind(this);
 
-		this.observe('keydown', (gameObjects, key) => {
+		this.onEvent('keydown', (gameObjects, key) => {
 			gameObjects.forEach((gameObject) => {
 				this.attemptAction(gameObject, key)
 			});
@@ -21,32 +21,32 @@ export default class PlayerControlSystem extends System {
 		let {positionInLevel} = gameObject.components;
 
 		if (key === ' ') {
-			this.game.notify('actWait', [gameObject]);
+			this.game.emitEvent('actWait', [gameObject]);
 		}
 
 		if (key === 'ArrowUp') {
-			this.game.notify('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', [gameObject], {
 				x: positionInLevel.x,
 				y: positionInLevel.y - 1,
 			});
 		}
 
 		if (key === 'ArrowRight') {
-			this.game.notify('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', [gameObject], {
 				x: positionInLevel.x + 1,
 				y: positionInLevel.y,
 			});
 		}
 
 		if (key === 'ArrowDown') {
-			this.game.notify('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', [gameObject], {
 				x: positionInLevel.x,
 				y: positionInLevel.y + 1,
 			});
 		}
 
 		if (key === 'ArrowLeft') {
-			this.game.notify('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', [gameObject], {
 				x: positionInLevel.x - 1,
 				y: positionInLevel.y,
 			});

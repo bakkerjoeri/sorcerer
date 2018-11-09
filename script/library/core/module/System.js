@@ -4,7 +4,7 @@ export default class System {
 		this.topics = new Map();
 	}
 
-	observe(topic, callback) {
+	onEvent(topic, callback) {
 		if (typeof callback !== 'function') {
 			throw new Error(`Expected callback to be of type 'function', but got '${typeof callback}'.`)
 		}
@@ -16,11 +16,11 @@ export default class System {
 		this.topics.get(topic).push(callback);
 	}
 
-	handleNotify(topic, gameObjects, ...args) {
-		if (this.topics.has(topic)) {
+	handleEvent(eventName, gameObjects, ...args) {
+		if (this.topics.has(eventName)) {
 			let filteredGameObjects = gameObjects.filter(this.entityFilter);
 
-			this.topics.get(topic).forEach((callback) => {
+			this.topics.get(eventName).forEach((callback) => {
 				callback(filteredGameObjects, ...args);
 			});
 		}
