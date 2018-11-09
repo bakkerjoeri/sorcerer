@@ -12,7 +12,7 @@ export default class AnimationSystem extends System {
 
 		this.animateGameObject = this.animateGameObject.bind(this);
 
-		this.observe('update', (gameObjects) => {
+		this.subscribe('update', (gameObjects) => {
 			gameObjects.forEach(this.animateGameObject);
 		});
 	}

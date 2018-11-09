@@ -7,7 +7,7 @@ export default class DamageSystem extends System {
 	constructor() {
 		super(entity => doesGameObjectHaveComponents(entity, ['health']));
 
-		this.observe('takeDamage', (gameObjects, damage) => {
+		this.subscribe('takeDamage', (gameObjects, damage) => {
 			gameObjects.forEach((gameObject) => {
 				this.takeDamage(gameObject, damage)
 			});

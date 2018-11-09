@@ -25,9 +25,9 @@ export default class Game {
 		this.looping = false;
 	}
 
-	notify(eventName, entities = getGameObjectsInCurrentRoom(store.getState()), ...args) {
+	emitEvent(eventName, entities = getGameObjectsInCurrentRoom(store.getState()), ...args) {
 		this.systems.forEach((system) => {
-			system.handleNotify(eventName, entities, ...args);
+			system.handleEvent(eventName, entities, ...args);
 		});
 	}
 
@@ -35,8 +35,8 @@ export default class Game {
 		this.timeSincePreviousUpdate = time - this.elapsed;
 		this.elapsed = time;
 
-		this.notify('update');
-		this.notify('draw');
+		this.emitEvent('update');
+		this.emitEvent('draw');
 
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);

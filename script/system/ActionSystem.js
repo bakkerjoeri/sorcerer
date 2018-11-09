@@ -21,11 +21,11 @@ export default class ActionTickerSystem extends System {
 		this.entityWaits = this.entityWaits.bind(this);
 		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
 
-		this.observe('actWait', gameObjects => {
+		this.subscribe('actWait', gameObjects => {
 			gameObjects.forEach(this.entityWaits);
 		});
 
-		this.observe('actTowardsPosition', (gameObjects, newPositionInLevel) => {
+		this.subscribe('actTowardsPosition', (gameObjects, newPositionInLevel) => {
 			gameObjects.forEach((gameObject) => {
 				this.entityActsTowardsPosition(gameObject, newPositionInLevel);
 			});
@@ -44,7 +44,7 @@ export default class ActionTickerSystem extends System {
 		let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, entity, newPositionInLevel);
 
 		if (attackTarget) {
-			this.game.notify('takeDamage', [attackTarget], 1);
+			this.game.emitEvent('takeDamage', [attackTarget], 1);
 
 			return this.entityConcludesTurn(entity);
 		}
