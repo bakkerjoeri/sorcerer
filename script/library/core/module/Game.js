@@ -36,6 +36,7 @@ export default class Game {
 		this.elapsed = time;
 
 		this.emitEvent('update');
+		this.emitEvent('beforeDraw');
 		this.emitEvent('draw');
 
 		if (this.looping) {

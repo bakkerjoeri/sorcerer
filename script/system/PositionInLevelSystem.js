@@ -7,7 +7,7 @@ export default class ActionTickerSystem extends System {
 	constructor() {
 		super(entity => doesGameObjectHaveComponents(entity, ['positionInLevel', 'position']));
 
-		this.onEvent('update', gameObjects => {
+		this.onEvent('beforeDraw', gameObjects => {
 			gameObjects.forEach(updatePosition);
 		});
 	}
