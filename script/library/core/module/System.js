@@ -1,7 +1,11 @@
+import store from './../model/gameStateStore.js';
+import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
+import {doesGameObjectHaveComponents} from './../module/GameObject.js';
+
 export default class System {
 	constructor(entityFilter = entity => entity) {
 		this.entityFilter = entityFilter;
-		this.topics = new Map();
+		this.eventHandlers = new Map();
 	}
 
 	onEvent(topic, callback) {
@@ -9,20 +13,28 @@ export default class System {
 			throw new Error(`Expected callback to be of type 'function', but got '${typeof callback}'.`)
 		}
 
-		if (!this.topics.has(topic)) {
-			this.topics.set(topic, []);
+		if (!this.eventHandlers.has(topic)) {
+			this.eventHandlers.set(topic, []);
 		}
 
-		this.topics.get(topic).push(callback);
+		this.eventHandlers.get(topic).push(callback);
 	}
 
 	handleEvent(eventName, gameObjects, ...args) {
-		if (this.topics.has(eventName)) {
+		if (this.eventHandlers.has(eventName)) {
 			let filteredGameObjects = gameObjects.filter(this.entityFilter);
 
-			this.topics.get(eventName).forEach((callback) => {
+			this.eventHandlers.get(eventName).forEach((callback) => {
 				callback(filteredGameObjects, ...args);
 			});
 		}
+	}
+
+	findGameObjects(requiredComponentNames = []) {
+		let gameObjects = getGameObjectsInCurrentRoom(store.getState());
+
+		return gameObjects.filter((gameObject) => {
+			return doesGameObjectHaveComponents(gameObject, requiredComponentNames);
+		});
 	}
 }
