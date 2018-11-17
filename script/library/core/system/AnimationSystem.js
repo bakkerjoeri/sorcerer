@@ -2,18 +2,17 @@ import System from './../module/System.js';
 import store from './../model/gameStateStore.js';
 import {getSpriteWithId} from './../model/sprites.js';
 import {updateComponentOfGameObject} from './../model/gameObjects.js';
-import {doesGameObjectHaveComponents} from './../module/GameObject.js';
 
 export default class AnimationSystem extends System {
 	constructor() {
-		super(entity => doesGameObjectHaveComponents(entity, ['sprite']));
+		super();
 
 		this.timeOfPreviousFrameByGameObjectId = {};
 
-		this.animateGameObject = this.animateGameObject.bind(this);
-
-		this.onEvent('beforeDraw', (gameObjects) => {
-			gameObjects.forEach(this.animateGameObject);
+		this.onEvent('beforeDraw', () => {
+			this.findGameObjects(['sprite']).forEach((gameObject) => {
+				this.animateGameObject(gameObject);
+			});
 		});
 	}
 

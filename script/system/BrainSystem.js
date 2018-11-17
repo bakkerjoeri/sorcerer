@@ -1,15 +1,14 @@
 import System from './../library/core/module/System.js';
 import choose from './../utility/random/choose.js';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
 
 export default class BrainSystem extends System {
 	constructor() {
-		super(entity => doesGameObjectHaveComponents(entity, ['actor', 'nonPlayer', 'canAct', 'positionInLevel']));
+		super();
 
 		this.decideAction = this.decideAction.bind(this);
 
-		this.onEvent('update', gameObjects => {
-			gameObjects.forEach(this.decideAction);
+		this.onEvent('update', () => {
+			this.findGameObjects(['actor', 'nonPlayer', 'canAct', 'positionInLevel']).forEach(this.decideAction)
 		});
 	}
 
@@ -17,7 +16,7 @@ export default class BrainSystem extends System {
 		let {isDead, positionInLevel} = gameObject.components;
 
 		if (isDead) {
-			this.game.emitEvent('actWait', [gameObject]);
+			this.game.emitEvent('actWait', gameObject);
 		} else {
 			let newPositionInLevel = choose([
 				{x: positionInLevel.x, y: positionInLevel.y - 1},
@@ -26,7 +25,7 @@ export default class BrainSystem extends System {
 				{x: positionInLevel.x - 1, y: positionInLevel.y},
 			]);
 
-			this.game.emitEvent('actTowardsPosition', [gameObject], newPositionInLevel);
+			this.game.emitEvent('actTowardsPosition', gameObject, newPositionInLevel);
 		}
 	}
 }

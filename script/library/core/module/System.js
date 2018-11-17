@@ -3,29 +3,26 @@ import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
 import {doesGameObjectHaveComponents} from './../module/GameObject.js';
 
 export default class System {
-	constructor(entityFilter = entity => entity) {
-		this.entityFilter = entityFilter;
+	constructor() {
 		this.eventHandlers = new Map();
 	}
 
-	onEvent(topic, callback) {
+	onEvent(eventName, callback) {
 		if (typeof callback !== 'function') {
 			throw new Error(`Expected callback to be of type 'function', but got '${typeof callback}'.`)
 		}
 
-		if (!this.eventHandlers.has(topic)) {
-			this.eventHandlers.set(topic, []);
+		if (!this.eventHandlers.has(eventName)) {
+			this.eventHandlers.set(eventName, []);
 		}
 
-		this.eventHandlers.get(topic).push(callback);
+		this.eventHandlers.get(eventName).push(callback);
 	}
 
-	handleEvent(eventName, gameObjects, ...args) {
+	handleEvent(eventName, ...args) {
 		if (this.eventHandlers.has(eventName)) {
-			let filteredGameObjects = gameObjects.filter(this.entityFilter);
-
 			this.eventHandlers.get(eventName).forEach((callback) => {
-				callback(filteredGameObjects, ...args);
+				callback(...args);
 			});
 		}
 	}

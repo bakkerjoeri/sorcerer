@@ -1,20 +1,13 @@
 import System from './../library/core/module/System.js';
 import store from './../library/core/model/gameStateStore.js';
 import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects.js';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
 import {getAbilityWithName} from './../abilities/index.js';
 
 export default class DamageSystem extends System {
 	constructor() {
-		super(entity => {
-			return doesGameObjectHaveComponents(entity, ['health'])
-				&& entity.components.health.current <= 0
-				&& !doesGameObjectHaveComponents(entity, ['isDead'])
-		});
+		super();
 
-		this.onEvent('update', gameObjects => {
-			gameObjects.forEach(this.die);
-		});
+		this.onEvent('death', this.die);
 	}
 
 	die(gameObject) {
