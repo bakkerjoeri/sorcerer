@@ -15,21 +15,13 @@ import {
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(entity => doesGameObjectHaveComponents(entity, ['actor', 'canAct', 'positionInLevel']));
+		super();
 
 		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
 		this.entityWaits = this.entityWaits.bind(this);
-		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
 
-		this.onEvent('actWait', gameObjects => {
-			gameObjects.forEach(this.entityWaits);
-		});
-
-		this.onEvent('actTowardsPosition', (gameObjects, newPositionInLevel) => {
-			gameObjects.forEach((gameObject) => {
-				this.entityActsTowardsPosition(gameObject, newPositionInLevel);
-			});
-		});
+		this.onEvent('actWait', this.entityWaits);
+		this.onEvent('actTowardsPosition', this.entityActsTowardsPosition)
 	}
 
 	entityActsTowardsPosition(entity, newPositionInLevel) {
@@ -44,7 +36,7 @@ export default class ActionTickerSystem extends System {
 		let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, entity, newPositionInLevel);
 
 		if (attackTarget) {
-			this.game.emitEvent('takeDamage', [attackTarget], 1);
+			this.game.emitEvent('takeDamage', attackTarget, 1);
 
 			return this.entityConcludesTurn(entity);
 		}

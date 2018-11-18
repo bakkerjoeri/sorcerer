@@ -3,15 +3,15 @@ import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.
 
 export default class PlayerControlSystem extends System {
 	constructor() {
-		super(entity => {
-			return doesGameObjectHaveComponents(entity, ['actor', 'player', 'canAct', 'positionInLevel'])
-				&& !doesGameObjectHaveComponents(entity, ['isDead']);
-		});
+		super();
 
 		this.attemptAction = this.attemptAction.bind(this);
 
-		this.onEvent('keydown', (gameObjects, key) => {
-			gameObjects.forEach((gameObject) => {
+		this.onEvent('keydown', key => {
+			this.findGameObjects().filter((gameObject) => {
+				return doesGameObjectHaveComponents(gameObject, ['actor', 'player', 'canAct', 'positionInLevel'])
+					&& !doesGameObjectHaveComponents(gameObject, ['isDead']);
+			}).forEach((gameObject) => {
 				this.attemptAction(gameObject, key)
 			});
 		});
@@ -21,32 +21,32 @@ export default class PlayerControlSystem extends System {
 		let {positionInLevel} = gameObject.components;
 
 		if (key === ' ') {
-			this.game.emitEvent('actWait', [gameObject]);
+			this.game.emitEvent('actWait', gameObject);
 		}
 
 		if (key === 'ArrowUp') {
-			this.game.emitEvent('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x,
 				y: positionInLevel.y - 1,
 			});
 		}
 
 		if (key === 'ArrowRight') {
-			this.game.emitEvent('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x + 1,
 				y: positionInLevel.y,
 			});
 		}
 
 		if (key === 'ArrowDown') {
-			this.game.emitEvent('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x,
 				y: positionInLevel.y + 1,
 			});
 		}
 
 		if (key === 'ArrowLeft') {
-			this.game.emitEvent('actTowardsPosition', [gameObject], {
+			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x - 1,
 				y: positionInLevel.y,
 			});

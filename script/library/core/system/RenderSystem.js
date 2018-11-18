@@ -5,17 +5,14 @@ import {getActiveViewportsInRoomWithId} from './../model/viewports.js';
 import {getSpriteWithId} from './../model/sprites.js';
 import {getSpriteFrameWithId} from './../model/spriteFrames.js';
 import {getImageFromFilePath} from './../module/SpriteFrame.js';
-import {doesGameObjectHaveComponents} from './../module/GameObject.js';
 
 export default class RenderSystem extends System {
 	constructor() {
-		super(entity => doesGameObjectHaveComponents(entity, ['sprite', 'position', 'isVisible']));
+		super();
 
-		this.drawFrame = this.drawFrame.bind(this);
-		this.drawFrameInViewport = this.drawFrameInViewport.bind(this);
-		this.renderGameObjectInViewport = this.renderGameObjectInViewport.bind(this);
-
-		this.onEvent('draw', this.drawFrame);
+		this.onEvent('draw', () => {
+			this.drawFrame(this.findGameObjects(['sprite', 'position', 'isVisible']))
+		});
 	}
 
 	drawFrame(gameObjects) {

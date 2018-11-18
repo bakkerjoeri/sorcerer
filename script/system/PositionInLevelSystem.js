@@ -1,14 +1,13 @@
 import System from './../library/core/module/System.js';
 import store from './../library/core/model/gameStateStore.js';
 import {updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(entity => doesGameObjectHaveComponents(entity, ['positionInLevel', 'position']));
+		super();
 
-		this.onEvent('beforeDraw', gameObjects => {
-			gameObjects.forEach(updatePosition);
+		this.onEvent('beforeDraw', () => {
+			this.findGameObjects(['positionInLevel', 'position']).forEach(updatePosition);
 		});
 	}
 }

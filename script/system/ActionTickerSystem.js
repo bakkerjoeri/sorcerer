@@ -5,12 +5,16 @@ import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.
 
 export default class ActionTickerSystem extends System {
 	constructor() {
-		super(entity => {
-			return doesGameObjectHaveComponents(entity, ['actor', 'actionTicker'])
-				&& !doesGameObjectHaveComponents(entity, ['isDead']);
-		});
+		super();
 
-		this.onEvent('update', updateTicks);
+		this.onEvent('update', () => {
+			let gameObjectsToUpdate = this.findGameObjects().filter((gameObject) => {
+				return doesGameObjectHaveComponents(gameObject, ['actor', 'actionTicker'])
+					&& !doesGameObjectHaveComponents(gameObject, ['isDead']);
+			});
+
+			updateTicks(gameObjectsToUpdate);
+		});
 	}
 }
 
