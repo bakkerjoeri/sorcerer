@@ -1,4 +1,4 @@
-export default class Keyboard {
+export default class InterfaceManager {
 	constructor(game) {
 		this.game = game;
 

@@ -1,10 +1,10 @@
 import store from './../model/gameStateStore.js';
 import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
-import Keyboard from './Keyboard.js';
+import InterfaceManager from './InterfaceManager.js';
 
 export default class Game {
 	constructor(canvas, scale) {
-		this.keyboard = new Keyboard(this);
+		this.InterfaceManager = new InterfaceManager(this);
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
 

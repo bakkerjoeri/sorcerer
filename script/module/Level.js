@@ -42,11 +42,18 @@ export function createLevelOfSize(size, properties = {}) {
 	return level;
 }
 
-export function createGameObjectAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
+export function createGameObjectInLevel(levelId, EntityClass, components = {}) {
 	let level = getLevelWithId(store.getState(), levelId);
 	let entity = new EntityClass(components);
 
 	store.dispatch(addGameObjectToRoom(level.roomId, entity.id));
+
+	return entity;
+}
+
+export function createGameObjectAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
+	let entity = createGameObjectInLevel(levelId, EntityClass, components);
+
 	moveEntityToPositionInLevel(entity.id, positionInLevel, levelId);
 
 	return entity;

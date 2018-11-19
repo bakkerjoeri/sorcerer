@@ -1,5 +1,5 @@
-import Structure from './Structure.js';
-import SpriteComponent from './../library/core/component/SpriteComponent.js';
+import Structure from './../Structure.js';
+import SpriteComponent from './../../library/core/component/SpriteComponent.js';
 
 export const WALL_COMPONENTS_BLUEPRINT = {
 	sprite: new SpriteComponent({

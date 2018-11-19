@@ -1,6 +1,6 @@
-import Actor from './Actor.js';
-import HealthComponent from './../component/HealthComponent.js';
-import SpriteComponent from './../library/core/component/SpriteComponent.js';
+import Actor from './../Actor.js';
+import HealthComponent from './../../component/HealthComponent.js';
+import SpriteComponent from './../../library/core/component/SpriteComponent.js';
 
 export const GREEN_KNIGHT_COMPONENTS_BLUEPRINT = {
 	name: 'Green Knight',

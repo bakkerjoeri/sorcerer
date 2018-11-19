@@ -19,9 +19,11 @@ export default class ActionTickerSystem extends System {
 
 		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
 		this.entityWaits = this.entityWaits.bind(this);
+		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
 
 		this.onEvent('actWait', this.entityWaits);
 		this.onEvent('actTowardsPosition', this.entityActsTowardsPosition)
+		this.onEvent('concludeTurn', this.entityConcludesTurn)
 	}
 
 	entityActsTowardsPosition(entity, newPositionInLevel) {
@@ -30,23 +32,26 @@ export default class ActionTickerSystem extends System {
 		if (canEntityBeAtPositionInLevel(currentLevelId, entity.id, newPositionInLevel)) {
 			moveEntityToPositionInLevel(entity.id, newPositionInLevel, currentLevelId);
 
-			return this.entityConcludesTurn(entity);
+			this.game.emitEvent('concludeTurn', entity);
+			return;
 		}
 
 		let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, entity, newPositionInLevel);
 
 		if (attackTarget) {
-			this.game.emitEvent('takeDamage', attackTarget, 1);
+			this.game.emitEvent('attackTarget', entity, attackTarget);
 
-			return this.entityConcludesTurn(entity);
+			this.game.emitEvent('concludeTurn', entity);
+			return;
 		}
 
-		return this.entityWaits(entity);
+		this.entityWaits(entity);
+		return;
 	}
 
 	entityWaits(entity) {
 		console.log(`${entity.components.name} waits...`);
-		return this.entityConcludesTurn(entity);
+		this.game.emitEvent('concludeTurn', entity);
 	}
 
 	entityConcludesTurn(entity) {
