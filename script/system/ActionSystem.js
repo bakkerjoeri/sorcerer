@@ -39,7 +39,12 @@ export default class ActionTickerSystem extends System {
 		let attackTarget = getAttackTargetForPositionInLevel(currentLevelId, entity, newPositionInLevel);
 
 		if (attackTarget) {
-			this.game.emitEvent('attackTarget', entity, attackTarget);
+			let attackEvent = {
+				attacker: entity,
+				target: attackTarget,
+			};
+
+			this.game.emitEvent('attackTarget', attackEvent);
 
 			this.game.emitEvent('concludeTurn', entity);
 			return;

@@ -11,37 +11,22 @@ export default class DamageSystem extends System {
 		this.takeDamage = this.takeDamage.bind(this);
 		this.checkForDeath = this.checkForDeath.bind(this);
 
-		this.onEvent('attackTarget', this.dealDamage);
+		this.onEvent('dealDamage', this.dealDamage);
 		this.onEvent('takeDamage', this.takeDamage);
 		this.onEvent('hasTakenDamage', this.checkForDeath);
 	}
 
-	dealDamage(attacker, target) {
-		let damage = 1;
-
-		if (attacker.components.inventory) {
-			let equippedItems = attacker.components.inventory.map((equippedItemId) => {
-				return getGameObjectWithId(store.getState(), equippedItemId);
-			});
-
-			damage = equippedItems.reduce((totalDamage, equippedItem) => {
-				if (equippedItem.components.attack) {
-					return totalDamage + equippedItem.components.attack;
-				}
-
-				return totalDamage;
-			}, 0);
-		}
-
-
-		this.game.emitEvent('takeDamage', target, damage);
+	dealDamage(damageEvent) {
+		this.game.emitEvent('takeDamage', damageEvent);
 	}
 
-	takeDamage(target, damage) {
+	takeDamage(damageEvent) {
+		let {target, amount} = damageEvent;
 		let {health, name} = target.components;
-		let newHealthAmount = health.current - damage;
 
-		console.log(`${name} takes ${damage} damage! (${health.current - damage}/${health.maximum})`);
+		let newHealthAmount = health.current - amount;
+
+		console.log(`${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
 
 		store.dispatch(updateComponentOfGameObject(target.id, 'health', {
 			current: newHealthAmount,
