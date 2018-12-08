@@ -7,13 +7,13 @@ export default class DamageSystem extends System {
 	constructor() {
 		super();
 
-		this.onEvent('death', this.die);
+		this.onEvent('death', this.die.bind(this));
 	}
 
 	die(gameObject) {
 		let {currentLevelId, name, deathrattle} = gameObject.components;
 
-		console.log(`${name} died!`);
+		this.game.emitEvent('log', `${name} dies!`);
 
 		store.dispatch(removeComponentFromGameObject(gameObject.id, 'isVisible'));
 		store.dispatch(removeComponentFromGameObject(gameObject.id, 'isSolid'));

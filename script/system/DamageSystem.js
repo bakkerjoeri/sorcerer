@@ -26,7 +26,7 @@ export default class DamageSystem extends System {
 
 		let newHealthAmount = health.current - amount;
 
-		console.log(`${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
+		this.game.emitEvent('log', `${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
 
 		store.dispatch(updateComponentOfGameObject(target.id, 'health', {
 			current: newHealthAmount,
