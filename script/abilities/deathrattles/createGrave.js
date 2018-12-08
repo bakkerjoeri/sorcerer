@@ -1,4 +1,4 @@
-import Grave from './../../gameObject/Grave.js';
+import Grave from './../../gameObjects/structures/Grave.js';
 import {createGameObjectAtPositionInLevel} from './../../module/Level.js';
 
 export default function createGrave(levelId, entity) {

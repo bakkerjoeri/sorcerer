@@ -7,19 +7,23 @@ import {createRoom} from './library/core/module/Room.js';
 import {createViewport} from './library/core/module/Viewport.js';
 import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Level.js';
 
-import GreenKnight from './gameObject/GreenKnight.js';
-import KingSlime from './gameObject/KingSlime.js';
-import Slime from './gameObject/Slime.js';
+import GreenKnight from './gameObjects/actors/GreenKnight.js';
+import KingSlime from './gameObjects/actors/KingSlime.js';
+import Slime from './gameObjects/actors/Slime.js';
+import RustyDagger from './gameObjects/items/equipment/RustyDagger.js';
 
 import loadSprites from './assets/loadSprites.js';
 
-import AnimationSystem from './library/core/system/AnimationSystem.js';
-import BrainSystem from './system/BrainSystem.js';
 import ActionSystem from './system/ActionSystem.js';
 import ActionTickerSystem from './system/ActionTickerSystem.js';
-import PlayerControlSystem from './system/PlayerControlSystem.js';
+import AnimationSystem from './library/core/system/AnimationSystem.js';
+import AttackSystem from './system/AttackSystem.js';
+import BrainSystem from './system/BrainSystem.js';
 import DamageSystem from './system/DamageSystem.js';
 import DeathSystem from './system/DeathSystem.js';
+import EquipmentDamageSystem from './system/EquipmentDamageSystem.js';
+import LogSystem from './system/LogSystem.js';
+import PlayerControlSystem from './system/PlayerControlSystem.js';
 import PositionInLevelSystem from './system/PositionInLevelSystem.js';
 import RenderSystem from './library/core/system/RenderSystem.js';
 import ViewportPositionSystem from './library/core/system/ViewportPositionSystem.js';
@@ -55,7 +59,10 @@ let level = createLevelOfSize({
 	roomId: room.id,
 });
 
-let player = createGameObjectAtPositionInLevel(level.id, {x: 1, y: 1}, GreenKnight, {player: true});
+let player = createGameObjectAtPositionInLevel(level.id, {x: 1, y: 1}, GreenKnight, {
+	player: true,
+});
+createGameObjectAtPositionInLevel(level.id, {x: 1, y: 0}, RustyDagger);
 createGameObjectAtPositionInLevel(level.id, {x: 2, y: 1}, Slime, {nonPlayer: true});
 createGameObjectAtPositionInLevel(level.id, {x: 3, y: 3}, KingSlime, {nonPlayer: true});
 createGameObjectAtPositionInLevel(level.id, {x: 5, y: 3}, Slime, {nonPlayer: true});
@@ -81,8 +88,11 @@ game.addSystem(new PlayerControlSystem());
 game.addSystem(new BrainSystem());
 game.addSystem(new ActionTickerSystem());
 game.addSystem(new ActionSystem());
+game.addSystem(new AttackSystem());
 game.addSystem(new DamageSystem());
+game.addSystem(new EquipmentDamageSystem());
 game.addSystem(new DeathSystem());
+game.addSystem(new LogSystem());
 game.addSystem(new PositionInLevelSystem());
 game.addSystem(new ViewportPositionSystem());
 game.addSystem(new AnimationSystem());

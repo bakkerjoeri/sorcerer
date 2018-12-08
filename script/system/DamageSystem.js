@@ -1,30 +1,38 @@
 import System from './../library/core/module/System.js';
 import store from './../library/core/model/gameStateStore.js';
 import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
-import {updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
+import {getGameObjectWithId, updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
 
 export default class DamageSystem extends System {
 	constructor() {
 		super();
 
+		this.dealDamage = this.dealDamage.bind(this);
 		this.takeDamage = this.takeDamage.bind(this);
 		this.checkForDeath = this.checkForDeath.bind(this);
 
+		this.onEvent('dealDamage', this.dealDamage);
 		this.onEvent('takeDamage', this.takeDamage);
 		this.onEvent('hasTakenDamage', this.checkForDeath);
 	}
 
-	takeDamage(gameObject, damage) {
-		let {health, name} = gameObject.components;
-		let newHealthAmount = health.current - damage;
+	dealDamage(damageEvent) {
+		this.game.emitEvent('takeDamage', damageEvent);
+	}
 
-		console.log(`${name} takes ${damage} damage! (${health.current - damage}/${health.maximum})`);
+	takeDamage(damageEvent) {
+		let {target, amount} = damageEvent;
+		let {health, name} = target.components;
 
-		store.dispatch(updateComponentOfGameObject(gameObject.id, 'health', {
+		let newHealthAmount = health.current - amount;
+
+		this.game.emitEvent('log', `${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
+
+		store.dispatch(updateComponentOfGameObject(target.id, 'health', {
 			current: newHealthAmount,
 		}));
 
-		this.game.emitEvent('hasTakenDamage', gameObject);
+		this.game.emitEvent('hasTakenDamage', getGameObjectWithId(store.getState(), target.id));
 	}
 
 	checkForDeath(gameObject) {

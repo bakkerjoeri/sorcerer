@@ -21,31 +21,35 @@ export default class PlayerControlSystem extends System {
 		let {positionInLevel} = gameObject.components;
 
 		if (key === ' ') {
+			this.game.emitEvent('actPickUp', gameObject);
+		}
+
+		if (key === 'q') {
 			this.game.emitEvent('actWait', gameObject);
 		}
 
-		if (key === 'ArrowUp') {
+		if (key === 'w') {
 			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x,
 				y: positionInLevel.y - 1,
 			});
 		}
 
-		if (key === 'ArrowRight') {
+		if (key === 'd') {
 			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x + 1,
 				y: positionInLevel.y,
 			});
 		}
 
-		if (key === 'ArrowDown') {
+		if (key === 's') {
 			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x,
 				y: positionInLevel.y + 1,
 			});
 		}
 
-		if (key === 'ArrowLeft') {
+		if (key === 'a') {
 			this.game.emitEvent('actTowardsPosition', gameObject, {
 				x: positionInLevel.x - 1,
 				y: positionInLevel.y,

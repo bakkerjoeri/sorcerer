@@ -3,6 +3,7 @@ import HealthComponent from './../component/HealthComponent.js';
 
 export const ACTOR_COMPONENTS_BLUEPRINT = {
 	actor: true,
+	baseAttack: 1,
 	health: new HealthComponent({
 		maximum: 1,
 	}),

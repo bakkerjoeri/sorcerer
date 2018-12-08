@@ -2,7 +2,12 @@ import createStateEntity from './../library/core/utility/createStateEntity.js';
 import store from './../library/core/model/gameStateStore.js';
 import getPositionsInRange from './../utility/getPositionsInRange.js';
 import {addGameObjectToRoom} from './../library/core/model/rooms.js';
-import {getGameObjectWithId, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects.js';
+import {
+	getGameObjectWithId,
+	updateComponentOfGameObject,
+	getComponentValueForGameObject,
+	removeComponentFromGameObject,
+} from './../library/core/model/gameObjects.js';
 import {addLevel, getLevelWithId} from './../model/levels.js';
 import {getTilesInLevelAtRange, addEntityToTile, removeEntityFromTile} from './../model/tiles.js';
 import {createTileSet} from './Tile.js';
@@ -42,11 +47,18 @@ export function createLevelOfSize(size, properties = {}) {
 	return level;
 }
 
-export function createGameObjectAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
+export function createGameObjectInLevel(levelId, EntityClass, components = {}) {
 	let level = getLevelWithId(store.getState(), levelId);
 	let entity = new EntityClass(components);
 
 	store.dispatch(addGameObjectToRoom(level.roomId, entity.id));
+
+	return entity;
+}
+
+export function createGameObjectAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
+	let entity = createGameObjectInLevel(levelId, EntityClass, components);
+
 	moveEntityToPositionInLevel(entity.id, positionInLevel, levelId);
 
 	return entity;
@@ -76,6 +88,8 @@ export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 	getTilesInLevelAtRange(store.getState(), levelId, position, entity.components.sizeInLevel).forEach((tile) => {
 		store.dispatch(removeEntityFromTile(tile.id, entityId));
 	});
+
+	store.dispatch(removeComponentFromGameObject(entityId, 'positionInLevel'));
 }
 
 export function canEntityBeAtPositionInLevel(levelId, entityId, positionInLevel) {

@@ -13,5 +13,3 @@ export const abilities = {
 	createGrave,
 	spawnSlimes,
 };
-
-console.log(abilities);
