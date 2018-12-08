@@ -11,7 +11,9 @@ export default class RenderSystem extends System {
 		super();
 
 		this.onEvent('draw', () => {
-			this.drawFrame(this.findGameObjects(['sprite', 'position', 'isVisible']))
+			this.drawFrame(this.findGameObjects(['sprite', 'position']).filter((gameObject) => {
+				return gameObject.components.isVisible;
+			}))
 		});
 	}
 
