@@ -11,6 +11,7 @@ export const GREEN_KNIGHT_COMPONENTS_BLUEPRINT = {
 		assetId: 'greenknight',
 		framesPerSecond: 10,
 	}),
+	inventory: [],
 };
 
 export default function GreenKnight(components = {}) {

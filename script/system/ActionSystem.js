@@ -2,10 +2,12 @@ import System from './../library/core/module/System.js';
 import store from './../library/core/model/gameStateStore.js';
 import {
 	moveEntityToPositionInLevel,
+	removeEntityFromPositionInLevel,
 	canEntityBeAtPositionInLevel,
 	getEntitiesAtBoundariesInLevel,
 } from './../module/Level.js';
 import {
+	setComponentForGameObject,
 	updateComponentOfGameObject,
 	removeComponentFromGameObject
 } from './../library/core/model/gameObjects.js';
@@ -19,9 +21,11 @@ export default class ActionTickerSystem extends System {
 
 		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
 		this.entityWaits = this.entityWaits.bind(this);
+		this.entityPicksUp = this.entityPicksUp.bind(this);
 		this.entityConcludesTurn = this.entityConcludesTurn.bind(this);
 
 		this.onEvent('actWait', this.entityWaits);
+		this.onEvent('actPickUp', this.entityPicksUp);
 		this.onEvent('actTowardsPosition', this.entityActsTowardsPosition)
 		this.onEvent('concludeTurn', this.entityConcludesTurn)
 	}
@@ -54,8 +58,31 @@ export default class ActionTickerSystem extends System {
 		return;
 	}
 
+	entityPicksUp(entity) {
+		let {currentLevelId, positionInLevel, sizeInLevel} = entity.components;
+
+		let itemToPickUp = getEntitiesAtBoundariesInLevel(currentLevelId, positionInLevel, sizeInLevel, [entity.id])
+			.find((entity) => { return entity.components.isItem });
+
+		if (itemToPickUp) {
+			// Move first item found into inventory
+			store.dispatch(setComponentForGameObject(entity.id, 'inventory', [
+				...entity.components.inventory,
+				itemToPickUp.id,
+			]));
+
+			// Remove item from the level
+			removeEntityFromPositionInLevel(itemToPickUp.id, itemToPickUp.components.currentLevelId, itemToPickUp.components.positionInLevel);
+			store.dispatch(removeComponentFromGameObject(itemToPickUp.id, 'isVisible'));
+
+			this.game.emitEvent('log', `${entity.components.name} picks up ${itemToPickUp.components.name}`);
+
+			this.entityConcludesTurn(entity);
+		}
+	}
+
 	entityWaits(entity) {
-		console.log(`${entity.components.name} waits...`);
+		this.game.emitEvent('log', `${entity.components.name} waits...`);
 		this.game.emitEvent('concludeTurn', entity);
 	}
 
