@@ -1,7 +1,7 @@
 import store from './library/core/model/gameStateStore.js';
 import Game from './library/core/module/Game.js';
+import setupInterfaceEvents from './library/core/module/setupInterfaceEvents.js';
 import {appendState} from './library/core/model/general.js';
-import {setGameName, setCurrentRoomId} from './library/core/model/game.js';
 import {addViewportToRoom} from './library/core/model/rooms.js';
 import {createRoom} from './library/core/module/Room.js';
 import {createViewport} from './library/core/module/Viewport.js';
@@ -28,6 +28,9 @@ import PositionInLevelSystem from './system/PositionInLevelSystem.js';
 import RenderSystem from './library/core/system/RenderSystem.js';
 import ViewportPositionSystem from './library/core/system/ViewportPositionSystem.js';
 
+let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 4 });
+setupInterfaceEvents(game);
+
 loadSprites();
 
 const LEVEL_WIDTH = 30;
@@ -39,8 +42,6 @@ store.dispatch(appendState({
 	tiles: {}
 }));
 
-store.dispatch(setGameName('Sorcerer'));
-
 // Create a room
 let room = createRoom({
 	size: {
@@ -49,7 +50,7 @@ let room = createRoom({
 	},
 });
 
-store.dispatch(setCurrentRoomId(room.id));
+game.setCurrentRoom(room.id);
 
 // Create a level
 let level = createLevelOfSize({
@@ -81,8 +82,6 @@ let viewport = createViewport({
 });
 
 store.dispatch(addViewportToRoom(room.id, viewport.id));
-
-let game = new Game(document.querySelector('.canvas__sorcerer'), 4);
 
 game.addSystem(new PlayerControlSystem());
 game.addSystem(new BrainSystem());

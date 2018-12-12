@@ -1,18 +1,25 @@
-import store from './../model/gameStateStore.js';
-import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
-import InterfaceManager from './InterfaceManager.js';
+import {setGameName, setCurrentRoomId} from './../model/game.js';
 
 export default class Game {
-	constructor(canvas, scale) {
-		this.InterfaceManager = new InterfaceManager(this);
+	constructor(store, name, canvas, options = {}) {
+		this.store = store;
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
-
 		this.systems = [];
 		this.looping = false;
 		this.update = this.update.bind(this);
 
-		changeCanvasScale(canvas, scale);
+		if (options.hasOwnProperty('scale')) {
+			changeCanvasScale(this.canvas, options.scale);
+		}
+	}
+
+	setName(name) {
+		this.store.dispatch(setGameName(name));
+	}
+
+	setCurrentRoom(roomId) {
+		this.store.dispatch(setCurrentRoomId(roomId));
 	}
 
 	start() {
@@ -25,9 +32,9 @@ export default class Game {
 		this.looping = false;
 	}
 
-	emitEvent(eventName, entities = getGameObjectsInCurrentRoom(store.getState()), ...args) {
+	emitEvent(eventName, ...args) {
 		this.systems.forEach((system) => {
-			system.handleEvent(eventName, entities, ...args);
+			system.handleEvent(eventName, ...args);
 		});
 	}
 
