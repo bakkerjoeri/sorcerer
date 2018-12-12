@@ -49,7 +49,6 @@ export default class ActionTickerSystem extends System {
 			};
 
 			this.game.emitEvent('attackTarget', attackEvent);
-
 			this.game.emitEvent('concludeTurn', entity);
 			return;
 		}
