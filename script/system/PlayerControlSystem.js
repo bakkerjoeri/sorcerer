@@ -1,5 +1,5 @@
 import System from './../library/core/module/System.js';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
+import {findGameObjects} from './../library/core/module/GameObject.js';
 
 export default class PlayerControlSystem extends System {
 	constructor() {
@@ -8,9 +8,8 @@ export default class PlayerControlSystem extends System {
 		this.attemptAction = this.attemptAction.bind(this);
 
 		this.onEvent('keydown', key => {
-			this.findGameObjects().filter((gameObject) => {
-				return doesGameObjectHaveComponents(gameObject, ['actor', 'player', 'canAct', 'positionInLevel'])
-					&& !doesGameObjectHaveComponents(gameObject, ['isDead']);
+			findGameObjects(['actor', 'player', 'canAct', 'positionInLevel']).filter((gameObject) => {
+				return !gameObject.components.isDead;
 			}).forEach((gameObject) => {
 				this.attemptAction(gameObject, key)
 			});

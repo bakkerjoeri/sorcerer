@@ -1,16 +1,15 @@
 import System from './../library/core/module/System.js';
 import store from './../library/core/model/gameStateStore.js';
 import {getGameObjectsWithComponentNames, updateComponentOfGameObject, getComponentValueForGameObject} from './../library/core/model/gameObjects.js';
-import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.js';
+import {findGameObjects} from './../library/core/module/GameObject.js';
 
 export default class ActionTickerSystem extends System {
 	constructor() {
 		super();
 
 		this.onEvent('update', () => {
-			let gameObjectsToUpdate = this.findGameObjects().filter((gameObject) => {
-				return doesGameObjectHaveComponents(gameObject, ['actor', 'actionTicker'])
-					&& !doesGameObjectHaveComponents(gameObject, ['isDead']);
+			let gameObjectsToUpdate = findGameObjects(['actor', 'actionTicker']).filter((gameObject) => {
+				return !gameObject.components.isDead;
 			});
 
 			updateTicks(gameObjectsToUpdate);

@@ -1,7 +1,3 @@
-import store from './../model/gameStateStore.js';
-import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
-import {doesGameObjectHaveComponents} from './../module/GameObject.js';
-
 export default class System {
 	constructor() {
 		this.eventHandlers = new Map();
@@ -25,13 +21,5 @@ export default class System {
 				callback(...args);
 			});
 		}
-	}
-
-	findGameObjects(requiredComponentNames = []) {
-		let gameObjects = getGameObjectsInCurrentRoom(store.getState());
-
-		return gameObjects.filter((gameObject) => {
-			return doesGameObjectHaveComponents(gameObject, requiredComponentNames);
-		});
 	}
 }

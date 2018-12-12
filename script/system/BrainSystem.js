@@ -1,5 +1,6 @@
 import System from './../library/core/module/System.js';
 import choose from './../utility/random/choose.js';
+import {findGameObjects} from './../library/core/module/GameObject.js';
 
 export default class BrainSystem extends System {
 	constructor() {
@@ -8,7 +9,7 @@ export default class BrainSystem extends System {
 		this.decideAction = this.decideAction.bind(this);
 
 		this.onEvent('update', () => {
-			this.findGameObjects(['actor', 'nonPlayer', 'canAct', 'positionInLevel']).forEach(this.decideAction)
+			findGameObjects(['actor', 'nonPlayer', 'canAct', 'positionInLevel']).forEach(this.decideAction)
 		});
 	}
 

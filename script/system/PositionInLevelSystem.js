@@ -1,5 +1,6 @@
 import System from './../library/core/module/System.js';
 import store from './../library/core/model/gameStateStore.js';
+import {findGameObjects} from './../library/core/module/GameObject.js';
 import {updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
 
 export default class ActionTickerSystem extends System {
@@ -7,7 +8,7 @@ export default class ActionTickerSystem extends System {
 		super();
 
 		this.onEvent('beforeDraw', () => {
-			this.findGameObjects(['positionInLevel', 'position']).forEach(updatePosition);
+			findGameObjects(['positionInLevel', 'position']).forEach(updatePosition);
 		});
 	}
 }
