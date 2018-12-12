@@ -89,7 +89,7 @@ export default class ActionTickerSystem extends System {
 	entityConcludesTurn(entity) {
 		store.dispatch(removeComponentFromGameObject(entity.id, 'canAct'));
 		store.dispatch(updateComponentOfGameObject(entity.id, 'actionTicker', {
-			ticks: 200,
+			ticks: 100,
 		}));
 	}
 }
