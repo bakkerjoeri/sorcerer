@@ -14,8 +14,9 @@ import RustyDagger from './gameObjects/items/equipment/RustyDagger.js';
 
 import loadSprites from './assets/loadSprites.js';
 
+import updateActionTicks from './eventHandlers/updateActionTicks.js';
+
 import ActionSystem from './system/ActionSystem.js';
-import ActionTickerSystem from './system/ActionTickerSystem.js';
 import AnimationSystem from './library/core/system/AnimationSystem.js';
 import AttackSystem from './system/AttackSystem.js';
 import BrainSystem from './system/BrainSystem.js';
@@ -83,19 +84,19 @@ let viewport = createViewport({
 
 store.dispatch(addViewportToRoom(room.id, viewport.id));
 
-game.addSystem(new PlayerControlSystem());
-game.addSystem(new BrainSystem());
-game.addSystem(new ActionTickerSystem());
-game.addSystem(new ActionSystem());
-game.addSystem(new AttackSystem());
-game.addSystem(new DamageSystem());
-game.addSystem(new EquipmentDamageSystem());
-game.addSystem(new DeathSystem());
-game.addSystem(new LogSystem());
-game.addSystem(new PositionInLevelSystem());
-game.addSystem(new ViewportPositionSystem());
-game.addSystem(new AnimationSystem());
-game.addSystem(new RenderSystem());
+game.addSystem(new PlayerControlSystem(game));
+game.addSystem(new BrainSystem(game));
+game.addSystem(new ActionSystem(game));
+game.addEventHandler('update', updateActionTicks);
+game.addSystem(new AttackSystem(game));
+game.addSystem(new DamageSystem(game));
+game.addSystem(new EquipmentDamageSystem(game));
+game.addSystem(new DeathSystem(game));
+game.addSystem(new LogSystem(game));
+game.addSystem(new PositionInLevelSystem(game));
+game.addSystem(new ViewportPositionSystem(game));
+game.addSystem(new AnimationSystem(game));
+game.addSystem(new RenderSystem(game));
 
 game.start();
 

@@ -7,8 +7,8 @@ import {getSpriteFrameWithId} from './../model/spriteFrames.js';
 import {getGameObjectWithId} from './../model/gameObjects.js';
 
 export default class ViewportPositionSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.onEvent('beforeDraw', () => {
 			let currentRoom = getCurrentRoom(store.getState());

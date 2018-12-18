@@ -4,8 +4,8 @@ import {setComponentForGameObject, removeComponentFromGameObject} from './../lib
 import {getAbilityWithName} from './../abilities/index.js';
 
 export default class DamageSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.onEvent('death', this.die.bind(this));
 	}
@@ -13,7 +13,7 @@ export default class DamageSystem extends System {
 	die(gameObject) {
 		let {currentLevelId, name, deathrattle} = gameObject.components;
 
-		this.game.emitEvent('log', `${name} dies!`);
+		this.game.emitEventViaSystems('log', `${name} dies!`);
 
 		store.dispatch(removeComponentFromGameObject(gameObject.id, 'isVisible'));
 		store.dispatch(removeComponentFromGameObject(gameObject.id, 'isSolid'));

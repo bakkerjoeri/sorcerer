@@ -3,8 +3,8 @@ import System from './../library/core/module/System.js';
 const logElement = document.querySelector('.js-log')
 
 export default class LogSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.onEvent('log', this.log.bind(this));
 	}

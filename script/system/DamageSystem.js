@@ -4,8 +4,8 @@ import {doesGameObjectHaveComponents} from './../library/core/module/GameObject.
 import {getGameObjectWithId, updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
 
 export default class DamageSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.dealDamage = this.dealDamage.bind(this);
 		this.takeDamage = this.takeDamage.bind(this);
@@ -17,7 +17,7 @@ export default class DamageSystem extends System {
 	}
 
 	dealDamage(damageEvent) {
-		this.game.emitEvent('takeDamage', damageEvent);
+		this.game.emitEventViaSystems('takeDamage', damageEvent);
 	}
 
 	takeDamage(damageEvent) {
@@ -26,13 +26,13 @@ export default class DamageSystem extends System {
 
 		let newHealthAmount = health.current - amount;
 
-		this.game.emitEvent('log', `${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
+		this.game.emitEventViaSystems('log', `${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
 
 		store.dispatch(updateComponentOfGameObject(target.id, 'health', {
 			current: newHealthAmount,
 		}));
 
-		this.game.emitEvent('hasTakenDamage', getGameObjectWithId(store.getState(), target.id));
+		this.game.emitEventViaSystems('hasTakenDamage', getGameObjectWithId(store.getState(), target.id));
 	}
 
 	checkForDeath(gameObject) {
@@ -40,7 +40,7 @@ export default class DamageSystem extends System {
 			&& gameObject.components.health.current <= 0
 			&& !doesGameObjectHaveComponents(gameObject, ['isDead'])
 		) {
-			this.game.emitEvent('death', gameObject);
+			this.game.emitEventViaSystems('death', gameObject);
 		}
 	}
 }

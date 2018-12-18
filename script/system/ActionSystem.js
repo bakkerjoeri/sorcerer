@@ -16,8 +16,8 @@ import {
 } from './../library/core/module/GameObject.js';
 
 export default class ActionTickerSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.entityActsTowardsPosition = this.entityActsTowardsPosition.bind(this);
 		this.entityWaits = this.entityWaits.bind(this);
@@ -36,7 +36,7 @@ export default class ActionTickerSystem extends System {
 		if (canEntityBeAtPositionInLevel(currentLevelId, entity.id, newPositionInLevel)) {
 			moveEntityToPositionInLevel(entity.id, newPositionInLevel, currentLevelId);
 
-			this.game.emitEvent('concludeTurn', entity);
+			this.game.emitEventViaSystems('concludeTurn', entity);
 			return;
 		}
 
@@ -48,8 +48,8 @@ export default class ActionTickerSystem extends System {
 				target: attackTarget,
 			};
 
-			this.game.emitEvent('attackTarget', attackEvent);
-			this.game.emitEvent('concludeTurn', entity);
+			this.game.emitEventViaSystems('attackTarget', attackEvent);
+			this.game.emitEventViaSystems('concludeTurn', entity);
 			return;
 		}
 
@@ -74,15 +74,15 @@ export default class ActionTickerSystem extends System {
 			removeEntityFromPositionInLevel(itemToPickUp.id, itemToPickUp.components.currentLevelId, itemToPickUp.components.positionInLevel);
 			store.dispatch(removeComponentFromGameObject(itemToPickUp.id, 'isVisible'));
 
-			this.game.emitEvent('log', `${entity.components.name} picks up ${itemToPickUp.components.name}`);
+			this.game.emitEventViaSystems('log', `${entity.components.name} picks up ${itemToPickUp.components.name}`);
 
 			this.entityConcludesTurn(entity);
 		}
 	}
 
 	entityWaits(entity) {
-		this.game.emitEvent('log', `${entity.components.name} waits...`);
-		this.game.emitEvent('concludeTurn', entity);
+		this.game.emitEventViaSystems('log', `${entity.components.name} waits...`);
+		this.game.emitEventViaSystems('concludeTurn', entity);
 	}
 
 	entityConcludesTurn(entity) {

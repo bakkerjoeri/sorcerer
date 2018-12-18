@@ -3,8 +3,8 @@ import choose from './../utility/random/choose.js';
 import {findGameObjects} from './../library/core/module/GameObject.js';
 
 export default class BrainSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.decideAction = this.decideAction.bind(this);
 
@@ -17,7 +17,7 @@ export default class BrainSystem extends System {
 		let {isDead, positionInLevel} = gameObject.components;
 
 		if (isDead) {
-			this.game.emitEvent('actWait', gameObject);
+			this.game.emitEventViaSystems('actWait', gameObject);
 		} else {
 			let newPositionInLevel = choose([
 				{x: positionInLevel.x, y: positionInLevel.y - 1},
@@ -26,7 +26,7 @@ export default class BrainSystem extends System {
 				{x: positionInLevel.x - 1, y: positionInLevel.y},
 			]);
 
-			this.game.emitEvent('actTowardsPosition', gameObject, newPositionInLevel);
+			this.game.emitEventViaSystems('actTowardsPosition', gameObject, newPositionInLevel);
 		}
 	}
 }

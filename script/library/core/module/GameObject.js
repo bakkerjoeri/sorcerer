@@ -13,7 +13,11 @@ export function createGameObject(components = {}) {
 }
 
 export function findGameObjects(requiredComponentNames) {
-	let gameObjects = getGameObjectsInCurrentRoom(store.getState());
+	return findGameObjectsFromState(store.getState(), requiredComponentNames);
+}
+
+export function findGameObjectsFromState(state, requiredComponentNames) {
+	let gameObjects = getGameObjectsInCurrentRoom(state);
 
 	return gameObjects.filter((gameObject) => {
 		return doesGameObjectHaveComponents(gameObject, requiredComponentNames);

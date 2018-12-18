@@ -3,8 +3,8 @@ import store from './../library/core/model/gameStateStore.js';
 import {getGameObjectWithId} from './../library/core/model/gameObjects.js';
 
 export default class EquipmentDamageSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.calculateEquipmentDamage = this.calculateEquipmentDamage.bind(this);
 

@@ -1,8 +1,8 @@
 import System from './../library/core/module/System.js';
 
 export default class AttackSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.onEvent('attackTarget', this.attackTarget.bind(this));
 	}
@@ -15,7 +15,7 @@ export default class AttackSystem extends System {
 			types: [],
 		};
 
-		this.game.emitEvent('beforeDealDamage', damageEvent);
-		this.game.emitEvent('dealDamage', damageEvent);
+		this.game.emitEventViaSystems('beforeDealDamage', damageEvent);
+		this.game.emitEventViaSystems('dealDamage', damageEvent);
 	}
 }

@@ -5,8 +5,8 @@ import {updateComponentOfGameObject} from './../model/gameObjects.js';
 import {findGameObjects} from './../module/GameObject.js';
 
 export default class AnimationSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.timeOfPreviousFrameByGameObjectId = {};
 

@@ -9,8 +9,8 @@ import {findGameObjects} from './../module/GameObject.js';
 
 
 export default class RenderSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.onEvent('draw', () => {
 			this.drawFrame(findGameObjects(['sprite', 'position']).filter((gameObject) => {

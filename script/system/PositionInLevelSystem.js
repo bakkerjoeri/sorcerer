@@ -4,8 +4,8 @@ import {findGameObjects} from './../library/core/module/GameObject.js';
 import {updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
 
 export default class ActionTickerSystem extends System {
-	constructor() {
-		super();
+	constructor(game) {
+		super(game);
 
 		this.onEvent('beforeDraw', () => {
 			findGameObjects(['positionInLevel', 'position']).forEach(updatePosition);

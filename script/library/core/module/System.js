@@ -1,5 +1,6 @@
 export default class System {
-	constructor() {
+	constructor(game) {
+		this.game = game;
 		this.eventHandlers = new Map();
 	}
 
