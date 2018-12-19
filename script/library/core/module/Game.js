@@ -60,8 +60,8 @@ export default class Game {
 			return state;
 		}
 
-		let newState = this.eventHandlers.get(eventName).reduce((state, eventHandler) => {
-			return eventHandler(state, ...args)
+		let newState = this.eventHandlers.get(eventName).reduce((newState, eventHandler) => {
+			return eventHandler(newState, ...args)
 		}, state);
 
 		this.store.setState(newState);

@@ -13,7 +13,7 @@ export default function updatePositioningOfViewports(state) {
 		return changeViewportPosition(
 			viewport.id,
 			calculateNewViewportPosition(state, viewport, currentRoom),
-		)(state);
+		)(newState);
 	}, state);
 }
 
