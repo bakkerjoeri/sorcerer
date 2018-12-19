@@ -13,3 +13,10 @@ export const INITIAL_STATE = {
 };
 
 export default createStore(INITIAL_STATE);
+
+export function createGameStateStore(stateToAppend = {}) {
+	return createStore({
+		...INITIAL_STATE,
+		...stateToAppend,
+	});
+}

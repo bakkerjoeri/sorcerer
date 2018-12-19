@@ -49,7 +49,6 @@ export default class ActionTickerSystem extends System {
 			};
 
 			this.game.emitEvent('attackTarget', attackEvent);
-
 			this.game.emitEvent('concludeTurn', entity);
 			return;
 		}
@@ -89,7 +88,7 @@ export default class ActionTickerSystem extends System {
 	entityConcludesTurn(entity) {
 		store.dispatch(removeComponentFromGameObject(entity.id, 'canAct'));
 		store.dispatch(updateComponentOfGameObject(entity.id, 'actionTicker', {
-			ticks: 200,
+			ticks: 100,
 		}));
 	}
 }

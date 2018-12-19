@@ -5,13 +5,15 @@ import {getActiveViewportsInRoomWithId} from './../model/viewports.js';
 import {getSpriteWithId} from './../model/sprites.js';
 import {getSpriteFrameWithId} from './../model/spriteFrames.js';
 import {getImageFromFilePath} from './../module/SpriteFrame.js';
+import {findGameObjects} from './../module/GameObject.js';
+
 
 export default class RenderSystem extends System {
 	constructor() {
 		super();
 
 		this.onEvent('draw', () => {
-			this.drawFrame(this.findGameObjects(['sprite', 'position']).filter((gameObject) => {
+			this.drawFrame(findGameObjects(['sprite', 'position']).filter((gameObject) => {
 				return gameObject.components.isVisible;
 			}))
 		});
