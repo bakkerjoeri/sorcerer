@@ -15,6 +15,7 @@ import RustyDagger from './gameObjects/items/equipment/RustyDagger.js';
 import loadSprites from './assets/loadSprites.js';
 
 import updateActionTicks from './eventHandlers/updateActionTicks.js';
+import updatePositionOfGameObjects from './eventHandlers/updatePositionOfGameObjects.js';
 import updatePositioningOfViewports from './library/core/eventHandlers/updatePositioningOfViewports.js';
 
 import ActionSystem from './system/ActionSystem.js';
@@ -26,7 +27,6 @@ import DeathSystem from './system/DeathSystem.js';
 import EquipmentDamageSystem from './system/EquipmentDamageSystem.js';
 import LogSystem from './system/LogSystem.js';
 import PlayerControlSystem from './system/PlayerControlSystem.js';
-import PositionInLevelSystem from './system/PositionInLevelSystem.js';
 import RenderSystem from './library/core/system/RenderSystem.js';
 
 let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 4 });
@@ -93,7 +93,7 @@ game.addSystem(new DamageSystem(game));
 game.addSystem(new EquipmentDamageSystem(game));
 game.addSystem(new DeathSystem(game));
 game.addSystem(new LogSystem(game));
-game.addSystem(new PositionInLevelSystem(game));
+game.addEventHandler('beforeDraw', updatePositionOfGameObjects);
 game.addEventHandler('beforeDraw', updatePositioningOfViewports);
 game.addSystem(new AnimationSystem(game));
 game.addSystem(new RenderSystem(game));
