@@ -18,7 +18,7 @@ import updateActionTicks from './eventHandlers/updateActionTicks.js';
 import updatePositionOfGameObjects from './eventHandlers/updatePositionOfGameObjects.js';
 import updatePositioningOfViewports from './library/core/eventHandlers/updatePositioningOfViewports.js';
 import animateGameObjects from './library/core/eventHandlers/animateGameObjects.js';
-import { drawFrame } from './library/core/system/RenderSystem.js';
+import drawFrame from './library/core/eventHandlers/drawFrame.js';
 
 import ActionSystem from './system/ActionSystem.js';
 import AttackSystem from './system/AttackSystem.js';

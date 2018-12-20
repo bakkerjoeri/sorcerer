@@ -5,7 +5,7 @@ import { getSpriteFrameWithId } from './../model/spriteFrames.js';
 import { getImageFromFilePath } from './../module/SpriteFrame.js';
 import { findGameObjectsFromState } from './../module/GameObject.js';
 
-export function drawFrame(state, context) {
+export default function drawFrame(state, context) {
 	let viewports = getActiveViewportsInRoomWithId(state, getCurrentRoom(state).id);
 	let gameObjectsToDraw = findGameObjectsFromState(state, ['sprite', 'position']).filter((gameObject) => {
 		return gameObject.components.isVisible;
