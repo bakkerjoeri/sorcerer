@@ -68,14 +68,14 @@ export default class Game {
 	}
 
 	update(time) {
-		this.timeSincePreviousUpdate = time - this.elapsed;
-		this.elapsed = time;
+		this.elapsedSincePreviousUpdate = time - this.currentTime;
+		this.currentTime = time;
 
-		this.emitEvent('update');
+		this.emitEvent('update', this.currentTime);
 		this.emitEventViaSystems('update');
-		this.emitEvent('beforeDraw');
+		this.emitEvent('beforeDraw', this.currentTime);
 		this.emitEventViaSystems('beforeDraw');
-		this.emitEvent('draw');
+		this.emitEvent('draw', this.context, this.currentTime);
 		this.emitEventViaSystems('draw');
 
 		if (this.looping) {

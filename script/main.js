@@ -17,9 +17,9 @@ import loadSprites from './assets/loadSprites.js';
 import updateActionTicks from './eventHandlers/updateActionTicks.js';
 import updatePositionOfGameObjects from './eventHandlers/updatePositionOfGameObjects.js';
 import updatePositioningOfViewports from './library/core/eventHandlers/updatePositioningOfViewports.js';
+import animateGameObjects from './library/core/eventHandlers/animateGameObjects.js';
 
 import ActionSystem from './system/ActionSystem.js';
-import AnimationSystem from './library/core/system/AnimationSystem.js';
 import AttackSystem from './system/AttackSystem.js';
 import BrainSystem from './system/BrainSystem.js';
 import DamageSystem from './system/DamageSystem.js';
@@ -95,8 +95,8 @@ game.addSystem(new DeathSystem(game));
 game.addSystem(new LogSystem(game));
 game.addEventHandler('beforeDraw', updatePositionOfGameObjects);
 game.addEventHandler('beforeDraw', updatePositioningOfViewports);
-game.addSystem(new AnimationSystem(game));
 game.addSystem(new RenderSystem(game));
+game.addEventHandler('beforeDraw', animateGameObjects);
 
 game.start();
 
