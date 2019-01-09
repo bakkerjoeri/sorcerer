@@ -40,7 +40,7 @@ export default class DamageSystem extends System {
 			&& gameObject.components.health.current <= 0
 			&& !doesGameObjectHaveComponents(gameObject, ['isDead'])
 		) {
-			this.game.emitEventViaSystems('death', gameObject);
+			this.game.emitEvent('death', gameObject);
 		}
 	}
 }

@@ -12,6 +12,12 @@ export function createGameObject(components = {}) {
 	return stateEntity;
 }
 
+export function createPureGameObject(components = {}) {
+	return createStateEntity('gameObject', {
+		components,
+	});
+}
+
 export function findGameObjects(requiredComponentNames) {
 	return findGameObjectsFromState(store.getState(), requiredComponentNames);
 }

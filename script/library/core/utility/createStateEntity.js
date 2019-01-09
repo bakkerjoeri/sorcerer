@@ -1,11 +1,13 @@
 import uuid from './uuid.js';
 
 export default function createStateEntity(type = '', properties = {}) {
-	let stateEntity = {...properties};
-
-	if (!stateEntity.hasOwnProperty('id')) {
-		stateEntity.id = uuid();
+	if (!properties.hasOwnProperty('id')) {
+		if (type) {
+			properties.id = `${type}.${uuid()}`;
+		} else {
+			properties.id = `${uuid()}`;
+		}
 	}
 
-	return stateEntity;
+	return properties;
 }

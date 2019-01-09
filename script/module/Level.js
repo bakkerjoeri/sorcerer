@@ -3,6 +3,7 @@ import store from './../library/core/model/gameStateStore.js';
 import getPositionsInRange from './../utility/getPositionsInRange.js';
 import {addGameObjectToRoom} from './../library/core/model/rooms.js';
 import {
+	addGameObject,
 	getGameObjectWithId,
 	updateComponentOfGameObject,
 	getComponentValueForGameObject,
@@ -56,12 +57,34 @@ export function createGameObjectInLevel(levelId, EntityClass, components = {}) {
 	return entity;
 }
 
+export function createGameObjectInLevelPure(state, levelId, EntityClass, components = {}) {
+	let level = getLevelWithId(state, levelId);
+	let gameObject = new EntityClass(components);
+
+	state = addGameObject(gameObject)(state);
+	state = addGameObjectToRoom(level.roomId, gameObject.id)(state);
+
+	return state;
+}
+
 export function createGameObjectAtPositionInLevel(levelId, positionInLevel, EntityClass, components = {}) {
 	let entity = createGameObjectInLevel(levelId, EntityClass, components);
 
 	moveEntityToPositionInLevel(entity.id, positionInLevel, levelId);
 
 	return entity;
+}
+
+export function createGameObjectAtPositionInLevelPure(state, levelId, positionInLevel, EntityClass, components = {}) {
+	let level = getLevelWithId(state, levelId);
+	let gameObject = new EntityClass(components);
+
+	state = addGameObject(gameObject)(state);
+	state = addGameObjectToRoom(level.roomId, gameObject.id)(state);
+	// debugger;
+	state = moveGameObjectToPositionInLevel(state, gameObject, positionInLevel, levelId);
+
+	return state;
 }
 
 export function moveEntityToPositionInLevel(entityId, position, levelId) {
@@ -82,6 +105,24 @@ export function moveEntityToPositionInLevel(entityId, position, levelId) {
 	store.dispatch(updateComponentOfGameObject(entityId, 'positionInLevel', position));
 }
 
+export function moveGameObjectToPositionInLevel(state, gameObject, position, levelId) {
+	if (gameObject.components.currentLevelId) {
+		state = removeGameObjectFromPositionInLevel(state, gameObject, levelId, gameObject.components.positionInLevel);
+	}
+
+	if (gameObject.components.currentLevelId !== levelId) {
+		state = updateComponentOfGameObject(gameObject.id, 'currentLevelId', levelId)(state);
+	}
+
+	state = getTilesInLevelAtRange(levelId, position, gameObject.components.sizeInLevel).reduce((newState, tile) => {
+		return addEntityToTile(tile.id, gameObject.id)(newState);
+	}, state);
+
+	state = updateComponentOfGameObject(gameObject.id, 'positionInLevel', position)(state);
+
+	return state;
+}
+
 export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 	let entity = getGameObjectWithId(store.getState(), entityId);
 
@@ -90,6 +131,16 @@ export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 	});
 
 	store.dispatch(removeComponentFromGameObject(entityId, 'positionInLevel'));
+}
+
+export function removeGameObjectFromPositionInLevel(state, gameObject, levelId, position) {
+	state = getTilesInLevelAtRange(levelId, position, gameObject.components.sizeInLevel).reduce((newState, tile) => {
+		removeEntityFromTile(tile.id, gameObject.id)(newState);
+	}, state);
+
+	state = removeComponentFromGameObject(gameObject.id, 'positionInLevel')(state);
+
+	return state;
 }
 
 export function canEntityBeAtPositionInLevel(levelId, entityId, positionInLevel) {
