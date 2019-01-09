@@ -29,7 +29,7 @@ import EquipmentDamageSystem from './system/EquipmentDamageSystem.js';
 import LogSystem from './system/LogSystem.js';
 import PlayerControlSystem from './system/PlayerControlSystem.js';
 
-let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 4 });
+let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 2 });
 setupInterfaceEvents(game);
 
 loadSprites();
@@ -78,7 +78,7 @@ let viewport = createViewport({
 	},
 	size: {
 		width: 240,
-		height: 176,
+		height: 178,
 	},
 });
 
