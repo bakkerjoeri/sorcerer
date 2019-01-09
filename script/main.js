@@ -19,12 +19,12 @@ import updatePositionOfGameObjects from './eventHandlers/updatePositionOfGameObj
 import updatePositioningOfViewports from './library/core/eventHandlers/updatePositioningOfViewports.js';
 import animateGameObjects from './library/core/eventHandlers/animateGameObjects.js';
 import drawFrame from './library/core/eventHandlers/drawFrame.js';
+import gameObjectDies from './eventHandlers/gameObjectDies.js';
 
 import ActionSystem from './system/ActionSystem.js';
 import AttackSystem from './system/AttackSystem.js';
 import BrainSystem from './system/BrainSystem.js';
 import DamageSystem from './system/DamageSystem.js';
-import DeathSystem, { die } from './system/DeathSystem.js';
 import EquipmentDamageSystem from './system/EquipmentDamageSystem.js';
 import LogSystem from './system/LogSystem.js';
 import PlayerControlSystem from './system/PlayerControlSystem.js';
@@ -91,7 +91,7 @@ game.addEventHandler('update', updateActionTicks);
 game.addSystem(new AttackSystem(game));
 game.addSystem(new DamageSystem(game));
 game.addSystem(new EquipmentDamageSystem(game));
-game.addEventHandler('death', die);
+game.addEventHandler('death', gameObjectDies);
 game.addSystem(new LogSystem(game));
 game.addEventHandler('beforeDraw', updatePositionOfGameObjects);
 game.addEventHandler('beforeDraw', updatePositioningOfViewports);
