@@ -10,7 +10,7 @@ h1 {
 }
 
 .app {
-    max-width: 1200px;
+    max-width: 960px;
     padding: 10px;
     margin: 0 auto;
 }
@@ -21,8 +21,8 @@ h1 {
 
 .canvas__sorcerer {
     flex: 0 0 auto;
-    width: 480px;
-    height: 356px;
+    width: 720px;
+    height: 534px;
 
     background-color: #00f;
     image-rendering: -moz-crisp-edges;
@@ -36,7 +36,7 @@ h1 {
     flex-direction: column;
     justify-content: flex-end;
     width: 240px;
-    height: 356px;
+    height: 534px;
     overflow: hidden;
     list-style: none;
     background-color: #000;

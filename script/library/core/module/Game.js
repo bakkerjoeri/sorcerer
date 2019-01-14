@@ -15,6 +15,8 @@ export default class Game {
 		if (options.hasOwnProperty('scale')) {
 			changeCanvasScale(this.canvas, options.scale);
 		}
+
+		this.emitEvent = this.emitEvent.bind(this);
 	}
 
 	setName(name) {
@@ -53,29 +55,25 @@ export default class Game {
 		});
 	}
 
-	emitEvent(eventName, ...args) {
-		let state = this.store.getState();
-
+	emitEvent(eventName, state, ...args) {
 		if (!this.eventHandlers.has(eventName)) {
 			return state;
 		}
 
-		let newState = this.eventHandlers.get(eventName).reduce((newState, eventHandler) => {
+		return this.eventHandlers.get(eventName).reduce((newState, eventHandler) => {
 			return eventHandler(newState, ...args)
 		}, state);
-
-		this.store.setState(newState);
 	}
 
 	update(time) {
 		this.elapsedSincePreviousUpdate = time - this.currentTime;
 		this.currentTime = time;
 
-		this.emitEvent('update', this.currentTime);
+		this.store.setState(this.emitEvent('update', this.store.getState(), this.currentTime));
 		this.emitEventViaSystems('update');
-		this.emitEvent('beforeDraw', this.currentTime);
+		this.store.setState(this.emitEvent('beforeDraw', this.store.getState(), this.currentTime));
 		this.emitEventViaSystems('beforeDraw');
-		this.emitEvent('draw', this.context, this.currentTime);
+		this.store.setState(this.emitEvent('draw', this.store.getState(), this.context, this.currentTime));
 		this.emitEventViaSystems('draw');
 
 		if (this.looping) {

@@ -1,16 +1,17 @@
 import {setComponentForGameObject, removeComponentFromGameObject} from './../library/core/model/gameObjects.js';
-import {getAbilityWithName} from './../abilities/index.js';
 
-export default function gameObjectDies(state, gameObject) {
-	let {currentLevelId, deathrattle} = gameObject.components;
+export const makeGameObjectDies = emitEvent => (state, gameObject) => {
+	return gameObjectDies(state, gameObject, emitEvent);
+}
+
+export default function gameObjectDies(state, gameObject, emitEvent) {
+	let {name} = gameObject.components;
+
+	emitEvent('log', state, `${name} dies!`);
 
 	state = removeComponentFromGameObject(gameObject.id, 'isVisible')(state);
 	state = removeComponentFromGameObject(gameObject.id, 'isSolid')(state);
 	state = setComponentForGameObject(gameObject.id, 'isDead', true)(state);
-
-	if (deathrattle && currentLevelId) {
-		state = getAbilityWithName(deathrattle)(state, currentLevelId, gameObject);
-	}
 
 	return state;
 }

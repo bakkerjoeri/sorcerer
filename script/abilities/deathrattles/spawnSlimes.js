@@ -4,7 +4,7 @@ import {getPositionsInRangeInLevel, createGameObjectAtPositionInLevelPure} from 
 export default function spawnSlimes(state, levelId, entity) {
 	let {positionInLevel, sizeInLevel} = entity.components;
 
-	return getPositionsInRangeInLevel(levelId, positionInLevel, sizeInLevel).reduce((newState, position) => {
+	return getPositionsInRangeInLevel(state, levelId, positionInLevel, sizeInLevel).reduce((newState, position) => {
 		return createGameObjectAtPositionInLevelPure(newState, levelId, position, Slime, {nonPlayer: true});
 	}, state);
 }
