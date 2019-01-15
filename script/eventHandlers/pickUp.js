@@ -28,7 +28,7 @@ export const pickUp = (state, gameObject, emitEvent) => {
 		// Remove item from the level
 		state = removeGameObjectFromPositionInLevel(
 			state,
-			itemToPickUp.id,
+			itemToPickUp,
 			itemToPickUp.components.currentLevelId,
 			itemToPickUp.components.positionInLevel
 		);
@@ -37,6 +37,6 @@ export const pickUp = (state, gameObject, emitEvent) => {
 
 		emitEvent('log', {}, `${gameObject.components.name} picks up ${itemToPickUp.components.name}`);
 
-		return emitEvent('concludeTurn', gameObject);
+		return emitEvent('concludeTurn', state, gameObject);
 	}
 }

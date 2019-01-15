@@ -10,7 +10,7 @@ export const takeDamage = (state, damageEvent, emitEvent) => {
 
 	let newHealthAmount = health.current - amount;
 
-	emitEvent('log', state, `${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
+	emitEvent('log', {}, `${name} takes ${amount} damage! (${health.current - amount}/${health.maximum})`);
 
 	state = updateComponentOfGameObject(target.id, 'health', {
 		current: newHealthAmount,

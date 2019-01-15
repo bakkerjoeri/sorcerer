@@ -16,7 +16,7 @@ export const actTowardsPosition = (state, gameObject, newPositionInLevel, emitEv
 	let {currentLevelId} = gameObject.components;
 
 	if (canEntityBeAtPositionInLevel(state, currentLevelId, gameObject.id, newPositionInLevel)) {
-		moveGameObjectToPositionInLevel(state, gameObject.id, newPositionInLevel, currentLevelId);
+		state = moveGameObjectToPositionInLevel(state, gameObject, newPositionInLevel, currentLevelId);
 
 		return emitEvent('concludeTurn', state, gameObject);
 	}

@@ -1,11 +1,11 @@
 import choose from './../utility/random/choose.js';
 import {findGameObjects} from './../library/core/module/GameObject.js';
 
-export const makeDecideActions = (emitEvent) => (state, gameObject) => {
-	return decideActions(state, gameObject, emitEvent);
+export const makeDecideActions = (emitEvent) => (state) => {
+	return decideActions(state, emitEvent);
 }
 
-export const decideActions = (state, gameObject, emitEvent) => {
+export const decideActions = (state, emitEvent) => {
 	let gameObjectsThatCanAct = findGameObjects(['actor', 'nonPlayer', 'canAct', 'positionInLevel']);
 
 	return gameObjectsThatCanAct.reduce((newState, gameObject) => {

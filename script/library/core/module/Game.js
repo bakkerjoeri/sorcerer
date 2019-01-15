@@ -70,11 +70,8 @@ export default class Game {
 		this.currentTime = time;
 
 		this.store.setState(this.emitEvent('update', this.store.getState(), this.currentTime));
-		this.emitEventViaSystems('update');
 		this.store.setState(this.emitEvent('beforeDraw', this.store.getState(), this.currentTime));
-		this.emitEventViaSystems('beforeDraw');
 		this.store.setState(this.emitEvent('draw', this.store.getState(), this.context, this.currentTime));
-		this.emitEventViaSystems('draw');
 
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);

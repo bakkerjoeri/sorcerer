@@ -135,7 +135,7 @@ export function removeEntityFromPositionInLevel(entityId, levelId, position) {
 
 export function removeGameObjectFromPositionInLevel(state, gameObject, levelId, position) {
 	state = getTilesInLevelAtRange(state, levelId, position, gameObject.components.sizeInLevel).reduce((newState, tile) => {
-		removeEntityFromTile(tile.id, gameObject.id)(newState);
+		return removeEntityFromTile(tile.id, gameObject.id)(newState);
 	}, state);
 
 	state = removeComponentFromGameObject(gameObject.id, 'positionInLevel')(state);

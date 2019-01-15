@@ -8,4 +8,6 @@ export const concludeTurn = (state, gameObject) => {
 	state = updateComponentOfGameObject(gameObject.id, 'actionTicker', {
 		ticks: 100,
 	})(state);
+
+	return state;
 }

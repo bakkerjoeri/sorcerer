@@ -7,7 +7,7 @@ export const makeGameObjectDies = emitEvent => (state, gameObject) => {
 export default function gameObjectDies(state, gameObject, emitEvent) {
 	let {name} = gameObject.components;
 
-	emitEvent('log', state, `${name} dies!`);
+	emitEvent('log', {}, `${name} dies!`);
 
 	state = removeComponentFromGameObject(gameObject.id, 'isVisible')(state);
 	state = removeComponentFromGameObject(gameObject.id, 'isSolid')(state);

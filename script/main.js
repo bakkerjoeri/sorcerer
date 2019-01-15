@@ -19,6 +19,7 @@ import updatePositionOfGameObjects from './eventHandlers/updatePositionOfGameObj
 import updatePositioningOfViewports from './library/core/eventHandlers/updatePositioningOfViewports.js';
 import animateGameObjects from './library/core/eventHandlers/animateGameObjects.js';
 import drawFrame from './library/core/eventHandlers/drawFrame.js';
+import { makeAttemptActionForKey } from './eventHandlers/attemptActionForKey.js'
 import { makeGameObjectDies } from './eventHandlers/gameObjectDies.js';
 import { doDeathRattle } from './eventHandlers/doDeathRattle.js';
 import { log } from './eventHandlers/log.js';
@@ -33,29 +34,7 @@ import { makeTakeDamage } from './eventHandlers/takeDamage.js';
 import { makeCheckForDeath } from './eventHandlers/checkForDeath.js';
 import { calculateEquipmentDamage } from './eventHandlers/calculateEquipmentDamage.js';
 
-import PlayerControlSystem from './system/PlayerControlSystem.js';
-
 let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 3 });
-
-game.addSystem(new PlayerControlSystem(game));
-game.addEventHandler('update', makeDecideActions(game.emitEvent));
-game.addEventHandler('actTowardsPosition', makeActTowardsPosition(game.emitEvent));
-game.addEventHandler('actPickUp', makePickUp(game.emitEvent));
-game.addEventHandler('actWait', makeWait(game.emitEvent));
-game.addEventHandler('concludeTurn', concludeTurn);
-game.addEventHandler('update', updateActionTicks);
-game.addEventHandler('attackTarget', makeAttackTarget(game.emitEvent));
-game.addEventHandler('beforeDealDamage', calculateEquipmentDamage);
-game.addEventHandler('dealDamage', makeDealDamage(game.emitEvent));
-game.addEventHandler('takeDamage', makeTakeDamage(game.emitEvent));
-game.addEventHandler('hasTakenDamage', makeCheckForDeath(game.emitEvent));
-game.addEventHandler('death', makeGameObjectDies(game.emitEvent));
-game.addEventHandler('death', doDeathRattle);
-game.addEventHandler('log', log);
-game.addEventHandler('beforeDraw', updatePositionOfGameObjects);
-game.addEventHandler('beforeDraw', updatePositioningOfViewports);
-game.addEventHandler('beforeDraw', animateGameObjects);
-game.addEventHandler('draw', drawFrame);
 
 setupInterfaceEvents(game);
 loadSprites();
@@ -109,6 +88,26 @@ let viewport = createViewport({
 });
 
 store.dispatch(addViewportToRoom(room.id, viewport.id));
+
+game.addEventHandler('keydown', makeAttemptActionForKey(game.emitEvent));
+game.addEventHandler('update', makeDecideActions(game.emitEvent));
+game.addEventHandler('actTowardsPosition', makeActTowardsPosition(game.emitEvent));
+game.addEventHandler('actPickUp', makePickUp(game.emitEvent));
+game.addEventHandler('actWait', makeWait(game.emitEvent));
+game.addEventHandler('concludeTurn', concludeTurn);
+game.addEventHandler('update', updateActionTicks);
+game.addEventHandler('attackTarget', makeAttackTarget(game.emitEvent));
+game.addEventHandler('beforeDealDamage', calculateEquipmentDamage);
+game.addEventHandler('dealDamage', makeDealDamage(game.emitEvent));
+game.addEventHandler('takeDamage', makeTakeDamage(game.emitEvent));
+game.addEventHandler('hasTakenDamage', makeCheckForDeath(game.emitEvent));
+game.addEventHandler('death', makeGameObjectDies(game.emitEvent));
+game.addEventHandler('death', doDeathRattle);
+game.addEventHandler('log', log);
+game.addEventHandler('beforeDraw', updatePositionOfGameObjects);
+game.addEventHandler('beforeDraw', updatePositioningOfViewports);
+game.addEventHandler('beforeDraw', animateGameObjects);
+game.addEventHandler('draw', drawFrame);
 
 game.start();
 
