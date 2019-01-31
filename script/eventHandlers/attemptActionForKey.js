@@ -45,5 +45,7 @@ export const attemptActionForKey = (state, key, emitEvent) => {
 				y: positionInLevel.y,
 			});
 		}
+
+		return newState;
 	}, state);
 }
