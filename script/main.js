@@ -2,7 +2,7 @@ import store from './library/core/model/gameStateStore.js';
 import Game from './library/core/module/Game.js';
 import setupInterfaceEvents from './library/core/module/setupInterfaceEvents.js';
 import {appendState} from './library/core/model/general.js';
-import {addViewportToRoom} from './library/core/model/rooms.js';
+import {addViewportToRoom, addRoom} from './library/core/model/rooms.js';
 import {createRoom} from './library/core/module/Room.js';
 import {createViewport} from './library/core/module/Viewport.js';
 import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Level.js';
@@ -43,10 +43,10 @@ const LEVEL_WIDTH = 30;
 const LEVEL_HEIGHT = 22;
 
 // Append game state
-store.dispatch(appendState({
+store.setState(appendState({
 	levels: {},
 	tiles: {}
-}));
+})(store.getState()));
 
 // Create a room
 let room = createRoom({
@@ -56,6 +56,7 @@ let room = createRoom({
 	},
 });
 
+store.setState(addRoom(room)(store.getState()));
 game.setCurrentRoom(room.id);
 
 // Create a level

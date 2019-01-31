@@ -81,7 +81,6 @@ export function createGameObjectAtPositionInLevelPure(state, levelId, positionIn
 
 	state = addGameObject(gameObject)(state);
 	state = addGameObjectToRoom(level.roomId, gameObject.id)(state);
-	// debugger;
 	state = moveGameObjectToPositionInLevel(state, gameObject, positionInLevel, levelId);
 
 	return state;
