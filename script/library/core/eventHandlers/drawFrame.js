@@ -38,12 +38,16 @@ function renderGameObjectInViewport(state, gameObject, viewport, context) {
 		y: (position.y + spriteAsset.offset.y) - (viewport.position.y - viewport.origin.y),
 	};
 
+	drawSpriteFrame(context, currentSpriteFrame, drawPosition);
+}
+
+function drawSpriteFrame(context, spriteFrame, position) {
 	context.drawImage(
-		getImageFromFilePath(currentSpriteFrame.imageFilePath),
-		currentSpriteFrame.origin.x, currentSpriteFrame.origin.y,
-		currentSpriteFrame.size.width, currentSpriteFrame.size.height,
-		drawPosition.x, drawPosition.y,
-		currentSpriteFrame.size.width, currentSpriteFrame.size.height
+		getImageFromFilePath(spriteFrame.imageFilePath),
+		spriteFrame.origin.x, spriteFrame.origin.y,
+		spriteFrame.size.width, spriteFrame.size.height,
+		position.x, position.y,
+		spriteFrame.size.width, spriteFrame.size.height
 	);
 }
 
