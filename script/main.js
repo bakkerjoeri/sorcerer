@@ -1,11 +1,13 @@
 import store from './library/core/model/gameStateStore.js';
 import Game from './library/core/module/Game.js';
 import setupInterfaceEvents from './library/core/module/setupInterfaceEvents.js';
-import {appendState} from './library/core/model/general.js';
-import {addViewportToRoom, addRoom} from './library/core/model/rooms.js';
-import {createRoom} from './library/core/module/Room.js';
-import {createViewport} from './library/core/module/Viewport.js';
-import {createLevelOfSize, createGameObjectAtPositionInLevel} from './module/Level.js';
+import { appendState } from './library/core/model/general.js';
+import { addViewportToRoom, addRoom } from './library/core/model/rooms.js';
+import { createRoom } from './library/core/module/Room.js';
+import { addViewport } from './library/core/model/viewports.js';
+import { createViewport } from './library/core/module/Viewport.js';
+import { addLevel } from './model/levels.js';
+import { createLevelOfSize, createGameObjectAtPositionInLevel } from './module/Level.js';
 
 import GreenKnight from './gameObjects/actors/GreenKnight.js';
 import KingSlime from './gameObjects/actors/KingSlime.js';
@@ -37,16 +39,16 @@ import { calculateEquipmentDamage } from './eventHandlers/calculateEquipmentDama
 let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 3 });
 
 setupInterfaceEvents(game);
-loadSprites();
+store.setState(loadSprites(store.getState()));
 
 const LEVEL_WIDTH = 30;
 const LEVEL_HEIGHT = 22;
 
 // Append game state
-store.setState(appendState({
+store.dispatch(appendState({
 	levels: {},
 	tiles: {}
-})(store.getState()));
+}));
 
 // Create a room
 let room = createRoom({
@@ -56,7 +58,7 @@ let room = createRoom({
 	},
 });
 
-store.setState(addRoom(room)(store.getState()));
+store.dispatch(addRoom(room));
 game.setCurrentRoom(room.id);
 
 // Create a level
@@ -66,6 +68,8 @@ let level = createLevelOfSize({
 }, {
 	roomId: room.id,
 });
+
+store.dispatch(addLevel(level));
 
 let player = createGameObjectAtPositionInLevel(level.id, {x: 1, y: 1}, GreenKnight, {
 	player: true,
@@ -78,16 +82,13 @@ createGameObjectAtPositionInLevel(level.id, {x: 5, y: 3}, Slime, {nonPlayer: tru
 // Create a viewport
 let viewport = createViewport({
 	gameObjectIdToFollow: player.id,
-	position: {
-		x: 0,
-		y: 0,
-	},
 	size: {
 		width: 240,
 		height: 178,
 	},
 });
 
+store.dispatch(addViewport(viewport));
 store.dispatch(addViewportToRoom(room.id, viewport.id));
 
 game.addEventHandler('keydown', makeAttemptActionForKey(game.emitEvent));

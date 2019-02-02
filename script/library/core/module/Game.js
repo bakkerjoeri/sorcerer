@@ -5,7 +5,6 @@ export default class Game {
 		this.store = store;
 		this.canvas = canvas;
 		this.context = canvas.getContext('2d');
-		this.systems = [];
 		this.looping = false;
 		this.update = this.update.bind(this);
 		this.eventHandlers = new Map();
@@ -49,12 +48,6 @@ export default class Game {
 		this.eventHandlers.get(eventName).push(handler);
 	}
 
-	emitEventViaSystems(eventName, ...args) {
-		this.systems.forEach((system) => {
-			system.handleEvent(eventName, ...args);
-		});
-	}
-
 	emitEvent(eventName, state, ...args) {
 		if (!this.eventHandlers.has(eventName)) {
 			return state;
@@ -76,22 +69,6 @@ export default class Game {
 		if (this.looping) {
 			window.requestAnimationFrame(this.update);
 		}
-	}
-
-	addSystem(system) {
-		this.systems = [
-			...this.systems,
-			system,
-		];
-	}
-
-	removeSystem(system) {
-		this.systems = [
-			...this.systems.slice(0, this.systems.indexOf(system)),
-			...this.systems.slice(this.systems.indexOf(system) + 1)
-		]
-
-		delete system.game;
 	}
 }
 

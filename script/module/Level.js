@@ -1,7 +1,7 @@
 import createStateEntity from './../library/core/utility/createStateEntity.js';
 import store from './../library/core/model/gameStateStore.js';
 import getPositionsInRange from './../utility/getPositionsInRange.js';
-import {addGameObjectToRoom} from './../library/core/model/rooms.js';
+import { addGameObjectToRoom } from './../library/core/model/rooms.js';
 import {
 	addGameObject,
 	getGameObjectWithId,
@@ -9,9 +9,9 @@ import {
 	getComponentValueForGameObject,
 	removeComponentFromGameObject,
 } from './../library/core/model/gameObjects.js';
-import {addLevel, getLevelWithId, getTilesInLevel} from './../model/levels.js';
-import {addEntityToTile, removeEntityFromTile} from './../model/tiles.js';
-import {createTileSet} from './Tile.js';
+import { getLevelWithId, getTilesInLevel } from './../model/levels.js';
+import { addEntityToTile, removeEntityFromTile } from './../model/tiles.js';
+import { createTileSet } from './Tile.js';
 
 export function createLevel(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -27,8 +27,6 @@ export function createLevel(properties = {}) {
 		...DEFAULT_PROPERTIES,
 		...properties,
 	});
-
-	store.dispatch(addLevel(level));
 
 	return level;
 }

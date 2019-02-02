@@ -1,6 +1,4 @@
 import createStateEntity from './../utility/createStateEntity.js';
-import store from './../model/gameStateStore.js';
-import {addSprite} from './../model/sprites.js';
 
 export function createSprite(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -15,8 +13,6 @@ export function createSprite(properties = {}) {
 		...DEFAULT_PROPERTIES,
 		...properties,
 	});
-
-	store.dispatch(addSprite(sprite));
 
 	return sprite;
 }

@@ -1,6 +1,4 @@
 import createStateEntity from './../utility/createStateEntity.js';
-import store from './../model/gameStateStore.js';
-import {addSpriteFrame} from './../model/spriteFrames.js';
 
 export function createSpriteFrame(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -20,8 +18,6 @@ export function createSpriteFrame(properties = {}) {
 		...properties,
 	});
 
-	store.dispatch(addSpriteFrame(spriteFrame));
-
 	return spriteFrame;
 }
 
@@ -35,7 +31,9 @@ export function createSpriteFrame(properties = {}) {
  * @param  {Number} [framesPerRow=Infinity] How many frames each row of the sprite sheets contains.
  *                                          This is used to determine when to wrap down to the next frame.
  */
-export function loadSpriteFrames(name, filePath, frameSize, frameStart = 0, frameOffset = 1, framesPerRow = Infinity) {
+export function createSpriteFramesFromSpriteSheet(name, filePath, frameSize, frameStart = 0, frameOffset = 1, framesPerRow = Infinity) {
+	let spriteFrames = [];
+
 	// Create a new sprite sheet
 	let currentFrameRow = 0;
 
@@ -44,16 +42,21 @@ export function loadSpriteFrames(name, filePath, frameSize, frameStart = 0, fram
 		currentFrameIndex < frameStart + frameOffset;
 		currentFrameIndex = currentFrameIndex + 1
 	) {
-		let spriteFrame = createSpriteFrame({
-			id: `${name}_${currentFrameIndex}`,
-			imageFilePath: filePath,
-			origin: {
-				x: currentFrameIndex * frameSize.width,
-				y: currentFrameRow * frameSize.height,
-			},
-			size: frameSize,
-		});
+		spriteFrames = [
+			...spriteFrames,
+			createSpriteFrame({
+				id: `${name}_${currentFrameIndex}`,
+				imageFilePath: filePath,
+				origin: {
+					x: currentFrameIndex * frameSize.width,
+					y: currentFrameRow * frameSize.height,
+				},
+				size: frameSize,
+			}),
+		];
 	}
+
+	return spriteFrames;
 }
 
 const imageCache = {};
