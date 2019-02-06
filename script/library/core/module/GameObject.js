@@ -1,18 +1,8 @@
 import store from './../model/gameStateStore.js';
 import createStateEntity from './../utility/createStateEntity.js';
-import {addGameObject, getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
+import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
 
 export function createGameObject(components = {}) {
-	let stateEntity = createStateEntity('gameObject', {
-		components,
-	});
-
-	store.dispatch(addGameObject(stateEntity));
-
-	return stateEntity;
-}
-
-export function createPureGameObject(components = {}) {
 	return createStateEntity('gameObject', {
 		components,
 	});

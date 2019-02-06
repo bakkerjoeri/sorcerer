@@ -1,4 +1,4 @@
-import { createPureGameObject } from './../library/core/module/GameObject.js';
+import { createGameObject } from './../library/core/module/GameObject.js';
 
 export const ENTITY_COMPONENTS_BLUEPRINT = {
 	isSolid: true,
@@ -19,7 +19,7 @@ export const ENTITY_COMPONENTS_BLUEPRINT = {
 };
 
 export default function Entity(components = {}) {
-	return createPureGameObject({
+	return createGameObject({
 		...ENTITY_COMPONENTS_BLUEPRINT,
 		...components,
 	});

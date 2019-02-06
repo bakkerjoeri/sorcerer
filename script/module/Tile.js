@@ -1,6 +1,4 @@
-import gameStateStore from './../library/core/model/gameStateStore.js';
 import createStateEntity from './../library/core/utility/createStateEntity.js';
-import {addTile} from './../model/tiles.js';
 
 export function createTile(properties = {}) {
 	const DEFAULT_PROPERTIES = {
@@ -15,8 +13,6 @@ export function createTile(properties = {}) {
 		...DEFAULT_PROPERTIES,
 		...properties,
 	});
-
-	gameStateStore.dispatch(addTile(tile));
 
 	return tile;
 }

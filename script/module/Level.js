@@ -183,6 +183,7 @@ export function getPositionsInRangeInLevel(state, levelId, position, offset) {
 }
 
 export function doPositionsInBoundariesExistInLevel(state, levelId, position, offset) {
+	debugger;
 	return getPositionsInRange(position, offset).every(positionInRange => {
 		return doesPositionExistInLevel(state, levelId, positionInRange);
 	});

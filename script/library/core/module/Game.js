@@ -1,4 +1,4 @@
-import {setGameName, setCurrentRoomId} from './../model/game.js';
+import {setGameName} from './../model/game.js';
 
 export default class Game {
 	constructor(store, name, canvas, options = {}) {
@@ -22,13 +22,9 @@ export default class Game {
 		this.store.dispatch(setGameName(name));
 	}
 
-	setCurrentRoom(roomId) {
-		this.store.dispatch(setCurrentRoomId(roomId));
-	}
-
 	start() {
 		this.looping = true;
-
+		this.store.setState(this.emitEvent('init', this.store.getState(), this.currentTime));
 		window.requestAnimationFrame(this.update);
 	}
 
