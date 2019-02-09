@@ -1,37 +1,29 @@
-import System from './../module/System.js';
-import store from './../model/gameStateStore.js';
 import {getCurrentRoom} from './../model/rooms.js';
 import {getActiveViewportsInRoomWithId, changeViewportPosition} from './../model/viewports.js';
 import {getSpriteWithId} from './../model/sprites.js';
 import {getSpriteFrameWithId} from './../model/spriteFrames.js';
 import {getGameObjectWithId} from './../model/gameObjects.js';
 
-export default class ViewportPositionSystem extends System {
-	constructor() {
-		super();
+export default function updatePositioningOfViewports(state) {
+	let currentRoom = getCurrentRoom(state);
+	let viewportsToUpdate = getActiveViewportsInRoomWithId(state, currentRoom.id)
+		.filter((viewport) => viewport.gameObjectIdToFollow !== null);
 
-		this.onEvent('beforeDraw', () => {
-			let currentRoom = getCurrentRoom(store.getState());
-			let viewportsToUpdate = getActiveViewportsInRoomWithId(store.getState(), currentRoom.id)
-				.filter((viewport) => viewport.gameObjectIdToFollow !== null);
-
-			viewportsToUpdate.forEach((viewport) => {
-				store.dispatch(changeViewportPosition(
-					viewport.id,
-					calculateNewViewportPosition(viewport, currentRoom)
-				));
-			});
-		});
-	}
+	return viewportsToUpdate.reduce((newState, viewport) => {
+		return changeViewportPosition(
+			viewport.id,
+			calculateNewViewportPosition(state, viewport, currentRoom),
+		)(newState);
+	}, state);
 }
 
-function calculateNewViewportPosition(viewport, room) {
+function calculateNewViewportPosition(state, viewport, room) {
 	if (viewport.gameObjectIdToFollow !== null) {
-		let gameObjectToFollow = getGameObjectWithId(store.getState(), viewport.gameObjectIdToFollow);
+		let gameObjectToFollow = getGameObjectWithId(state, viewport.gameObjectIdToFollow);
 
 		if (gameObjectToFollow.components.sprite) {
-			let spriteAsset = getSpriteWithId(store.getState(), gameObjectToFollow.components.sprite.assetId);
-			let currentSpriteFrame = getSpriteFrameWithId(store.getState(), spriteAsset.spriteFrames[gameObjectToFollow.components.sprite.currentFrameIndex]);
+			let spriteAsset = getSpriteWithId(state, gameObjectToFollow.components.sprite.assetId);
+			let currentSpriteFrame = getSpriteFrameWithId(state, spriteAsset.spriteFrames[gameObjectToFollow.components.sprite.currentFrameIndex]);
 
 			let newViewportPosition = {
 				x: gameObjectToFollow.components.position.x - (viewport.size.width / 2) + (currentSpriteFrame.size.width / 2),
@@ -46,7 +38,6 @@ function calculateNewViewportPosition(viewport, room) {
 				newViewportPosition.y = 0;
 			}
 
-			// @TODO: Remove dependency on `room`.
 			if (newViewportPosition.x > (room.size.width - viewport.size.width)) {
 				newViewportPosition.x = room.size.width - viewport.size.width;
 			}

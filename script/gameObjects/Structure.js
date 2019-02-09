@@ -1,5 +1,4 @@
 import Entity from './Entity.js';
-import HealthComponent from './../component/HealthComponent.js';
 
 export const STRUCTURE_COMPONENTS_BLUEPRINT = {};
 

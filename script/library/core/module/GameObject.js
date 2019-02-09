@@ -1,19 +1,14 @@
-import store from './../model/gameStateStore.js';
 import createStateEntity from './../utility/createStateEntity.js';
-import {addGameObject, getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
+import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
 
 export function createGameObject(components = {}) {
-	let stateEntity = createStateEntity('gameObject', {
+	return createStateEntity('gameObject', {
 		components,
 	});
-
-	store.dispatch(addGameObject(stateEntity));
-
-	return stateEntity;
 }
 
-export function findGameObjects(requiredComponentNames) {
-	let gameObjects = getGameObjectsInCurrentRoom(store.getState());
+export function findGameObjectsFromState(state, requiredComponentNames) {
+	let gameObjects = getGameObjectsInCurrentRoom(state);
 
 	return gameObjects.filter((gameObject) => {
 		return doesGameObjectHaveComponents(gameObject, requiredComponentNames);

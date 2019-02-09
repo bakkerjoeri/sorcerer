@@ -2,6 +2,10 @@ export default function createStore(initialState, debugMode = false) {
 	let isDispatching = false;
 	let currentState = initialState;
 
+	function setState(newState) {
+		currentState = newState;
+	}
+
 	function dispatch(action) {
 		if (isDispatching) {
 			throw new Error('Cannot dispatch another action while already executing an action.');
@@ -13,7 +17,7 @@ export default function createStore(initialState, debugMode = false) {
 			}
 
 			isDispatching = true;
-			currentState = action(currentState);
+			setState(action(currentState));
 
 			if (debugMode) {
 				console.log('Next state', currentState);
@@ -34,6 +38,7 @@ export default function createStore(initialState, debugMode = false) {
 	}
 
 	return {
+		setState,
 		dispatch,
 		getState,
 	};
