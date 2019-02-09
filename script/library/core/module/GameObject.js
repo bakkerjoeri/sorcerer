@@ -1,4 +1,3 @@
-import store from './../model/gameStateStore.js';
 import createStateEntity from './../utility/createStateEntity.js';
 import {getGameObjectsInCurrentRoom} from './../model/gameObjects.js';
 
@@ -6,10 +5,6 @@ export function createGameObject(components = {}) {
 	return createStateEntity('gameObject', {
 		components,
 	});
-}
-
-export function findGameObjects(requiredComponentNames) {
-	return findGameObjectsFromState(store.getState(), requiredComponentNames);
 }
 
 export function findGameObjectsFromState(state, requiredComponentNames) {

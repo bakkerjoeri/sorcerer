@@ -12,7 +12,7 @@ import { addGameObject } from './library/core/model/gameObjects.js';
 
 import { createViewport } from './library/core/module/Viewport.js';
 import { addLevel } from './model/levels.js';
-import { createLevel, createGameObjectAtPositionInLevelPure, moveGameObjectToPositionInLevel } from './module/Level.js';
+import { createLevel, createGameObjectAtPositionInLevel, moveGameObjectToPositionInLevel } from './module/Level.js';
 
 import GreenKnight from './gameObjects/actors/GreenKnight.js';
 import KingSlime from './gameObjects/actors/KingSlime.js';
@@ -121,10 +121,10 @@ function initializeGame(state) {
 	state = addGameObjectToRoom(room.id, player.id)(state);
 	state = moveGameObjectToPositionInLevel(state, player, {x: 1, y: 1}, level.id);
 
-	state = createGameObjectAtPositionInLevelPure(state, level.id, {x: 1, y: 0}, RustyDagger);
-	state = createGameObjectAtPositionInLevelPure(state, level.id, {x: 2, y: 1}, Slime, {nonPlayer: true});
-	state = createGameObjectAtPositionInLevelPure(state, level.id, {x: 3, y: 3}, KingSlime, {nonPlayer: true});
-	state = createGameObjectAtPositionInLevelPure(state, level.id, {x: 5, y: 3}, Slime, {nonPlayer: true});
+	state = createGameObjectAtPositionInLevel(state, level.id, {x: 1, y: 0}, RustyDagger);
+	state = createGameObjectAtPositionInLevel(state, level.id, {x: 2, y: 1}, Slime, {nonPlayer: true});
+	state = createGameObjectAtPositionInLevel(state, level.id, {x: 3, y: 3}, KingSlime, {nonPlayer: true});
+	state = createGameObjectAtPositionInLevel(state, level.id, {x: 5, y: 3}, Slime, {nonPlayer: true});
 
 	let viewport = createViewport({
 		gameObjectIdToFollow: player.id,
