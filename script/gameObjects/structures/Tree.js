@@ -1,15 +1,15 @@
-import PureStructure from './../PureStructure.js';
+import Structure from './../Structure.js';
 import SpriteComponent from './../../library/core/component/SpriteComponent.js';
 
-export const GRAVE_COMPONENTS_BLUEPRINT = {
+export const TREE_COMPONENTS_BLUEPRINT = {
 	sprite: new SpriteComponent({
-		assetId: 'grave',
+		assetId: 'tree',
 	}),
 };
 
 export default function Grave(components = {}) {
-	return new PureStructure({
-		...GRAVE_COMPONENTS_BLUEPRINT,
+	return new Structure({
+		...TREE_COMPONENTS_BLUEPRINT,
 		...components,
 	});
 }
