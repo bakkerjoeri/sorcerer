@@ -17,6 +17,7 @@ h1 {
 
 .game {
     display: flex;
+	justify-content: center;
 }
 
 .canvas__sorcerer {

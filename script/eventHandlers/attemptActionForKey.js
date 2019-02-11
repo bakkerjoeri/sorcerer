@@ -6,7 +6,8 @@ export const makeAttemptActionForKey = (emitEvent) => (state, key) => {
 
 export const attemptActionForKey = (state, key, emitEvent) => {
 	return findGameObjectsFromState(state, ['actor', 'player', 'canAct', 'positionInLevel']).filter((gameObject) => {
-		return !gameObject.components.isDead;
+		return gameObject.components.player
+			&& !gameObject.components.isDead;
 	}).reduce((newState, gameObject) => {
 		let {positionInLevel} = gameObject.components;
 

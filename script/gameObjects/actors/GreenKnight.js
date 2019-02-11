@@ -9,7 +9,7 @@ export const GREEN_KNIGHT_COMPONENTS_BLUEPRINT = {
 	}),
 	sprite: new SpriteComponent({
 		assetId: 'greenknight',
-		framesPerSecond: 10,
+		framesPerSecond: 4,
 	}),
 	inventory: [],
 };
