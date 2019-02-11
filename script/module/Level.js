@@ -5,7 +5,6 @@ import {
 	addGameObject,
 	getGameObjectWithId,
 	updateComponentOfGameObject,
-	getComponentValueForGameObject,
 	removeComponentFromGameObject,
 } from './../library/core/model/gameObjects.js';
 import { getLevelWithId, getTilesInLevel } from './../model/levels.js';
@@ -103,7 +102,7 @@ export function getEntitiesAtBoundariesInLevel(state, levelId, position, offset,
 
 export function getSolidEntitiesAtBoundariesInLevel(state, levelId, position, offset, excludedEntityIds = []) {
 	return getEntitiesAtBoundariesInLevel(state, levelId, position, offset, excludedEntityIds).filter((entity) => {
-		return getComponentValueForGameObject(state, entity.id, 'isSolid');
+		return entity.components.isSolid;
 	});
 }
 
