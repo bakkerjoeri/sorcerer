@@ -11,7 +11,7 @@ export default function loadSprites(state) {
 			spriteData.filepath,
 			spriteData.frameSize,
 			spriteData.frameStart,
-			spriteData.frameOffset
+			spriteData.frameTotal
 		);
 
 		newState = spriteFrames.reduce((stateWithSpriteFrames, spriteFrame) => {
@@ -20,6 +20,7 @@ export default function loadSprites(state) {
 
 		return addSprite(createSprite({
 			id: spriteData.name,
+			offset: spriteData.offset,
 			spriteFrames: spriteFrames.map((spriteFrame) => spriteFrame.id),
 		}))(newState);
 	}, state);
