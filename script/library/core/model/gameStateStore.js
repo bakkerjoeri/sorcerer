@@ -4,6 +4,9 @@ export const INITIAL_STATE = {
 	game: {
 		name: '',
 		currentRoomId: null,
+		activeKeyboardKeys: [],
+		mousePosition: {x: 0, y: 0},
+		mouseViewportPosition: {x: 0, y: 0},
 	},
 	rooms: {},
 	sprites: {},

@@ -1,5 +1,5 @@
-import {getCurrentRoom} from './../model/rooms.js';
-import {getActiveViewportsInRoomWithId, changeViewportPosition} from './../model/viewports.js';
+import {getCurrentRoom, getActiveViewportsInRoomWithId} from './../model/rooms.js';
+import {changeViewportPosition} from './../model/viewports.js';
 import {getSpriteWithId} from './../model/sprites.js';
 import {getSpriteFrameWithId} from './../model/spriteFrames.js';
 import {getGameObjectWithId} from './../model/gameObjects.js';

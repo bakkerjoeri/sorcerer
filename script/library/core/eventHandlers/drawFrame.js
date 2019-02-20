@@ -1,5 +1,4 @@
-import { getCurrentRoom } from './../model/rooms.js';
-import { getActiveViewportsInRoomWithId } from './../model/viewports.js';
+import { getCurrentRoom, getActiveViewportsInRoomWithId } from './../model/rooms.js';
 import { getSpriteWithId } from './../model/sprites.js';
 import { getSpriteFrameWithId } from './../model/spriteFrames.js';
 import { getImageFromFilePath } from './../module/SpriteFrame.js';

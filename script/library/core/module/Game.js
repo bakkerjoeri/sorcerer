@@ -11,9 +11,8 @@ export default class Game {
 
 		this.setName(name);
 
-		if (options.hasOwnProperty('scale')) {
-			changeCanvasScale(this.canvas, options.scale);
-		}
+		this.scale = options.scale || 1;
+		changeCanvasScale(this.canvas, this.scale);
 
 		this.emitEvent = this.emitEvent.bind(this);
 	}

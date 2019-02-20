@@ -39,11 +39,3 @@ export const getViewportWithId = (state, id) => {
 export const getActiveViewports = (state) => {
 	return getAllViewports(state).filter(viewport => viewport.isActive);
 }
-
-export const getViewportsInRoomWithId = (state, roomId) => {
-	return state.rooms[roomId].viewports.map(viewportId => getViewportWithId(state, viewportId));
-};
-
-export const getActiveViewportsInRoomWithId = (state, roomId) => {
-	return getViewportsInRoomWithId(state, roomId).filter(viewport => viewport.isActive);
-};
