@@ -36,58 +36,29 @@ export default class CellMap extends Array {
 			throw new Error('No cell exists at position', position);
 		}
 
-		let neighbours = [];
+		let cardinalOffsets = [
+			[0, -1],
+			[1, 0],
+			[0, 1],
+			[-1, 0],
+		];
 
-		if (this.hasCellAtPosition({
-			x: position.x,
-			y: position.y - 1
-		})) {
-			let north = this.findCellAtPosition({
-				x: position.x,
-				y: position.y - 1
-			});
+		return cardinalOffsets.reduce((neighbours, offset) => {
+			if (!this.hasCellAtPosition({
+				x: position.x + offset[0],
+				y: position.y + offset[1],
+			})) {
+				return neighbours;
+			}
 
-			neighbours.push(north);
-		}
-
-		if (this.hasCellAtPosition({
-			x: position.x + 1,
-			y: position.y
-		})) {
-			let east = this.findCellAtPosition({
-				x: position.x + 1,
-				y: position.y
-			});
-
-
-			neighbours.push(east);
-		}
-
-		if (this.hasCellAtPosition({
-			x: position.x,
-			y: position.y + 1
-		})) {
-			let south = this.findCellAtPosition({
-				x: position.x,
-				y: position.y + 1
-			});
-
-			neighbours.push(south);
-		}
-
-		if (this.hasCellAtPosition({
-			x: position.x - 1,
-			y: position.y
-		})) {
-			let west = this.findCellAtPosition({
-				x: position.x - 1,
-				y: position.y
-			});
-
-			neighbours.push(west);
-		}
-
-		return neighbours;
+			return [
+				...neighbours,
+				this.findCellAtPosition({
+					x: position.x + offset[0],
+					y: position.y + offset[1],
+				}),
+			];
+		}, []);
 	}
 
 	draw() {

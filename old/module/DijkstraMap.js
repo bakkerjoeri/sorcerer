@@ -1,4 +1,4 @@
-import CellMap from 'module/CellMap.js';
+import CellMap from './CellMap.js';
 
 export default class DijkstraMap extends CellMap {
 	calculate() {
