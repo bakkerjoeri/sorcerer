@@ -23,7 +23,7 @@ h1 {
 .canvas__sorcerer {
     flex: 0 0 auto;
     width: 720px;
-    height: 53px;
+    height: 528px;
 
     background-color: #00f;
     image-rendering: -moz-crisp-edges;
@@ -37,7 +37,7 @@ h1 {
     flex-direction: column;
     justify-content: flex-end;
     width: 240px;
-    height: 53px;
+    height: 528px;
     overflow: hidden;
     list-style: none;
     background-color: #000;

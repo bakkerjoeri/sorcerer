@@ -106,7 +106,7 @@ function initializeGame(state) {
 		gameObjectIdToFollow: player.id,
 		size: {
 			width: 240,
-			height: 178,
+			height: 176,
 		},
 	});
 
