@@ -1,4 +1,5 @@
-import {getCurrentRoomId} from './game.js';
+import { getCurrentRoomId } from './game.js';
+import { getViewportWithId } from './viewports.js';
 
 export const addRoom = room => state => ({
 	...state,
@@ -47,3 +48,17 @@ export const getRoomWithId = (state, id) => {
 export const getCurrentRoom = (state) => {
 	return getRoomWithId(state, getCurrentRoomId(state));
 };
+
+export const getViewportsInRoomWithId = (state, roomId) => {
+	return state.rooms[roomId].viewports.map(
+		viewportId => getViewportWithId(state, viewportId)
+	);
+};
+
+export const getActiveViewportsInRoomWithId = (state, roomId) => {
+	return getViewportsInRoomWithId(state, roomId).filter(viewport => viewport.isActive);
+};
+
+export const getActiveViewportsInCurrentRoom = (state) => {
+	return getActiveViewportsInRoomWithId(state, getCurrentRoomId(state));
+}
