@@ -51,7 +51,7 @@ const LEVEL_HEIGHT = 22;
 let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 3 });
 
 game.addEventHandler('init', initializeGame);
-game.addEventHandler('keydown', makeAttemptActionForKey(game.emitEvent));
+game.addEventHandler('keyDown', makeAttemptActionForKey(game.emitEvent));
 game.addEventHandler('update', makeDecideActions(game.emitEvent));
 game.addEventHandler('actTowardsPosition', makeActTowardsPosition(game.emitEvent));
 game.addEventHandler('actPickUp', makePickUp(game.emitEvent));

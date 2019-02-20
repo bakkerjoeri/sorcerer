@@ -1,9 +1,33 @@
+import {
+	addActiveKeyboardKey,
+	removeActiveKeyboardKey,
+	resetActiveKeyboardKeys,
+} from './../model/game.js';
+
 export default function setupInterfaceEvents(game) {
 	window.addEventListener('keydown', (event) => {
-		game.store.setState(game.emitEvent('keydown', game.store.getState(), event.key));
+		if (!event.repeat) {
+			const key = event.key.toLowerCase();
+
+			game.store.dispatch(addActiveKeyboardKey(key));
+			game.store.setState(game.emitEvent('keyDown', game.store.getState(), key));
+		}
 	});
 
 	window.addEventListener('keyup', (event) => {
-		game.store.setState(game.emitEvent('keyup', game.store.getState(), event.key));
+		const key = event.key.toLowerCase();
+
+		game.store.dispatch(removeActiveKeyboardKey(key));
+		game.store.setState(game.emitEvent('keyUp', game.store.getState(), key));
+	});
+
+	window.addEventListener('blur', () => {
+		game.store.dispatch(resetActiveKeyboardKeys());
+	});
+
+	game.addEventHandler('update', (state) => {
+		return state.game.activeKeyboardKeys.reduce((newState, pressedKey) => {
+			return game.emitEvent('keyPressed', newState, pressedKey);
+		}, state);
 	});
 }
