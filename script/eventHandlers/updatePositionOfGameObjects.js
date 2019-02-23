@@ -1,7 +1,7 @@
 import {findGameObjectsFromState} from './../library/core/module/GameObject.js';
 import {updateComponentOfGameObject} from './../library/core/model/gameObjects.js';
 
-export default function updatePositionOfGameObjects(state) {
+export const updatePositionOfGameObjects = (state) => {
 	let gameObjects = findGameObjectsFromState(state, ['positionInLevel', 'position']);
 
 	return gameObjects.reduce((newState, gameObject) => {

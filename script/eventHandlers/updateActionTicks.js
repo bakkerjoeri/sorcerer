@@ -4,7 +4,7 @@ import {
 } from './../library/core/model/gameObjects.js';
 import { findGameObjectsFromState } from './../library/core/module/GameObject.js';
 
-export default function updateActionTicks(state) {
+export const updateActionTicks = (state) => {
 	let gameObjects = findGameObjectsFromState(state, ['actor', 'actionTicker']).filter((gameObject) => {
 		return !gameObject.components.isDead;
 	});

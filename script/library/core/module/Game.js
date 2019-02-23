@@ -8,6 +8,9 @@ export default class Game {
 		this.looping = false;
 		this.update = this.update.bind(this);
 		this.eventHandlers = new Map();
+		this.scenes = new Map();
+		this.initializedScenes = [];
+		this.currentSceneName = '';
 
 		this.setName(name);
 
@@ -15,6 +18,8 @@ export default class Game {
 		changeCanvasScale(this.canvas, this.scale);
 
 		this.emitEvent = this.emitEvent.bind(this);
+		this.addEventHandler = this.addEventHandler.bind(this);
+		this.removeEventHandler = this.removeEventHandler.bind(this);
 	}
 
 	setName(name) {
@@ -31,6 +36,43 @@ export default class Game {
 		this.looping = false;
 	}
 
+	addScene(sceneName, handlers) {
+		this.scenes.set(sceneName, handlers);
+	}
+
+	startScene(sceneName) {
+		if (this.scenes.has(sceneName)) {
+			if (this.currentSceneName) {
+				this.unloadScene(this.currentSceneName);
+			}
+
+			forEachHandlerInScene(
+				this.scenes.get(sceneName),
+				this.addEventHandler,
+			);
+
+			if (!this.initializedScenes.includes(sceneName)) {
+				this.initializedScenes = [
+					...this.initializedScenes,
+					sceneName,
+				];
+
+				this.store.setState(this.emitEvent(`initScene:${sceneName}`, this.store.getState(), sceneName));
+			}
+
+			this.store.setState(this.emitEvent(`enterScene:${sceneName}`, this.store.getState(), sceneName));
+		}
+	}
+
+	unloadScene(sceneName) {
+		this.store.setState(this.emitEvent(`leaveScene:${sceneName}`, this.store.getState(), sceneName));
+
+		forEachHandlerInScene(
+			this.scenes.get(sceneName),
+			this.removeEventHandler,
+		);
+	}
+
 	addEventHandler(eventName, handler) {
 		if (typeof handler !== 'function') {
 			throw new Error(`Expected handler to be of type 'function', but got '${typeof handler}'.`)
@@ -41,6 +83,24 @@ export default class Game {
 		}
 
 		this.eventHandlers.get(eventName).push(handler);
+	}
+
+	removeEventHandler(eventName, handlerToRemove) {
+		if (this.eventHandlers.has(eventName)) {
+			this.eventHandlers.set(
+				eventName,
+				this.eventHandlers.get(eventName).reduce((handlers, handler) => {
+					if (handler === handlerToRemove) {
+						return handlers;
+					}
+
+					return [
+						...handlers,
+						handler,
+					];
+				}, [])
+			);
+		}
 	}
 
 	emitEvent(eventName, state, ...args) {
@@ -72,4 +132,16 @@ function changeCanvasScale(canvas, scale = 1) {
 
 	canvas.width = canvasBoundaries.width / scale;
 	canvas.height = canvasBoundaries.height / scale;
+}
+
+function forEachHandlerInScene(scene, callback) {
+	Object.keys(scene).forEach((eventName) => {
+		if (Array.isArray(scene[eventName])) {
+			scene[eventName].forEach((handler) => {
+				callback(eventName, handler);
+			})
+		} else {
+			callback(eventName, scene[eventName]);
+		}
+	});
 }
