@@ -28,6 +28,7 @@ import { makeDealDamage } from './../eventHandlers/dealDamage.js';
 import { makeTakeDamage } from './../eventHandlers/takeDamage.js';
 import { makeCheckForDeath } from './../eventHandlers/checkForDeath.js';
 import { calculateEquipmentDamage } from './../eventHandlers/calculateEquipmentDamage.js';
+import { makeEmitMouseGridDown } from './../eventHandlers/emitMouseGridDown.js';
 
 export default function createPlayScene(game) {
 	return {
@@ -53,6 +54,7 @@ export default function createPlayScene(game) {
 		],
 		log: [ log ],
 		mouseMove: updateMouseGridPositions,
+		mouseDown: makeEmitMouseGridDown(game.emitEvent),
 	}
 }
 
