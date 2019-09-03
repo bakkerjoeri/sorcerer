@@ -4,8 +4,7 @@
 	"homepage": "https://sorcerer.joeri.me",
 	"main": "scripts/main.js",
 	"scripts": {
-		"test": "NODE_ENV=test mocha --require @babel/register ./test/**/*.spec.js",
-		"serve": "http-server -s"
+		"test": "NODE_ENV=test mocha --require @babel/register ./test/**/*.spec.js"
 	},
 	"repository": {
 		"type": "git",
@@ -28,7 +27,6 @@
 		"chai": "^4.1.2",
 		"eslint": "6.3.0",
 		"eslint-plugin-import": "^2.18.2",
-		"http-server": "^0.11.1",
 		"mocha": "^5.0.5"
 	},
 	"dependencies": {}
