@@ -9,7 +9,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://joeribakker@github.com/joeribakker/sorcerer.git"
+		"url": "git+https://joeribakker@github.com/bakkerjoeri/sorcerer.git"
 	},
 	"keywords": [
 		"game",
@@ -18,7 +18,7 @@
 	"author": "Joeri Bakker <bakkerjoeri@gmail.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/joeribakker/sorcerer/issues"
+		"url": "https://github.com/bakkerjoeri/sorcerer/issues"
 	},
 	"devDependencies": {
 		"@babel/core": "7.0.0",
